@@ -1,6 +1,13 @@
 ---
-
+import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import FeaturesSection from '../components/FeaturesSection.astro';
+import AppScreenshots from '../components/AppScreenshots.astro';
+import CharacterEvolution from '../components/CharacterEvolution.astro';
+import BetaSignup from '../components/BetaSignup.astro';
 ---
+
 
 <html lang="en">
 	<head>
@@ -11,6 +18,10 @@
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<HeroSection />
+		<FeaturesSection />
+		<AppScreenshots />
+		<CharacterEvolution />
+		<BetaSignup />
 	</body>
 </html>

@@ -1,0 +1,153 @@
+---
+const screenshots = [
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/screen1.jpg-GIBtXMtBJpwM92K1tDnhHyd0vOXVLV.jpeg",
+    alt: "Pantalla de bienvenida - Tu camino a la mejor versión de ti comienza ahora",
+    title: "Bienvenida",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/screen3.jpg-SHMG6MwUcn7Ihl5HKPik5YaeuwpFtN.jpeg",
+    alt: "Plan personalizado de hábitos seleccionados automáticamente",
+    title: "Hábitos Personalizados",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/screen4.jpg-dqraaPcLDLnEpUPWF176qMTjn8iIOX.jpeg",
+    alt: "Dashboard principal con calendario semanal y hábitos pendientes",
+    title: "Dashboard Principal",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/screen5.jpg-m7SFjaUCPg5AHen8bUcbuQm3BHBpMb.jpeg",
+    alt: "Perfil del personaje con stats y nivel de progreso",
+    title: "Tu Personaje",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/screen6.jpg-BSUoUiAEja5BCn2Jj5diMAc9l2GYF9.jpeg",
+    alt: "Pantalla NoFap con contador de días y botón de emergencia",
+    title: "Control NoFap",
+  },
+  {
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/screen2.jpg-mLA2cfy5m9ppWZG5FgQMnEUPdxDnB2.jpeg",
+    alt: "Pantalla de carga del juego",
+    title: "Cargando Aventura",
+  },
+];
+---
+
+<section class="py-20 bg-slate-900/50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-serif">Explora la App</h2>
+      <p class="text-xl text-slate-300 max-w-2xl mx-auto">
+        Descubre cómo Piru.app combina hábitos, gamificación y progreso personal en una experiencia única
+      </p>
+    </div>
+
+    <div class="relative max-w-sm mx-auto">
+      <!-- Phone Frame -->
+      <div class="relative bg-black rounded-[2.5rem] p-2 shadow-2xl">
+        <div class="bg-black rounded-[2rem] overflow-hidden">
+          <!-- Screenshot Container -->
+          <div class="relative aspect-[9/19.5] overflow-hidden" id="screenshot-container">
+            {screenshots.map((screenshot, index) => (
+              <img
+                key={index}
+                src={screenshot.src || "/placeholder.svg"}
+                alt={screenshot.alt}
+                class={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                data-screenshot-index={index}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <button
+        id="prev-screenshot"
+        class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-md p-2 transition-colors"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+      </button>
+
+      <button
+        id="next-screenshot"
+        class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 border border-white/20 text-white hover:bg-white/20 rounded-md p-2 transition-colors"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Screenshot Title -->
+    <div class="text-center mt-6">
+      <h3 id="screenshot-title" class="text-2xl font-bold text-white font-serif">{screenshots[0].title}</h3>
+    </div>
+
+    <!-- Dots Indicator -->
+    <div class="flex justify-center mt-8 space-x-2" id="screenshot-dots">
+      {screenshots.map((_, index) => (
+        <button
+          key={index}
+          class={`w-3 h-3 rounded-full transition-colors ${index === 0 ? "bg-yellow-500" : "bg-white/30"}`}
+          data-dot-index={index}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const screenshots = [
+    { title: "Bienvenida" },
+    { title: "Hábitos Personalizados" },
+    { title: "Dashboard Principal" },
+    { title: "Tu Personaje" },
+    { title: "Control NoFap" },
+    { title: "Cargando Aventura" },
+  ];
+
+  let currentIndex = 0;
+
+  function updateCarousel() {
+    const images = document.querySelectorAll('[data-screenshot-index]');
+    const dots = document.querySelectorAll('[data-dot-index]');
+    const title = document.getElementById('screenshot-title');
+
+    images.forEach((img, index) => {
+      img.classList.toggle('opacity-100', index === currentIndex);
+      img.classList.toggle('opacity-0', index !== currentIndex);
+    });
+
+    dots.forEach((dot, index) => {
+      dot.classList.toggle('bg-yellow-500', index === currentIndex);
+      dot.classList.toggle('bg-white/30', index !== currentIndex);
+    });
+
+    if (title) {
+      title.textContent = screenshots[currentIndex].title;
+    }
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % screenshots.length;
+    updateCarousel();
+  }
+
+  function prevSlide() {
+    currentIndex = (currentIndex - 1 + screenshots.length) % screenshots.length;
+    updateCarousel();
+  }
+
+  document.getElementById('next-screenshot')?.addEventListener('click', nextSlide);
+  document.getElementById('prev-screenshot')?.addEventListener('click', prevSlide);
+
+  document.querySelectorAll('[data-dot-index]').forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      currentIndex = index;
+      updateCarousel();
+    });
+  });
+</script>
