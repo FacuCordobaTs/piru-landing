@@ -6,7 +6,12 @@ export default {
     './src/components/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'cinzel': ['Cinzel', 'serif'],
+        'sans': ['Cinzel', 'serif'], // Override default sans with Cinzel
+      },
+    },
   },
   plugins: [],
 }

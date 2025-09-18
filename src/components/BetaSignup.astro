@@ -32,9 +32,9 @@
         <button
           type="submit"
           id="submit-button"
-          class="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 whitespace-nowrap"
+          class="golden-button disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
         >
-          <span id="button-text">Obtener Acceso</span>
+          <span id="button-text" class="golden-button-text">Obtener Acceso</span>
         </button>
       </div>
       <p class="text-sm text-gray-400 mt-4">Solo para Android • Acceso limitado</p>
@@ -77,6 +77,7 @@
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (!response.ok) {
         throw new Error(data.error || 'Error al registrar email');
@@ -95,14 +96,12 @@
       // Show error message to user
       const errorMessage = error instanceof Error ? error.message : 'Error al registrar email';
       buttonText.textContent = `Error: ${errorMessage}`;
-      submitButton.classList.add('bg-red-500', 'hover:bg-red-600');
-      submitButton.classList.remove('bg-gradient-to-r', 'from-yellow-500', 'to-orange-500', 'hover:from-yellow-600', 'hover:to-orange-600');
+      submitButton.classList.add('error-button');
       
       // Reset button after 3 seconds
       setTimeout(() => {
         buttonText.textContent = 'Obtener Acceso';
-        submitButton.classList.remove('bg-red-500', 'hover:bg-red-600');
-        submitButton.classList.add('bg-gradient-to-r', 'from-yellow-500', 'to-orange-500', 'hover:from-yellow-600', 'hover:to-orange-600');
+        submitButton.classList.remove('error-button');
       }, 3000);
       
     } finally {
