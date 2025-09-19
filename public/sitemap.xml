@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://piru.app/</loc>
+    <lastmod>2024-01-15T10:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <mobile:mobile/>
+  </url>
+  
+  <!-- Blog Posts -->
+  <url>
+    <loc>https://piru.app/blog/piru-revolucion-habitos-gamificados</loc>
+    <lastmod>2024-01-15T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://piru.app/wake_up_early.jpg</image:loc>
+      <image:title>Piru: La Revolución de los Hábitos Gamificados</image:title>
+      <image:caption>Descubre cómo Piru está transformando la forma en que construimos hábitos positivos</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://piru.app/blog/poder-apps-gamificadas-desarrollo-personal</loc>
+    <lastmod>2024-01-10T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://piru.app/lifting.jpg</image:loc>
+      <image:title>El Poder de las Apps Gamificadas en el Desarrollo Personal</image:title>
+      <image:caption>Exploramos cómo la gamificación puede ser la clave para mantener la motivación</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://piru.app/blog/ciencia-poder-habitos</loc>
+    <lastmod>2024-01-05T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://piru.app/readingBook.jpg</image:loc>
+      <image:title>La Ciencia Detrás del Poder de los Hábitos</image:title>
+      <image:caption>Una mirada profunda a cómo los hábitos se forman en nuestro cerebro</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://piru.app/blog/vida-real-vs-videojuegos-equilibrio-perfecto</loc>
+    <lastmod>2024-01-01T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <mobile:mobile/>
+    <image:image>
+      <image:loc>https://piru.app/journaling.jpg</image:loc>
+      <image:title>Vida Real vs Videojuegos: Encontrando el Equilibrio Perfecto</image:title>
+      <image:caption>Cómo los principios de los videojuegos pueden aplicarse a la vida real</image:caption>
+    </image:image>
+  </url>
+  
+</urlset>

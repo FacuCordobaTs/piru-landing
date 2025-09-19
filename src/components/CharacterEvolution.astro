@@ -35,7 +35,7 @@ const evolutionLevels = [
 ];
 ---
 
-<section class="py-20 bg-slate-900/50">
+<section class="py-20 bg-neutral-900">
   <div class="container mx-auto px-4">
     <div class="text-center mb-12">
       <h2 class="text-4xl md:text-5xl font-bold text-white mb-4 font-cinzel">Evolución del Personaje</h2>
@@ -72,7 +72,6 @@ const evolutionLevels = [
               <div class="w-80 h-80 bg-gradient-to-br from-yellow-400/20 to-orange-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-yellow-400/30">
                 {evolutionLevels.map((evolution, index) => (
                   <img
-                    key={index}
                     src={evolution.image || "/placeholder.svg"}
                     alt={evolution.name}
                     class={`absolute w-64 h-64 object-contain drop-shadow-2xl transition-opacity duration-300 ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
@@ -92,7 +91,7 @@ const evolutionLevels = [
               <h4 class="text-xl font-semibold text-yellow-400 font-cinzel">Características:</h4>
               <ul id="evolution-features" class="space-y-2">
                 {evolutionLevels[0].features.map((feature, index) => (
-                  <li key={index} class="flex items-center text-slate-300">
+                  <li class="flex items-center text-slate-300">
                     <div class="w-2 h-2 bg-yellow-400 rounded-full mr-3 flex-shrink-0"></div>
                     {feature}
                   </li>
@@ -106,7 +105,6 @@ const evolutionLevels = [
         <div class="flex justify-center mt-8 space-x-2" id="evolution-dots">
           {evolutionLevels.map((_, index) => (
             <button
-              key={index}
               class={`w-3 h-3 rounded-full transition-colors ${index === 0 ? "bg-yellow-400" : "bg-slate-600"}`}
               data-evolution-dot={index}
             />
