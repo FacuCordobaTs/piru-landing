@@ -1,13 +1,35 @@
 ---
 ---
 
-<section id="beta-signup" class="py-20 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
-  <div class="max-w-4xl mx-auto px-6 text-center">
+<section id="beta-signup" class="relative py-20 text-white">
+  <div class="absolute inset-0 -z-10 hidden md:block">
+    <img
+      src="signupdekstop.jpg"
+      alt="Fantasy landscape background"
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+  </div>
+
+  <!-- Mobile Background -->
+  <div class="absolute inset-0 -z-10 md:hidden">
+    <img
+      src="signupmobile.jpg"
+      alt="Fantasy landscape background"
+      class="w-full h-full object-cover"
+      loading="eager"
+    />
+  </div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 -z-10 bg-black/70"></div>
+  
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
     <div class="mb-12">
       <h3 class="text-4xl md:text-5xl font-bold mb-6">
         Únete a la <span class="text-yellow-400">Aventura</span>
       </h3>
-      <p class="text-xl text-gray-300 mb-8 text-balance">
+      <p class="text-xl text-gray-100 mb-8 text-balance">
         Piru.app está en prueba cerrada. Ingresa tu email y recibe acceso exclusivo a la beta.
       </p>
     </div>
@@ -37,11 +59,11 @@
           <span id="button-text" class="golden-button-text">Obtener Acceso</span>
         </button>
       </div>
-      <p class="text-sm text-gray-400 mt-4">Solo para Android • Acceso limitado</p>
+      <p class="text-sm text-gray-100 mt-4">Solo para Android • Acceso limitado</p>
     </form>
 
     <div class="mt-16 pt-8 border-t border-slate-700">
-      <p class="text-gray-400 text-sm">© 2024 Piru.app • Forja tu leyenda, un hábito a la vez</p>
+      <p class="text-gray-100 text-sm">© 2024 Piru.app • Forja tu leyenda, un hábito a la vez</p>
     </div>
   </div>
 </section>
