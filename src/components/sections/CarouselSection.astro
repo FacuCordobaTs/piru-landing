@@ -1,0 +1,188 @@
+---
+const benefits = {
+  client: [
+    { icon: 'clock', text: "Menos espera" },
+    { icon: 'sparkles', text: "Más comodidad" },
+    { icon: 'users', text: "Experiencia moderna" },
+  ],
+  restaurant: [
+    { icon: 'trending', text: "Más rotación de mesas" },
+    { icon: 'sparkles', text: "Menos errores" },
+    { icon: 'users', text: "Mejor organización" },
+  ],
+};
+---
+
+<section class="bg-background py-24 overflow-hidden">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 carousel-header">
+      <p class="text-primary text-sm uppercase tracking-widest mb-4">Beneficios</p>
+      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground">Todos ganan</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Para el cliente -->
+      <div class="carousel-card client-card bg-secondary rounded-2xl p-8 border border-border">
+        <h3 class="text-2xl font-sans font-bold text-foreground mb-6">Para el cliente</h3>
+        <div class="space-y-4">
+          {benefits.client.map((benefit, i) => (
+            <div class="benefit-item" data-index={i}>
+              <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                  {benefit.icon === 'clock' && (
+                    <>
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </>
+                  )}
+                  {benefit.icon === 'sparkles' && (
+                    <>
+                      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                    </>
+                  )}
+                  {benefit.icon === 'users' && (
+                    <>
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </>
+                  )}
+                </svg>
+              </div>
+              <span class="text-foreground font-medium">{benefit.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Para el restaurante -->
+      <div class="carousel-card restaurant-card bg-primary rounded-2xl p-8 border border-primary">
+        <h3 class="text-2xl font-sans font-bold text-primary-foreground mb-6">Para el restaurante</h3>
+        <div class="space-y-4">
+          {benefits.restaurant.map((benefit, i) => (
+            <div class="benefit-item" data-index={i}>
+              <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary-foreground">
+                  {benefit.icon === 'trending' && (
+                    <>
+                      <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                      <polyline points="16 7 22 7 22 13"/>
+                    </>
+                  )}
+                  {benefit.icon === 'sparkles' && (
+                    <>
+                      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                    </>
+                  )}
+                  {benefit.icon === 'users' && (
+                    <>
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </>
+                  )}
+                </svg>
+              </div>
+              <span class="text-primary-foreground font-medium">{benefit.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.carousel-header');
+    const clientCard = document.querySelector('.client-card');
+    const restaurantCard = document.querySelector('.restaurant-card');
+    const benefitItems = document.querySelectorAll('.benefit-item');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === header) {
+              entry.target.classList.add('animate-fade-in-up');
+            }
+            if (entry.target === clientCard) {
+              entry.target.classList.add('animate-slide-in-left');
+            }
+            if (entry.target === restaurantCard) {
+              entry.target.classList.add('animate-slide-in-right');
+            }
+            if (benefitItems.includes(entry.target)) {
+              const index = parseInt((entry.target as HTMLElement).dataset.index || '0');
+              setTimeout(() => {
+                entry.target.classList.add('animate-slide-in');
+              }, index * 100);
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (header) observer.observe(header);
+    if (clientCard) observer.observe(clientCard);
+    if (restaurantCard) observer.observe(restaurantCard);
+    benefitItems.forEach((item) => observer.observe(item));
+  });
+</script>
+
+<style>
+  .carousel-header {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .carousel-header.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .client-card {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .client-card.animate-slide-in-left {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .restaurant-card {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .restaurant-card.animate-slide-in-right {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .restaurant-card .benefit-item {
+    transform: translateX(20px);
+  }
+
+  .benefit-item.animate-slide-in {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+

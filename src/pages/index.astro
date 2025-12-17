@@ -1,196 +1,28 @@
 ---
-import '../styles/global.css';
-// import Layout from '../layouts/Layout.astro';
-import HeroSection from '../components/HeroSection.astro';
-import FeaturesSection from '../components/FeaturesSection.astro';
-import AppScreenshots from '../components/AppScreenshots.astro';
-import CharacterEvolution from '../components/CharacterEvolution.astro';
-import BlogSection from '../components/BlogSection.astro';
-import BetaSignup from '../components/BetaSignup.astro';
-
-// SEO Data
-const siteUrl = 'https://piru.app';
-const title = 'Piru | Tu Camino a la Mejor Versión de Ti';
-const description = 'Transforma tus hábitos en una aventura épica con Piru. App de hábitos gamificados con sistema RPG, seguimiento NoFap, 16 hábitos personalizados y 7 arenas únicas. ¡Disponible para Android!';
-const keywords = 'hábitos, gamificación, NoFap, desarrollo personal, app móvil, RPG, rutinas, disciplina, productividad, Android, self-improvement, hábitos saludables';
-const imageUrl = `${siteUrl}/piru-logo-white.png`;
-const currentDate = new Date().toISOString();
+import Layout from '../layouts/Layout.astro';
+import LenisProvider from '../components/LenisProvider.astro';
+import CustomCursor from '../components/CustomCursor.astro';
+import HeroSection from '../components/sections/HeroSection.astro';
+import ManifestoSection from '../components/sections/ManifestoSection.astro';
+import FeaturesSection from '../components/sections/FeaturesSection.astro';
+import ShowcaseSection from '../components/sections/ShowcaseSection.astro';
+import CarouselSection from '../components/sections/CarouselSection.astro';
+import InsightsSection from '../components/sections/InsightsSection.astro';
+import PricingSection from '../components/sections/PricingSection.astro';
+import FooterSection from '../components/sections/FooterSection.astro';
 ---
 
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href="/piru-logo-white.png" />
-		<link rel="apple-touch-icon" href="/piru-logo-white.png" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="google-site-verification" content="Vrv0f1067r5IkL6Oz5HzwobGLXeER05sWV0eItK3-WY" />
-		
-		<!-- Primary Meta Tags -->
-		<title>{title}</title>
-		<meta name="title" content={title} />
-		<meta name="description" content={description} />
-		<meta name="keywords" content={keywords} />
-		<meta name="author" content="Piru Team" />
-		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-		<meta name="language" content="Spanish" />
-		<meta name="revisit-after" content="7 days" />
-		<link rel="canonical" href={siteUrl} />
-		
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={siteUrl} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={imageUrl} />
-		<meta property="og:image:width" content="1200" />
-		<meta property="og:image:height" content="630" />
-		<meta property="og:image:alt" content="Piru - App de Hábitos Gamificados" />
-		<meta property="og:site_name" content="Piru" />
-		<meta property="og:locale" content="es_ES" />
-		
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={siteUrl} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={imageUrl} />
-		<meta property="twitter:image:alt" content="Piru - App de Hábitos Gamificados" />
-		<meta property="twitter:creator" content="@piruapp" />
-		<meta property="twitter:site" content="@piruapp" />
-		
-		<!-- Mobile App Meta Tags -->
-		<meta name="mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<meta name="apple-mobile-web-app-title" content="Piru" />
-		<meta name="application-name" content="Piru" />
-		<meta name="msapplication-TileColor" content="#0f172a" />
-		<meta name="theme-color" content="#0f172a" />
-		
-		<!-- Additional SEO -->
-		<meta name="format-detection" content="telephone=no" />
-		<meta name="geo.region" content="ES" />
-		<meta name="geo.placename" content="España" />
-		
-		<!-- Preconnect to external domains -->
-		<link rel="preconnect" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
-		<link rel="dns-prefetch" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com" />
-		
-		<!-- PWA Manifest -->
-		<link rel="manifest" href="/manifest.json" />
-		
-		<!-- Structured Data -->
-		<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "MobileApplication",
-			"name": "Piru",
-			"description": "Transforma tus hábitos en una aventura épica con sistema RPG, seguimiento NoFap y 16 hábitos personalizados",
-			"url": "https://piru.app",
-			"applicationCategory": "LifestyleApplication",
-			"operatingSystem": "Android",
-			"offers": {
-				"@type": "Offer",
-				"price": "0",
-				"priceCurrency": "EUR"
-			},
-			"aggregateRating": {
-				"@type": "AggregateRating",
-				"ratingValue": "4.8",
-				"ratingCount": "150"
-			},
-			"author": {
-				"@type": "Organization",
-				"name": "Piru Team",
-				"url": "https://piru.app"
-			},
-			"publisher": {
-				"@type": "Organization",
-				"name": "Piru",
-				"logo": {
-					"@type": "ImageObject",
-					"url": "https://piru.app/piru-logo-white.png"
-				}
-			},
-			"datePublished": "2024-01-01",
-			"dateModified": {currentDate},
-			"inLanguage": "es",
-			"keywords": "hábitos, gamificación, NoFap, desarrollo personal, app móvil, RPG, rutinas, disciplina, productividad, Android",
-			"featureList": [
-				"Sistema RPG con evolución de personaje",
-				"16 hábitos personalizados",
-				"Seguimiento NoFap con botón de emergencia",
-				"5 estadísticas principales (Físico, Mental, Social, Espiritual, Disciplina)",
-				"7 arenas épicas con interfaces únicas",
-				"Leaderboards y competencia",
-				"Quiz inteligente para selección de hábitos"
-			]
-		}
-		</script>
-		
-		<!-- Organization Schema -->
-		<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "Organization",
-			"name": "Piru",
-			"url": "https://piru.app",
-			"logo": "https://piru.app/piru-logo-white.png",
-			"description": "Desarrolladores de la app de hábitos gamificados más innovadora",
-			"foundingDate": "2024",
-			"sameAs": [
-				"https://twitter.com/piruapp",
-				"https://instagram.com/piruapp"
-			]
-		}
-		</script>
-		
-		<!-- Website Schema -->
-		<script type="application/ld+json">
-		{
-			"@context": "https://schema.org",
-			"@type": "WebSite",
-			"name": "Piru",
-			"url": "https://piru.app",
-			"description": "Tu camino a la mejor versión de ti comienza ahora",
-			"publisher": {
-				"@type": "Organization",
-				"name": "Piru Team"
-			},
-			"potentialAction": {
-				"@type": "SearchAction",
-				"target": "https://piru.app/search?q={search_term_string}",
-				"query-input": "required name=search_term_string"
-			}
-		}
-		</script>
-	</head>
-	<body class="bg-slate-900 text-white">
-		<!-- Skip to main content for accessibility -->
-		<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-yellow-400 text-slate-900 px-4 py-2 rounded z-50">
-			Saltar al contenido principal
-		</a>
-		
-		<main id="main-content">
+<Layout>
+	<LenisProvider />
+	<main class="custom-cursor bg-background">
+		<CustomCursor />
 		<HeroSection />
-		<AppScreenshots />
-		<BlogSection />
-		<BetaSignup />
-		</main>
-		
-		<!-- Performance and Analytics -->
-		<script>
-			// Preload critical resources
-			if ('requestIdleCallback' in window) {
-				requestIdleCallback(() => {
-					// Preload next page resources
-					const link = document.createElement('link');
-					link.rel = 'prefetch';
-					link.href = '/blog';
-					document.head.appendChild(link);
-				});
-			}
-		</script>
-	</body>
-</html>
+		<ManifestoSection />
+		<FeaturesSection />
+		<ShowcaseSection />
+		<CarouselSection />
+		<InsightsSection />
+		<PricingSection />
+		<FooterSection />
+	</main>
+</Layout>

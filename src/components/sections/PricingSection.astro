@@ -1,0 +1,71 @@
+---
+---
+
+<section class="bg-background px-6 py-32">
+  <div class="max-w-4xl mx-auto text-center">
+    <div class="space-y-8 pricing-content">
+      <h2 class="text-5xl md:text-6xl lg:text-7xl font-sans font-bold text-foreground text-balance">
+        Convertí tu restaurante en una experiencia moderna
+      </h2>
+      <p class="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance">
+        Automatizá pedidos, eliminá filas y mejorá la experiencia de tus clientes.
+      </p>
+      <button class="pricing-button bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-5 rounded-lg text-xl font-semibold transition-colors shadow-lg hover:shadow-xl mt-8">
+        Solicitar demo
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const content = document.querySelector('.pricing-content');
+    const button = document.querySelector('.pricing-button');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in-up');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (content) observer.observe(content);
+
+    if (button) {
+      button.addEventListener('mouseenter', () => {
+        (button as HTMLElement).style.transform = 'scale(1.05)';
+      });
+      button.addEventListener('mouseleave', () => {
+        (button as HTMLElement).style.transform = 'scale(1)';
+      });
+      button.addEventListener('mousedown', () => {
+        (button as HTMLElement).style.transform = 'scale(0.95)';
+      });
+      button.addEventListener('mouseup', () => {
+        (button as HTMLElement).style.transform = 'scale(1.05)';
+      });
+    }
+  });
+</script>
+
+<style>
+  .pricing-content {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .pricing-content.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .pricing-button {
+    transition: transform 0.2s ease;
+  }
+</style>
+

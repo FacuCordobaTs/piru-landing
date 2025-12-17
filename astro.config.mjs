@@ -1,16 +1,10 @@
+// @ts-check
 import { defineConfig } from 'astro/config';
-import tailwindcss from '@tailwindcss/vite';
+import tailwindcss from "@tailwindcss/vite";
 
+// https://astro.build/config
 export default defineConfig({
-  site: 'https://piru.app',
-  compressHTML: true,
-  build: {
-    inlineStylesheets: 'auto',
-  },
-  vite: {
-    plugins: [tailwindcss()],
-    build: {
-      cssCodeSplit: false,
-    },
-  },
+    vite: {
+        plugins: [tailwindcss()],
+      },
 });

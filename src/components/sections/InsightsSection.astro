@@ -1,0 +1,114 @@
+---
+const features = [
+  {
+    icon: 'smartphone',
+    title: "Diseñado para ser intuitivo",
+    description: "Interfaz clara y fácil de usar desde el primer momento",
+  },
+  {
+    icon: 'palette',
+    title: "No hace falta aprender nada",
+    description: "Todo funciona como lo esperás, sin complicaciones",
+  },
+  {
+    icon: 'heart',
+    title: "Una experiencia que los clientes recuerdan",
+    description: "Modernidad y simplicidad que mejora la imagen de tu restaurante",
+  },
+];
+---
+
+<section class="bg-secondary px-6 py-24">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-16 insights-header">
+      <p class="text-primary text-sm uppercase tracking-widest mb-4">Experiencia</p>
+      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4 text-balance">
+        Diseñado para que todo fluya
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {features.map((feature, i) => (
+        <div class="text-center insights-card" data-index={i}>
+          <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+              {feature.icon === 'smartphone' && (
+                <>
+                  <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+                  <path d="M12 18h.01"/>
+                </>
+              )}
+              {feature.icon === 'palette' && (
+                <>
+                  <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                  <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                  <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                  <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.074 2.26-.21"/>
+                  <path d="M19.75 8.25a4.5 4.5 0 0 0-6.5-6.5"/>
+                  <path d="M22 2c-2 2-6.5 6.5-6.5 10.5a4.5 4.5 0 0 0 9 0C18.5 8.5 22 4 22 2"/>
+                </>
+              )}
+              {feature.icon === 'heart' && (
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+              )}
+            </svg>
+          </div>
+          <h3 class="font-sans font-semibold text-xl text-foreground mb-3">{feature.title}</h3>
+          <p class="text-muted-foreground leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.insights-header');
+    const cards = document.querySelectorAll('.insights-card');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in-up');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (header) observer.observe(header);
+    cards.forEach((card) => {
+      const index = parseInt((card as HTMLElement).dataset.index || '0');
+      setTimeout(() => {
+        observer.observe(card);
+      }, index * 150);
+    });
+  });
+</script>
+
+<style>
+  .insights-header {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .insights-header.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .insights-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .insights-card.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+

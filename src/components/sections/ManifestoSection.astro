@@ -1,0 +1,56 @@
+---
+---
+
+<section
+  id="manifesto-section"
+  class="relative min-h-[80vh] flex items-center justify-center bg-background px-6 py-32"
+>
+  <div class="max-w-5xl mx-auto relative">
+    <h2 class="text-4xl md:text-6xl lg:text-7xl font-sans font-medium leading-tight text-center text-foreground/10">
+      Mozos saturados.
+      <br />
+      Clientes esperando.
+      <br />
+      Filas para pagar.
+    </h2>
+
+    <!-- Gradient mask reveal text with orange -->
+    <h2
+      id="manifesto-gradient"
+      class="absolute inset-0 text-4xl md:text-6xl lg:text-7xl font-sans font-medium leading-tight text-center bg-gradient-to-r from-orange-600 via-orange-400 to-orange-600 bg-clip-text text-transparent"
+    >
+      Mozos saturados.
+      <br />
+      Clientes esperando.
+      <br />
+      Filas para pagar.
+    </h2>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('manifesto-section');
+    const gradientText = document.getElementById('manifesto-gradient');
+
+    if (!section || !gradientText) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const progress = entry.intersectionRatio;
+            const clipPath = `inset(0 ${100 - progress * 100}% 0 0)`;
+            (gradientText as HTMLElement).style.clipPath = clipPath;
+          }
+        });
+      },
+      {
+        threshold: Array.from({ length: 101 }, (_, i) => i / 100),
+      }
+    );
+
+    observer.observe(section);
+  });
+</script>
+
