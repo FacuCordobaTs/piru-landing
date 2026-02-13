@@ -1,5 +1,10 @@
 ---
 import '../styles/globals.css';
+
+const siteUrl = 'https://piru.app';
+const title = 'Piru – El sistema operativo del restaurante';
+const description = 'Pedí y pagá desde tu mesa. Piru es la plataforma para restaurantes que automatiza pedidos y pagos usando códigos QR. Más ventas, menos esperas.';
+const image = '/logopiru.jpeg';
 ---
 
 <!doctype html>
@@ -7,16 +12,67 @@ import '../styles/globals.css';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/png" href="/icon-light-32x32.png" media="(prefers-color-scheme: light)" />
-		<link rel="icon" type="image/png" href="/icon-dark-32x32.png" media="(prefers-color-scheme: dark)" />
-		<link rel="icon" type="image/svg+xml" href="/icon.svg" />
-		<link rel="apple-touch-icon" href="/apple-icon.png" />
-		<meta name="generator" content="v0.app" />
-		<meta name="description" content="Pedí y pagá desde tu mesa. PIRU es una plataforma para restaurantes que automatiza pedidos y pagos usando QR." />
-		<title>PIRU – El sistema operativo del restaurante</title>
+		
+		<!-- Favicon & Icons -->
+		<link rel="icon" type="image/jpeg" href="/logopiru.jpeg" />
+		<link rel="apple-touch-icon" href="/logopiru.jpeg" />
+		
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="author" content="Piru" />
+		<meta name="robots" content="index, follow" />
+		<meta name="keywords" content="restaurante, pedidos, QR, menú digital, pagos, mesa, sistema restaurante, automatización, hostelería, gastronomía" />
+		<link rel="canonical" href={siteUrl} />
+		
+		<!-- Theme Color -->
+		<meta name="theme-color" content="#f97316" />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={siteUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={`${siteUrl}${image}`} />
+		<meta property="og:image:alt" content="Piru - Sistema de pedidos para restaurantes" />
+		<meta property="og:site_name" content="Piru" />
+		<meta property="og:locale" content="es_AR" />
+		
+		<!-- Twitter -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={siteUrl} />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={`${siteUrl}${image}`} />
+		
+		<!-- Additional SEO -->
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-title" content="Piru" />
+		
+		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+		
+		<!-- Structured Data (JSON-LD) -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "SoftwareApplication",
+			"name": "Piru",
+			"applicationCategory": "BusinessApplication",
+			"operatingSystem": "Web",
+			"description": "Plataforma para restaurantes que automatiza pedidos y pagos usando códigos QR",
+			"offers": {
+				"@type": "Offer",
+				"price": "0",
+				"priceCurrency": "ARS"
+			}
+		}
+		</script>
 	</head>
 	<body class="font-sans antialiased">
 		<slot />
