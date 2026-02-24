@@ -1,0 +1,142 @@
+---
+const mockups = [
+  { step: 1, title: 'Ingresa tu nombre', desc: 'Cada usuario ingresa su nombre para ser identificado en el pedido y por el mozo.' },
+  { step: 2, title: 'Menú digital', desc: 'Los usuarios pueden explorar la carta.' },
+  { step: 3, title: 'Selección de productos', desc: 'Cada usuario selecciona los productos que quiere.' },
+  { step: 4, title: 'Pedido', desc: 'Los usuarios arman un mismo pedido para la mesa.' },
+  { step: 5, title: 'Confirmar pedido', desc: 'Todos los usuarios deben confirmar que ya quieren recibir el pedido en la mesa.' },
+  { step: 6, title: 'Dividir pagos', desc: 'Cada usuario selecciona lo que va a pagar y abona en efectivo o mercado pago.' },
+  { step: 7, title: 'Factura', desc: 'Cada usuario ve cuánto debe pagar.' },
+];
+---
+
+<section id="app-showcase" class="bg-background py-32 overflow-hidden border-t border-border/50">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 app-showcase-header">
+      <p class="text-primary text-sm uppercase tracking-widest mb-4">Experiencia del Cliente</p>
+      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4">La evolución del menú en su bolsillo.</h2>
+      <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+        Una experiencia limpia, intuitiva y al ritmo de tus comensales. Desde que se sientan a la mesa hasta el momento de pagar, esto ven tus clientes en PIRU.
+      </p>
+    </div>
+
+    <div class="relative max-w-[100vw] -mx-6 px-6 md:mx-0 md:px-0 group/carousel">
+      <!-- Botones de Navegación Desktop -->
+      <button 
+        id="btn-prev"
+        class="hidden md:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-md rounded-full items-center justify-center border border-border shadow-xl text-foreground opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-background hover:scale-110"
+        aria-label="Anterior"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-[-2px]"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      
+      <button 
+        id="btn-next"
+        class="hidden md:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-md rounded-full items-center justify-center border border-border shadow-xl text-foreground opacity-0 group-hover/carousel:opacity-100 transition-all hover:bg-background hover:scale-110"
+        aria-label="Siguiente"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-[-2px]"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+
+      <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 pt-4 px-6 md:px-4 hide-scrollbar app-showcase-mockups scroll-smooth" id="mockups-container">
+        {mockups.map((m) => (
+          <div class="snap-center shrink-0 w-[260px] md:w-[300px] flex flex-col items-center">
+            <div class="relative w-full shadow-2xl mb-6 group hover:-translate-y-2 transition-transform duration-500">
+              <img 
+                src={`/light${m.step}.jpg`} 
+                alt={`${m.title} Light`} 
+                class="dark:hidden w-full h-auto object-contain block"
+                loading="lazy"
+              />
+              <img 
+                src={`/dark${m.step}.jpg`} 
+                alt={`${m.title} Dark`} 
+                class="hidden dark:block w-full h-auto object-contain"
+                loading="lazy"
+              />
+            </div>
+            <div class="text-center opacity-80 group-hover:opacity-100 transition-opacity">
+              <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-bold text-sm mb-3">
+                {m.step}
+              </span>
+              <h3 class="font-sans font-semibold text-lg text-foreground">{m.title}</h3>
+              <p class="text-sm text-muted-foreground mt-1">{m.desc}</p>
+            </div>
+          </div>
+        ))}
+        <!-- Extra padding to allow last item to center -->
+        <div class="snap-end shrink-0 w-4 md:w-8"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.app-showcase-header');
+    const mockups = document.querySelector('.app-showcase-mockups');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in-up');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (header) observer.observe(header);
+    if (mockups) observer.observe(mockups);
+
+    // Navegación de botones desktop
+    const container = document.getElementById('mockups-container');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    if (container && btnPrev && btnNext) {
+      const scrollAmount = 324; // ancho aprox de la tarjeta + gap (300px + 24px)
+      
+      btnPrev.addEventListener('click', () => {
+        container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      });
+
+      btnNext.addEventListener('click', () => {
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      });
+    }
+  });
+</script>
+
+<style>
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app-showcase-header {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .app-showcase-header.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .app-showcase-mockups {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  .app-showcase-mockups.animate-fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

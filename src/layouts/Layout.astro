@@ -57,6 +57,19 @@ const image = '/logopiru.jpeg';
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
 		
+		<!-- Dark Mode Script -->
+		<script is:inline>
+			function setDarkMode() {
+				if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					document.documentElement.classList.add('dark');
+				} else {
+					document.documentElement.classList.remove('dark');
+				}
+			}
+			setDarkMode();
+			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setDarkMode);
+		</script>
+
 		<!-- Structured Data (JSON-LD) -->
 		<script type="application/ld+json">
 		{
