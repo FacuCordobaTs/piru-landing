@@ -1,19 +1,19 @@
 ---
 const features = [
   {
-    icon: 'smartphone',
-    title: "Tus clientes la pasan mejor",
-    description: "Piden a su ritmo, sin esperar. Cada uno elige lo suyo y la noche fluye.",
+    icon: 'wallet',
+    title: "Más rentabilidad por pedido",
+    description: "Dejás de pagar 30% de comisión a las apps. Con PIRU pagás solo un 2%. La diferencia se queda en tu bolsillo.",
   },
   {
-    icon: 'palette',
-    title: "Cero fricción nueva para vos",
-    description: "No sumamos trabajo. El panel es simple, las comandas se imprimen solas y tu equipo no necesita capacitación.",
+    icon: 'shield',
+    title: "Paz mental con cada cobro",
+    description: "No verificás más comprobantes de pantalla. El sistema detecta la transferencia y aprueba el pedido automáticamente. Cero estrés.",
   },
   {
     icon: 'heart',
-    title: "Vuelven y traen amigos",
-    description: "Una experiencia que sorprende se comparte. Tus clientes se van con ganas de repetir.",
+    title: "Clientes que vuelven a vos",
+    description: "Tenés sus datos, sabés qué piden y cuándo. Podés fidelizarlos con promos directas en lugar de competir dentro de una app.",
   },
 ];
 ---
@@ -23,7 +23,7 @@ const features = [
     <div class="text-center mb-16 insights-header">
       <p class="text-primary text-sm uppercase tracking-widest mb-4">Por qué funciona</p>
       <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4 text-balance">
-        Mejor para ellos, mejor para vos
+        Más ganancia, más control, más clientes
       </h2>
     </div>
 
@@ -32,21 +32,17 @@ const features = [
         <div class="text-center insights-card" data-index={i}>
           <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
-              {feature.icon === 'smartphone' && (
+              {feature.icon === 'wallet' && (
                 <>
-                  <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
-                  <path d="M12 18h.01"/>
+                  <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/>
+                  <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/>
+                  <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>
                 </>
               )}
-              {feature.icon === 'palette' && (
+              {feature.icon === 'shield' && (
                 <>
-                  <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
-                  <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
-                  <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
-                  <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
-                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.074 2.26-.21"/>
-                  <path d="M19.75 8.25a4.5 4.5 0 0 0-6.5-6.5"/>
-                  <path d="M22 2c-2 2-6.5 6.5-6.5 10.5a4.5 4.5 0 0 0 9 0C18.5 8.5 22 4 22 2"/>
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                  <path d="m9 12 2 2 4-4"/>
                 </>
               )}
               {feature.icon === 'heart' && (

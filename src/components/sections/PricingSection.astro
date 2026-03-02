@@ -5,13 +5,13 @@
   <div class="max-w-4xl mx-auto text-center">
     <div class="space-y-8 pricing-content">
       <h2 class="text-5xl md:text-6xl lg:text-7xl font-sans font-bold text-foreground text-balance">
-        Dales una razón para volver
+        Recuperá la soberanía de tu negocio
       </h2>
       <p class="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance">
-        Una experiencia que tus clientes disfrutan, comparten y quieren repetir. Sin sumar trabajo a tu equipo.
+        Dejá de regalar tu margen a las apps de delivery. Vendé por tu propio canal, cobrá automáticamente y conocé a tus clientes. Empezá hoy.
       </p>
-      <a href="https://wa.me/543408681915?text=Hola!%20Me%20interesa%20una%20demo%20de%20PIRU%20para%20mi%20restaurante." target="_blank" rel="noopener noreferrer" class="pricing-button inline-block bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-5 rounded-lg text-xl font-semibold transition-colors shadow-lg hover:shadow-xl mt-8">
-        Solicitar demo
+      <a href="https://wa.me/543408681915?text=Hola!%20Quiero%20probar%20PIRU%20gratis%20para%20mi%20restaurante." target="_blank" rel="noopener noreferrer" class="pricing-button inline-block bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-5 rounded-lg text-xl font-semibold transition-colors shadow-lg hover:shadow-xl mt-8">
+        Prueba gratis
       </a>
     </div>
   </div>
@@ -21,33 +21,20 @@
   document.addEventListener('DOMContentLoaded', () => {
     const content = document.querySelector('.pricing-content');
     const button = document.querySelector('.pricing-button');
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('animate-fade-in-up');
         });
       },
       { threshold: 0.1 }
     );
-
     if (content) observer.observe(content);
-
     if (button) {
-      button.addEventListener('mouseenter', () => {
-        (button as HTMLElement).style.transform = 'scale(1.05)';
-      });
-      button.addEventListener('mouseleave', () => {
-        (button as HTMLElement).style.transform = 'scale(1)';
-      });
-      button.addEventListener('mousedown', () => {
-        (button as HTMLElement).style.transform = 'scale(0.95)';
-      });
-      button.addEventListener('mouseup', () => {
-        (button as HTMLElement).style.transform = 'scale(1.05)';
-      });
+      button.addEventListener('mouseenter', () => { (button as HTMLElement).style.transform = 'scale(1.05)'; });
+      button.addEventListener('mouseleave', () => { (button as HTMLElement).style.transform = 'scale(1)'; });
+      button.addEventListener('mousedown', () => { (button as HTMLElement).style.transform = 'scale(0.95)'; });
+      button.addEventListener('mouseup', () => { (button as HTMLElement).style.transform = 'scale(1.05)'; });
     }
   });
 </script>
@@ -58,12 +45,10 @@
     transform: translateY(30px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
-
   .pricing-content.animate-fade-in-up {
     opacity: 1;
     transform: translateY(0);
   }
-
   .pricing-button {
     transition: transform 0.2s ease;
   }

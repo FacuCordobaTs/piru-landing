@@ -1,19 +1,19 @@
 ---
 const basePlanFeatures = [
-  { icon: 'qr', text: "Pedidos por QR desde la mesa" },
-  { icon: 'printer', text: "Impresión automática de comandas" },
-  { icon: 'chart', text: "Panel de administrador completo" },
-  { icon: 'table', text: "Administración de mesas" },
-  { icon: 'edit', text: "Herramientas de edición de la carta" },
-  { icon: 'headset', text: "Atención uno a uno con nosotros" },
-  { icon: 'receipt', text: "Generación de ticket" },
+  { icon: 'link', text: "Tienda online propia (Link in Bio)" },
+  { icon: 'zap', text: "Verificación automática de transferencias" },
+  { icon: 'whatsapp', text: "Alertas de pedidos por WhatsApp" },
+  { icon: 'users', text: "CRM: base de datos de clientes" },
+  { icon: 'edit', text: "Menú editable en segundos" },
+  { icon: 'truck', text: "Delivery y Take Away integrados" },
+  { icon: 'headset', text: "Soporte dedicado uno a uno" },
 ];
 
 const extensions = [
-  { icon: 'truck', title: "Control de Delivery", description: "Gestioná pedidos de delivery desde el mismo panel." },
-  { icon: 'split', title: "División de cuenta", description: "Cada integrante de la mesa paga lo suyo." },
-  { icon: 'bag', title: "Modo Take Away", description: "Pedidos para llevar integrados en tu sistema." },
-  { icon: 'users', title: "Panel para mozos", description: "Vista exclusiva para que tu equipo gestione las mesas." },
+  { icon: 'truck', title: "Delivery con zona de cobertura", description: "Configurá tu radio de entrega y tarifa de envío. Todo automatizado." },
+  { icon: 'bag', title: "Take Away listo para retirar", description: "Tus clientes piden y pagan antes de llegar. Sin esperas en el local." },
+  { icon: 'chart', title: "Reportes de ventas", description: "Sabé cuánto vendiste, qué productos rinden más y quiénes son tus mejores clientes." },
+  { icon: 'printer', title: "Impresión automática de pedidos", description: "Cada pedido se imprime solo en tu cocina. Sin intervención manual." },
 ];
 ---
 
@@ -21,9 +21,9 @@ const extensions = [
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-16 carousel-header">
       <p class="text-primary text-sm uppercase tracking-widest mb-4">Todo lo que incluye</p>
-      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground">Preparado para tu restaurante</h2>
+      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground">Tu sistema de ventas completo</h2>
       <p class="text-xl text-muted-foreground max-w-2xl mx-auto mt-4">
-        Un sistema completo con todas las herramientas que necesitas. Escribinos para conocer los planes y precios para tu negocio.
+        Todo lo que necesitás para vender delivery y take away por tu cuenta. Sin comisiones abusivas, sin intermediarios.
       </p>
     </div>
 
@@ -33,10 +33,10 @@ const extensions = [
         <div class="mb-6">
           <p class="text-primary text-sm uppercase tracking-widest mb-2">Herramientas Principales</p>
           <div class="flex items-baseline gap-2 mt-2">
-            <span class="text-3xl font-sans font-bold text-foreground">Todo para empezar</span>
+            <span class="text-3xl font-sans font-bold text-foreground">Todo para empezar a vender</span>
           </div>
         </div>
-        <p class="text-muted-foreground mb-6">La experiencia completa de autoservicio para tus clientes, con toda la gestión resuelta para vos.</p>
+        <p class="text-muted-foreground mb-6">Tu canal de ventas propio con cobro automático, alertas en tiempo real y base de datos de clientes.</p>
         <div class="space-y-4 flex-1">
           {basePlanFeatures.map((feature, i) => (
             <div class="benefit-item" data-index={i}>
@@ -49,8 +49,8 @@ const extensions = [
             </div>
           ))}
         </div>
-        <a href="https://wa.me/543408681915?text=Hola!%20Me%20interesan%20conocer%20los%20precios%20de%20PIRU%20para%20mi%20restaurante." target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-medium transition-colors">
-          Consultar precios
+        <a href="https://wa.me/543408681915?text=Hola!%20Quiero%20empezar%20a%20vender%20con%20PIRU%20para%20mi%20restaurante." target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-medium transition-colors">
+          Empezar ahora
         </a>
       </div>
 
@@ -59,9 +59,9 @@ const extensions = [
         <div class="mb-2">
           <p class="text-primary text-sm uppercase tracking-widest mb-2">Funciones Avanzadas</p>
           <div class="flex items-baseline gap-2 mt-2">
-            <span class="text-3xl font-sans font-bold text-foreground">Llevá la gestión al siguiente nivel</span>
+            <span class="text-3xl font-sans font-bold text-foreground">Potenciá tu operación</span>
           </div>
-          <p class="text-muted-foreground mt-2">Sumá nuevas experiencias y herramientas según lo que necesite tu negocio.</p>
+          <p class="text-muted-foreground mt-2">Sumá automatizaciones y reportes para escalar tus ventas sin sumar trabajo.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
@@ -77,14 +77,6 @@ const extensions = [
                       <circle cx="17" cy="18" r="2"/>
                     </>
                   )}
-                  {ext.icon === 'split' && (
-                    <>
-                      <path d="M16 3h5v5"/>
-                      <path d="M8 3H3v5"/>
-                      <path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/>
-                      <path d="m15 9 6-6"/>
-                    </>
-                  )}
                   {ext.icon === 'bag' && (
                     <>
                       <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
@@ -92,12 +84,17 @@ const extensions = [
                       <path d="M16 10a4 4 0 0 1-8 0"/>
                     </>
                   )}
-                  {ext.icon === 'users' && (
+                  {ext.icon === 'chart' && (
                     <>
-                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-                      <circle cx="9" cy="7" r="4"/>
-                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                      <path d="M3 3v18h18"/>
+                      <path d="m19 9-5 5-4-4-3 3"/>
+                    </>
+                  )}
+                  {ext.icon === 'printer' && (
+                    <>
+                      <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                      <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/>
+                      <rect x="6" y="14" width="12" height="8" rx="1"/>
                     </>
                   )}
                 </svg>

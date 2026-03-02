@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FooterSection from '../components/sections/FooterSection.astro';
+---
+
+<Layout>
+	<main class="bg-background pt-32 pb-16 px-6 min-h-screen">
+		<div class="max-w-3xl mx-auto">
+      <a href="/" class="text-primary hover:underline mb-8 inline-block">&larr; Volver al inicio</a>
+			<h1 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4">Términos y Condiciones de Uso</h1>
+      <p class="text-sm text-muted-foreground mb-12">Fecha de vigencia: 1 de Marzo de 2026</p>
+      
+			<div class="text-muted-foreground space-y-6 leading-relaxed">
+        <p>Bienvenido a Piru.app. Al utilizar nuestra plataforma para realizar pedidos, usted acepta estos Términos y Condiciones.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">1. Rol de Intermediario</h2>
+        <p>Piru.app es una plataforma tecnológica que conecta comensales con restaurantes. No preparamos alimentos ni realizamos entregas. La responsabilidad total sobre la calidad del producto, los tiempos de entrega y la facturación recae exclusivamente en el Restaurante.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">2. Exactitud de los Datos</h2>
+        <p>Usted se compromete a proporcionar datos veraces (dirección real, teléfono activo) para garantizar la entrega. Piru.app no se hace responsable por pedidos fallidos debido a información errónea proporcionada por el usuario.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">3. Pagos</h2>
+        <p>Piru.app facilita la gestión de pagos (transferencias, QR). Una vez confirmado el pago, este es final. Cualquier solicitud de reembolso debe tramitarse directamente con el Restaurante, según sus políticas comerciales.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">4. Autorización de Transferencia de Datos</h2>
+        <p>Al finalizar un pedido, usted otorga su consentimiento expreso para que Piru.app envíe los detalles del mismo (incluyendo su nombre, dirección de entrega y teléfono de contacto) al Restaurante destinatario. Usted comprende y acepta que esta notificación al comercio puede realizarse a través de servicios de mensajería terceros (como WhatsApp) para asegurar la atención inmediata de su pedido.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">5. Propiedad Intelectual</h2>
+        <p>El software y diseño de Piru.app son propiedad exclusiva de Facundo Cordoba 20-45950442-8. Queda prohibida su copia o distribución no autorizada.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">6. Limitación de Responsabilidad</h2>
+        <p>Piru.app no será responsable por daños derivados de la relación de consumo entre usted y el Restaurante, ni por el uso que el Restaurante haga de sus datos de contacto fuera de nuestra plataforma.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">7. Ley Aplicable</h2>
+        <p>Estos términos se rigen por las leyes de la República Argentina. Jurisdicción: Tribunales de la ciudad de Santa Fe.</p>
+      </div>
+    </div>
+  </main>
+  <FooterSection />
+</Layout>

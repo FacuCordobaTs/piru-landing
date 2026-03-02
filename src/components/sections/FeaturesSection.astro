@@ -1,34 +1,34 @@
 ---
 const features = [
   {
-    icon: 'qr',
-    title: "Autoservicio desde la mesa",
-    description: "Tus clientes escanean el QR y piden cuando quieren, sin esperar a nadie.",
-  },
-  {
-    icon: 'users',
-    title: "Pedido en grupo",
-    description: "Cada persona en la mesa agrega lo suyo desde su celular. Todos ven el pedido completo.",
-  },
-  {
     icon: 'zap',
-    title: "Cuenta fácil de dividir",
-    description: "Cada uno paga lo que pidió. Sin calculadoras, sin incomodidad.",
+    title: "Adiós a verificar transferencias",
+    description: "El sistema detecta automáticamente cuando entra la plata y aprueba el pedido. No mirás más el homebanking ni pedís capturas de pantalla.",
   },
   {
     icon: 'smartphone',
-    title: "Una experiencia que sorprende",
-    description: "Modernidad y simplicidad que tus clientes van a recordar y querer repetir.",
+    title: "Pedidos organizados, no un chat caótico",
+    description: "Tu cliente arma el pedido en tu tienda online. A vos te llega todo listo: productos, dirección y pago confirmado. Cero mensajes ida y vuelta.",
+  },
+  {
+    icon: 'users',
+    title: "Base de datos de clientes propia",
+    description: "Sabé quién te compra, qué pide y con qué frecuencia. Datos que son tuyos para fidelizar, no de una app que te los esconde.",
   },
   {
     icon: 'bell',
-    title: "Tu operación sigue igual (o mejor)",
-    description: "Comandas que se imprimen solas, panel simple y menú que editás en segundos.",
+    title: "Alertas en tiempo real por WhatsApp",
+    description: "Cada vez que entra un pedido nuevo, te avisamos directo a tu WhatsApp personal. No necesitás estar pegado a una computadora.",
   },
   {
-    icon: 'chart',
-    title: "Cero fricción para tu equipo",
-    description: "No necesitan aprender nada nuevo. Todo llega automáticamente y en tiempo real.",
+    icon: 'link',
+    title: "Tu Link in Bio que vende",
+    description: "Una tienda online hermosa que carga al instante. Ponela en tu Instagram, TikTok o donde quieras. Tu canal propio, sin intermediarios.",
+  },
+  {
+    icon: 'shield',
+    title: "Solo 2% de comisión",
+    description: "Sin contratos, sin sorpresas. Pagás una fracción de lo que te cobra cualquier app de delivery. La ganancia se queda con vos.",
   },
 ];
 
@@ -37,10 +37,10 @@ const features = [
 <section class="bg-background px-6 py-24">
   <div class="max-w-6xl mx-auto">
     <div class="text-center mb-16 features-header">
-      <p class="text-primary text-sm uppercase tracking-widest mb-4">Qué ofrecés con PIRU</p>
-      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4">Una experiencia que tus clientes disfrutan</h2>
+      <p class="text-primary text-sm uppercase tracking-widest mb-4">Recuperá el control de tu delivery</p>
+      <h2 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4">Todo lo que necesitás para vender por tu cuenta</h2>
       <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
-        Y detrás, una operación que fluye sin que tengas que pensar en ella.
+        Automatizá el cobro, organizá los pedidos y quedate con los datos de tus clientes. Sin depender de nadie.
       </p>
     </div>
 
@@ -52,12 +52,8 @@ const features = [
         >
           <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
-              {feature.icon === 'qr' && (
-                <>
-                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-                  <path d="M3 9h18"/>
-                  <path d="M9 21V9"/>
-                </>
+              {feature.icon === 'zap' && (
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
               )}
               {feature.icon === 'smartphone' && (
                 <>
@@ -71,12 +67,6 @@ const features = [
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
                 </>
               )}
-              {feature.icon === 'chart' && (
-                <>
-                  <path d="M3 3v18h18"/>
-                  <path d="m19 9-5 5-4-4-3 3"/>
-                </>
-              )}
               {feature.icon === 'users' && (
                 <>
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
@@ -85,8 +75,17 @@ const features = [
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                 </>
               )}
-              {feature.icon === 'zap' && (
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              {feature.icon === 'link' && (
+                <>
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                </>
+              )}
+              {feature.icon === 'shield' && (
+                <>
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                  <path d="m9 12 2 2 4-4"/>
+                </>
               )}
             </svg>
           </div>

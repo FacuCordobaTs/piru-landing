@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FooterSection from '../components/sections/FooterSection.astro';
+---
+
+<Layout>
+	<main class="bg-background pt-32 pb-16 px-6 min-h-screen">
+		<div class="max-w-3xl mx-auto">
+      <a href="/" class="text-primary hover:underline mb-8 inline-block">&larr; Volver al inicio</a>
+			<h1 class="text-4xl md:text-5xl font-sans font-bold text-foreground mb-4">Política de Privacidad de Piru.app</h1>
+      <p class="text-sm text-muted-foreground mb-12">Última actualización: 1 de Marzo de 2026</p>
+      
+			<div class="text-muted-foreground space-y-6 leading-relaxed">
+        <p>En Piru.app ("nosotros", "nuestro"), valoramos su privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos y compartimos información cuando utiliza nuestros servicios de pedidos online.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">1. Información que Recopilamos</h2>
+        <p>Recopilamos la información estrictamente necesaria para gestionar su pedido:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Datos del Comensal:</strong> Nombre, número de teléfono, dirección de envío y notas del pedido.</li>
+          <li><strong>Datos Técnicos:</strong> Dirección IP y registros de acceso por motivos de seguridad.</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">2. Uso de la Información</h2>
+        <p>Utilizamos sus datos exclusivamente para:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Procesar su pedido en nuestra plataforma.</li>
+          <li><strong>Gestión Logística:</strong> Transmitir los detalles del pedido al Restaurante seleccionado para que puedan prepararlo y enviarlo.</li>
+          <li>Prevención de fraude y soporte técnico.</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">3. Compartir Información (Transferencia de Datos)</h2>
+        <p>Para cumplir con el servicio, debemos compartir sus datos con el Restaurante.</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Al Restaurante:</strong> Al confirmar un pedido, usted autoriza a que su nombre, dirección, teléfono y detalles del pedido sean enviados al Restaurante elegido.</li>
+          <li><strong>Canales de Notificación:</strong> Esta transferencia de datos al Restaurante puede realizarse a través de sistemas automatizados, incluyendo notificaciones vía WhatsApp Business API dirigidas al administrador del local.</li>
+          <li><strong>Terceros:</strong> No vendemos sus datos personales a agencias de marketing ni terceros ajenos al proceso de compra.</li>
+        </ul>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">4. Seguridad de los Datos</h2>
+        <p>Protegemos sus datos con estándares de la industria (HTTPS, encriptación en tránsito). Sin embargo, una vez que los datos son entregados al Restaurante (vía WhatsApp o panel de control), estos quedan sujetos a las propias políticas de manejo de información del comercio.</p>
+
+        <h2 class="text-2xl font-semibold text-foreground mt-8 mb-4">5. Sus Derechos (Ley 25.326)</h2>
+        <p>Usted tiene derecho a acceder, rectificar y suprimir su información de nuestros sistemas centrales. Para ejercer estos derechos, contáctenos en: <a href="mailto:facucordoba200@gmail.com" class="text-primary hover:underline">facucordoba200@gmail.com</a>.</p>
+      </div>
+    </div>
+  </main>
+  <FooterSection />
+</Layout>
