@@ -215,7 +215,7 @@ nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
 .plan li.lead-in{font-weight:600;color:var(--ink)}
 .plan .btn{margin-top:26px;width:100%;justify-content:center}
 
-/* featured plan (Intermedio) */
+/* suscripción base destacada */
 .plan.feat{border-color:var(--orange);box-shadow:0 34px 74px -40px rgba(255,138,0,.65);transform:translateY(-12px);z-index:2}
 .plan.feat:hover{transform:translateY(-18px)}
 .plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;padding:6px 16px;border-radius:999px;white-space:nowrap;box-shadow:0 12px 26px -10px rgba(255,138,0,.8)}
@@ -238,7 +238,7 @@ nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
 .wabubble .wa-name .v{flex:0 0 auto;width:15px;height:15px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:9px;font-weight:700}
 .wabubble .wa-msg{margin-top:4px;display:inline-block;font-size:13.5px;color:var(--ink);background:#eaf6e6;border:1px solid #d6efcf;border-radius:4px 12px 12px 12px;padding:6px 11px}
 
-/* premium plan (Avanzado — dark, Motor de Recompra) */
+/* módulo pago destacado: Motor de Recompra */
 .plan.pro{background:var(--black);color:#ece7e1;border-color:rgba(255,255,255,.1);overflow:hidden}
 .plan.pro:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,0,.16),transparent 64%);top:-160px;right:-140px;z-index:0}
 .plan.pro>*{position:relative;z-index:1}
@@ -264,7 +264,7 @@ nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
 .plans-note .fine{font-size:13.5px;color:var(--muted);margin-top:8px}
 @media(max-width:980px){.plans{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}.plan.feat,.plan.feat:hover{transform:none}}
 
-/* feature tag (plan pago) */
+/* tag de catálogo */
 .feat-grid .tag{align-self:flex-start;margin-top:auto;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--orange-deep);background:rgba(255,138,0,.1);border-radius:999px;padding:3px 9px}
 
 /* agency */
@@ -315,7 +315,7 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
 .share-row{text-align:center;margin-top:22px}
 #shareFlyer[disabled]{opacity:.7;cursor:progress}
 
-/* flyer (imagen descargable de planes) — se renderiza fuera de pantalla y se captura con html2canvas */
+/* flyer descargable de suscripción y módulos — se renderiza fuera de pantalla y se captura con html2canvas */
 .flyer-wrap{position:fixed;left:-99999px;top:0;pointer-events:none;z-index:-1}
 .flyer{width:1500px;background:linear-gradient(160deg,#fbf4ea,#f4e9d9);padding:70px 64px;font-family:'Inter',system-ui,sans-serif;color:var(--ink)}
 .flyer-head{display:flex;align-items:center;gap:16px}
@@ -488,22 +488,20 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
   </div>
 </section>
 
-<!-- FEATURES -->
+<!-- INCLUDED MODULES -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head reveal">
-      <div class="eyebrow">Lo básico, impecable</div>
-      <h2>Y todo lo que tiene que estar, está.</h2>
+      <div class="eyebrow">Módulos incluidos</div>
+      <h2>Activá lo que tu local necesita.</h2>
+      <p class="lead">La suscripción incluye la operación base. Después activás gratis los módulos que elijas, desde tu panel.</p>
     </div>
     <div class="feat-grid reveal" style="--d:.06s">
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><b>Zonas de delivery</b><span>Cobertura y envío por zona.</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><b>Cobrás como quieras</b><span>Mercado Pago, tarjeta y transferencia.</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4L3 21l1.1-3.1A8.5 8.5 0 1 1 21 11.5Z"/></svg><b>Avisos por WhatsApp</b><span>"En camino" y "listo para retirar".</span><span class="tag">Intermedio</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="6" rx="1"/><path d="M6 14h12v7H6z"/><rect x="4" y="9" width="16" height="6" rx="2"/></svg><b>Impresora térmica</b><span>La comanda sale sola en la cocina.</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l3 3v15H6z"/><path d="M9 12h6M9 16h6"/></svg><b>Facturación ARCA</b><span>Factura electrónica automática.</span><span class="tag">Intermedio</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg><b>Sucursales</b><span>Varias bocas, un solo sistema.</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a2 2 0 0 0 2-2 9 9 0 0 0-9-8Z"/></svg><b>Los colores de tu marca</b><span>Tu tienda, con tu identidad.</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8v8H8z"/></svg><b>Link o QR</b><span>En redes, mesa o volante.</span></div>
+      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><b>Ventas en el local</b><span>POS y Mesas.</span><span class="tag">Incluido</span></div>
+      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><b>Clientes y fidelización</b><span>Puntos para clientes y códigos de descuento.</span><span class="tag">Incluido</span></div>
+      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><b>Cobros</b><span>Mercado Pago y Talo.</span><span class="tag">Incluido</span></div>
+      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg><b>Delivery</b><span>Rapiboy y gestión de cadetes.</span><span class="tag">Incluido</span></div>
+      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="6" rx="1"/><path d="M6 14h12v7H6z"/><rect x="4" y="9" width="16" height="6" rx="2"/></svg><b>Operación y administración</b><span>ARCA, stock, comandas y múltiples sucursales.</span><span class="tag">Incluido</span></div>
     </div>
   </div>
 </section>
@@ -513,42 +511,34 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
   <div class="wrap">
     <div class="sec-head center reveal">
       <div class="eyebrow">Cuota fija, sin sorpresas</div>
-      <h2>Un plan para cada cocina.</h2>
-      <p class="lead">Elegís el plan, sabés lo que pagás. Sin comisión por venta.</p>
+      <h2>Una suscripción. Elegís tus módulos.</h2>
+      <p class="lead">Empezás con la base y sumás sólo los módulos pagos que te aportan valor. Sin comisión por venta.</p>
     </div>
     <div class="plans">
 
-      <!-- BÁSICO -->
-      <div class="plan reveal" data-anim="right">
-        <div class="plan-name">Básico</div>
+      <!-- SUSCRIPCIÓN BASE -->
+      <div class="plan feat reveal" data-anim="right">
+        <div class="plan-badge">La base de Piru</div>
+        <div class="plan-name">Suscripción Piru</div>
         <div class="plan-price">$20.000 <small>/mes</small></div>
-        <p class="plan-desc">Todo para vender online. Recibís un mensaje de cada cliente y respondés vos — un contacto humano por pedido.</p>
+        <p class="plan-desc">Todo lo esencial para tomar, cobrar y gestionar pedidos desde tu propio canal.</p>
         <ul>
           <li><span class="ck">✓</span> Recepción de pedidos por WhatsApp + centro de pedidos</li>
           <li><span class="ck">✓</span> Impresión automática de comandas</li>
           <li><span class="ck">✓</span> Pedidos, categorías y productos ilimitados</li>
           <li><span class="ck">✓</span> Galería de imágenes, variantes, extras e ingredientes</li>
           <li><span class="ck">✓</span> Todos los métodos de pago</li>
-          <li><span class="ck">✓</span> Cupones, promociones y horarios de atención</li>
-          <li><span class="ck">✓</span> Estadísticas, reportes, mapa de pedidos y pedido en grupo</li>
-          <li><span class="ck">✓</span> Múltiples sucursales</li>
-          <li><span class="ck">✓</span> Dominio propio</li>
+          <li><span class="ck">✓</span> Horarios, reportes, mapa de pedidos y pedido en grupo</li>
+          <li><span class="ck">✓</span> Activá sin costo los módulos incluidos que necesites</li>
         </ul>
-        <a class="btn btn-ghost" href="https://wa.me/543408681915" target="_blank" rel="noopener">Empezar con Básico</a>
+        <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Activar mi suscripción</a>
       </div>
 
-      <!-- INTERMEDIO (destacado) -->
-      <div class="plan feat reveal" data-anim="scale" style="--d:.08s">
-        <div class="plan-badge">El más elegido</div>
-        <div class="plan-name">Intermedio</div>
-        <div class="plan-price">$50.000 <small>/mes</small></div>
-        <p class="plan-desc">No chateás con el cliente en ningún momento del pedido. Los avisos salen solos, con tu marca.</p>
-
-        <div class="meter">
-          <div class="meter-top"><b>Avisos disponibles: 143</b><span>recargá cuando quieras</span></div>
-          <div class="meter-bar"><div class="meter-fill"></div></div>
-          <p class="meter-note">Recargá packs de <b>+250</b>, <b>+500</b> o <b>+1.000</b> cuando quieras, como cargar crédito. Los packs no vencen.</p>
-        </div>
+      <!-- AVISOS -->
+      <div class="plan reveal" data-anim="scale" style="--d:.08s">
+        <div class="plan-name">Módulo pago</div>
+        <div class="plan-price">+$30.000 <small>/mes</small></div>
+        <p class="plan-desc"><b>Avisos automáticos por WhatsApp.</b> Se suma a tu suscripción: total $50.000/mes.</p>
 
         <div class="wabubble">
           <img class="av" id="wa-av" alt="Logo del local">
@@ -559,67 +549,63 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
         </div>
 
         <ul>
-          <li class="lead-in"><span class="ck">✓</span> Todo lo del Básico, y…</li>
           <li><span class="ck">✓</span> Avisos automáticos a tus clientes por WhatsApp, con tu número, nombre y logo (conexión oficial con Meta). Incluye 200 por mes.</li>
-          <li><span class="ck">✓</span> Facturación electrónica ARCA</li>
-          <li><span class="ck">✓</span> Integración con Rapiboy (asignación automática de cadetes)</li>
-          <li><span class="ck">✓</span> Estadísticas avanzadas</li>
+          <li><span class="ck">✓</span> Cuando necesitás más, recargás packs de mensajes por separado.</li>
+          <li><span class="ck">✓</span> Se activa después de confirmar el pago.</li>
         </ul>
-        <a class="btn btn-primary" href="https://wa.me/543408681915" target="_blank" rel="noopener"><span class="sh"></span>Quiero el Intermedio</a>
+        <a class="btn btn-ghost" href="https://admin.piru.app" target="_blank" rel="noopener">Ver módulos</a>
       </div>
 
-      <!-- AVANZADO (premium / Motor de Recompra) -->
+      <!-- MOTOR DE RECOMPRA -->
       <div class="plan pro reveal" data-anim="left" style="--d:.16s">
         <img class="fox-wm" id="fox2" alt="">
-        <div class="plan-name">Avanzado</div>
-        <div class="plan-price">$120.000 <small>/mes</small></div>
-        <p class="plan-desc">Todo lo del Intermedio, y la máquina de recompra.</p>
+        <div class="plan-name">Módulo pago</div>
+        <div class="plan-price">+$70.000 <small>/mes</small></div>
+        <p class="plan-desc"><b>Motor de Recompra.</b> Se suma a tu suscripción: total $90.000/mes.</p>
         <ul>
-          <li class="lead-in"><span class="ck">✓</span> Todo lo del Intermedio, y…</li>
-          <li><span class="ck">✓</span> 200 avisos + 100 mensajes de campaña por mes, con tarifa preferencial en las recargas</li>
+          <li><span class="ck">✓</span> Incluye 100 mensajes de marketing por ciclo.</li>
+          <li><span class="ck">✓</span> Funciona junto a tu suscripción, con o sin Avisos.</li>
         </ul>
 
         <div class="engine">
-          <div class="engine-tag">Próximamente</div>
           <div class="engine-title"><span class="spark">✦</span> Motor de Recompra</div>
           <ul>
-            <li><span class="ck">✓</span> Recupera clientes dormidos con el mensaje justo, en el momento justo.</li>
-            <li><span class="ck">✓</span> Rescata carritos abandonados con un link que restaura el pedido en un tap.</li>
-            <li><span class="ck">✓</span> Empuja al cliente nuevo hasta su tercer pedido, donde se vuelve habitual.</li>
-            <li><span class="ck">✓</span> Reactiva los pedidos en grupo escribiéndole al que organiza.</li>
-            <li><span class="ck">✓</span> Panel con cuánta plata extra generó cada mes.</li>
+            <li><span class="ck">✓</span> Detecta clientes en riesgo, dormidos o perdidos según su propia cadencia.</li>
+            <li><span class="ck">✓</span> Recupera ventas con WhatsApp y un link que repite el pedido habitual.</li>
+            <li><span class="ck">✓</span> Campaña diaria por goteo, con grupo de control y atribución del retorno.</li>
+            <li><span class="ck">✓</span> Protección de base: baja automática, frecuencia máxima y horario de silencio.</li>
           </ul>
-          <p class="engine-close">Ya en construcción: la <b>máquina que trae de vuelta a tus clientes.</b></p>
+          <p class="engine-close">Una forma concreta de <b>hacer que tus clientes vuelvan.</b></p>
         </div>
 
-        <a class="btn btn-ghost" href="https://wa.me/543408681915" target="_blank" rel="noopener">Quiero el Avanzado</a>
+        <a class="btn btn-ghost" href="https://admin.piru.app" target="_blank" rel="noopener">Conocer el Motor</a>
       </div>
 
     </div>
 
     <div class="plans-note reveal" style="--d:.1s">
       <p class="strong">Cuota fija. <b>Sin comisión por venta, vendas lo que vendas.</b></p>
-      <p class="fine">Sumale solo la comisión de la pasarela de pago (transferencia automática desde 0,7%).</p>
+      <p class="fine">Con ambos módulos, el total mensual es $120.000. El primer período de un módulo pago se prorratea hasta tu próxima renovación.</p>
     </div>
 
     <div class="share-row reveal" style="--d:.16s">
       <button class="btn btn-ghost" id="shareFlyer" type="button">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/></svg>
-        Compartir los planes
+        Compartir suscripción y módulos
       </button>
     </div>
   </div>
 </section>
 
-<!-- FLYER (imagen descargable de los 3 planes, fuera de pantalla) -->
+<!-- FLYER (imagen descargable de la suscripción y los módulos, fuera de pantalla) -->
 <div class="flyer-wrap" aria-hidden="true">
   <div class="flyer" id="flyer">
     <div class="flyer-head">
       <img id="flyerlogo" alt="Piru">
       <div class="fname">Piru</div>
     </div>
-    <h2>Un plan para cada cocina.</h2>
-    <p class="flyer-sub">Cuota fija, sin comisión por venta. Elegís el plan y sabés lo que pagás.</p>
+    <h2>Una suscripción. Elegís tus módulos.</h2>
+    <p class="flyer-sub">Cuota fija, sin comisión por venta. Activá la base y sumá sólo lo que te aporta valor.</p>
     <div class="flyer-plans"></div>
     <div class="flyer-foot">
       <div>Creá tu tienda en <b>piru.app</b></div>
@@ -700,7 +686,7 @@ window.PIRU = {"logo": "/piru/logo.jpg", "foxWhite": "/piru/fox-white.png", "men
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
 
-  // --- Flyer descargable de los 3 planes ---
+  // --- Flyer descargable de la suscripción y los módulos ---
   var H2C_SRC='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
   function ensureH2C(){
     return new Promise(function(res,rej){
@@ -727,11 +713,11 @@ window.PIRU = {"logo": "/piru/logo.jpg", "foxWhite": "/piru/fox-white.png", "men
       }).then(function(canvas){
         return new Promise(function(res){canvas.toBlob(function(b){res(b)},'image/png')});
       }).then(function(blob){
-        var file=new File([blob],'piru-planes.png',{type:'image/png'});
+        var file=new File([blob],'piru-suscripcion-y-modulos.png',{type:'image/png'});
         if(navigator.canShare&&navigator.canShare({files:[file]})){
-          return navigator.share({files:[file],title:'Planes de Piru',text:'Los planes de Piru'}).catch(function(){});
+          return navigator.share({files:[file],title:'Suscripción y módulos de Piru',text:'La suscripción y los módulos de Piru'}).catch(function(){});
         }
-        var a=document.createElement('a');var url=URL.createObjectURL(blob);a.href=url;a.download='piru-planes.png';
+        var a=document.createElement('a');var url=URL.createObjectURL(blob);a.href=url;a.download='piru-suscripcion-y-modulos.png';
         document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},4000);
       }).catch(function(){
         alert('No se pudo generar el flyer. Probá de nuevo en un momento.');
