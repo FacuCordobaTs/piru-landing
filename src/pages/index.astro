@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Piru — La mejor forma de pedir, la más fácil de vender</title>
+<title>Piru — Tu tienda online propia, simple y sin comisiones</title>
 <link rel="icon" type="image/jpeg" href="/piru/logo.jpg">
 <link rel="apple-touch-icon" href="/piru/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,7 +33,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
-h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.02;letter-spacing:-.015em;margin:0}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.06;letter-spacing:-.015em;margin:0}
 p{margin:0}
 a{color:inherit;text-decoration:none}
 .eyebrow{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-deep)}
@@ -54,8 +54,8 @@ a{color:inherit;text-decoration:none}
 .wa-ghost svg{width:17px;height:17px;color:#25d366}
 
 /* nav */
-nav{position:fixed;inset:0 0 auto 0;z-index:50;backdrop-filter:blur(10px);background:rgba(251,244,234,.7);border-bottom:1px solid transparent;transition:border-color .3s,background .3s;animation:dropIn .6s var(--ease) both}
-nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
+nav{position:fixed;inset:0 0 auto 0;z-index:50;backdrop-filter:blur(10px);background:rgba(251,244,234,.75);border-bottom:1px solid transparent;transition:border-color .3s,background .3s;animation:dropIn .6s var(--ease) both}
+nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.9)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:68px}
 .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:22px;letter-spacing:-.02em}
 .brand img{width:34px;height:34px;border-radius:9px;display:block;transition:transform .4s var(--ease)}
@@ -66,18 +66,18 @@ nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
 .nav-links a:hover{color:var(--orange-deep)}
 .nav-links a:hover:after{width:100%}
 .nav-cta{display:flex;align-items:center;gap:10px}
-@media(max-width:820px){.nav-links{display:none}}
+@media(max-width:840px){.nav-links{display:none}}
 
-/* mobile bottom nav (floating pill) */
+/* mobile bottom nav */
 .mnav{display:none}
 @keyframes barUp{from{transform:translateY(140%);opacity:0}to{transform:none;opacity:1}}
-@media(max-width:820px){
+@media(max-width:840px){
   nav{display:none}
   .mnav{
     display:flex;align-items:center;justify-content:space-between;gap:12px;
     position:fixed;left:14px;right:14px;bottom:14px;z-index:60;
     padding:7px 7px 7px 16px;
-    background:rgba(251,244,234,.62);
+    background:rgba(251,244,234,.7);
     backdrop-filter:blur(20px) saturate(1.6);
     -webkit-backdrop-filter:blur(20px) saturate(1.6);
     border:1px solid rgba(255,255,255,.55);
@@ -95,68 +95,41 @@ nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
 }
 
 /* hero */
-.hero{position:relative;padding:132px 0 84px;overflow:hidden}
-.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero{position:relative;padding:130px 0 76px;overflow:hidden}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
 .hero-text{position:relative}
-.hero-text:before{content:"";position:absolute;top:-160px;left:-220px;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,0,.30),rgba(255,138,0,0) 62%);z-index:-1;pointer-events:none;animation:breathe 9s ease-in-out infinite}
-.hero h1{font-size:clamp(46px,7.4vw,92px);font-weight:600}
+.hero-text:before{content:"";position:absolute;top:-160px;left:-220px;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,0,.26),rgba(255,138,0,0) 62%);z-index:-1;pointer-events:none;animation:breathe 9s ease-in-out infinite}
+.hero h1{font-size:clamp(40px,6.2vw,74px);font-weight:600}
 .hero h1 em{font-style:italic;color:var(--orange-deep);font-weight:500}
-.hero h1 .l2{display:block;color:var(--ink-soft)}
-.hero-sub{font-size:clamp(17px,2vw,20px);color:var(--ink-soft);max-width:28em;margin:26px 0 32px}
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-.hero-note{font-size:14.5px;color:var(--muted);margin-top:16px}
+.hero h1 .l2{display:block;color:var(--ink-soft);font-weight:500;margin-top:4px}
+.hero-sub{font-size:clamp(16.5px,1.9vw,19px);color:var(--ink-soft);max-width:32em;margin:24px 0 32px;line-height:1.6}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-note{font-size:14.5px;color:var(--muted);margin-top:18px}
 .hero-note b{color:var(--orange-deep);font-weight:600}
 .hero-text>*{opacity:0;animation:upIn .8s var(--ease) forwards}
 .hero-text h1{animation-delay:.08s}
-.hero-text .hero-sub{animation-delay:.24s}
-.hero-text .hero-cta{animation-delay:.4s}
-.hero-text .hero-note{animation-delay:.52s}
+.hero-text .hero-sub{animation-delay:.22s}
+.hero-text .hero-cta{animation-delay:.36s}
+.hero-text .hero-note{animation-delay:.48s}
 .hero-stage{opacity:0;animation:popIn 1s .2s var(--ease) forwards}
-@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:26px}.hero{padding:110px 0 44px}}
-@media(max-width:820px){.hero{padding:70px 0 44px}footer{padding-bottom:104px}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}.hero{padding:110px 0 44px}}
+@media(max-width:840px){.hero{padding:70px 0 44px}footer{padding-bottom:104px}}
 
-/* phone */
-.phone{position:relative;width:300px;border-radius:40px;background:#0d0a16;padding:10px;box-shadow:0 50px 90px -40px rgba(40,20,0,.55),0 0 0 1px rgba(0,0,0,.04)}
+/* phone mockup */
+.phone{position:relative;width:290px;border-radius:40px;background:#0d0a16;padding:10px;box-shadow:0 44px 84px -34px rgba(40,20,0,.5),0 0 0 1px rgba(0,0,0,.05)}
 .phone img{display:block;width:100%;border-radius:31px}
-.floaty{animation:floaty 6s ease-in-out infinite}
 .phone-stage{position:relative;display:flex;justify-content:center}
 .parallax{will-change:transform}
-.chip{position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:0 18px 40px -18px rgba(40,20,0,.4);font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px;z-index:3;white-space:nowrap;opacity:0;animation:chipIn .6s var(--ease) forwards}
-.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 0 rgba(255,138,0,.5);animation:ping 2.4s ease-out infinite}
-.chip .ok{width:20px;height:20px;border-radius:50%;background:#19a974;color:#fff;display:grid;place-items:center;font-size:12px}
-.chip small{display:block;font-weight:500;color:var(--muted);font-size:11px}
-.chip.c1{top:38px;left:-46px;animation-delay:.8s}
-.chip.c2{bottom:120px;right:-58px;animation-delay:1.1s}
-.chip.c3{bottom:30px;left:-30px;animation-delay:1.4s}
-@media(max-width:560px){.chip.c1{left:-12px}.chip.c2{right:-12px}.chip.c3{display:none}.phone{width:262px}}
-
-/* trust band */
-.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper-2)}
-.band-in{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;padding:22px 24px}
-.band-label{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.store{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:16px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:#fff;transition:transform .18s var(--ease),border-color .25s,box-shadow .25s}
-.store:hover{transform:translateY(-3px);border-color:var(--orange);box-shadow:0 12px 26px -16px rgba(255,138,0,.6)}
-.store .ig{width:16px;height:16px;opacity:.6}
+@media(max-width:560px){.phone{width:250px}}
 
 /* sections */
-.sec{padding:100px 0}
-.sec-head{max-width:34ch}
+.sec{padding:92px 0}
+.sec-head{max-width:38ch}
 .sec-head.center{margin:0 auto;text-align:center}
-.sec-head h2{font-size:clamp(32px,4.6vw,54px);margin:14px 0 0}
-.sec-head .lead{font-size:18px;color:var(--ink-soft);margin-top:16px}
-
-/* dark relief */
-.dark{background:var(--black);color:#ece7e1;position:relative;overflow:hidden}
-.dark:before{content:"";position:absolute;width:760px;height:760px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,0,.13),transparent 64%);top:-260px;right:-160px;z-index:0}
-.fox-wm{position:absolute;pointer-events:none;opacity:.05;width:460px;z-index:0;bottom:-90px;left:-70px;transform:rotate(-8deg)}
-.dark .wrap,.price .wrap{position:relative;z-index:1}
-.dark .eyebrow{color:var(--orange)}
-.dark .sec-head h2{color:#fff}
-.relief{margin-top:46px;display:grid;gap:2px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.09)}
-.relief div{display:flex;align-items:center;gap:18px;padding:26px 28px;background:var(--black-2);font-size:clamp(19px,2.4vw,26px);font-family:'Fraunces',serif;font-weight:500}
-.relief div .x{flex:0 0 auto;width:30px;height:30px;border-radius:50%;border:1.5px solid var(--orange);color:var(--orange);display:grid;place-items:center;font-size:15px;font-family:'Inter'}
-.relief-close{margin-top:32px;font-size:clamp(20px,2.6vw,30px);font-family:'Fraunces',serif;color:#fff;font-weight:500}
-.relief-close b{color:var(--orange);font-weight:600}
+.sec-head.wide{max-width:58ch}
+.sec-head h2{font-size:clamp(30px,4.4vw,50px);margin:14px 0 0}
+.sec-head .lead{font-size:17.5px;color:var(--ink-soft);margin-top:14px;line-height:1.6}
+.sec-head.center .lead{margin-left:auto;margin-right:auto;max-width:48ch}
 
 /* toggle */
 .toggle{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:4px;gap:2px;margin-top:24px}
@@ -164,186 +137,269 @@ nav.scrolled{border-color:var(--line);background:rgba(251,244,234,.86)}
 .toggle button.active{background:var(--ink);color:#fff}
 .toggle button.active.lightmode{background:var(--orange);color:#fff}
 
-/* flow (vertical showcase) */
-.flow{display:flex;flex-direction:column;gap:96px;margin-top:70px}
+/* flow (showcase vertical) */
+.flow{display:flex;flex-direction:column;gap:86px;margin-top:64px}
 .flow-row{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:center}
 .flow-row.rev .flow-phone{order:2}
 .flow-phone{display:flex;justify-content:center}
-.flow-phone .phone{width:268px;transition:transform .5s var(--ease)}
-.flow-phone .phone:hover{transform:translateY(-8px) rotate(-1.5deg)}
-.flow-text{max-width:30ch}
-.step-no{font-family:'Fraunces',serif;font-size:46px;font-weight:600;color:var(--orange);line-height:1}
-.flow-text h3{font-size:clamp(26px,3.2vw,36px);margin:6px 0 12px}
-.flow-text p{font-size:17px;color:var(--ink-soft)}
+.flow-phone .phone{width:264px;transition:transform .5s var(--ease)}
+.flow-phone .phone:hover{transform:translateY(-6px) rotate(-1.2deg)}
+.flow-text{max-width:32ch}
+.step-no{font-family:'Fraunces',serif;font-size:42px;font-weight:600;color:var(--orange);line-height:1}
+.flow-text h3{font-size:clamp(24px,3vw,34px);margin:6px 0 10px}
+.flow-text p{font-size:16.5px;color:var(--ink-soft);line-height:1.55}
 @media(max-width:880px){.flow-row{grid-template-columns:1fr;gap:24px}.flow-row.rev .flow-phone{order:0}.flow-text{margin:0 auto;text-align:center}}
 
 /* split (amigos / alias) */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
 .split.rev .split-text{order:2}
-.split-text h2{font-size:clamp(30px,4vw,48px);margin-top:14px}
-.split-text .lead{font-size:18px;color:var(--ink-soft);margin-top:16px;max-width:33ch}
+.split-text h2{font-size:clamp(28px,3.8vw,44px);margin-top:12px}
+.split-text .lead{font-size:17.5px;color:var(--ink-soft);margin-top:14px;max-width:34ch;line-height:1.55}
 .split-stage{display:flex;justify-content:center}
-.split.amigos{background:linear-gradient(155deg,#34316f,#1d1b45);color:#fff;border-radius:34px;padding:60px;overflow:hidden;position:relative}
+.split.amigos{background:linear-gradient(155deg,#34316f,#1d1b45);color:#fff;border-radius:32px;padding:56px;overflow:hidden;position:relative}
 .split.amigos:before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,0,.14),transparent 65%);top:-180px;left:-120px}
 .split.amigos .eyebrow{color:#ffb454}
 .split.amigos .split-text,.split.amigos .split-stage{position:relative;z-index:1}
 .split.amigos .lead{color:#cfcde9}
 .split.amigos .phone{box-shadow:0 50px 90px -36px rgba(0,0,0,.6)}
-@media(max-width:880px){.split{grid-template-columns:1fr;gap:32px}.split.rev .split-text{order:0}.split.amigos{padding:40px 26px}}
+@media(max-width:880px){.split{grid-template-columns:1fr;gap:32px}.split.rev .split-text{order:0}.split.amigos{padding:36px 24px}}
 
-/* features grid */
-.feat-grid{margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden}
-.feat-grid div{background:var(--paper);padding:26px 22px;display:flex;flex-direction:column;gap:9px;min-height:118px;transition:background .25s}
-.feat-grid div:hover{background:#fff}
-.feat-grid .ic{width:26px;height:26px;color:var(--orange-deep)}
-.feat-grid b{font-size:15.5px;font-weight:600}
-.feat-grid span{font-size:13px;color:var(--muted)}
-@media(max-width:860px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.feat-grid{grid-template-columns:1fr}}
+/* OPERATIONAL CAPABILITIES (Todo lo incluido) */
+.oper-grid{margin-top:46px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.oper-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:30px 26px;display:flex;flex-direction:column;gap:14px;transition:transform .25s var(--ease),border-color .25s,box-shadow .25s}
+.oper-card:hover{transform:translateY(-4px);border-color:var(--orange);box-shadow:0 22px 44px -22px rgba(40,20,0,.3)}
+.oper-card .ic-wrap{width:46px;height:46px;border-radius:13px;background:rgba(255,138,0,.12);color:var(--orange-deep);display:grid;place-items:center}
+.oper-card .ic-wrap svg{width:24px;height:24px}
+.oper-card h3{font-family:'Fraunces',serif;font-size:20.5px;font-weight:600;color:var(--ink)}
+.oper-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.oper-card li{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--ink-soft);line-height:1.45}
+.oper-card li .dot{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--orange);margin-top:7px}
+@media(max-width:980px){.oper-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.oper-grid{grid-template-columns:1fr}}
 
-/* pricing */
-.plans{margin-top:52px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.plan{position:relative;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:34px 28px;transition:transform .3s var(--ease),box-shadow .3s}
-.plan:hover{transform:translateY(-6px);box-shadow:0 30px 60px -36px rgba(40,20,0,.4)}
-.plan-name{font-size:14px;font-weight:600;letter-spacing:.02em;color:var(--ink-soft)}
-.plan-price{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(42px,5vw,56px);line-height:1;margin:12px 0 2px;letter-spacing:-.025em}
-.plan-price small{font-family:'Inter',sans-serif;font-size:15px;font-weight:500;color:var(--muted);letter-spacing:0}
-.plan-desc{font-size:14px;color:var(--muted);margin-top:6px}
-.plan ul{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:11px;flex:1}
-.plan li{display:flex;gap:11px;font-size:14.5px;color:var(--ink-soft);line-height:1.42}
-.plan li .ck{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:rgba(255,138,0,.12);color:var(--orange-deep);display:grid;place-items:center;font-size:11px;margin-top:1px}
-.plan li.lead-in{font-weight:600;color:var(--ink)}
-.plan .btn{margin-top:26px;width:100%;justify-content:center}
+/* PRICING (Suscripción única centrada) */
+.pricing-sec{position:relative}
+.plan-single{
+  max-width:580px;
+  margin:46px auto 0;
+  position:relative;
+  background:var(--card);
+  border:2px solid var(--orange);
+  border-radius:30px;
+  padding:46px 36px;
+  text-align:center;
+  box-shadow:0 34px 74px -34px rgba(255,138,0,.5);
+  transition:transform .3s var(--ease),box-shadow .3s;
+}
+.plan-single:hover{
+  transform:translateY(-4px);
+  box-shadow:0 40px 84px -34px rgba(255,138,0,.65);
+}
+.plan-single .plan-badge{
+  position:absolute;
+  top:-14px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--orange);
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  padding:6px 18px;
+  border-radius:999px;
+  white-space:nowrap;
+  box-shadow:0 10px 24px -8px rgba(255,138,0,.8);
+}
+.plan-single .plan-name{font-size:15px;font-weight:600;color:var(--ink-soft);letter-spacing:.02em}
+.plan-single .plan-price{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:clamp(48px,6vw,66px);
+  line-height:1;
+  margin:14px 0 10px;
+  color:var(--ink);
+}
+.plan-single .plan-price small{font-family:'Inter',sans-serif;font-size:17px;font-weight:500;color:var(--muted)}
+.plan-single .plan-desc{
+  font-size:15.5px;
+  color:var(--ink-soft);
+  max-width:44ch;
+  margin:0 auto 28px;
+  line-height:1.55;
+}
+.plan-single .btn{
+  width:100%;
+  max-width:360px;
+  margin:0 auto;
+  justify-content:center;
+  font-size:16px;
+  padding:15px 28px;
+}
+.plan-single .plan-subnote{
+  font-size:13.5px;
+  color:var(--muted);
+  margin-top:18px;
+  line-height:1.45;
+}
+.price-clarification{margin-top:30px;text-align:center}
+.price-clarification .strong{font-family:'Fraunces',serif;font-size:clamp(18px,2.2vw,22px);font-weight:500;color:var(--ink)}
+.price-clarification .strong b{color:var(--orange-deep);font-weight:600}
+.price-clarification .fine{font-size:13.5px;color:var(--muted);margin-top:6px}
 
-/* suscripción base destacada */
-.plan.feat{border-color:var(--orange);box-shadow:0 34px 74px -40px rgba(255,138,0,.65);transform:translateY(-12px);z-index:2}
-.plan.feat:hover{transform:translateY(-18px)}
-.plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-size:12px;font-weight:700;letter-spacing:.02em;padding:6px 16px;border-radius:999px;white-space:nowrap;box-shadow:0 12px 26px -10px rgba(255,138,0,.8)}
+/* DEDICATED SECTIONS FOR PAID ADD-ONS */
+.addon-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:48px 44px;
+  margin-top:38px;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:44px;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+.addon-card h3{font-size:clamp(26px,3.2vw,36px);margin:10px 0 12px}
+.addon-price{
+  display:inline-flex;
+  align-items:baseline;
+  gap:6px;
+  font-family:'Fraunces',serif;
+  font-size:30px;
+  font-weight:600;
+  color:var(--orange-deep);
+  margin-bottom:12px;
+}
+.addon-price small{font-family:'Inter',sans-serif;font-size:15px;font-weight:500;color:var(--muted)}
+.addon-desc{font-size:16px;color:var(--ink-soft);line-height:1.6;margin-bottom:22px}
+.addon-bullets{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.addon-bullet{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft);line-height:1.45}
+.addon-bullet .ck{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:rgba(255,138,0,.14);color:var(--orange-deep);display:grid;place-items:center;font-size:12px;margin-top:1px}
+.addon-visual{display:flex;justify-content:center;align-items:center}
 
-/* message meter (crédito prepago) */
-.meter{margin-top:18px;background:var(--paper-2);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.meter-top{display:flex;justify-content:space-between;align-items:baseline}
-.meter-top b{font-size:14px;font-weight:600;color:var(--ink)}
-.meter-top span{color:var(--muted);font-weight:500;font-size:12px}
-.meter-bar{height:9px;border-radius:999px;background:#eaddc7;margin:10px 0 11px;overflow:hidden}
-.meter-fill{height:100%;width:62.4%;border-radius:999px;background:linear-gradient(90deg,var(--orange),#ff6a00)}
-.meter-note{font-size:12.5px;color:var(--muted);line-height:1.42}
-.meter-note b{color:var(--orange-deep);font-weight:600}
+/* whatsapp bubble */
+.wabubble{width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 18px;box-shadow:0 20px 44px -22px rgba(40,20,0,.45)}
+.wabubble-top{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.wabubble .av{width:38px;height:38px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
+.wabubble .wa-name{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--ink)}
+.wabubble .wa-name .v{width:16px;height:16px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700}
+.wabubble .wa-msg{font-size:14px;color:var(--ink);background:#eaf6e6;border:1px solid #d6efcf;border-radius:4px 14px 14px 14px;padding:10px 14px;line-height:1.45}
+.wabubble .wa-time{display:block;font-size:11px;color:var(--muted);text-align:right;margin-top:4px}
 
-/* whatsapp bubble (mensaje con la marca del local) */
-.wabubble{margin-top:14px;display:flex;gap:11px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:0 16px 34px -22px rgba(40,20,0,.5)}
-.wabubble .av{flex:0 0 auto;width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--line)}
-.wabubble .wa-body{min-width:0}
-.wabubble .wa-name{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--ink)}
-.wabubble .wa-name .v{flex:0 0 auto;width:15px;height:15px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:9px;font-weight:700}
-.wabubble .wa-msg{margin-top:4px;display:inline-block;font-size:13.5px;color:var(--ink);background:#eaf6e6;border:1px solid #d6efcf;border-radius:4px 12px 12px 12px;padding:6px 11px}
+/* modulo crecimiento (dark addon card) */
+.addon-card.dark{
+  background:var(--black);
+  color:#ece7e1;
+  border-color:rgba(255,255,255,.1);
+}
+.addon-card.dark:before{
+  content:"";
+  position:absolute;
+  width:560px;
+  height:560px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,138,0,.16),transparent 65%);
+  top:-180px;
+  right:-100px;
+  z-index:0;
+}
+.addon-card.dark > *{position:relative;z-index:1}
+.addon-card.dark .fox-wm{position:absolute;pointer-events:none;opacity:.06;width:280px;bottom:-50px;right:-50px;left:auto;z-index:0}
+.addon-card.dark h3{color:#fff}
+.addon-card.dark .addon-price{color:#ffb454}
+.addon-card.dark .addon-desc{color:#cfc5b8}
+.addon-card.dark .addon-bullet{color:#dfd7cc}
+.addon-card.dark .addon-bullet .ck{background:rgba(255,138,0,.22);color:var(--orange)}
+.addon-card.dark .btn-ghost{color:#fff;border-color:rgba(255,255,255,.28)}
+.addon-card.dark .btn-ghost:hover{border-color:var(--orange);color:#fff}
 
-/* módulo pago destacado: Motor de Recompra */
-.plan.pro{background:var(--black);color:#ece7e1;border-color:rgba(255,255,255,.1);overflow:hidden}
-.plan.pro:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,0,.16),transparent 64%);top:-160px;right:-140px;z-index:0}
-.plan.pro>*{position:relative;z-index:1}
-.plan.pro .fox-wm{opacity:.06;width:250px;bottom:-46px;right:-50px;left:auto;z-index:0}
-.plan.pro .plan-name{color:#ffb454}
-.plan.pro .plan-price{color:#fff}
-.plan.pro .plan-desc{color:#a99e8f}
-.plan.pro li{color:#c9beac}
-.plan.pro li .ck{background:rgba(255,138,0,.2);color:var(--orange)}
-.plan.pro .btn-ghost{color:#fff;border-color:rgba(255,255,255,.28)}
-.plan.pro .btn-ghost:hover{border-color:var(--orange)}
-.engine{margin-top:22px;border-top:1px solid rgba(255,255,255,.12);padding-top:20px}
-.engine-title{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:#fff;display:flex;align-items:center;gap:9px}
-.engine-title .spark{flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:14px}
-.engine-tag{font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
-.engine ul{margin:16px 0 0}
-.engine-close{margin-top:16px;font-family:'Fraunces',serif;font-size:16px;line-height:1.35;color:#fff;font-weight:500}
-.engine-close b{color:var(--orange);font-weight:600}
+/* visual panel inside crecimiento */
+.engine-mock{width:100%;max-width:360px;background:var(--black-2);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:24px;box-shadow:0 24px 50px -20px rgba(0,0,0,.7)}
+.engine-mock-head{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-size:18px;color:#fff}
+.engine-mock-head .spark{width:28px;height:28px;border-radius:8px;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:15px}
+.engine-mock-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
+.engine-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px}
+.engine-stat small{display:block;font-size:11px;color:#9e9282;text-transform:uppercase;letter-spacing:.04em}
+.engine-stat b{font-size:18px;color:#ffb454;font-family:'Fraunces',serif;display:block;margin-top:2px}
+.engine-mock-note{font-size:12.5px;color:#b2a696;line-height:1.45;border-top:1px solid rgba(255,255,255,.08);padding-top:12px}
+.engine-mock-note b{color:#ffb454}
 
-.plans-note{margin-top:34px;text-align:center}
-.plans-note .strong{font-family:'Fraunces',serif;font-size:clamp(19px,2.4vw,24px);font-weight:500;color:var(--ink)}
-.plans-note .strong b{color:var(--orange-deep);font-weight:600}
-.plans-note .fine{font-size:13.5px;color:var(--muted);margin-top:8px}
-@media(max-width:980px){.plans{grid-template-columns:1fr;max-width:480px;margin-left:auto;margin-right:auto}.plan.feat,.plan.feat:hover{transform:none}}
+@media(max-width:880px){
+  .addon-card{grid-template-columns:1fr;padding:34px 24px;gap:30px}
+}
 
-/* tag de catálogo */
-.feat-grid .tag{align-self:flex-start;margin-top:auto;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--orange-deep);background:rgba(255,138,0,.1);border-radius:999px;padding:3px 9px}
+/* share flyer button */
+.share-row{text-align:center;margin-top:28px}
+#shareFlyer[disabled]{opacity:.7;cursor:progress}
 
-/* agency */
-.agency{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;background:var(--paper-2);border:1px solid var(--line);border-radius:34px;padding:58px}
-.agency h2{font-size:clamp(30px,4vw,46px);margin-top:14px}
-.agency .lead{font-size:18px;color:var(--ink-soft);margin-top:14px}
-.agency-steps{display:flex;flex-direction:column;gap:13px;margin-top:24px}
-.agency-steps div{display:flex;gap:14px;align-items:center;font-weight:500;color:var(--ink-soft)}
+/* flyer descargable (fuera de pantalla) */
+.flyer-wrap{position:fixed;left:-99999px;top:0;pointer-events:none;z-index:-1}
+.flyer{width:1300px;background:linear-gradient(160deg,#fbf4ea,#f4e9d9);padding:64px;font-family:'Inter',system-ui,sans-serif;color:var(--ink)}
+.flyer-head{display:flex;align-items:center;gap:16px}
+.flyer-head img{width:64px;height:64px;border-radius:16px;display:block}
+.flyer-head .fname{font-family:'Fraunces',serif;font-weight:700;font-size:42px;letter-spacing:-.02em}
+.flyer h2{font-family:'Fraunces',serif;font-size:52px;font-weight:600;letter-spacing:-.015em;margin:24px 0 8px;color:#000}
+.flyer .flyer-sub{font-size:21px;color:var(--ink-soft);margin-bottom:38px;max-width:44ch}
+.flyer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
+.flyer-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px 24px;display:flex;flex-direction:column}
+.flyer-card.feat{border:2px solid var(--orange);box-shadow:0 10px 30px -10px rgba(255,138,0,.3)}
+.flyer-card-tag{font-size:12px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--orange-deep);margin-bottom:6px}
+.flyer-card h3{font-size:24px;margin-bottom:8px}
+.flyer-card .fprice{font-family:'Fraunces',serif;font-size:36px;font-weight:600;color:var(--ink);margin-bottom:12px}
+.flyer-card .fprice small{font-size:16px;color:var(--muted);font-family:'Inter'}
+.flyer-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+.flyer-foot{margin-top:44px;display:flex;justify-content:space-between;align-items:center;gap:24px;border-top:1px solid var(--line);padding-top:26px;font-size:20px;color:var(--ink-soft)}
+.flyer-foot b{color:var(--orange-deep);font-weight:600}
+
+/* agency / onboarding support */
+.agency{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;background:var(--paper-2);border:1px solid var(--line);border-radius:32px;padding:56px}
+.agency h2{font-size:clamp(28px,3.8vw,44px);margin-top:12px}
+.agency .lead{font-size:17.5px;color:var(--ink-soft);margin-top:14px;line-height:1.55}
+.agency-steps{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+.agency-steps div{display:flex;gap:14px;align-items:center;font-weight:500;color:var(--ink-soft);font-size:15.5px}
 .agency-steps .n{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
-.agency-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px;box-shadow:0 30px 60px -36px rgba(40,20,0,.4)}
-.agency-card .wa-num{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:6px 0 18px}
-@media(max-width:880px){.agency{grid-template-columns:1fr;padding:36px 26px}}
-
-/* final */
-.final{position:relative;overflow:hidden;background:#ff7200;color:#fff;text-align:center;padding:104px 24px}
-.final h2{font-size:clamp(40px,6.5vw,78px);color:#fff}
-.final p{font-size:19px;margin:16px auto 30px;max-width:32ch;color:rgba(255,255,255,.94)}
-.final .btn{background:#fff;color:var(--orange-deep)}
-.final .btn:hover{background:#0a0a0a;color:#fff}
+.agency-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px;box-shadow:0 26px 54px -28px rgba(40,20,0,.3)}
+.agency-card .wa-num{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin:6px 0 18px;color:var(--ink)}
+@media(max-width:880px){.agency{grid-template-columns:1fr;padding:34px 22px}}
 
 /* footer */
-footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
+footer{background:#ff7200;color:#fff;padding:54px 24px 44px}
 .foot-in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
 .foot-brand{display:flex;align-items:center;gap:11px;color:#fff;font-family:'Fraunces',serif;font-weight:700;font-size:21px}
 .foot-brand img{width:34px;height:34px}
 .foot-links{display:flex;gap:24px;font-size:14px;flex-wrap:wrap}
 .foot-links a{color:rgba(255,255,255,.92)}
 .foot-links a:hover{color:#0a0a0a}
-.foot-fine{margin-top:26px;font-size:13px;color:rgba(255,255,255,.82);border-top:1px solid rgba(255,255,255,.28);padding-top:20px}
+.foot-fine{margin-top:24px;font-size:13px;color:rgba(255,255,255,.82);border-top:1px solid rgba(255,255,255,.28);padding-top:18px}
 
-/* reveal + keyframes */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
-.reveal[data-anim="left"]{transform:translateX(-46px)}
-.reveal[data-anim="right"]{transform:translateX(46px)}
-.reveal[data-anim="scale"]{transform:scale(.93)}
+/* reveal animations */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .75s var(--ease),transform .75s var(--ease);transition-delay:var(--d,0s)}
+.reveal[data-anim="left"]{transform:translateX(-40px)}
+.reveal[data-anim="right"]{transform:translateX(40px)}
+.reveal[data-anim="scale"]{transform:scale(.94)}
 .reveal.in{opacity:1;transform:none}
-@keyframes upIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-@keyframes popIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes upIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
 @keyframes dropIn{from{transform:translateY(-100%)}to{transform:none}}
-@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
-@keyframes chipIn{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:none}}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
-@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,138,0,.5)}70%{box-shadow:0 0 0 7px rgba(255,138,0,0)}100%{box-shadow:0 0 0 0 rgba(255,138,0,0)}}
-@keyframes grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none;transition:none}.btn:hover,.store:hover,.flow-phone .phone:hover{transform:none}}
-
-/* share flyer button */
-.share-row{text-align:center;margin-top:22px}
-#shareFlyer[disabled]{opacity:.7;cursor:progress}
-
-/* flyer descargable de suscripción y módulos — se renderiza fuera de pantalla y se captura con html2canvas */
-.flyer-wrap{position:fixed;left:-99999px;top:0;pointer-events:none;z-index:-1}
-.flyer{width:1500px;background:linear-gradient(160deg,#fbf4ea,#f4e9d9);padding:70px 64px;font-family:'Inter',system-ui,sans-serif;color:var(--ink)}
-.flyer-head{display:flex;align-items:center;gap:16px}
-.flyer-head img{width:66px;height:66px;border-radius:16px;display:block}
-.flyer-head .fname{font-family:'Fraunces',serif;font-weight:700;font-size:46px;letter-spacing:-.02em}
-.flyer h2{font-family:'Fraunces',serif;font-size:60px;font-weight:600;letter-spacing:-.015em;margin:26px 0 8px;color:#000}
-.flyer .flyer-sub{font-size:23px;color:var(--ink-soft);margin-bottom:42px;max-width:36ch}
-.flyer-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
-.flyer .plan{transform:none!important;box-shadow:none;opacity:1!important}
-.flyer .plan.feat{transform:none!important;box-shadow:0 0 0 2px var(--orange)}
-.flyer-foot{margin-top:48px;display:flex;justify-content:space-between;align-items:center;gap:24px;border-top:1px solid var(--line);padding-top:30px;font-size:22px;color:var(--ink-soft)}
-.flyer-foot b{color:var(--orange-deep);font-weight:600}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}.reveal{opacity:1;transform:none;transition:none}.btn:hover,.flow-phone .phone:hover{transform:none}}
 </style>
 </head>
 <body>
 <div id="progress"></div>
 
+<!-- NAVIGATION -->
 <nav id="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top"><img id="navlogo" alt="Piru">Piru</a>
     <div class="nav-links">
-      <a href="#experiencia">Producto</a>
-      <a href="#restaurantes">Restaurantes</a>
-      <a href="#precio">Precio</a>
+      <a href="#experiencia">Cómo funciona</a>
+      <a href="#que-incluye">Qué incluye</a>
+      <a href="#precio">Precios</a>
+      <a href="#contacto">Contacto</a>
     </div>
     <div class="nav-cta">
-      <a class="btn btn-ghost wa-ghost" href="https://wa.me/543408681915" target="_blank" rel="noopener">Contactame</a>
-      <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Empezá ahora</a>
+      <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Crear tienda</a>
     </div>
   </div>
 </nav>
@@ -352,7 +408,7 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
 <div id="mobilebar" class="mnav">
   <a class="mnav-brand" href="#top"><img id="mnavlogo" alt="Piru">Piru</a>
   <div class="mnav-actions">
-    <a class="mnav-wa" href="https://wa.me/543408681915" target="_blank" rel="noopener" aria-label="Contactame por WhatsApp">
+    <a class="mnav-wa" href="https://wa.me/543408681915" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6 0l.9-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.1.1.6-.1 1.3Z"/></svg>
     </a>
     <a class="btn btn-primary mnav-btn" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Crear tienda</a>
@@ -360,27 +416,21 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
 </div>
 <span id="top"></span>
 
-<!-- HERO -->
+<!-- HERO SECTION -->
 <header class="hero">
   <div class="wrap hero-grid">
     <div class="hero-text">
-      <h1>Pedir nunca fue tan <em>fácil</em>.<span class="l2">Vender, tampoco.</span></h1>
-      <p class="hero-sub">La tienda online que tus clientes disfrutan usar y que a vos no te da trabajo. Piden y pagan desde el celular; el pedido te llega listo, sin chatear ni chequear transferencias.</p>
+      <h1>Tu propia tienda online.<span class="l2">Simple para tus clientes, ordenada para tu cocina.</span></h1>
+      <p class="hero-sub">Recibí pedidos de delivery y takeaway directamente en tu local, sin intermediarios ni comisiones abusivas. Tus clientes eligen y pagan desde el celular; a vos te llega todo listo para preparar.</p>
       <div class="hero-cta">
-        <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Empezá ahora</a>
-        <a class="btn btn-ghost" href="https://my.piru.app/prueba" target="_blank" rel="noopener">Ver una tienda</a>
-        <a class="btn btn-ghost wa-ghost" href="https://wa.me/543408681915" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6 0l.9-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.1.1.6-.1 1.3Z"/></svg>
-          Contactame</a>
+        <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Crear mi tienda</a>
+        <a class="btn btn-ghost" href="https://my.piru.app/prueba" target="_blank" rel="noopener">Ver tienda de ejemplo</a>
       </div>
-      <p class="hero-note">Creá tu tienda gratis y empezá a recibir pedidos en <b>15 minutos</b>.</p>
+      <p class="hero-note">Probá Piru gratis durante <b>5 días</b> · Sin comisiones por venta.</p>
     </div>
     <div class="hero-stage">
       <div class="parallax" id="parallax">
         <div class="phone-stage">
-          <div class="chip c1"><span class="dot"></span> Nuevo pedido #128</div>
-          <div class="chip c2"><span class="dot"></span> Te transfirieron <small>$25.529 · piru.prueba.68</small></div>
-          <div class="chip c3"><span class="ok">✓</span> Listo para retirar</div>
           <div class="phone"><img data-shot="menu" alt="Tienda Piru"></div>
         </div>
       </div>
@@ -388,40 +438,13 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
   </div>
 </header>
 
-<!-- TRUST -->
-<div class="band">
-  <div class="band-in">
-    <span class="band-label">Ya vende con Piru</span>
-    <a class="store" href="https://instagram.com/alfajorconpapas" target="_blank" rel="noopener">
-      <svg class="ig" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.1.4.3 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.1-1 .3-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.3-2.2-.4a3.8 3.8 0 0 1-1.4-.9 3.8 3.8 0 0 1-.9-1.4c-.1-.4-.3-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.1 1-.3 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 3.2A6.6 6.6 0 1 0 18.6 12 6.6 6.6 0 0 0 12 5.4Zm0 10.9A4.3 4.3 0 1 1 16.3 12 4.3 4.3 0 0 1 12 16.3Zm6.8-11.2a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5Z"/></svg>
-      Alfajor con Papas</a>
-  </div>
-</div>
-
-<!-- RELIEF -->
-<section class="dark">
-  <img class="fox-wm" id="fox1" alt="">
-  <div class="wrap sec">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Menos pantalla, más cocina</div>
-      <h2>Se terminó tomar pedidos a mano.</h2>
-    </div>
-    <div class="relief">
-      <div class="reveal" data-anim="left"><span class="x">✕</span> Chatear cada pedido por WhatsApp.</div>
-      <div class="reveal" data-anim="left" style="--d:.12s"><span class="x">✕</span> Chequear comprobantes de transferencia.</div>
-      <div class="reveal" data-anim="left" style="--d:.24s"><span class="x">✕</span> Perder ventas por no contestar a tiempo.</div>
-    </div>
-    <p class="relief-close reveal" style="--d:.1s">Tu cliente pide feliz. Vos, <b>abrí la cocina.</b></p>
-  </div>
-</section>
-
-<!-- SHOWCASE / FLOW -->
+<!-- SHOWCASE / FLOW (Cómo piden tus clientes) -->
 <section id="experiencia" class="sec">
   <div class="wrap">
     <div class="sec-head center reveal">
-      <div class="eyebrow">La experiencia del que pide</div>
-      <h2>La mejor forma de pedir delivery.</h2>
-      <p class="lead">Tu cliente pide en menos de un minuto, desde el navegador, sin instalar nada.</p>
+      <div class="eyebrow">Experiencia ágil</div>
+      <h2>Cómo piden tus clientes.</h2>
+      <p class="lead">Un proceso claro e intuitivo desde cualquier navegador, sin descargar aplicaciones ni crear contraseñas.</p>
       <div class="toggle" id="toggle" role="group" aria-label="Modo de la tienda">
         <button data-mode="dark" class="active">🌙 Oscuro</button>
         <button data-mode="light">☀️ Claro</button>
@@ -432,181 +455,302 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
         <div class="flow-phone reveal" data-anim="left"><div class="phone"><img data-shot="menu" alt="Menú"></div></div>
         <div class="flow-text reveal" data-anim="right" style="--d:.1s">
           <div class="step-no">01</div><h3>Elegí del menú</h3>
-          <p>Fotos que dan hambre y categorías que cargan al toque. Tu marca, tus colores.</p>
+          <p>Tu carta digital con fotos, categorías claras y buscador. Con tu logo y tus propios colores.</p>
         </div>
       </div>
       <div class="flow-row rev">
         <div class="flow-phone reveal" data-anim="right"><div class="phone"><img data-shot="options" alt="Opciones del plato"></div></div>
         <div class="flow-text reveal" data-anim="left" style="--d:.1s">
           <div class="step-no">02</div><h3>Armá tu plato</h3>
-          <p>Tamaños y variantes, y hasta qué ingrediente sacar o sumar. Como en el local.</p>
+          <p>Variantes de tamaño, puntos de cocción, agregados o ingredientes para quitar. Igual que en el mostrador.</p>
         </div>
       </div>
       <div class="flow-row">
         <div class="flow-phone reveal" data-anim="left"><div class="phone"><img data-shot="datos" alt="Datos del cliente"></div></div>
         <div class="flow-text reveal" data-anim="right" style="--d:.1s">
           <div class="step-no">03</div><h3>Dejá los datos</h3>
-          <p>Tres pasos cortos. Nombre, dirección y listo. Sin crear cuenta.</p>
+          <p>Tres pasos cortos y claros. Nombre, forma de entrega y dirección con validación en mapa, sin registrarse.</p>
         </div>
       </div>
       <div class="flow-row rev">
         <div class="flow-phone reveal" data-anim="right"><div class="phone"><img data-shot="transfer" alt="Pago con alias"></div></div>
         <div class="flow-text reveal" data-anim="left" style="--d:.1s">
           <div class="step-no">04</div><h3>Pagá y a esperar</h3>
-          <p>Mercado Pago, tarjeta o transferencia con un alias único por pedido.</p>
+          <p>Mercado Pago, efectivo o transferencia bancaria con un alias único que se concilia automáticamente.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- AMIGOS -->
+<!-- PEDIDO EN GRUPO -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="split amigos rev reveal" data-anim="scale">
       <div class="split-text">
-        <div class="eyebrow">Solo en Piru</div>
-        <h2>Pedido entre amigos.</h2>
-        <p class="lead">Comparten un link y cada uno suma lo suyo, en vivo. Confirman juntos y a tu cocina llega un solo pedido.</p>
+        <div class="eyebrow">Para grupos y juntadas</div>
+        <h2>Pedido compartido en un solo link.</h2>
+        <p class="lead">Tus clientes pueden compartir una sala con amigos o compañeros de trabajo: cada uno suma su plato desde su propio celular y a tu cocina llega un único pedido consolidado para preparar y entregar.</p>
       </div>
-      <div class="split-stage"><div class="phone" style="width:264px"><img data-shot="amigos" alt="Pedido entre amigos"></div></div>
+      <div class="split-stage"><div class="phone" style="width:264px"><img data-shot="amigos" alt="Pedido compartido en grupo"></div></div>
     </div>
   </div>
 </section>
 
-<!-- ALIAS -->
+<!-- CONCILIACIÓN AUTOMÁTICA DE TRANSFERENCIAS -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
     <div class="split">
       <div class="split-text reveal" data-anim="left">
-        <div class="eyebrow">Cobrás sin moverte</div>
-        <h2>Las transferencias se chequean solas.</h2>
-        <p class="lead">Cada pedido genera un alias único. Entra la plata, se confirma el pedido.</p>
+        <div class="eyebrow">Cobros directos a tu cuenta</div>
+        <h2>Las transferencias se concilian solas.</h2>
+        <p class="lead">Cada pedido genera un alias bancario único. Entra el dinero a tu cuenta y el sistema lo confirma automáticamente en tu panel, sin que tengas que pedir ni verificar capturas de pantalla.</p>
       </div>
-      <div class="split-stage reveal" data-anim="right" style="--d:.1s"><div class="phone" style="width:264px"><img data-shot="transfer" alt="Alias dinámico"></div></div>
+      <div class="split-stage reveal" data-anim="right" style="--d:.1s"><div class="phone" style="width:264px"><img data-shot="transfer" alt="Alias dinámico de transferencia"></div></div>
     </div>
   </div>
 </section>
 
-<!-- INCLUDED MODULES -->
-<section class="sec" style="padding-top:0">
+<!-- TODO LO QUE INCLUYE TU SUSCRIPCIÓN -->
+<section id="que-incluye" class="sec" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Módulos incluidos</div>
-      <h2>Activá lo que tu local necesita.</h2>
-      <p class="lead">La suscripción incluye la operación base. Después activás gratis los módulos que elijas, desde tu panel.</p>
+    <div class="sec-head center wide reveal">
+      <div class="eyebrow">Operación completa</div>
+      <h2>Todo lo que necesitás para operar, incluido en tu suscripción.</h2>
+      <p class="lead">Sin planes confusos ni costos ocultos. Por una única cuota fija mensual contás con tu tienda online y todas las herramientas para gestionar tu negocio de punta a punta.</p>
     </div>
-    <div class="feat-grid reveal" style="--d:.06s">
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><b>Ventas en el local</b><span>POS y Mesas.</span><span class="tag">Incluido</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><b>Clientes y fidelización</b><span>Puntos para clientes y códigos de descuento.</span><span class="tag">Incluido</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><b>Cobros</b><span>Mercado Pago y Talo.</span><span class="tag">Incluido</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V8l8-5 8 5v13"/><path d="M9 21v-6h6v6"/></svg><b>Delivery</b><span>Rapiboy y gestión de cadetes.</span><span class="tag">Incluido</span></div>
-      <div><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="6" rx="1"/><path d="M6 14h12v7H6z"/><rect x="4" y="9" width="16" height="6" rx="2"/></svg><b>Operación y administración</b><span>ARCA, stock, comandas y múltiples sucursales.</span><span class="tag">Incluido</span></div>
+    <div class="oper-grid reveal" style="--d:.06s">
+      <!-- 1. Tienda online -->
+      <div class="oper-card">
+        <div class="ic-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M12 18h.01"/></svg>
+        </div>
+        <h3>Tienda online propia</h3>
+        <ul>
+          <li><span class="dot"></span> Menú digital ágil y adaptable a cualquier celular</li>
+          <li><span class="dot"></span> Fotos, variantes, combos, agregados y notas</li>
+          <li><span class="dot"></span> Pedido grupal (sala compartida para amigos)</li>
+          <li><span class="dot"></span> Link directo para tu perfil de Instagram y redes</li>
+        </ul>
+      </div>
+
+      <!-- 2. Cocina y comandas -->
+      <div class="oper-card">
+        <div class="ic-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="6" rx="1"/><path d="M6 14h12v7H6z"/><rect x="4" y="9" width="16" height="6" rx="2"/></svg>
+        </div>
+        <h3>Cocina y comandas</h3>
+        <ul>
+          <li><span class="dot"></span> Monitor de pedidos en vivo con alertas sonoras</li>
+          <li><span class="dot"></span> Tiempos de demora ajustables según la demanda</li>
+          <li><span class="dot"></span> Impresión automática en comandera térmica</li>
+          <li><span class="dot"></span> Estado de preparación en tiempo real para el cliente</li>
+        </ul>
+      </div>
+
+      <!-- 3. Cobros directos -->
+      <div class="oper-card">
+        <div class="ic-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M7 15h2"/></svg>
+        </div>
+        <h3>Cobros directos</h3>
+        <ul>
+          <li><span class="dot"></span> Integración con Mercado Pago y Talo</li>
+          <li><span class="dot"></span> Transferencias con alias único conciliado</li>
+          <li><span class="dot"></span> Pagos en efectivo al retirar o en entrega</li>
+          <li><span class="dot"></span> 0% de comisión de Piru sobre tus ventas</li>
+        </ul>
+      </div>
+
+      <!-- 4. Mostrador y salón -->
+      <div class="oper-card">
+        <div class="ic-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h4"/></svg>
+        </div>
+        <h3>Mostrador y salón</h3>
+        <ul>
+          <li><span class="dot"></span> Punto de venta (POS) para pedidos presenciales</li>
+          <li><span class="dot"></span> Gestión de mesas para consumo en el local</li>
+          <li><span class="dot"></span> Cierre de turno y arqueo de caja diario</li>
+          <li><span class="dot"></span> Control de turnos de personal y mozos</li>
+        </ul>
+      </div>
+
+      <!-- 5. Delivery y logística -->
+      <div class="oper-card">
+        <div class="ic-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        </div>
+        <h3>Delivery y logística</h3>
+        <ul>
+          <li><span class="dot"></span> Zonas de reparto dibujadas sobre mapa interactivo</li>
+          <li><span class="dot"></span> Asignación y seguimiento de cadetes propios</li>
+          <li><span class="dot"></span> Integración disponible con Rapiboy</li>
+          <li><span class="dot"></span> Modalidad de retiro en el local (takeaway)</li>
+        </ul>
+      </div>
+
+      <!-- 6. Administración y fidelización -->
+      <div class="oper-card">
+        <div class="ic-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Administración y fidelidad</h3>
+        <ul>
+          <li><span class="dot"></span> Facturación electrónica ARCA (ex AFIP) integrada</li>
+          <li><span class="dot"></span> Control de stock e insumos de productos</li>
+          <li><span class="dot"></span> Cupones de descuento y programa de puntos</li>
+          <li><span class="dot"></span> Soporte para múltiples sucursales</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="precio" class="sec" style="padding-top:0">
+<!-- PRICING (Suscripción única centrada) -->
+<section id="precio" class="sec pricing-sec" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head center reveal">
-      <div class="eyebrow">Cuota fija, sin sorpresas</div>
-      <h2>Una suscripción. Elegís tus módulos.</h2>
-      <p class="lead">Empezás con la base y sumás sólo los módulos pagos que te aportan valor. Sin comisión por venta.</p>
+      <div class="eyebrow">Suscripción transparente</div>
+      <h2>Una cuota fija. Sin comisiones por venta.</h2>
+      <p class="lead">Vendas 10 o 1.000 pedidos al mes, pagás lo mismo. Piru no se queda con un porcentaje de tu facturación.</p>
     </div>
-    <div class="plans">
 
-      <!-- SUSCRIPCIÓN BASE -->
-      <div class="plan feat reveal" data-anim="right">
-        <div class="plan-badge">La base de Piru</div>
-        <div class="plan-name">Suscripción Piru</div>
-        <div class="plan-price">$40.000 <small>/mes</small></div>
-        <p class="plan-desc">Todo lo esencial para tomar, cobrar y gestionar pedidos desde tu propio canal.</p>
-        <ul>
-          <li><span class="ck">✓</span> Recepción de pedidos por WhatsApp + centro de pedidos</li>
-          <li><span class="ck">✓</span> Impresión automática de comandas</li>
-          <li><span class="ck">✓</span> Pedidos, categorías y productos ilimitados</li>
-          <li><span class="ck">✓</span> Galería de imágenes, variantes, extras e ingredientes</li>
-          <li><span class="ck">✓</span> Todos los métodos de pago</li>
-          <li><span class="ck">✓</span> Horarios, reportes, mapa de pedidos y pedido en grupo</li>
-          <li><span class="ck">✓</span> Activá sin costo los módulos incluidos que necesites</li>
-        </ul>
-        <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Activar mi suscripción</a>
-      </div>
+    <!-- TARJETA ÚNICA CENTRADA -->
+    <div class="plan-single reveal" data-anim="scale">
+      <div class="plan-badge">Suscripción base</div>
+      <div class="plan-name">Suscripción Piru</div>
+      <div class="plan-price">$40.000 <small>/mes</small></div>
+      <p class="plan-desc">Tu tienda online propia y todo el sistema operativo para tu delivery, takeaway y salón. Cuota fija mensual, sin costos ocultos.</p>
+      <a class="btn btn-primary" href="https://admin.piru.app" target="_blank" rel="noopener"><span class="sh"></span>Comenzar prueba gratis de 5 días</a>
+      <p class="plan-subnote">Sin tarjeta de crédito requerida para empezar · Cancelás cuando quieras · Asistencia para dejar tu tienda lista</p>
+    </div>
 
-      <!-- AVISOS -->
-      <div class="plan reveal" data-anim="scale" style="--d:.08s">
-        <div class="plan-name">Módulo pago</div>
-        <div class="plan-price">+$30.000 <small>/mes</small></div>
-        <p class="plan-desc"><b>Avisos automáticos por WhatsApp.</b> Se suma a tu suscripción: total $70.000/mes.</p>
+    <div class="price-clarification reveal" style="--d:.08s">
+      <p class="strong">Cuota fija. <b>Sin comisión por venta, vendas lo que vendas.</b></p>
+      <p class="fine">El alta incluye una prueba de 5 días de la suscripción base para configurar tu carta y probar el sistema.</p>
+    </div>
 
-        <div class="wabubble">
-          <img class="av" id="wa-av" alt="Logo del local">
-          <div class="wa-body">
-            <div class="wa-name">Alfajor con Papas <span class="v">✓</span></div>
-            <div class="wa-msg">¡Tu pedido está en camino! 🛵</div>
+    <!-- MÓDULO PAGO 1: AVISOS WHATSAPP -->
+    <div id="modulo-avisos" class="addon-card reveal" style="--d:.1s">
+      <div class="addon-info">
+        <div class="eyebrow">Módulo adicional opcional</div>
+        <h3>Avisos automáticos por WhatsApp</h3>
+        <div class="addon-price">+$30.000 <small>/mes</small></div>
+        <p class="addon-desc">Tus clientes reciben notificaciones automáticas por WhatsApp cada vez que su pedido se confirma, entra a cocina, sale en camino o está listo para retirar.</p>
+        <div class="addon-bullets">
+          <div class="addon-bullet">
+            <span class="ck">✓</span>
+            <div><b>Con la identidad de tu restaurante:</b> Los mensajes se envían desde tu número oficial de WhatsApp con tu nombre y logo, mediante la API oficial de Meta.</div>
+          </div>
+          <div class="addon-bullet">
+            <span class="ck">✓</span>
+            <div><b>Menos preguntas repetitivas:</b> Reduce llamadas y mensajes de "¿por dónde viene mi pedido?", brindando tranquilidad a quien compra.</div>
+          </div>
+          <div class="addon-bullet">
+            <span class="ck">✓</span>
+            <div><b>200 mensajes incluidos por mes:</b> Si tu volumen crece y necesitás más, podés recargar packs prepagos económicos directamente desde tu panel sin cobros sorpresa.</div>
           </div>
         </div>
-
-        <ul>
-          <li><span class="ck">✓</span> Avisos automáticos a tus clientes por WhatsApp, con tu número, nombre y logo (conexión oficial con Meta). Incluye 200 por mes.</li>
-          <li><span class="ck">✓</span> Cuando necesitás más, recargás packs de mensajes por separado.</li>
-          <li><span class="ck">✓</span> Se activa después de confirmar el pago.</li>
-        </ul>
-        <a class="btn btn-ghost" href="https://admin.piru.app" target="_blank" rel="noopener">Ver módulos</a>
+        <a class="btn btn-ghost" href="https://admin.piru.app" target="_blank" rel="noopener">Activar desde el panel</a>
       </div>
-
-      <!-- MOTOR DE RECOMPRA -->
-      <div class="plan pro reveal" data-anim="left" style="--d:.16s">
-        <img class="fox-wm" id="fox2" alt="">
-        <div class="plan-name">Módulo pago</div>
-        <div class="plan-price">+$70.000 <small>/mes</small></div>
-        <p class="plan-desc"><b>Motor de Recompra.</b> Se suma a tu suscripción: total $110.000/mes.</p>
-        <ul>
-          <li><span class="ck">✓</span> Incluye 100 mensajes de marketing por ciclo.</li>
-          <li><span class="ck">✓</span> Funciona junto a tu suscripción, con o sin Avisos.</li>
-        </ul>
-
-        <div class="engine">
-          <div class="engine-title"><span class="spark">✦</span> Motor de Recompra</div>
-          <ul>
-            <li><span class="ck">✓</span> Detecta clientes en riesgo, dormidos o perdidos según su propia cadencia.</li>
-            <li><span class="ck">✓</span> Recupera ventas con WhatsApp y un link que repite el pedido habitual.</li>
-            <li><span class="ck">✓</span> Campaña diaria por goteo, con grupo de control y atribución del retorno.</li>
-            <li><span class="ck">✓</span> Protección de base: baja automática, frecuencia máxima y horario de silencio.</li>
-          </ul>
-          <p class="engine-close">Una forma concreta de <b>hacer que tus clientes vuelvan.</b></p>
+      <div class="addon-visual">
+        <div class="wabubble">
+          <div class="wabubble-top">
+            <img class="av" id="wa-av" alt="Logo de tu local">
+            <div class="wa-name">Tu Restaurante <span class="v">✓</span></div>
+          </div>
+          <div class="wa-msg">
+            ¡Hola Juan! Tu pedido #142 ya está en camino con nuestro cadete. 🛵
+            <span class="wa-time">21:14</span>
+          </div>
         </div>
-
-        <a class="btn btn-ghost" href="https://admin.piru.app" target="_blank" rel="noopener">Conocer el Motor</a>
       </div>
-
     </div>
 
-    <div class="plans-note reveal" style="--d:.1s">
-      <p class="strong">Cuota fija. <b>Sin comisión por venta, vendas lo que vendas.</b></p>
-      <p class="fine">Con ambos módulos, el total mensual es $140.000. El primer período de un módulo pago se prorratea hasta tu próxima renovación.</p>
+    <!-- MÓDULO PAGO 2: CRECIMIENTO -->
+    <div id="modulo-crecimiento" class="addon-card dark reveal" style="--d:.14s">
+      <img class="fox-wm" id="fox2" alt="">
+      <div class="addon-info">
+        <div class="eyebrow">Módulo adicional opcional</div>
+        <h3>Crecimiento: Adquirí clientes, activá recompra y medí resultados</h3>
+        <div class="addon-price">+$70.000 <small>/mes</small></div>
+        <p class="addon-desc">El módulo de marketing y ventas de Piru. Diseñado para atraer nuevos comensales desde tus redes, recuperar clientes habituales y medir exactamente cuánto dinero genera cada acción.</p>
+        <div class="addon-bullets">
+          <div class="addon-bullet">
+            <span class="ck">✓</span>
+            <div><b>Smart Links para redes:</b> Creá enlaces especiales (<code>/c/tu-promo</code>) para tus historias, bio de Instagram o pautas. Podés enviar a los clientes a tu carta general, a un plato con descuento puntual o con un carrito prearmado.</div>
+          </div>
+          <div class="addon-bullet">
+            <span class="ck">✓</span>
+            <div><b>Oportunidades de recompra:</b> El sistema detecta automáticamente cuándo un cliente habitual está demorando en volver y te permite preparar un enlace individual (<code>/r/token</code>) por WhatsApp con su plato favorito en un click.</div>
+          </div>
+          <div class="addon-bullet">
+            <span class="ck">✓</span>
+            <div><b>Medición real y sin humo:</b> Seguimiento completo de visitas, carritos y pedidos. A diferencia de otras herramientas, concilia únicamente contra pedidos pagados reales para que sepas con claridad qué funciona.</div>
+          </div>
+        </div>
+        <a class="btn btn-ghost" href="https://admin.piru.app" target="_blank" rel="noopener">Activar desde el panel</a>
+      </div>
+      <div class="addon-visual">
+        <div class="engine-mock">
+          <div class="engine-mock-head">
+            <span class="spark">✦</span> Crecimiento
+          </div>
+          <div class="engine-mock-stats">
+            <div class="engine-stat">
+              <small>Ventas medidas</small>
+              <b>$184.500</b>
+            </div>
+            <div class="engine-stat">
+              <small>Conversión</small>
+              <b>14.2%</b>
+            </div>
+          </div>
+          <p class="engine-mock-note">Smart Links para tus redes, reactivación de clientes y <b>medición transparente de ventas reales.</b></p>
+        </div>
+      </div>
     </div>
 
+    <!-- BOTÓN COMPARTIR FLYER -->
     <div class="share-row reveal" style="--d:.16s">
       <button class="btn btn-ghost" id="shareFlyer" type="button">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15V3"/><path d="m8 7 4-4 4 4"/><path d="M4 13v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/></svg>
-        Compartir suscripción y módulos
+        Descargar resumen de suscripción y módulos
       </button>
     </div>
   </div>
 </section>
 
-<!-- FLYER (imagen descargable de la suscripción y los módulos, fuera de pantalla) -->
+<!-- FLYER (renderizado fuera de pantalla para captura) -->
 <div class="flyer-wrap" aria-hidden="true">
   <div class="flyer" id="flyer">
     <div class="flyer-head">
       <img id="flyerlogo" alt="Piru">
       <div class="fname">Piru</div>
     </div>
-    <h2>Una suscripción. Elegís tus módulos.</h2>
-    <p class="flyer-sub">Cuota fija, sin comisión por venta. Activá la base y sumá sólo lo que te aporta valor.</p>
-    <div class="flyer-plans"></div>
+    <h2>Suscripción única y módulos opcionales</h2>
+    <p class="flyer-sub">Cuota fija, sin comisión por venta. Tu tienda online completa y herramientas para crecer.</p>
+    <div class="flyer-grid">
+      <div class="flyer-card feat">
+        <div class="flyer-card-tag">Suscripción Base</div>
+        <h3>Suscripción Piru</h3>
+        <div class="fprice">$40.000 <small>/mes</small></div>
+        <p>Tu tienda online personalizada, recepción de pedidos en vivo, cobros directos sin comisión, comandas térmicas, POS, mesas y delivery.</p>
+      </div>
+      <div class="flyer-card">
+        <div class="flyer-card-tag">Módulo Adicional</div>
+        <h3>Avisos WhatsApp</h3>
+        <div class="fprice">+$30.000 <small>/mes</small></div>
+        <p>Avisos automáticos a tus clientes con el número, logo y nombre oficial de tu restaurante (Meta Cloud API). Incluye 200 mensajes mensuales.</p>
+      </div>
+      <div class="flyer-card">
+        <div class="flyer-card-tag">Módulo Adicional</div>
+        <h3>Crecimiento</h3>
+        <div class="fprice">+$70.000 <small>/mes</small></div>
+        <p>Smart Links para redes, oportunidades de recompra personalizadas y medición transparente de pedidos y ventas reales.</p>
+      </div>
+    </div>
     <div class="flyer-foot">
       <div>Creá tu tienda en <b>piru.app</b></div>
       <div>WhatsApp <b>+54 340 868-1915</b></div>
@@ -614,40 +758,29 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
   </div>
 </div>
 
-<!-- AGENCY -->
-<section id="restaurantes" class="sec" style="padding-top:0">
+<!-- ACOMPAÑAMIENTO / ONBOARDING DIRECTO -->
+<section id="contacto" class="sec" style="padding-top:0;padding-bottom:110px">
   <div class="wrap">
     <div class="agency reveal">
       <div class="agency-text">
-        <div class="eyebrow">No te dejamos solo</div>
-        <h2>Te dejo la tienda lista.</h2>
-        <p class="lead">Armo tu menú, cargo tus productos y configuro todo. Vos solo conectás tu medio de pago.</p>
+        <div class="eyebrow">Acompañamiento personal</div>
+        <h2>Te ayudo a dejar la tienda lista.</h2>
+        <p class="lead">Si estás con poco tiempo para cargar el menú, me mandás tu carta o fotos de la pizarra por WhatsApp. Te armo los productos, categorías y precios para que solo tengas que conectar tu cobro y empezar a recibir pedidos.</p>
         <div class="agency-steps">
-          <div><span class="n">1</span> Me escribís por WhatsApp.</div>
-          <div><span class="n">2</span> Preparo tu tienda con tus productos y tu marca.</div>
-          <div><span class="n">3</span> Conectás tu pago y empezás a vender.</div>
+          <div><span class="n">1</span> Me escribís por WhatsApp con tu carta actual.</div>
+          <div><span class="n">2</span> Dejo armada tu tienda con tus fotos, platos y precios.</div>
+          <div><span class="n">3</span> Conectás tu cobro y empezás a recibir pedidos.</div>
         </div>
       </div>
       <div class="agency-card">
-        <div class="eyebrow">Escribime directo</div>
+        <div class="eyebrow">Contacto directo</div>
         <div class="wa-num">+54 340 868-1915</div>
         <a class="btn btn-primary wa" href="https://wa.me/543408681915" target="_blank" rel="noopener" style="width:100%;justify-content:center"><span class="sh"></span>
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6 0l.9-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.1.1.6-.1 1.3Z"/></svg>
-          Empezar ahora</a>
+          Escribirme por WhatsApp</a>
         <p class="muted" style="font-size:13px;margin-top:14px;text-align:center">Te respondo el mismo día.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- FINAL -->
-<section class="final">
-  <div class="reveal">
-    <h2>¿Arrancamos?</h2>
-    <p>Escribime y en el día tenés tu tienda andando.</p>
-    <a class="btn wa" href="https://wa.me/543408681915" target="_blank" rel="noopener"><span class="sh"></span>
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6 0l.9-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.1.1.6-.1 1.3Z"/></svg>
-      Hablar por WhatsApp</a>
   </div>
 </section>
 
@@ -657,8 +790,12 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
     <div class="foot-in">
       <div class="foot-brand"><img id="footlogo" alt="Piru">Piru</div>
       <div class="foot-links">
-        <a href="#experiencia">Producto</a><a href="#restaurantes">Restaurantes</a><a href="#precio">Precio</a>
-        <a href="https://wa.me/543408681915" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#experiencia">Cómo funciona</a>
+        <a href="#que-incluye">Qué incluye</a>
+        <a href="#precio">Precios</a>
+        <a href="#contacto">Contacto</a>
+        <a href="/privacidad">Privacidad</a>
+        <a href="/terminos">Términos</a>
       </div>
     </div>
     <div class="foot-fine">Piru — la mejor experiencia de compra para tus clientes, la menor fricción para tu cocina. Hecho en Argentina. © 2026</div>
@@ -669,19 +806,27 @@ footer{background:#ff7200;color:#fff;padding:60px 24px 46px}
 window.PIRU = {"logo": "/piru/logo.jpg", "foxWhite": "/piru/fox-white.png", "menu_light": "/piru/menu-light.jpg", "menu_dark": "/piru/menu-dark.jpg", "options_light": "/piru/options-light.jpg", "options_dark": "/piru/options-dark.jpg", "datos_light": "/piru/datos-light.jpg", "datos_dark": "/piru/datos-dark.jpg", "amigos_light": "/piru/amigos-light.jpg", "amigos_dark": "/piru/amigos-dark.jpg", "transfer_light": "/piru/transfer-light.jpg", "transfer_dark": "/piru/transfer-dark.jpg"};
 (function(){
   var P=window.PIRU;
-  document.getElementById('navlogo').src=P.logo;
+  var nl=document.getElementById('navlogo');if(nl)nl.src=P.logo;
   var mnl=document.getElementById('mnavlogo');if(mnl)mnl.src=P.logo;
-  document.getElementById('footlogo').src=P.foxWhite;
-  ['fox1','fox2'].forEach(function(id){var e=document.getElementById(id);if(e)e.src=P.foxWhite});
+  var fl=document.getElementById('footlogo');if(fl)fl.src=P.foxWhite;
+  var f2=document.getElementById('fox2');if(f2)f2.src=P.foxWhite;
   var wav=document.getElementById('wa-av');if(wav)wav.src=P.logo;
   var fll=document.getElementById('flyerlogo');if(fll)fll.src=P.logo;
   var mode='dark';
   function paint(){document.querySelectorAll('img[data-shot]').forEach(function(img){var k=img.getAttribute('data-shot')+'_'+mode;if(P[k])img.src=P[k]})}
   paint();
   var tg=document.getElementById('toggle');
-  tg.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){mode=b.getAttribute('data-mode');tg.querySelectorAll('button').forEach(function(x){x.classList.remove('active','lightmode')});b.classList.add('active');if(mode==='light')b.classList.add('lightmode');paint()})});
+  if(tg){
+    tg.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){mode=b.getAttribute('data-mode');tg.querySelectorAll('button').forEach(function(x){x.classList.remove('active','lightmode')});b.classList.add('active');if(mode==='light')b.classList.add('lightmode');paint()})});
+  }
   var nav=document.getElementById('nav'),prog=document.getElementById('progress'),px=document.getElementById('parallax');
-  function onScroll(){var y=window.scrollY;nav.classList.toggle('scrolled',y>20);var h=document.body.scrollHeight-innerHeight;prog.style.width=(h>0?(y/h*100):0)+'%';if(px&&y<900)px.style.transform='translateY('+(y*-0.05)+'px)'}
+  function onScroll(){
+    var y=window.scrollY;
+    if(nav)nav.classList.toggle('scrolled',y>20);
+    var h=document.body.scrollHeight-innerHeight;
+    if(prog)prog.style.width=(h>0?(y/h*100):0)+'%';
+    if(px&&y<900)px.style.transform='translateY('+(y*-0.05)+'px)';
+  }
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14});
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
@@ -701,14 +846,9 @@ window.PIRU = {"logo": "/piru/logo.jpg", "foxWhite": "/piru/fox-white.png", "men
   if(shareBtn){
     shareBtn.addEventListener('click',function(){
       var original=shareBtn.innerHTML;
-      shareBtn.disabled=true;shareBtn.textContent='Generando flyer…';
+      shareBtn.disabled=true;shareBtn.textContent='Generando resumen…';
       ensureH2C().then(function(h2c){
         var flyer=document.getElementById('flyer');
-        var grid=flyer.querySelector('.flyer-plans');
-        // Clonamos las cartas reales para que el flyer nunca se desincronice del precio en pantalla.
-        grid.innerHTML=document.querySelector('.plans').innerHTML;
-        grid.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in');e.style.opacity='1';e.style.transform='none'});
-        grid.querySelectorAll('.plan > .btn').forEach(function(b){b.remove()}); // el flyer no lleva botones de CTA
         return h2c(flyer,{scale:2.5,backgroundColor:null,useCORS:true,logging:false});
       }).then(function(canvas){
         return new Promise(function(res){canvas.toBlob(function(b){res(b)},'image/png')});
@@ -719,8 +859,9 @@ window.PIRU = {"logo": "/piru/logo.jpg", "foxWhite": "/piru/fox-white.png", "men
         }
         var a=document.createElement('a');var url=URL.createObjectURL(blob);a.href=url;a.download='piru-suscripcion-y-modulos.png';
         document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},4000);
-      }).catch(function(){
-        alert('No se pudo generar el flyer. Probá de nuevo en un momento.');
+      }).catch(function(err){
+        console.error(err);
+        alert('No se pudo generar el resumen. Probá de nuevo en un momento.');
       }).then(function(){
         shareBtn.disabled=false;shareBtn.innerHTML=original;
       });
