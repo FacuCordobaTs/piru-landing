@@ -363,84 +363,48 @@ nav.scrolled {
   .loop-grid { grid-template-columns: 1fr; gap: 16px; }
 }
 
-/* Showcase de la Tienda */
-.showcase-block {
-  margin: 44px 0 54px;
-  text-align: center;
-}
-.toggle-wrapper {
+/* Callout para ir a ver la experiencia en celular */
+.experience-invite {
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: 22px;
+  padding: 30px 28px;
+  margin: 44px 0;
   display: flex;
-  justify-content: center;
-  margin: 20px 0 32px;
-}
-.toggle {
-  display: inline-flex;
-  background: var(--paper-2);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 4px;
-  gap: 2px;
-}
-.toggle button {
-  border: 0;
-  background: transparent;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 13.5px;
-  color: var(--muted);
-  padding: 7px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: .2s var(--ease);
-}
-.toggle button.active {
-  background: var(--ink);
-  color: #fff;
-}
-.toggle button.active.lightmode {
-  background: var(--orange);
-  color: #fff;
-}
-
-.phones-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 30px;
-}
-.phone-mini-wrap {
-  display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
+  box-shadow: var(--shadow-sm);
 }
-.phone-frame {
-  width: 100%;
-  max-width: 230px;
-  border-radius: 32px;
-  background: #0e0c17;
-  padding: 8px;
-  box-shadow: var(--shadow-md);
-  transition: transform .3s var(--ease);
+.experience-invite-body .invite-tag {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--orange-deep);
+  margin-bottom: 6px;
 }
-.phone-frame:hover {
-  transform: translateY(-4px);
+.experience-invite-body h4 {
+  font-size: 21px;
+  margin-bottom: 6px;
 }
-.phone-frame img {
-  display: block;
-  width: 100%;
-  border-radius: 25px;
+.experience-invite-body p {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0;
+  max-width: 44ch;
+  line-height: 1.5;
 }
-.phone-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink-soft);
+.experience-invite .btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
-@media(max-width: 720px) {
-  .phones-preview-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
+@media(max-width: 760px) {
+  .experience-invite {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px 20px;
   }
 }
 
@@ -450,7 +414,7 @@ nav.scrolled {
   border: 1.5px solid var(--line-strong);
   border-radius: 24px;
   padding: 40px 32px;
-  margin: 32px 0 24px;
+  margin: 32px 0 28px;
   box-shadow: var(--shadow-sm);
   text-align: center;
 }
@@ -483,11 +447,104 @@ nav.scrolled {
   line-height: 1.5;
 }
 
+/* Módulo Destacado de Crecimiento y Recompra (PROMINENTE) */
+.featured-addon-box {
+  background: #fff;
+  border: 2px solid var(--orange);
+  border-radius: 24px;
+  padding: 34px 30px;
+  margin: 32px 0 18px;
+  box-shadow: 0 18px 44px -16px rgba(255, 138, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+.featured-addon-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.featured-addon-head .addon-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--orange-light);
+  color: var(--orange-deep);
+  margin-bottom: 8px;
+}
+.featured-addon-head h3 {
+  font-size: clamp(22px, 2.8vw, 28px);
+  margin: 0;
+}
+.featured-addon-price {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--orange-deep);
+  line-height: 1;
+  text-align: right;
+}
+.featured-addon-price small {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+.featured-addon-desc {
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  line-height: 1.55;
+}
+.featured-addon-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.featured-addon-list li {
+  display: flex;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.featured-addon-list .ck {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--orange-light);
+  color: var(--orange-deep);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.featured-addon-note {
+  font-size: 13.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin: 0;
+}
+
+/* Módulo secundario Avisos WhatsApp */
 .addon-pill {
   background: var(--paper-2);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 18px 22px;
+  border-radius: 18px;
+  padding: 20px 24px;
   margin: 14px 0;
   display: flex;
   justify-content: space-between;
@@ -495,11 +552,11 @@ nav.scrolled {
   gap: 16px;
   text-align: left;
 }
-.addon-pill h5 { font-size: 16.5px; margin: 0 0 3px; }
-.addon-pill p { font-size: 13.5px; margin: 0; color: var(--muted); line-height: 1.4; }
+.addon-pill h5 { font-size: 17px; margin: 0 0 4px; }
+.addon-pill p { font-size: 14px; margin: 0; color: var(--muted); line-height: 1.45; }
 .addon-pill .price-tag {
   font-family: 'Fraunces', serif;
-  font-size: 18px;
+  font-size: 20px;
   color: var(--orange-deep);
   flex: 0 0 auto;
   text-align: right;
@@ -512,6 +569,8 @@ nav.scrolled {
 }
 
 @media(max-width: 600px) {
+  .featured-addon-head { flex-direction: column; align-items: flex-start; }
+  .featured-addon-price { text-align: left; }
   .addon-pill { flex-direction: column; align-items: flex-start; }
   .addon-pill .price-tag { text-align: left; }
 }
@@ -624,14 +683,11 @@ footer {
     <div class="nav-links">
       <a href="#como-funciona">Cómo funciona</a>
       <a href="#pedido-en-grupo">Pedido en grupo</a>
-      <a href="#demo">Ver tienda</a>
+      <a href="/experiencia">Experiencia en celular</a>
       <a href="#precio">Precios</a>
       <a href="#transicion">Transición</a>
     </div>
     <div class="nav-cta">
-      <a class="btn btn-ghost btn-sm" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
-        Ver demo
-      </a>
       <a class="btn btn-primary btn-sm" href="https://wa.me/543408681915" target="_blank" rel="noopener">
         <span class="sh"></span>Hablar por WhatsApp
       </a>
@@ -649,8 +705,8 @@ footer {
     <a class="mnav-wa" href="https://wa.me/543408681915" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6 0l.9-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.1.1.6-.1 1.3Z"/></svg>
     </a>
-    <a class="btn btn-primary btn-sm" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
-      <span class="sh"></span>Ver demo
+    <a class="btn btn-primary btn-sm" href="https://wa.me/543408681915" target="_blank" rel="noopener">
+      <span class="sh"></span>Hablar por WhatsApp
     </a>
   </div>
 </div>
@@ -665,9 +721,6 @@ footer {
     Por qué poner un menú en internet no alcanza y cómo un sistema ordenado transforma cada pedido en un cliente recurrente para tu local.
   </p>
   <div class="cta-group">
-    <a class="btn btn-primary" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
-      <span class="sh"></span>Ver demo de la tienda
-    </a>
     <a class="btn btn-ghost" href="#como-funciona">
       Leer cómo funciona ↓
     </a>
@@ -801,45 +854,19 @@ footer {
       </div>
     </section>
 
-    <!-- SHOWCASE Y DEMO DE LA TIENDA -->
-    <section id="demo" class="showcase-block">
-      <h2 class="sec-heading" style="margin-top: 20px;">La experiencia en el celular</h2>
-      <p style="font-size: 16.5px; color: var(--muted); max-width: 44ch; margin: 0 auto 16px;">
-        Así ven y compran tus clientes: rápido, claro y con fotos protagonistas.
-      </p>
-
-      <div class="toggle-wrapper">
-        <div class="toggle" id="toggle" role="group" aria-label="Modo de color">
-          <button data-mode="dark" class="active">🌙 Modo Oscuro</button>
-          <button data-mode="light">☀️ Modo Claro</button>
-        </div>
+    <!-- INVITACIÓN EDITORIAL A VER LA EXPERIENCIA EN CELULAR EN PANTALLA APARTE -->
+    <div class="experience-invite">
+      <div class="experience-invite-body">
+        <div class="invite-tag">Recorrido visual</div>
+        <h4>¿Querés ver cómo lo vive el comensal en su teléfono?</h4>
+        <p>
+          Mirá las capturas de la tienda, probá el selector de modo claro/oscuro y navegá una demo interactiva real en una pantalla dedicada.
+        </p>
       </div>
-
-      <div class="phones-preview-grid">
-        <div class="phone-mini-wrap">
-          <div class="phone-frame">
-            <img data-shot="menu" alt="Menú en celular">
-          </div>
-          <div class="phone-label">Menú y categorías</div>
-        </div>
-        <div class="phone-mini-wrap">
-          <div class="phone-frame">
-            <img data-shot="options" alt="Opciones del plato">
-          </div>
-          <div class="phone-label">Variantes y agregados</div>
-        </div>
-        <div class="phone-mini-wrap">
-          <div class="phone-frame">
-            <img data-shot="transfer" alt="Cobro directo">
-          </div>
-          <div class="phone-label">Cobro acreditado</div>
-        </div>
-      </div>
-
-      <a class="btn btn-primary" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
-        <span class="sh"></span>Probar tienda de demo interactiva
+      <a class="btn btn-primary btn-sm" href="/experiencia">
+        <span class="sh"></span>Ver experiencia en celular →
       </a>
-    </section>
+    </div>
 
     <!-- PRECIOS Y PLAN -->
     <section id="precio">
@@ -851,6 +878,7 @@ footer {
         </p>
       </div>
 
+      <!-- Tarjeta Base -->
       <div class="pricing-card">
         <div class="p-tag">Suscripción Base</div>
         <div class="p-price">$40.000 <small>/mes</small></div>
@@ -864,18 +892,44 @@ footer {
 
       <div class="prose" style="margin-top: 24px;">
         <p>
-          Y cuando tu local ya esté cómodo y adaptado al sistema, podés activar los módulos adicionales a tu ritmo:
+          Y cuando tu local ya esté cómodo y adaptado al sistema, podés activar los módulos de crecimiento a tu ritmo:
         </p>
       </div>
 
-      <div class="addon-pill">
-        <div>
-          <h5>Módulo de Crecimiento y Recompra</h5>
-          <p>Micro-campañas automáticas de segundo pedido, recuperación de clientes dormidos y links de campañas con medición.</p>
+      <!-- MÓDULO DESTACADO: CRECIMIENTO Y RECOMPRA (PROMINENTE) -->
+      <div class="featured-addon-box">
+        <div class="featured-addon-head">
+          <div>
+            <span class="addon-badge">Módulo Destacado · Recompra y Clientes</span>
+            <h3>Motor de Crecimiento y Recompra</h3>
+          </div>
+          <div class="featured-addon-price">
+            +$30.000 <small>/mes</small>
+          </div>
         </div>
-        <div class="price-tag">+$30.000 <small>/mes</small></div>
+        <p class="featured-addon-desc">
+          El sistema de inteligencia que convierte comensales esporádicos en clientes habituales y mide exactamente cuánto vende cada acción en tus redes.
+        </p>
+        <ul class="featured-addon-list">
+          <li>
+            <span class="ck">✓</span>
+            <div><b>Links de campañas con medición:</b> Creá enlaces especiales para tus historias de Instagram, reels, TikTok o QR en mesas, y sabé con precisión cuánta plata y ventas reales generó cada canal.</div>
+          </li>
+          <li>
+            <span class="ck">✓</span>
+            <div><b>Micro-campañas automáticas de recompra:</b> Disparo inteligente de <i>Segundo Pedido</i> a nuevos comensales y reactivación oportuna de <i>Clientes Dormidos</i> por WhatsApp con su plato preferido.</div>
+          </li>
+          <li>
+            <span class="ck">✓</span>
+            <div><b>Cadencia individual y cuidado del margen:</b> El sistema calcula cuándo le toca volver a pedir a cada cliente según su ritmo real, evitando el spam masivo y cuidando tu rentabilidad.</div>
+          </li>
+        </ul>
+        <p class="featured-addon-note">
+          💡 Podés sumarlo cuando tu local ya esté operando cómodamente con la tienda base.
+        </p>
       </div>
 
+      <!-- MÓDULO SECUNDARIO: AVISOS WHATSAPP -->
       <div class="addon-pill">
         <div>
           <h5>Avisos automáticos por WhatsApp</h5>
@@ -945,7 +999,7 @@ footer {
       <div class="foot-links">
         <a href="#como-funciona">Cómo funciona</a>
         <a href="#pedido-en-grupo">Pedido en grupo</a>
-        <a href="#demo">Demo</a>
+        <a href="/experiencia">Experiencia en celular</a>
         <a href="#precio">Precios</a>
         <a href="#transicion">Transición</a>
         <a href="/privacidad">Privacidad</a>
@@ -962,13 +1016,7 @@ footer {
 <script is:inline>
 window.PIRU = {
   "logo": "/piru/logo.jpg",
-  "foxWhite": "/piru/fox-white.png",
-  "menu_light": "/piru/menu-light.jpg",
-  "menu_dark": "/piru/menu-dark.jpg",
-  "options_light": "/piru/options-light.jpg",
-  "options_dark": "/piru/options-dark.jpg",
-  "transfer_light": "/piru/transfer-light.jpg",
-  "transfer_dark": "/piru/transfer-dark.jpg"
+  "foxWhite": "/piru/fox-white.png"
 };
 
 (function(){
@@ -976,31 +1024,6 @@ window.PIRU = {
   var nl = document.getElementById('navlogo'); if(nl) nl.src = P.logo;
   var mnl = document.getElementById('mnavlogo'); if(mnl) mnl.src = P.logo;
   var fl = document.getElementById('footlogo'); if(fl) fl.src = P.foxWhite;
-
-  // Toggle modo claro / oscuro en capturas
-  var mode = 'dark';
-  function paintShots(){
-    document.querySelectorAll('img[data-shot]').forEach(function(img){
-      var k = img.getAttribute('data-shot') + '_' + mode;
-      if(P[k]) img.src = P[k];
-    });
-  }
-  paintShots();
-
-  var tg = document.getElementById('toggle');
-  if(tg){
-    tg.querySelectorAll('button').forEach(function(b){
-      b.addEventListener('click', function(){
-        mode = b.getAttribute('data-mode');
-        tg.querySelectorAll('button').forEach(function(x){
-          x.classList.remove('active', 'lightmode');
-        });
-        b.classList.add('active');
-        if(mode === 'light') b.classList.add('lightmode');
-        paintShots();
-      });
-    });
-  }
 
   // Barra de lectura y nav con fondo blur
   var nav = document.getElementById('nav');

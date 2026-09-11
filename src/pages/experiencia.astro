@@ -1,13 +1,13 @@
 ---
-// Piru — La experiencia en el celular (Showcase interactivo y demo).
+// Piru — La experiencia en el celular. Pantalla dedicada al storefront móvil.
 ---
 <!doctype html>
 <html lang="es-AR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>La Experiencia en el Celular — Piru</title>
-<meta name="description" content="Descubrí cómo tus clientes eligen platos, personalizan ingredientes y pagan en segundos desde el navegador de su teléfono, sin instalar ninguna app.">
+<title>La experiencia en el celular — Piru</title>
+<meta name="description" content="Mirá cómo tus comensales eligen, personalizan y pagan en menos de 90 segundos desde su propio navegador, sin descargar aplicaciones.">
 <link rel="icon" type="image/jpeg" href="/piru/logo.jpg">
 <link rel="apple-touch-icon" href="/piru/logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,17 +18,21 @@
 :root {
   --ink: #17130f;
   --ink-soft: #3d2f23;
+  --ink-subtle: #675848;
   --paper: #fbf4ea;
   --paper-2: #f4e9d9;
+  --paper-card: #ffffff;
   --orange: #ff8a00;
   --orange-deep: #e67500;
+  --orange-light: #fff2e0;
+  --green: #10b981;
   --line: #e7dac7;
   --line-strong: #d2c0a8;
   --muted: #8a7866;
   --maxw-wide: 1060px;
   --ease: cubic-bezier(.22, .61, .36, 1);
   --shadow-sm: 0 4px 14px -3px rgba(40, 20, 0, 0.08);
-  --shadow-md: 0 20px 48px -14px rgba(40, 20, 0, 0.25);
+  --shadow-md: 0 16px 36px -12px rgba(40, 20, 0, 0.12);
 }
 
 * { box-sizing: border-box; }
@@ -39,34 +43,35 @@ body {
   color: var(--ink);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
-  line-height: 1.65;
+  line-height: 1.7;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Fraunces', Georgia, serif;
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.015em;
   color: var(--ink);
   margin: 0;
 }
+
 p { margin: 0 0 1.4em; }
 p:last-child { margin-bottom: 0; }
 a { color: inherit; text-decoration: none; }
 
 .wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 24px; }
 
-/* Botones con micro-interacciones */
+/* Botones con micro-animaciones */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6em;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 15.5px;
   border-radius: 999px;
-  padding: 12px 24px;
+  padding: 13px 26px;
   cursor: pointer;
   border: 0;
   font-family: inherit;
@@ -75,7 +80,9 @@ a { color: inherit; text-decoration: none; }
   transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .25s, color .25s, border-color .25s;
   user-select: none;
 }
-.btn:active { transform: scale(0.97) translateY(1px); }
+.btn:active {
+  transform: scale(0.97) translateY(1px);
+}
 .btn-primary {
   background: var(--orange);
   color: #fff;
@@ -96,7 +103,10 @@ a { color: inherit; text-decoration: none; }
   background: rgba(0, 0, 0, 0.03);
   transform: translateY(-2px);
 }
-.btn-sm { padding: 8px 18px; font-size: 14px; }
+.btn-sm {
+  padding: 8px 18px;
+  font-size: 14px;
+}
 
 .btn .sh {
   position: absolute;
@@ -131,7 +141,8 @@ nav {
   gap: 10px;
   font-family: 'Fraunces', serif;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 23px;
+  letter-spacing: -0.02em;
 }
 .brand img {
   width: 32px;
@@ -150,45 +161,61 @@ nav {
   color: var(--ink-soft);
   transition: color .2s;
 }
-.nav-links a:hover { color: var(--orange-deep); }
+.nav-links a:hover {
+  color: var(--orange-deep);
+}
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
 @media(max-width: 768px) {
   .nav-links { display: none; }
 }
 
-/* Hero de la página */
-.exp-hero {
-  padding: 130px 0 30px;
+/* Header */
+.exp-header {
+  padding: 130px 0 36px;
   text-align: center;
 }
-.back-link {
+.exp-header .tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
+  gap: 8px;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  padding: 5px 15px;
+  border-radius: 999px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--orange-deep);
+  color: var(--muted);
   margin-bottom: 18px;
-  transition: transform .2s;
 }
-.back-link:hover { transform: translateX(-3px); }
-.exp-hero h1 {
-  font-size: clamp(34px, 5vw, 56px);
+.exp-header .tag span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.exp-header h1 {
+  font-size: clamp(36px, 5vw, 56px);
   max-width: 22ch;
-  margin: 0 auto 18px;
+  margin: 0 auto 16px;
 }
-.exp-hero p {
-  font-size: clamp(17px, 2vw, 20px);
+.exp-header .lead {
+  font-size: clamp(17px, 1.9vw, 20px);
   color: var(--ink-soft);
-  max-width: 38ch;
+  max-width: 44ch;
   margin: 0 auto 28px;
+  line-height: 1.55;
 }
 
-/* Selector de Modo */
-.toggle-wrap {
+/* Selector de modo claro / oscuro */
+.toggle-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 48px;
+  margin: 10px 0 48px;
 }
 .toggle {
   display: inline-flex;
@@ -205,7 +232,7 @@ nav {
   font-weight: 600;
   font-size: 14px;
   color: var(--muted);
-  padding: 8px 20px;
+  padding: 8px 22px;
   border-radius: 999px;
   cursor: pointer;
   transition: .2s var(--ease);
@@ -219,12 +246,12 @@ nav {
   color: #fff;
 }
 
-/* Fila interactiva de pasos */
+/* Showcase vertical de los 4 pasos */
 .flow-container {
   display: flex;
   flex-direction: column;
-  gap: 70px;
-  margin: 20px 0 80px;
+  gap: 72px;
+  margin-bottom: 80px;
 }
 .flow-row {
   display: grid;
@@ -232,77 +259,82 @@ nav {
   gap: 50px;
   align-items: center;
 }
-.flow-row.rev .phone-col { order: 2; }
-.phone-col {
+.flow-row.rev .phone-side { order: 2; }
+.phone-side {
   display: flex;
   justify-content: center;
 }
-.phone-frame {
-  width: 280px;
+.phone-mockup {
+  width: 270px;
   border-radius: 40px;
   background: #0e0c17;
   padding: 10px;
-  box-shadow: var(--shadow-md);
-  transition: transform .35s var(--ease);
+  box-shadow: 0 30px 64px -20px rgba(40, 20, 0, 0.4), 0 0 0 1px rgba(0,0,0,0.08);
+  transition: transform .4s var(--ease);
 }
-.phone-frame:hover {
-  transform: translateY(-5px) rotate(-1deg);
+.phone-mockup:hover {
+  transform: translateY(-4px) rotate(-1deg);
 }
-.phone-frame img {
+.phone-mockup img {
   display: block;
   width: 100%;
   border-radius: 31px;
 }
-.flow-text {
-  max-width: 36ch;
+.text-side {
+  max-width: 38ch;
 }
-.flow-text .step-number {
+.step-num {
   font-family: 'Fraunces', serif;
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 600;
   color: var(--orange);
   line-height: 1;
 }
-.flow-text h3 {
-  font-size: clamp(23px, 2.8vw, 30px);
+.text-side h2 {
+  font-size: clamp(24px, 3.2vw, 32px);
   margin: 8px 0 12px;
 }
-.flow-text p {
+.text-side p {
   font-size: 16.5px;
   color: var(--ink-soft);
   line-height: 1.6;
 }
 
-@media(max-width: 800px) {
-  .flow-row { grid-template-columns: 1fr; gap: 26px; text-align: center; }
-  .flow-row.rev .phone-col { order: 0; }
-  .flow-text { margin: 0 auto; }
+@media(max-width: 820px) {
+  .flow-row {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+  }
+  .flow-row.rev .phone-side { order: 0; }
+  .text-side { margin: 0 auto; }
 }
 
-/* Banner de llamado a la acción al final */
-.demo-cta-box {
+/* Callout para probar la demo */
+.demo-callout {
   background: #fff;
-  border: 1.5px solid var(--line-strong);
+  border: 1.5px solid var(--orange);
   border-radius: 26px;
-  padding: 44px 32px;
+  padding: 44px 34px;
   text-align: center;
+  box-shadow: 0 20px 50px -20px rgba(255, 138, 0, 0.35);
   margin-bottom: 70px;
-  box-shadow: var(--shadow-sm);
 }
-.demo-cta-box h3 {
-  font-size: clamp(26px, 3.4vw, 36px);
+.demo-callout h3 {
+  font-size: clamp(24px, 3.2vw, 32px);
   margin-bottom: 12px;
 }
-.demo-cta-box p {
-  font-size: 17px;
+.demo-callout p {
+  font-size: 16px;
   color: var(--ink-soft);
-  max-width: 42ch;
-  margin: 0 auto 28px;
+  max-width: 48ch;
+  margin: 0 auto 24px;
 }
-.demo-cta-actions {
+.demo-callout .btn-group {
   display: flex;
   gap: 14px;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -310,7 +342,7 @@ nav {
 footer {
   background: #ff7200;
   color: #fff;
-  padding: 44px 24px;
+  padding: 48px 24px 40px;
 }
 .foot-in {
   display: flex;
@@ -329,13 +361,25 @@ footer {
   font-size: 21px;
 }
 .foot-brand img { width: 32px; height: 32px; }
-.foot-links { display: flex; gap: 20px; font-size: 14px; }
+.foot-links {
+  display: flex;
+  gap: 22px;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
 .foot-links a { color: rgba(255, 255, 255, 0.92); }
+.foot-links a:hover { color: #0a0a0a; }
+.foot-fine {
+  margin-top: 22px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  padding-top: 16px;
+}
 </style>
 </head>
 
 <body>
-
 <!-- NAVIGATION -->
 <nav>
   <div class="wrap nav-in">
@@ -344,13 +388,15 @@ footer {
       Piru
     </a>
     <div class="nav-links">
-      <a href="/">← Volver al inicio</a>
       <a href="/#como-funciona">Cómo funciona</a>
       <a href="/#pedido-en-grupo">Pedido en grupo</a>
       <a href="/#precio">Precios</a>
       <a href="/#transicion">Transición</a>
     </div>
     <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="/">
+        ← Volver al inicio
+      </a>
       <a class="btn btn-primary btn-sm" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
         <span class="sh"></span>Probar demo en vivo
       </a>
@@ -358,120 +404,100 @@ footer {
   </div>
 </nav>
 
-<!-- HERO -->
-<header class="exp-hero wrap">
-  <a class="back-link" href="/">← Volver al artículo principal</a>
-  <h1>La experiencia en el celular</h1>
-  <p>
-    Diseñada para que comprar comida sea intuitivo, visual y veloz. Tus clientes entran desde su navegador, sin instalar nada.
+<header class="exp-header wrap">
+  <div class="tag"><span></span> Navegación móvil nativa</div>
+  <h1>La experiencia de tus clientes en el celular</h1>
+  <p class="lead">
+    Simple, veloz y sin trabas. Tus clientes eligen, personalizan su plato y pagan en segundos desde el navegador de su teléfono, sin instalar aplicaciones ni recordar contraseñas.
   </p>
 
-  <div class="toggle-wrap">
-    <div class="toggle" id="toggle" role="group" aria-label="Modo de color">
+  <div class="toggle-wrapper">
+    <div class="toggle" id="toggle" role="group" aria-label="Modo de visualización">
       <button data-mode="dark" class="active">🌙 Modo Oscuro</button>
       <button data-mode="light">☀️ Modo Claro</button>
     </div>
   </div>
 </header>
 
-<!-- SHOWCASE VERTICAL DETALLADO -->
 <main class="wrap">
   <div class="flow-container">
-
-    <!-- Paso 1: Menú -->
+    <!-- Paso 1 -->
     <div class="flow-row">
-      <div class="phone-col">
-        <div class="phone-frame">
-          <img data-shot="menu" alt="Menú en celular">
+      <div class="phone-side">
+        <div class="phone-mockup">
+          <img data-shot="menu" alt="Menú y categorías en celular">
         </div>
       </div>
-      <div class="flow-text">
-        <div class="step-number">01</div>
-        <h3>Elegir del menú sin fricción</h3>
+      <div class="text-side">
+        <div class="step-num">01</div>
+        <h2>Elegir del menú sin trabas</h2>
         <p>
-          Tu carta digital con fotos en alta definición, categorías ordenadas y buscador instantáneo. Adaptada con tu logo y los colores propios de tu marca.
+          Fotos grandes, categorías claras, buscador veloz y diseño limpio con tu logo y tus propios colores. El comensal navega con fluidez natural sin publicidad molesta ni elementos que confundan.
         </p>
       </div>
     </div>
 
-    <!-- Paso 2: Opciones del plato -->
+    <!-- Paso 2 -->
     <div class="flow-row rev">
-      <div class="phone-col">
-        <div class="phone-frame">
-          <img data-shot="options" alt="Opciones del plato">
+      <div class="phone-side">
+        <div class="phone-mockup">
+          <img data-shot="options" alt="Armar el plato a gusto">
         </div>
       </div>
-      <div class="flow-text">
-        <div class="step-number">02</div>
-        <h3>Personalizar cada plato</h3>
+      <div class="text-side">
+        <div class="step-num">02</div>
+        <h2>Armar el plato a gusto</h2>
         <p>
-          Variantes de tamaño, puntos de cocción, agregados con costo extra o ingredientes para quitar. Exactamente igual que si estuvieran pidiendo en el mostrador de tu local.
+          Variantes de tamaño, puntos de cocción, agregados o notas especiales para la cocina. Igual que si estuviera pidiendo en tu mostrador o mesa.
         </p>
       </div>
     </div>
 
-    <!-- Paso 3: Datos de entrega -->
+    <!-- Paso 3 -->
     <div class="flow-row">
-      <div class="phone-col">
-        <div class="phone-frame">
-          <img data-shot="datos" alt="Datos de entrega">
+      <div class="phone-side">
+        <div class="phone-mockup">
+          <img data-shot="datos" alt="Checkout rápido en tres pasos">
         </div>
       </div>
-      <div class="flow-text">
-        <div class="step-number">03</div>
-        <h3>Datos mínimos en segundos</h3>
+      <div class="text-side">
+        <div class="step-num">03</div>
+        <h2>Datos mínimos en segundos</h2>
         <p>
-          Solo tres datos indispensables: nombre, WhatsApp y dirección con cálculo automático de costo de envío en mapa. Sin contraseñas obligatorias ni registros previos.
+          Nombre, teléfono de WhatsApp y dirección con validación automática de radio de entrega sobre el mapa. Sin exigir crear contraseñas ni verificar emails antes de comprar.
         </p>
       </div>
     </div>
 
-    <!-- Paso 4: Pedido en grupo (Sala) -->
+    <!-- Paso 4 -->
     <div class="flow-row rev">
-      <div class="phone-col">
-        <div class="phone-frame">
-          <img data-shot="amigos" alt="Pedido compartido en grupo">
+      <div class="phone-side">
+        <div class="phone-mockup">
+          <img data-shot="transfer" alt="Cobro directo y alias único">
         </div>
       </div>
-      <div class="flow-text">
-        <div class="step-number">04</div>
-        <h3>Pedido en Grupo (Sala compartida)</h3>
+      <div class="text-side">
+        <div class="step-num">04</div>
+        <h2>Cobro acreditado al instante</h2>
         <p>
-          Para juntadas de amigos o pedidos en la oficina: el anfitrión comparte el enlace, cada persona entra desde su propio teléfono, ingresa su WhatsApp y suma su comida en tiempo real. A la cocina le llega un solo pedido unificado.
+          Tus comensales eligen cómo pagar: Mercado Pago (tarjetas o dinero en cuenta) o transferencias bancarias directas con un alias único que se concilia solo en tu panel, sin pedir comprobantes por WhatsApp.
         </p>
       </div>
     </div>
-
-    <!-- Paso 5: Cobro directo y alias -->
-    <div class="flow-row">
-      <div class="phone-col">
-        <div class="phone-frame">
-          <img data-shot="transfer" alt="Cobro directo y transferencias">
-        </div>
-      </div>
-      <div class="flow-text">
-        <div class="step-number">05</div>
-        <h3>Cobro acreditado al instante</h3>
-        <p>
-          Mercado Pago (tarjetas y dinero en cuenta) o transferencias bancarias directas con alias único conciliado automáticamente por Talo, sin retenciones de Piru.
-        </p>
-      </div>
-    </div>
-
   </div>
 
-  <!-- BANNER CTA -->
-  <div class="demo-cta-box">
-    <h3>Probalo vos mismo en tu teléfono</h3>
+  <!-- Callout interactivo para probar la demo -->
+  <div class="demo-callout">
+    <h3>¿Querés probar la experiencia vos mismo?</h3>
     <p>
-      Navegá una tienda de ejemplo real con productos, agregados y carrito funcionando para ver la velocidad de compra.
+      Entrá a la tienda de ejemplo de Piru desde tu celular o computadora. Podés armar un pedido de prueba y ver cómo funciona el flujo completo.
     </p>
-    <div class="demo-cta-actions">
+    <div class="btn-group">
       <a class="btn btn-primary" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
-        <span class="sh"></span>Abrir tienda de demo interactiva
+        <span class="sh"></span>Abrir tienda de demo interactiva ↗
       </a>
-      <a class="btn btn-ghost" href="/#transicion">
-        Ver cómo hacer la transición →
+      <a class="btn btn-ghost" href="/#precio">
+        Ver precios y suscripción
       </a>
     </div>
   </div>
@@ -479,16 +505,24 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="wrap foot-in">
-    <div class="foot-brand">
-      <img id="footlogo" alt="Piru">
-      Piru
+  <div class="wrap">
+    <div class="foot-in">
+      <div class="foot-brand">
+        <img id="footlogo" alt="Piru">
+        Piru
+      </div>
+      <div class="foot-links">
+        <a href="/">Inicio</a>
+        <a href="/#como-funciona">Cómo funciona</a>
+        <a href="/#pedido-en-grupo">Pedido en grupo</a>
+        <a href="/#precio">Precios</a>
+        <a href="/#transicion">Transición</a>
+        <a href="/privacidad">Privacidad</a>
+        <a href="/terminos">Términos</a>
+      </div>
     </div>
-    <div class="foot-links">
-      <a href="/">Inicio</a>
-      <a href="/#como-funciona">Cómo funciona</a>
-      <a href="/#precio">Precios</a>
-      <a href="/#transicion">Transición</a>
+    <div class="foot-fine">
+      Piru — La tienda web que te consigue nuevos clientes, los fideliza y los recupera. Hecho en Argentina. © 2026
     </div>
   </div>
 </footer>
@@ -503,8 +537,6 @@ window.PIRU = {
   "options_dark": "/piru/options-dark.jpg",
   "datos_light": "/piru/datos-light.jpg",
   "datos_dark": "/piru/datos-dark.jpg",
-  "amigos_light": "/piru/amigos-light.jpg",
-  "amigos_dark": "/piru/amigos-dark.jpg",
   "transfer_light": "/piru/transfer-light.jpg",
   "transfer_dark": "/piru/transfer-dark.jpg"
 };
