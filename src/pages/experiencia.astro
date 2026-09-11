@@ -1,0 +1,543 @@
+---
+// Piru — La experiencia en el celular (Showcase interactivo y demo).
+---
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Experiencia en el Celular — Piru</title>
+<meta name="description" content="Descubrí cómo tus clientes eligen platos, personalizan ingredientes y pagan en segundos desde el navegador de su teléfono, sin instalar ninguna app.">
+<link rel="icon" type="image/jpeg" href="/piru/logo.jpg">
+<link rel="apple-touch-icon" href="/piru/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --ink: #17130f;
+  --ink-soft: #3d2f23;
+  --paper: #fbf4ea;
+  --paper-2: #f4e9d9;
+  --orange: #ff8a00;
+  --orange-deep: #e67500;
+  --line: #e7dac7;
+  --line-strong: #d2c0a8;
+  --muted: #8a7866;
+  --maxw-wide: 1060px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --shadow-sm: 0 4px 14px -3px rgba(40, 20, 0, 0.08);
+  --shadow-md: 0 20px 48px -14px rgba(40, 20, 0, 0.25);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0;
+}
+p { margin: 0 0 1.4em; }
+p:last-child { margin-bottom: 0; }
+a { color: inherit; text-decoration: none; }
+
+.wrap { max-width: var(--maxw-wide); margin: 0 auto; padding: 0 24px; }
+
+/* Botones con micro-interacciones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: 999px;
+  padding: 12px 24px;
+  cursor: pointer;
+  border: 0;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+  transition: transform .2s var(--ease), box-shadow .25s var(--ease), background .25s, color .25s, border-color .25s;
+  user-select: none;
+}
+.btn:active { transform: scale(0.97) translateY(1px); }
+.btn-primary {
+  background: var(--orange);
+  color: #fff;
+  box-shadow: 0 10px 28px -10px rgba(255, 138, 0, 0.7);
+}
+.btn-primary:hover {
+  background: var(--orange-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -10px rgba(255, 138, 0, 0.85);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--line-strong);
+}
+.btn-ghost:hover {
+  border-color: var(--ink);
+  background: rgba(0, 0, 0, 0.03);
+  transform: translateY(-2px);
+}
+.btn-sm { padding: 8px 18px; font-size: 14px; }
+
+.btn .sh {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+.btn:hover .sh {
+  transform: translateX(120%);
+  transition: transform 0.75s var(--ease);
+}
+
+/* Nav */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  backdrop-filter: blur(14px);
+  background: rgba(251, 244, 234, 0.88);
+  border-bottom: 1px solid var(--line);
+}
+.nav-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 22px;
+}
+.brand img {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: block;
+}
+.nav-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.nav-links a {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--orange-deep); }
+
+@media(max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* Hero de la página */
+.exp-hero {
+  padding: 130px 0 30px;
+  text-align: center;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--orange-deep);
+  margin-bottom: 18px;
+  transition: transform .2s;
+}
+.back-link:hover { transform: translateX(-3px); }
+.exp-hero h1 {
+  font-size: clamp(34px, 5vw, 56px);
+  max-width: 22ch;
+  margin: 0 auto 18px;
+}
+.exp-hero p {
+  font-size: clamp(17px, 2vw, 20px);
+  color: var(--ink-soft);
+  max-width: 38ch;
+  margin: 0 auto 28px;
+}
+
+/* Selector de Modo */
+.toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 48px;
+}
+.toggle {
+  display: inline-flex;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 2px;
+}
+.toggle button {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--muted);
+  padding: 8px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: .2s var(--ease);
+}
+.toggle button.active {
+  background: var(--ink);
+  color: #fff;
+}
+.toggle button.active.lightmode {
+  background: var(--orange);
+  color: #fff;
+}
+
+/* Fila interactiva de pasos */
+.flow-container {
+  display: flex;
+  flex-direction: column;
+  gap: 70px;
+  margin: 20px 0 80px;
+}
+.flow-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+.flow-row.rev .phone-col { order: 2; }
+.phone-col {
+  display: flex;
+  justify-content: center;
+}
+.phone-frame {
+  width: 280px;
+  border-radius: 40px;
+  background: #0e0c17;
+  padding: 10px;
+  box-shadow: var(--shadow-md);
+  transition: transform .35s var(--ease);
+}
+.phone-frame:hover {
+  transform: translateY(-5px) rotate(-1deg);
+}
+.phone-frame img {
+  display: block;
+  width: 100%;
+  border-radius: 31px;
+}
+.flow-text {
+  max-width: 36ch;
+}
+.flow-text .step-number {
+  font-family: 'Fraunces', serif;
+  font-size: 38px;
+  font-weight: 600;
+  color: var(--orange);
+  line-height: 1;
+}
+.flow-text h3 {
+  font-size: clamp(23px, 2.8vw, 30px);
+  margin: 8px 0 12px;
+}
+.flow-text p {
+  font-size: 16.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+@media(max-width: 800px) {
+  .flow-row { grid-template-columns: 1fr; gap: 26px; text-align: center; }
+  .flow-row.rev .phone-col { order: 0; }
+  .flow-text { margin: 0 auto; }
+}
+
+/* Banner de llamado a la acción al final */
+.demo-cta-box {
+  background: #fff;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 26px;
+  padding: 44px 32px;
+  text-align: center;
+  margin-bottom: 70px;
+  box-shadow: var(--shadow-sm);
+}
+.demo-cta-box h3 {
+  font-size: clamp(26px, 3.4vw, 36px);
+  margin-bottom: 12px;
+}
+.demo-cta-box p {
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 42ch;
+  margin: 0 auto 28px;
+}
+.demo-cta-actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Footer */
+footer {
+  background: #ff7200;
+  color: #fff;
+  padding: 44px 24px;
+}
+.foot-in {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.foot-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 21px;
+}
+.foot-brand img { width: 32px; height: 32px; }
+.foot-links { display: flex; gap: 20px; font-size: 14px; }
+.foot-links a { color: rgba(255, 255, 255, 0.92); }
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <img id="navlogo" alt="Piru">
+      Piru
+    </a>
+    <div class="nav-links">
+      <a href="/">← Volver al inicio</a>
+      <a href="/#como-funciona">Cómo funciona</a>
+      <a href="/#pedido-en-grupo">Pedido en grupo</a>
+      <a href="/#precio">Precios</a>
+      <a href="/#transicion">Transición</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-primary btn-sm" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
+        <span class="sh"></span>Probar demo en vivo
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="exp-hero wrap">
+  <a class="back-link" href="/">← Volver al artículo principal</a>
+  <h1>La experiencia en el celular</h1>
+  <p>
+    Diseñada para que comprar comida sea intuitivo, visual y veloz. Tus clientes entran desde su navegador, sin instalar nada.
+  </p>
+
+  <div class="toggle-wrap">
+    <div class="toggle" id="toggle" role="group" aria-label="Modo de color">
+      <button data-mode="dark" class="active">🌙 Modo Oscuro</button>
+      <button data-mode="light">☀️ Modo Claro</button>
+    </div>
+  </div>
+</header>
+
+<!-- SHOWCASE VERTICAL DETALLADO -->
+<main class="wrap">
+  <div class="flow-container">
+
+    <!-- Paso 1: Menú -->
+    <div class="flow-row">
+      <div class="phone-col">
+        <div class="phone-frame">
+          <img data-shot="menu" alt="Menú en celular">
+        </div>
+      </div>
+      <div class="flow-text">
+        <div class="step-number">01</div>
+        <h3>Elegir del menú sin fricción</h3>
+        <p>
+          Tu carta digital con fotos en alta definición, categorías ordenadas y buscador instantáneo. Adaptada con tu logo y los colores propios de tu marca.
+        </p>
+      </div>
+    </div>
+
+    <!-- Paso 2: Opciones del plato -->
+    <div class="flow-row rev">
+      <div class="phone-col">
+        <div class="phone-frame">
+          <img data-shot="options" alt="Opciones del plato">
+        </div>
+      </div>
+      <div class="flow-text">
+        <div class="step-number">02</div>
+        <h3>Personalizar cada plato</h3>
+        <p>
+          Variantes de tamaño, puntos de cocción, agregados con costo extra o ingredientes para quitar. Exactamente igual que si estuvieran pidiendo en el mostrador de tu local.
+        </p>
+      </div>
+    </div>
+
+    <!-- Paso 3: Datos de entrega -->
+    <div class="flow-row">
+      <div class="phone-col">
+        <div class="phone-frame">
+          <img data-shot="datos" alt="Datos de entrega">
+        </div>
+      </div>
+      <div class="flow-text">
+        <div class="step-number">03</div>
+        <h3>Datos mínimos en segundos</h3>
+        <p>
+          Solo tres datos indispensables: nombre, WhatsApp y dirección con cálculo automático de costo de envío en mapa. Sin contraseñas obligatorias ni registros previos.
+        </p>
+      </div>
+    </div>
+
+    <!-- Paso 4: Pedido en grupo (Sala) -->
+    <div class="flow-row rev">
+      <div class="phone-col">
+        <div class="phone-frame">
+          <img data-shot="amigos" alt="Pedido compartido en grupo">
+        </div>
+      </div>
+      <div class="flow-text">
+        <div class="step-number">04</div>
+        <h3>Pedido en Grupo (Sala compartida)</h3>
+        <p>
+          Para juntadas de amigos o pedidos en la oficina: el anfitrión comparte el enlace, cada persona entra desde su propio teléfono, ingresa su WhatsApp y suma su comida en tiempo real. A la cocina le llega un solo pedido unificado.
+        </p>
+      </div>
+    </div>
+
+    <!-- Paso 5: Cobro directo y alias -->
+    <div class="flow-row">
+      <div class="phone-col">
+        <div class="phone-frame">
+          <img data-shot="transfer" alt="Cobro directo y transferencias">
+        </div>
+      </div>
+      <div class="flow-text">
+        <div class="step-number">05</div>
+        <h3>Cobro acreditado al instante</h3>
+        <p>
+          Mercado Pago (tarjetas y dinero en cuenta) o transferencias bancarias directas con alias único conciliado automáticamente por Talo, sin retenciones de Piru.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BANNER CTA -->
+  <div class="demo-cta-box">
+    <h3>Probalo vos mismo en tu teléfono</h3>
+    <p>
+      Navegá una tienda de ejemplo real con productos, agregados y carrito funcionando para ver la velocidad de compra.
+    </p>
+    <div class="demo-cta-actions">
+      <a class="btn btn-primary" href="https://my.piru.app/prueba" target="_blank" rel="noopener">
+        <span class="sh"></span>Abrir tienda de demo interactiva
+      </a>
+      <a class="btn btn-ghost" href="/#transicion">
+        Ver cómo hacer la transición →
+      </a>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <img id="footlogo" alt="Piru">
+      Piru
+    </div>
+    <div class="foot-links">
+      <a href="/">Inicio</a>
+      <a href="/#como-funciona">Cómo funciona</a>
+      <a href="/#precio">Precios</a>
+      <a href="/#transicion">Transición</a>
+    </div>
+  </div>
+</footer>
+
+<script is:inline>
+window.PIRU = {
+  "logo": "/piru/logo.jpg",
+  "foxWhite": "/piru/fox-white.png",
+  "menu_light": "/piru/menu-light.jpg",
+  "menu_dark": "/piru/menu-dark.jpg",
+  "options_light": "/piru/options-light.jpg",
+  "options_dark": "/piru/options-dark.jpg",
+  "datos_light": "/piru/datos-light.jpg",
+  "datos_dark": "/piru/datos-dark.jpg",
+  "amigos_light": "/piru/amigos-light.jpg",
+  "amigos_dark": "/piru/amigos-dark.jpg",
+  "transfer_light": "/piru/transfer-light.jpg",
+  "transfer_dark": "/piru/transfer-dark.jpg"
+};
+
+(function(){
+  var P = window.PIRU;
+  var nl = document.getElementById('navlogo'); if(nl) nl.src = P.logo;
+  var fl = document.getElementById('footlogo'); if(fl) fl.src = P.foxWhite;
+
+  var mode = 'dark';
+  function paintShots(){
+    document.querySelectorAll('img[data-shot]').forEach(function(img){
+      var k = img.getAttribute('data-shot') + '_' + mode;
+      if(P[k]) img.src = P[k];
+    });
+  }
+  paintShots();
+
+  var tg = document.getElementById('toggle');
+  if(tg){
+    tg.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){
+        mode = b.getAttribute('data-mode');
+        tg.querySelectorAll('button').forEach(function(x){
+          x.classList.remove('active', 'lightmode');
+        });
+        b.classList.add('active');
+        if(mode === 'light') b.classList.add('lightmode');
+        paintShots();
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
