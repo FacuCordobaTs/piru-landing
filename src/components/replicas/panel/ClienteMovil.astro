@@ -1,0 +1,58 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { CLIENTA } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/** Ficha del cliente en el celular (Clientes.tsx, vista angosta). */
+const etiqueta = 'text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70'
+const metricas = [
+  { nombre: 'Pedidos', valor: String(CLIENTA.pedidos) },
+  { nombre: 'Total gastado', valor: pesos(CLIENTA.total) },
+  { nombre: 'Ticket prom.', valor: pesos(CLIENTA.ticket) },
+  { nombre: 'Cadencia', valor: `~${CLIENTA.cadencia} días` },
+]
+---
+
+<div class="relative flex h-full w-full flex-col bg-[#FFFBF0] pt-[54px] text-foreground">
+  <div class="flex h-12 shrink-0 items-center px-3">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="menu" class="size-5" /></span>
+  </div>
+  <div class="space-y-6 px-5">
+    <span class="flex items-center text-xs text-muted-foreground"><Icon name="arrow-left" class="mr-1.5 size-3.5" />Clientes</span>
+    <div class="flex items-center gap-3.5">
+      <span class="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted/80 text-base font-semibold">{CLIENTA.iniciales}</span>
+      <div class="min-w-0">
+        <p class="text-2xl font-bold leading-tight tracking-tight">{CLIENTA.nombre}</p>
+        <div class="mt-1.5 flex items-center gap-2">
+          <span class="inline-flex items-center gap-1 rounded-full border border-amber-500/20 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-600"><Icon name="crown" class="size-3" />VIP</span>
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/60 px-2 py-0.5 text-[11px] font-medium text-muted-foreground"><span class="size-1.5 rounded-full bg-muted-foreground/50" />Activo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-border/30 py-5">
+      {metricas.map((m) => (
+        <div class="flex flex-col"><span class={etiqueta}>{m.nombre}</span><span class="mt-1 text-2xl font-bold tabular-nums tracking-tight">{m.valor}</span></div>
+      ))}
+    </div>
+
+    <div class="space-y-3">
+      <span class={etiqueta}>Lo que más pide</span>
+      <div class="flex flex-wrap gap-2">
+        {CLIENTA.top.map((t) => (
+          <span class="inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/60 px-3.5 py-1.5 text-xs shadow-2xs"><span class="font-semibold tabular-nums text-foreground/70">{t.cantidad}×</span><span class="font-medium">{t.nombre}</span></span>
+        ))}
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <span class={etiqueta}>Contacto y origen</span>
+      <div class="divide-y divide-border/25 border-y border-border/25">
+        <div class="flex items-center justify-between py-2.5 text-xs"><span class="text-muted-foreground">Teléfono</span><span class="font-medium">{CLIENTA.telefono}</span></div>
+        <div class="flex items-center justify-between py-2.5 text-xs"><span class="text-muted-foreground">Último pedido</span><span class="font-medium">{CLIENTA.ultimoPedido}</span></div>
+        <div class="flex items-center justify-between py-2.5 text-xs"><span class="text-muted-foreground">Primera fuente</span><span class="font-medium">{CLIENTA.fuente}</span></div>
+        <div class="flex items-center justify-between py-2.5 text-xs"><span class="flex items-center gap-1 text-amber-600"><Icon name="sparkles" class="size-3" />Puntos</span><span class="font-semibold text-amber-600">{CLIENTA.puntos}</span></div>
+      </div>
+    </div>
+  </div>
+</div>

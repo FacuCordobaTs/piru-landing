@@ -1,0 +1,74 @@
+---
+import Icon from '../ui/Icon.astro'
+import { DIAS_PRUEBA, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
+
+const preguntas = [
+  {
+    p: '¿Tengo que dejar las apps de delivery?',
+    r: 'No. Podés seguir en las apps y sumar tu tienda propia. La idea es que tus clientes de siempre te pidan directo: vos cobrás el 100% y ellos quedan en tu agenda.',
+  },
+  {
+    p: '¿Mis clientes tienen que descargar algo o registrarse?',
+    r: 'No. Tu tienda se abre desde el navegador de cualquier celular o computadora. Para pedir sólo ponen su nombre y su celular.',
+  },
+  {
+    p: '¿Cómo y cuándo cobro?',
+    r: 'Tus clientes pagan con Mercado Pago (con tu propia cuenta), por transferencia o en efectivo. La plata va directo a tu cuenta: Piru no la toca ni se queda con un porcentaje.',
+  },
+  {
+    p: '¿Cómo funciona la transferencia que se confirma sola?',
+    r: 'Con la transferencia automática, cada pedido genera su propio alias. Cuando el cliente transfiere, el pago se confirma solo y el pedido pasa a la cocina. Si preferís, también podés usar tu alias de siempre y confirmar el pago vos desde el panel.',
+  },
+  {
+    p: '¿Necesito una computadora? ¿Y una impresora?',
+    r: 'Piru funciona en la computadora, la tablet o el celular. Para que las comandas salgan solas, instalás la app de Piru para Windows y usás tu impresora térmica de cocina.',
+  },
+  {
+    p: '¿Qué pasa si se corta internet?',
+    r: 'El punto de venta sigue andando: guarda las ventas en la compu y las sube cuando vuelve la conexión.',
+  },
+  {
+    p: '¿Tengo que cargar el menú yo?',
+    r: 'No. Nos mandás tu carta y te armamos la tienda con tus productos, fotos y precios. Después la editás cuando quieras: cambiar un precio, sumar una foto o pausar un producto lleva segundos.',
+  },
+  {
+    p: '¿Sirve si tengo salón, mesas o varias sucursales?',
+    r: 'Sí. Tenés mapa de mesas, app para mozos y comandas por mesa, y cada sucursal con sus pedidos y sus zonas de envío. Todo convive en la misma pantalla que los pedidos de la tienda.',
+  },
+  {
+    p: '¿Hay contrato o permanencia?',
+    r: `No. Pagás ${pesos(PRECIO_BASE)} mes a mes y los adicionales sólo si los activás. Arrancás con ${DIAS_PRUEBA} días de prueba, y si preferís pagar el año por adelantado tenés descuento.`,
+  },
+  {
+    p: '¿Puedo usar mi propio dominio?',
+    r: 'Sí. Tu tienda puede estar en my.piru.app/tulocal o en tu propio dominio, como che-milanesa.com o alfajorconpapas.com.',
+  },
+]
+---
+
+<section id="preguntas" class="py-24 sm:py-32">
+  <div class="contenedor grid gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-20">
+    <div class="revelar lg:sticky lg:top-28 lg:self-start">
+      <p class="antetitulo">Preguntas</p>
+      <h2 class="titulo-lg mt-4">Lo que todos preguntan</h2>
+      <p class="bajada mt-5">¿Te quedó alguna duda? Escribinos y te contesta una persona, no un bot.</p>
+      <a href={enlaceWhatsapp('Hola! Tengo una pregunta sobre Piru.')} target="_blank" rel="noopener" class="boton boton-secundario mt-7"><Icon name="message-circle" class="size-[18px] text-wa-deep" stroke={2.2} />Preguntar por WhatsApp</a>
+    </div>
+
+    <div class="revelar divide-y divide-line border-y border-line">
+      {preguntas.map((q, i) => (
+        <details class="pregunta group" open={i === 0}>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left text-[18px] font-semibold tracking-tight">
+            {q.p}
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-sand text-ink-2 transition-transform duration-300 group-open:rotate-45"><Icon name="plus" class="size-4" /></span>
+          </summary>
+          <p class="-mt-1 max-w-2xl pb-6 pr-12 text-[16.5px] leading-relaxed text-ink-2">{q.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pregunta summary::-webkit-details-marker { display: none; }
+</style>

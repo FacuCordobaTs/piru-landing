@@ -1,0 +1,26 @@
+---
+import { ZORRO_PATH, ZORRO_VIEWBOX } from './zorro'
+
+interface Props {
+  /** Lado del cuadrado, en px. */
+  size?: number
+  /** `marca`: zorro blanco sobre naranja. `blanco`: zorro solo, para fondos naranjas u oscuros. */
+  variante?: 'marca' | 'blanco'
+  class?: string
+}
+
+const { size = 32, variante = 'marca', class: className } = Astro.props
+const radio = Math.round(size * 0.28)
+---
+
+{variante === 'marca' ? (
+  <span
+    class:list={['inline-grid shrink-0 place-items-center bg-brand', className]}
+    style={`width:${size}px;height:${size}px;border-radius:${radio}px`}
+    aria-hidden="true"
+  >
+    <svg viewBox={ZORRO_VIEWBOX} style={`width:${Math.round(size * 0.66)}px`}><path fill="#fff" fill-rule="evenodd" d={ZORRO_PATH} /></svg>
+  </span>
+) : (
+  <svg viewBox={ZORRO_VIEWBOX} class={className} style={`width:${size}px`} aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d={ZORRO_PATH} /></svg>
+)}

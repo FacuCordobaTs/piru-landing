@@ -1,0 +1,29 @@
+---
+import { ICONOS, type NombreIcono } from './lucide'
+
+interface Props {
+  name: NombreIcono
+  class?: string
+  /** Grosor del trazo; Lucide usa 2 por defecto. */
+  stroke?: number
+  label?: string
+}
+
+const { name, class: className = 'size-4', stroke = 2, label } = Astro.props
+const markup = ICONOS[name]
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class:list={['shrink-0', className]}
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  set:html={markup}
+/>

@@ -1,0 +1,70 @@
+---
+import Icon from '../../ui/Icon.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { METRICAS } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/** Estadísticas en el celular (Metricas.tsx es una sola columna centrada). */
+const pildora = 'inline-flex h-8 items-center gap-1 rounded-full bg-white px-3 text-[11px] font-medium'
+---
+
+<div class="relative flex h-full w-full flex-col overflow-hidden bg-[#FFFBF0] pt-[54px] text-foreground">
+  <div class="flex h-12 shrink-0 items-center px-3">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="menu" class="size-5" /></span>
+  </div>
+  <div class="flex items-center justify-center gap-2 pb-1">
+    <span class="inline-flex h-9 items-center gap-2 rounded-full bg-brand px-4 text-sm font-medium text-white shadow-sm shadow-brand/25"><Icon name="trending-up" class="size-4" />Estadísticas</span>
+    <span class="inline-flex h-9 items-center gap-2 rounded-full bg-white px-4 text-sm font-medium text-muted-foreground"><Icon name="truck" class="size-4" />Repartidores</span>
+  </div>
+  <div class="space-y-4 px-4 pt-4">
+    <div class="flex justify-center gap-1.5">
+      <span class={pildora}>Por mes <Icon name="chevron-down" class="size-3 opacity-50" /></span>
+      <span class={pildora}>Septiembre <Icon name="chevron-down" class="size-3 opacity-50" /></span>
+      <span class={pildora}>2026 <Icon name="chevron-down" class="size-3 opacity-50" /></span>
+    </div>
+    <div class="pb-2 pt-1 text-center">
+      <p class="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Facturado · {METRICAS.periodo}</p>
+      <p class="mt-2 text-5xl font-semibold tabular-nums tracking-tight">{pesos(METRICAS.facturado)}</p>
+      <p class="mt-2 text-[13px] text-muted-foreground">{METRICAS.pedidos} pedidos · ticket promedio <span class="font-medium text-foreground">{pesos(METRICAS.ticket)}</span></p>
+    </div>
+    <div class="rounded-2xl bg-white p-4">
+      <p class="mb-3 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Cómo te pagaron</p>
+      <div class="space-y-2.5">
+        {METRICAS.pagos.map((p) => (
+          <div class="flex items-center justify-between gap-3 text-[13px]">
+            <span class="font-medium">{p.nombre}</span>
+            <span class="flex items-baseline gap-2"><span class="font-semibold tabular-nums">{pesos(p.monto)}</span><span class="w-8 text-right text-[11px] tabular-nums text-muted-foreground">{p.pct}%</span></span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="rounded-2xl bg-white p-4">
+      <p class="mb-3 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Origen de las ventas</p>
+      <div class="space-y-3">
+        {METRICAS.origen.map((o) => (
+          <div class="flex items-center gap-3">
+            <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#FFFBF0] text-brand"><Icon name={o.icono as NombreIcono} class="size-4" /></span>
+            <div class="min-w-0 flex-1">
+              <p class="text-[13px] font-medium leading-tight">{o.nombre}</p>
+              <p class="text-[11px] text-muted-foreground">{o.detalle}</p>
+            </div>
+            <span class="text-[13px] font-semibold tabular-nums">{pesos(o.monto)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="rounded-2xl bg-white p-4">
+      <p class="mb-3 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">Los más pedidos</p>
+      <div class="divide-y divide-border">
+        {METRICAS.top.map((t, i) => (
+          <div class="flex items-center gap-2.5 py-2 text-[13px] first:pt-0 last:pb-0">
+            <span class="w-4 shrink-0 font-semibold tabular-nums text-muted-foreground">{i + 1}</span>
+            <span class="min-w-0 flex-1 truncate font-medium">{t.nombre}</span>
+            <span class="text-[11px] tabular-nums text-muted-foreground">{t.unidades} u</span>
+            <span class="w-20 text-right font-semibold tabular-nums">{pesos(t.total)}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

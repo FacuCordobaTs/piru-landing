@@ -1,0 +1,62 @@
+---
+import Icon from '../../ui/Icon.astro'
+import LogoLocal from '../tienda/LogoLocal.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { LOCAL } from '../../../data/demo'
+
+/**
+ * Barra lateral del panel (admin/src/components/DashboardLayout.tsx).
+ * Cambio deliberado: la cabecera muestra el local y la sucursal (hoy es una franja vacía con el
+ * botón de comprimir).
+ */
+interface Props {
+  activo: 'inicio' | 'menu' | 'clientes' | 'mensajes' | 'estadisticas'
+  compacta?: boolean
+}
+
+const { activo, compacta = false } = Astro.props
+const items: { clave: Props['activo']; icono: NombreIcono; texto: string }[] = [
+  { clave: 'inicio', icono: 'layout-dashboard', texto: 'Inicio' },
+  { clave: 'menu', icono: 'package', texto: 'Menú' },
+  { clave: 'clientes', icono: 'users', texto: 'Clientes' },
+  { clave: 'mensajes', icono: 'message-square', texto: 'Mensajes' },
+  { clave: 'estadisticas', icono: 'trending-up', texto: 'Estadísticas' },
+]
+---
+
+<aside class:list={['flex h-full shrink-0 flex-col bg-background', compacta ? 'w-16' : 'w-60']}>
+  <div class:list={['flex h-16 shrink-0 items-center', compacta ? 'justify-center px-2' : 'gap-2.5 px-4']}>
+    <span class="tienda contents"><LogoLocal size={32} soloIcono /></span>
+    {!compacta && (
+      <>
+        <div class="min-w-0 flex-1 leading-tight">
+          <p class="truncate text-sm font-bold">{LOCAL.nombre}</p>
+          <p class="truncate text-[11px] text-muted-foreground">Sucursal {LOCAL.sucursal}</p>
+        </div>
+        <Icon name="panel-left-close" class="size-[18px] text-muted-foreground" />
+      </>
+    )}
+  </div>
+
+  <nav class="flex-1 space-y-1 px-3 py-2">
+    {items.map((it) => (
+      <div
+        class:list={[
+          'flex h-11 w-full items-center gap-3 rounded-xl text-sm font-medium',
+          compacta ? 'justify-center px-0' : 'px-3',
+          it.clave === activo ? 'bg-primary text-primary-foreground shadow-sm shadow-primary/25' : 'text-muted-foreground',
+        ]}
+      >
+        <Icon name={it.icono} class="size-[18px]" />
+        {!compacta && <span class="flex-1 text-left">{it.texto}</span>}
+      </div>
+    ))}
+  </nav>
+
+  <div class="shrink-0 p-3">
+    <div class:list={['flex h-11 w-full items-center gap-3 rounded-xl text-sm font-medium text-muted-foreground', compacta ? 'justify-center' : 'px-3']}>
+      <Icon name="settings" class="size-[18px]" />
+      {!compacta && 'Configuración'}
+    </div>
+  </div>
+</aside>

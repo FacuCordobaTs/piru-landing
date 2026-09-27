@@ -1,0 +1,125 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Barra from './Barra.astro'
+import { FOTOS } from '../../../data/fotos'
+import { CLIENTA, MENSAJE_RECOMPRA, MOTOR } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * Retención → Motor de recompra (admin/src/pages/MotorRecompra.tsx), REDISEÑADA a propósito para
+ * que un dueño la entienda de un vistazo. Cambios respecto de la app:
+ *  - la cola se llama "Para mandar hoy" y cada fila dice en castellano por qué está ahí;
+ *  - el detalle responde tres preguntas —a quién, cuándo y qué— en ese orden, sin la jerga interna
+ *    ("Voz", "Toque", "Link: Reactivación", "Stock / Flujo nuevo", "Prioridad #n en cola");
+ *  - el mensaje se previsualiza como lo ve el cliente (burbuja de WhatsApp con la foto);
+ *  - "Cambiar mensaje" queda como acción secundaria.
+ */
+interface Props {
+  compacta?: boolean
+}
+
+const { compacta = true } = Astro.props
+const cola = [
+  { nombre: CLIENTA.nombre, seg: 'En riesgo', dot: 'bg-orange-500', motivo: 'Pedía cada ~12 días · hace 3 semanas', cuando: 'Vie 21:00', elegido: true },
+  { nombre: 'Pablo Ríos', seg: 'Primer pedido', dot: 'bg-emerald-500', motivo: 'Compró una vez, hace 9 días', cuando: 'Vie 20:30' },
+  { nombre: 'Sofía Méndez', seg: 'Dormida', dot: 'bg-violet-500', motivo: 'Venía todos los meses · hace 2 meses', cuando: 'Sáb 13:00' },
+  { nombre: 'Diego Luna', seg: 'En riesgo', dot: 'bg-orange-500', motivo: 'Pedía cada ~8 días · hace 2 semanas', cuando: 'Sáb 21:30' },
+  { nombre: 'Carla Paz', seg: 'Perdida', dot: 'bg-rose-500', motivo: 'Hace 5 meses · día tranquilo', cuando: 'Lun 20:00' },
+]
+const iniciales = (n: string) => n.split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase()
+const etiqueta = 'text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70'
+---
+
+<div class="flex h-full w-full bg-[#FFFBF0] text-foreground">
+  <Barra activo="clientes" compacta={compacta} />
+
+  <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex shrink-0 flex-col items-center gap-3 px-6 pb-3 pt-5">
+      <nav class="flex items-center gap-2">
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-muted/70 px-4 text-sm font-medium text-muted-foreground"><Icon name="users" class="size-4" />Clientes</span>
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-muted/70 px-4 text-sm font-medium text-muted-foreground"><Icon name="trending-up" class="size-4" /><Icon name="ticket" class="size-4" />Adquisición</span>
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-foreground px-4 text-sm font-medium text-background shadow-sm"><Icon name="sparkles" class="size-4" /><Icon name="zap" class="size-4" />Retención</span>
+      </nav>
+    </div>
+
+    <div class="grid min-h-0 flex-1 grid-cols-[320px_1fr] gap-6 px-6 pb-6">
+      <div class="flex min-h-0 flex-col">
+        <div class="mb-3 flex items-baseline justify-between px-1">
+          <span class={etiqueta}>Para mandar hoy</span>
+          <span class="text-xs tabular-nums text-muted-foreground">{MOTOR.enCola} clientes</span>
+        </div>
+        <div class="space-y-1.5">
+          {cola.map((c) => (
+            <div class:list={['flex items-center gap-3 rounded-xl p-3', c.elegido ? 'border-l-[3px] border-l-[#FF7A00] bg-muted/40' : 'bg-white']}>
+              <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-bold">{iniciales(c.nombre)}</span>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center justify-between gap-2">
+                  <p class="truncate text-sm font-semibold">{c.nombre}</p>
+                  <span class="shrink-0 text-[11px] font-medium tabular-nums text-muted-foreground">{c.cuando}</span>
+                </div>
+                <p class="mt-0.5 flex items-center gap-1.5 text-[11px] font-medium"><span class:list={['size-1.5 rounded-full', c.dot]} />{c.seg}</p>
+                <p class="mt-0.5 truncate text-[11px] text-muted-foreground">{c.motivo}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="min-w-0 space-y-5">
+        <div class="grid grid-cols-4 gap-x-6 border-y border-border/30 py-4">
+          <div class="flex flex-col"><span class={etiqueta}>Contactados</span><span class="mt-1 text-2xl font-bold tabular-nums tracking-tight">{MOTOR.contactados}</span><span class="mt-0.5 text-[11px] text-muted-foreground">este mes</span></div>
+          <div class="flex flex-col"><span class={etiqueta}>Volvieron</span><span class="mt-1 text-2xl font-bold tabular-nums tracking-tight">{MOTOR.volvieron}</span><span class="mt-0.5 text-[11px] text-muted-foreground">{MOTOR.retorno} de retorno</span></div>
+          <div class="flex flex-col"><span class={etiqueta}>Recuperado</span><span class="mt-1 text-2xl font-bold tabular-nums tracking-tight text-emerald-600">{pesos(MOTOR.recuperado)}</span><span class="mt-0.5 text-[11px] text-muted-foreground">en pedidos de los que volvieron</span></div>
+          <div class="flex flex-col"><span class={etiqueta}>En cola</span><span class="mt-1 text-2xl font-bold tabular-nums tracking-tight">{MOTOR.enCola}</span><span class="mt-0.5 text-[11px] text-muted-foreground">por contactar</span></div>
+        </div>
+
+        <div class="grid grid-cols-[1fr_280px] gap-6">
+          <div class="space-y-5">
+            <div class="flex items-center gap-3.5">
+              <span class="flex size-12 shrink-0 items-center justify-center rounded-full bg-muted/80 text-sm font-semibold">{CLIENTA.iniciales}</span>
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <p class="text-2xl font-bold tracking-tight">{CLIENTA.nombre}</p>
+                  <span class="inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 px-2.5 py-0.5 text-xs font-medium text-orange-600"><span class="size-1.5 rounded-full bg-orange-500" />En riesgo</span>
+                </div>
+                <p class="mt-0.5 text-sm text-muted-foreground">Pedía cada ~{CLIENTA.cadencia} días y hace {MOTOR.tiempoSinPedir} que no pide.</p>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <span class={etiqueta}>Cuándo</span>
+              <p class="flex items-center gap-2 text-[15px] font-semibold"><Icon name="clock" class="size-4 text-[#FF7A00]" />{MOTOR.horario}<span class="font-normal text-muted-foreground">· {MOTOR.horarioMotivo}</span></p>
+            </div>
+
+            <div class="space-y-2">
+              <span class={etiqueta}>Qué le mandás</span>
+              <div class="space-y-1.5 text-sm">
+                <p class="flex items-center gap-2"><span class="grid size-5 place-items-center rounded-full bg-foreground text-[10px] font-bold text-background">1</span><span class="font-semibold">Primer mensaje de 3</span><span class="text-muted-foreground">· su plato favorito, sin descuento</span></p>
+                <p class="pl-7 text-[13px] text-muted-foreground">Si no vuelve: 2º con 10% OFF y 3º con 20% OFF que vence en 48 hs.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 pt-1">
+              <span class="inline-flex h-10 items-center gap-2 rounded-full bg-foreground px-5 text-[13px] font-medium text-background"><Icon name="message-circle" class="size-4" />Abrir en WhatsApp</span>
+              <span class="inline-flex h-10 items-center gap-2 rounded-full border border-border/60 bg-background px-4 text-[13px] font-medium"><Icon name="copy" class="size-4" />Copiar</span>
+              <span class="ml-auto inline-flex h-10 items-center gap-2 rounded-full bg-orange-500 px-5 text-[13px] font-medium text-white"><Icon name="check-check" class="size-4" />Marcar como enviado</span>
+            </div>
+            <p class="flex items-center gap-2 text-xs text-muted-foreground"><Icon name="repeat-2" class="size-3.5" />Cambiar mensaje o descuento</p>
+          </div>
+
+          <div class="rounded-2xl bg-[#EFEAE2] p-3">
+            <div class="relative rounded-lg rounded-tl-none bg-white p-1 shadow-[0_1px_.5px_rgba(11,20,26,.13)]">
+              <img src={FOTOS.smash.grande} alt="" loading="lazy" decoding="async" class="h-[118px] w-full rounded-md object-cover" />
+              <div class="px-1.5 pb-1 pt-1.5 text-[12px] leading-[1.38] text-[#111b21]">
+                {MENSAJE_RECOMPRA.map((l, i) => <p class:list={[i > 0 && 'mt-2']}>{l}</p>)}
+                <p class="mt-0.5 text-right text-[10px] text-[#667781]">21:00</p>
+              </div>
+              <div class="mt-0.5 flex items-center justify-center gap-1 border-t border-black/[.08] py-1.5 text-[12px] font-medium text-[#00A884]"><Icon name="external-link" class="size-3.5" />Pedir ahora</div>
+            </div>
+            <p class="mt-2 text-center text-[10.5px] leading-snug text-[#54656f]">El link abre su pedido de siempre, ya armado.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

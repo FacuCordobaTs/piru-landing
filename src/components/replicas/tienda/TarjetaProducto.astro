@@ -1,0 +1,44 @@
+---
+import { FOTOS } from '../../../data/fotos'
+import { pesos } from '../../../data/oferta'
+import type { Producto } from '../../../data/demo'
+
+/** Réplica de `ProductoCard` (web/src/pages/MenuDelivery.tsx): con foto o sólo texto. */
+interface Props {
+  producto: Producto
+  /** `carrusel` = w-48 en fila horizontal (el diseño de la app en celular). */
+  ancho?: 'carrusel' | 'completo'
+}
+
+const { producto, ancho = 'carrusel' } = Astro.props
+const largo = producto.nombre.length
+const nombreClass = largo > 70 ? 'text-[11px]' : largo > 48 ? 'text-xs' : largo > 30 ? 'text-[13px]' : 'text-[15px]'
+const w = ancho === 'carrusel' ? 'w-48 shrink-0' : 'w-full'
+---
+
+{producto.foto ? (
+  <div class:list={['relative flex min-h-[260px] flex-col overflow-hidden rounded-[24px] border border-border/50 bg-card shadow-md', w]}>
+    <div class="relative h-[130px] w-full shrink-0 bg-zinc-900">
+      <img src={FOTOS[producto.foto].chica} alt="" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+    </div>
+    <div class="flex flex-1 flex-col bg-card p-3.5">
+      <div class="flex-1">
+        <p class:list={['font-bold leading-tight text-foreground', nombreClass]}>{producto.nombre}</p>
+        <p class="mt-1 line-clamp-2 text-xs font-medium leading-snug text-muted-foreground">{producto.descripcion}</p>
+      </div>
+      <div class="mt-2 flex items-baseline gap-1.5">
+        <span class="text-[17px] font-black text-primary">{pesos(producto.precio)}</span>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class:list={['relative flex min-h-[140px] flex-col justify-between rounded-[24px] border border-border/50 bg-card p-[18px] shadow-sm', ancho === 'carrusel' ? 'w-44 shrink-0' : 'w-full']}>
+    <div class="flex-1">
+      <p class:list={['mb-2 font-bold leading-snug text-foreground', nombreClass]}>{producto.nombre}</p>
+      <p class="line-clamp-3 text-xs font-medium leading-relaxed text-muted-foreground">{producto.descripcion}</p>
+    </div>
+    <div class="mt-4 flex items-end gap-1.5">
+      <span class="text-[18px] font-black text-primary">{pesos(producto.precio)}</span>
+    </div>
+  </div>
+)}

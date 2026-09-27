@@ -1,0 +1,30 @@
+---
+import Icon from '../../ui/Icon.astro'
+
+/** Logo del local de ejemplo. Usa los colores del tema de la tienda, así cambia con el selector. */
+interface Props {
+  size?: number
+  /** Sólo la llama (para avatares chicos). */
+  soloIcono?: boolean
+  class?: string
+}
+
+const { size = 112, soloIcono = false, class: className } = Astro.props
+const k = size / 112
+const px = (n: number) => `${Math.round(n * k * 10) / 10}px`
+---
+
+<div
+  class:list={['grid shrink-0 place-items-center bg-primary text-primary-foreground', className]}
+  style={`width:${size}px;height:${size}px;border-radius:${soloIcono ? '999px' : px(22)}`}
+>
+  {soloIcono ? (
+    <span class="grid" style={`width:${Math.round(size * 0.5)}px;height:${Math.round(size * 0.5)}px`}><Icon name="flame" stroke={2.4} class="size-full" /></span>
+  ) : (
+    <div class="flex flex-col items-center">
+      <span class="grid" style={`width:${px(26)};height:${px(26)}`}><Icon name="flame" stroke={2.3} class="size-full" /></span>
+      <span class="font-black leading-none" style={`font-size:${px(27)};letter-spacing:-0.055em;margin-top:${px(3)}`}>BRASA</span>
+      <span class="font-bold" style={`font-size:${px(6.6)};letter-spacing:.3em;margin-top:${px(4)};padding-left:.3em`}>BURGERS & PIZZAS</span>
+    </div>
+  )}
+</div>

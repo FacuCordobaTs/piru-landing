@@ -1,0 +1,90 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Barra from './Barra.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { CAMPANAS } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * Clientes → Adquisición → Campañas (admin/src/pages/clientes/GrowthAssetsPanel.tsx), REDISEÑADA:
+ * en la app la lista sólo muestra nombre y canal, y los resultados aparecen al abrir cada campaña.
+ * Acá la lista es un ranking con visitas, pedidos y ventas de cada link, para comparar de un vistazo.
+ */
+interface Props {
+  compacta?: boolean
+}
+
+const { compacta = true } = Astro.props
+const filas = [...CAMPANAS].sort((a, b) => b.ventas - a.ventas)
+const max = Math.max(...filas.map((f) => f.ventas))
+const colores: Record<string, string> = {
+  amber: 'bg-amber-500/10 text-amber-600',
+  rose: 'bg-rose-500/10 text-rose-600',
+  violet: 'bg-violet-500/10 text-violet-600',
+  sky: 'bg-sky-500/10 text-sky-600',
+  emerald: 'bg-emerald-500/10 text-emerald-600',
+}
+const columnas = 'grid grid-cols-[minmax(0,1fr)_84px_84px_210px_72px] items-center gap-4'
+---
+
+<div class="flex h-full w-full bg-[#FFFBF0] text-foreground">
+  <Barra activo="clientes" compacta={compacta} />
+
+  <div class="flex min-w-0 flex-1 flex-col">
+    <div class="flex shrink-0 flex-col items-center gap-3 px-6 pb-3 pt-5">
+      <nav class="flex items-center gap-2">
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-muted/70 px-4 text-sm font-medium text-muted-foreground"><Icon name="users" class="size-4" />Clientes</span>
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-foreground px-4 text-sm font-medium text-background shadow-sm"><Icon name="trending-up" class="size-4" /><Icon name="ticket" class="size-4" />Adquisición</span>
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-muted/70 px-4 text-sm font-medium text-muted-foreground"><Icon name="sparkles" class="size-4" /><Icon name="zap" class="size-4" />Retención</span>
+      </nav>
+      <nav class="flex items-center gap-1 rounded-full bg-muted/60 p-1">
+        <span class="inline-flex h-9 items-center gap-2 rounded-full bg-foreground px-4 text-sm font-medium text-background shadow-sm"><Icon name="trending-up" class="size-4" />Campañas</span>
+        <span class="inline-flex h-9 items-center gap-2 rounded-full px-4 text-sm font-medium text-muted-foreground"><Icon name="ticket" class="size-4" />Cupones</span>
+      </nav>
+    </div>
+
+    <div class="min-h-0 flex-1 px-8 pb-6">
+      <div class="mb-4 flex items-end justify-between">
+        <div>
+          <p class="text-xl font-bold tracking-tight">¿Qué publicación te trae ventas?</p>
+          <p class="mt-0.5 text-sm text-muted-foreground">Septiembre 2026 · ventas cobradas que entraron por cada link</p>
+        </div>
+        <span class="inline-flex h-10 items-center gap-2 rounded-xl bg-[#FF7A00] px-4 text-sm font-bold text-white"><Icon name="plus" class="size-4" />Nueva campaña</span>
+      </div>
+
+      <div class="overflow-hidden rounded-2xl bg-white">
+        <div class:list={[columnas, 'border-b border-border/60 px-5 py-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/80']}>
+          <span>Link</span><span class="text-right">Visitas</span><span class="text-right">Pedidos</span><span>Ventas</span><span />
+        </div>
+        {filas.map((f, i) => (
+          <div class:list={[columnas, 'px-5 py-3.5', i > 0 && 'border-t border-border/40']}>
+            <div class="flex min-w-0 items-center gap-3">
+              <span class:list={['flex size-9 shrink-0 items-center justify-center rounded-xl', colores[f.color]]}><Icon name={f.icono as NombreIcono} class="size-[18px]" /></span>
+              <div class="min-w-0">
+                <p class="truncate text-sm font-semibold">{f.nombre}</p>
+                <p class="truncate text-[11px] text-muted-foreground">{f.canal} · /c/{f.slug}</p>
+              </div>
+            </div>
+            <span class="text-right text-sm tabular-nums text-muted-foreground">{f.visitas.toLocaleString('es-AR')}</span>
+            <span class="text-right text-sm font-semibold tabular-nums">{f.pedidos}</span>
+            <div class="flex items-center gap-3">
+              <span class="h-2 rounded-full bg-[#FF7A00]" style={`width:${Math.round((f.ventas / max) * 96)}px;opacity:${0.35 + 0.65 * (f.ventas / max)}`} />
+              <span class="text-sm font-bold tabular-nums">{pesos(f.ventas)}</span>
+            </div>
+            <span class="flex h-8 items-center justify-center gap-1.5 rounded-full border border-border/60 text-xs font-medium"><Icon name="copy" class="size-3.5" />Link</span>
+          </div>
+        ))}
+        <div class:list={[columnas, 'border-t border-border/60 bg-muted/30 px-5 py-3.5 text-muted-foreground']}>
+          <div class="flex min-w-0 items-center gap-3">
+            <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-muted"><Icon name="globe" class="size-[18px]" /></span>
+            <div class="min-w-0"><p class="text-sm font-semibold text-foreground">Orgánico · sin campaña</p><p class="text-[11px]">Entraron directo a tu tienda</p></div>
+          </div>
+          <span class="text-right text-sm tabular-nums">2.310</span>
+          <span class="text-right text-sm font-semibold tabular-nums text-foreground">116</span>
+          <span class="text-sm font-bold tabular-nums text-foreground">{pesos(1533900)}</span>
+          <span />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

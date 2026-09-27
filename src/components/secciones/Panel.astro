@@ -1,0 +1,168 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Ventana from '../marcos/Ventana.astro'
+import Telefono from '../marcos/Telefono.astro'
+import PanelPedidos from '../replicas/panel/PanelPedidos.astro'
+import PanelPos from '../replicas/panel/PanelPos.astro'
+import PanelMesas from '../replicas/panel/PanelMesas.astro'
+import PanelEstadisticas from '../replicas/panel/PanelEstadisticas.astro'
+import Mozos from '../replicas/Mozos.astro'
+import PedidoMovil from '../replicas/panel/PedidoMovil.astro'
+import PosMovil from '../replicas/panel/PosMovil.astro'
+import EstadisticasMovil from '../replicas/panel/EstadisticasMovil.astro'
+import type { NombreIcono } from '../ui/lucide'
+
+const pestanas: { clave: string; nombre: string; icono: NombreIcono; texto: string; etiqueta: string; etiquetaMovil: string }[] = [
+  { clave: 'pedidos', nombre: 'Pedidos', icono: 'receipt', texto: 'Delivery, retiro y salón en la misma lista. Tocás un pedido y ves la comanda, quién es el cliente y cómo pagó.', etiqueta: 'Inicio del panel: la lista de pedidos del día y el detalle del pedido elegido', etiquetaMovil: 'El panel en el celular: el detalle del pedido #1284 con su comanda' },
+  { clave: 'pos', nombre: 'Punto de venta', icono: 'shopping-cart', texto: 'Para lo que entra por el mostrador o el teléfono: buscás, tocás y queda anotado. Si se corta internet, sigue andando.', etiqueta: 'Punto de venta: catálogo con fotos y la comanda de un pedido nuevo', etiquetaMovil: 'Punto de venta en el celular: el catálogo y el botón para ver el pedido anotado' },
+  { clave: 'mesas', nombre: 'Mesas', icono: 'armchair', texto: 'El salón de un vistazo. Cada mozo toma el pedido desde su celular y en la cocina sale sólo lo nuevo.', etiqueta: 'Mesas: la grilla del salón con las mesas ocupadas y la comanda de la Mesa 4', etiquetaMovil: 'App de mozos: la comanda de la Mesa 4 con un producto por confirmar' },
+  { clave: 'estadisticas', nombre: 'Estadísticas', icono: 'trending-up', texto: 'Cuánto vendiste, cómo te pagaron y qué se vendió más, del mes o del rango que elijas.', etiqueta: 'Estadísticas: facturado del mes, medios de pago, origen de las ventas y productos más pedidos', etiquetaMovil: 'Estadísticas en el celular: facturado del mes, medios de pago y productos más pedidos' },
+]
+
+const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: string }[] = [
+  { icono: 'printer', titulo: 'Comandas que salen solas', texto: 'Con la app de Piru para Windows, cada pedido se imprime en tu impresora de cocina.' },
+  { icono: 'message-circle', titulo: 'Avisos por WhatsApp', texto: 'Confirmado, en camino y listo: tu cliente se entera desde tu número.', modulo: 'Adicional' },
+  { icono: 'wifi-off', titulo: 'Sigue andando sin internet', texto: 'El punto de venta guarda las ventas en la compu y las sube cuando vuelve la conexión.' },
+  { icono: 'armchair', titulo: 'Mesas y app para mozos', texto: 'Cada mozo toma pedidos desde su celular; la comanda de la mesa sale en cocina.' },
+  { icono: 'bike', titulo: 'Repartidores y mapa', texto: 'Asignás cada envío a tu cadete y ves todos los pedidos del día en el mapa.' },
+  { icono: 'calendar-days', titulo: 'Caja por turno', texto: 'Cerrás el turno y sabés cuánto entró en efectivo, transferencias y Mercado Pago.' },
+]
+---
+
+<section id="panel" class="py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Tu panel</p>
+      <h2 class="titulo-lg mt-4">Todos tus pedidos, en una sola pantalla</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Los de la tienda, los del mostrador y los de las mesas, con la comanda clara y listos para despachar. En la compu, la tablet o el celular.</p>
+    </div>
+
+    <div class="revelar mt-12">
+      <div class="mx-auto grid max-w-sm grid-cols-2 gap-1 rounded-[26px] bg-white p-1.5 ring-1 ring-line sm:flex sm:w-fit sm:max-w-full sm:rounded-full" role="tablist" aria-label="Pantallas del panel">
+        {pestanas.map((p, i) => (
+          <button
+            type="button"
+            role="tab"
+            id={`tab-${p.clave}`}
+            aria-controls={`vista-${p.clave}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            class="pestana"
+            data-pestana={p.clave}
+          >
+            <Icon name={p.icono} class="size-[17px]" />{p.nombre}
+          </button>
+        ))}
+      </div>
+
+      {pestanas.map((p, i) => (
+        <div
+          id={`vista-${p.clave}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${p.clave}`}
+          class:list={['vista-panel mt-8', i !== 0 && 'hidden']}
+          data-vista={p.clave}
+        >
+          <p class="mx-auto max-w-2xl text-center text-[16px] leading-relaxed text-ink-2">{p.texto}</p>
+          <div class="mt-8 md:hidden">
+            <div class="mx-auto w-[min(74%,300px)] drop-shadow-[0_30px_50px_rgba(40,20,5,0.28)]">
+              <Escala ancho={412} alto={866} etiqueta={p.etiquetaMovil}>
+                <Telefono>
+                  {p.clave === 'pedidos' && <PedidoMovil />}
+                  {p.clave === 'pos' && <PosMovil />}
+                  {p.clave === 'mesas' && <Mozos />}
+                  {p.clave === 'estadisticas' && <EstadisticasMovil />}
+                </Telefono>
+              </Escala>
+            </div>
+          </div>
+          <div class="relative mt-8 hidden md:block">
+            <div class="-mx-8 overflow-x-auto px-8 pb-4 sin-barra lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0">
+              <div class="min-w-[760px] overflow-hidden rounded-[18px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_40px_80px_-30px_rgb(40_24_8/.35)] lg:min-w-0">
+                <Escala ancho={1280} alto={800} etiqueta={p.etiqueta}>
+                  <Ventana ancho={1280} alto={800}>
+                    {p.clave === 'pedidos' && <PanelPedidos />}
+                    {p.clave === 'pos' && <PanelPos />}
+                    {p.clave === 'mesas' && <PanelMesas />}
+                    {p.clave === 'estadisticas' && <PanelEstadisticas />}
+                  </Ventana>
+                </Escala>
+              </div>
+            </div>
+            {p.clave === 'mesas' && (
+              <div class="absolute -bottom-10 -right-2 w-[19%] drop-shadow-[0_30px_40px_rgba(40,20,5,0.3)]">
+                <Escala ancho={412} alto={866} etiqueta="App de mozos: la comanda de la Mesa 4 con un producto por confirmar">
+                  <Telefono><Mozos /></Telefono>
+                </Escala>
+              </div>
+            )}
+          </div>
+          <p class="mt-2 hidden text-center text-[13px] text-ink-3 md:block lg:hidden">Deslizá para ver la pantalla completa →</p>
+        </div>
+      ))}
+    </div>
+
+    <ul class="mt-20 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      {funciones.map((f, i) => (
+        <li class="revelar" style={`--retraso:${(i % 3) * 70}ms`}>
+          <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name={f.icono} class="size-5" /></span>
+          <h3 class="mt-4 flex flex-wrap items-center gap-2 text-[18px] font-semibold tracking-tight">
+            {f.titulo}
+            {f.modulo && <span class="rounded-full bg-sand px-2 py-0.5 text-[11.5px] font-semibold text-ink-2 ring-1 ring-line">{f.modulo}</span>}
+          </h3>
+          <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{f.texto}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .pestana {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-ink-2);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
+  }
+  @media (max-width: 639px) {
+    .pestana { padding: 0 12px; font-size: 14.5px; }
+  }
+  .pestana:hover { color: var(--color-ink); }
+  .pestana[aria-selected='true'] { background: var(--color-ink); color: #fff; }
+</style>
+
+<script>
+  const pestanas = [...document.querySelectorAll<HTMLButtonElement>('#panel .pestana')]
+  const vistas = [...document.querySelectorAll<HTMLElement>('#panel .vista-panel')]
+
+  function elegir(boton: HTMLButtonElement, foco = false) {
+    pestanas.forEach((p) => {
+      const activa = p === boton
+      p.setAttribute('aria-selected', String(activa))
+      p.tabIndex = activa ? 0 : -1
+    })
+    vistas.forEach((v) => v.classList.toggle('hidden', v.dataset.vista !== boton.dataset.pestana))
+    if (foco) boton.focus()
+  }
+
+  pestanas.forEach((p, i) => {
+    p.addEventListener('click', () => elegir(p))
+    p.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+      e.preventDefault()
+      const siguiente = pestanas[(i + (e.key === 'ArrowRight' ? 1 : -1) + pestanas.length) % pestanas.length]
+      elegir(siguiente, true)
+    })
+  })
+</script>

@@ -1,0 +1,69 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { LOCAL, PEDIDO } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * Réplica del pago por transferencia automática (web/src/pages/SuccessDelivery.tsx, estado
+ * `pending_payment`) en el instante en que llega la transferencia: el aviso verde es el toast
+ * de sonner ("top-center", richColors) que dispara la tienda al confirmarse el pago.
+ */
+interface Props {
+  oscura?: boolean
+  aviso?: boolean
+}
+
+const { oscura = false, aviso = true } = Astro.props
+---
+
+<div class:list={['tienda relative h-full w-full overflow-hidden bg-background text-foreground', oscura && 'tienda--oscura']}>
+  <div class="space-y-10 px-5 pt-[150px]">
+    <div>
+      <p class="mb-1.5 text-center text-sm text-muted-foreground">Total a transferir</p>
+      <p class="text-center text-6xl font-bold tabular-nums tracking-tight">{pesos(PEDIDO.total)}</p>
+    </div>
+
+    <div class="space-y-5">
+      <p class="text-sm leading-relaxed text-muted-foreground">Cada pedido genera un alias único. Copialo antes de hacer la transferencia.</p>
+      <div class="flex w-full items-center justify-between rounded-2xl bg-foreground/5 px-5 py-4 text-left">
+        <div>
+          <p class="mb-0.5 text-xs text-muted-foreground">Alias único</p>
+          <p class="font-semibold">{LOCAL.alias}</p>
+        </div>
+        <Icon name="copy" class="ml-3 size-4 text-muted-foreground" />
+      </div>
+      <p class="text-center text-xs text-muted-foreground">Tocá para copiar y transferir desde tu app bancaria</p>
+    </div>
+
+    <div class="bg-white text-black">
+      <div class="px-5 pb-1 pt-5">
+        <p class="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-400">Tu pedido</p>
+        <div class="divide-y divide-gray-100">
+          {PEDIDO.items.map((item) => (
+            <div class="flex items-start justify-between py-3.5">
+              <div class="flex min-w-0 gap-2.5">
+                <span class="min-w-5 shrink-0 font-medium tabular-nums text-gray-400">{item.cantidad}×</span>
+                <div class="min-w-0">
+                  <p class="text-[15px] font-medium leading-snug text-gray-800">{item.nombre}</p>
+                  {item.sin.length > 0 && <p class="mt-0.5 text-xs text-gray-500">Sin: {item.sin.join(', ')}</p>}
+                  {item.extras.length > 0 && <p class="mt-0.5 text-xs text-gray-500">+ {item.extras.join(', ')}</p>}
+                </div>
+              </div>
+              <span class="ml-4 shrink-0 text-sm font-medium tabular-nums text-gray-800">{pesos(item.precio)}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {aviso && (
+    <div style="--retraso:700ms" class="aviso-transferencia aparece absolute inset-x-4 top-[60px] z-50 flex items-start gap-2.5 rounded-lg border border-[#bffcd9] bg-[#ecfdf3] px-4 py-3.5 text-[#008a2e] shadow-[0_4px_12px_rgba(0,0,0,0.1)]">
+      <svg viewBox="0 0 20 20" class="mt-px size-5 shrink-0" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" /></svg>
+      <div>
+        <p class="text-[13.5px] font-semibold leading-tight">¡Transferencia recibida!</p>
+        <p class="mt-1 text-[13px] leading-snug opacity-90">Ya estamos preparando tu pedido.</p>
+      </div>
+    </div>
+  )}
+</div>

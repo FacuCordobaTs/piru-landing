@@ -1,0 +1,97 @@
+---
+import Logo from './ui/Logo.astro'
+import Icon from './ui/Icon.astro'
+import { enlaceWhatsapp } from '../data/oferta'
+
+const enlaces = [
+  { href: '/#como-funciona', texto: 'Cómo funciona' },
+  { href: '/#tienda', texto: 'Tienda' },
+  { href: '/#panel', texto: 'Panel' },
+  { href: '/#clientes', texto: 'Clientes' },
+  { href: '/#precios', texto: 'Precios' },
+  { href: '/#preguntas', texto: 'Preguntas' },
+]
+---
+
+<header id="nav" class="nav fixed inset-x-0 top-0 z-50">
+  <nav class="contenedor flex h-[68px] items-center justify-between gap-4" aria-label="Principal">
+    <a href="/" class="flex items-center gap-2.5 rounded-xl" aria-label="Piru, inicio">
+      <Logo size={32} />
+      <span class="nav-marca text-[21px] font-bold tracking-[-0.04em] text-ink transition-colors">Piru</span>
+    </a>
+
+    <ul class="hidden items-center gap-1 lg:flex">
+      {enlaces.map((e) => (
+        <li>
+          <a href={e.href} class="nav-enlace rounded-full px-3.5 py-2 text-[14.5px] font-medium text-ink-2 transition-colors hover:bg-ink/[.04] hover:text-ink">{e.texto}</a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario boton-chico">
+        <Icon name="message-circle" class="size-[17px]" stroke={2.2} />
+        <span class="hidden min-[400px]:inline">Quiero mi tienda</span>
+        <span class="min-[400px]:hidden">Empezar</span>
+      </a>
+      <details class="menu-movil relative lg:hidden">
+        <summary class="grid size-10 cursor-pointer list-none place-items-center rounded-full bg-white ring-1 ring-line" aria-label="Abrir menú">
+          <Icon name="menu" class="size-5 icono-abrir" />
+          <Icon name="x" class="size-5 icono-cerrar" />
+        </summary>
+        <div class="absolute right-0 top-12 w-56 rounded-2xl bg-white p-2 shadow-xl ring-1 ring-line">
+          {enlaces.map((e) => (
+            <a href={e.href} class="block rounded-xl px-3.5 py-2.5 text-[15px] font-medium text-ink-2 hover:bg-sand hover:text-ink">{e.texto}</a>
+          ))}
+        </div>
+      </details>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    transition: background-color .3s, box-shadow .3s, backdrop-filter .3s;
+  }
+  .nav.nav--scrolleado {
+    background: rgb(255 252 247 / .82);
+    backdrop-filter: blur(16px) saturate(1.5);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    box-shadow: 0 1px 0 rgb(40 24 8 / .07);
+  }
+  /* Sobre las secciones oscuras el menú se oscurece para no quedar gris. */
+  .nav.nav--oscuro {
+    background: rgb(18 15 13 / .8);
+    box-shadow: 0 1px 0 rgb(255 255 255 / .08);
+  }
+  .nav.nav--oscuro :global(.nav-marca) { color: #fff; }
+  .nav.nav--oscuro :global(.nav-enlace) { color: rgb(255 255 255 / .72); }
+  .nav.nav--oscuro :global(.nav-enlace:hover) { color: #fff; background: rgb(255 255 255 / .08); }
+  .menu-movil summary::-webkit-details-marker { display: none; }
+  .menu-movil :global(.icono-cerrar) { display: none; }
+  .menu-movil[open] :global(.icono-cerrar) { display: block; }
+  .menu-movil[open] :global(.icono-abrir) { display: none; }
+</style>
+
+<script>
+  const nav = document.getElementById('nav')
+  const oscuras = [...document.querySelectorAll<HTMLElement>('[data-nav-oscuro]')]
+  const alScrollear = () => {
+    nav?.classList.toggle('nav--scrolleado', window.scrollY > 12)
+    const alto = nav?.offsetHeight ?? 68
+    const sobreOscura = oscuras.some((el) => {
+      const r = el.getBoundingClientRect()
+      return r.top <= alto / 2 && r.bottom >= alto / 2
+    })
+    nav?.classList.toggle('nav--oscuro', sobreOscura)
+  }
+  window.addEventListener('scroll', alScrollear, { passive: true })
+  alScrollear()
+
+  // El menú móvil se cierra al elegir un destino o tocar afuera.
+  const menu = document.querySelector<HTMLDetailsElement>('.menu-movil')
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')))
+  document.addEventListener('click', (e) => {
+    if (menu?.open && !menu.contains(e.target as Node)) menu.removeAttribute('open')
+  })
+</script>

@@ -1,0 +1,75 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { PEDIDO } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * El detalle de un pedido tal como lo muestra Inicio (Dashboard.tsx): identidad, contexto del
+ * cliente, comanda y el pie fijo con el total y "Despachar pedido". Llena a su contenedor (que
+ * tiene que ser `relative`) y se usa igual en escritorio y en el celular.
+ */
+interface Props {
+  /** Padding lateral: 24 px en escritorio, 20 px en celular. */
+  compacto?: boolean
+}
+
+const { compacto = false } = Astro.props
+const px = compacto ? 'px-5' : 'px-6'
+---
+
+<div class:list={['mx-auto w-full max-w-[600px] pt-4', px]}>
+  <span class="mb-3 inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground"><Icon name="truck" class="size-3.5" />{PEDIDO.tipo}</span>
+  <p class="text-4xl font-black leading-none tracking-tight">Pedido #{PEDIDO.id}</p>
+  <p class="mt-3 text-xl font-bold leading-snug">{PEDIDO.cliente}</p>
+  <div class="mt-2 space-y-1">
+    <p class="flex items-start gap-2 text-base font-semibold leading-snug"><Icon name="map-pin" class="mt-0.5 size-4 text-muted-foreground" />{PEDIDO.direccion}</p>
+    <p class="flex items-center gap-2 text-sm text-muted-foreground"><Icon name="clock" class="size-3.5" />Hoy, {PEDIDO.hora}<span class="opacity-60">· hace 1 min</span></p>
+    <p class="flex items-center gap-2 text-sm text-muted-foreground"><Icon name="credit-card" class="size-3.5" />{PEDIDO.metodo} · <span class="font-medium text-emerald-600">cobrado</span></p>
+    <p class="flex items-center gap-2 text-sm font-semibold text-[#FF7A00]"><Icon name="megaphone" class="size-3.5" />Campaña: {PEDIDO.campana}</p>
+  </div>
+
+  <div class="my-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 border-y border-border/60 py-3 text-sm">
+    <Icon name="user-round" class="size-4 text-muted-foreground" />
+    <span><span class="font-semibold tabular-nums">{PEDIDO.contexto.numero}</span><span class="text-muted-foreground"> pedido de </span><span class="font-semibold">{PEDIDO.primerNombre}</span></span>
+    <span class="text-muted-foreground/35">·</span>
+    <span><span class="font-semibold tabular-nums">{pesos(PEDIDO.contexto.historico)}</span><span class="text-muted-foreground"> histórico</span></span>
+    <span class="text-muted-foreground/35">·</span>
+    <span class="text-muted-foreground">última vez <span class="font-medium text-foreground/90">{PEDIDO.contexto.ultimaVez}</span></span>
+    <span class="rounded-md border border-border bg-muted/40 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{PEDIDO.contexto.nivel}</span>
+  </div>
+
+  <p class="mb-2 text-xs font-bold uppercase tracking-widest text-muted-foreground">Comanda · {PEDIDO.items.length} ítems</p>
+  <div>
+    {PEDIDO.items.map((item, i) => (
+      <div class:list={['flex items-start justify-between gap-3 py-2.5', i > 0 && 'border-t border-border/40']}>
+        <div class="flex min-w-0 flex-1 gap-3">
+          <span class="w-6 shrink-0 text-base font-bold tabular-nums text-muted-foreground">{item.cantidad}x</span>
+          <div class="min-w-0">
+            <p class="text-base font-semibold leading-snug">{item.nombre}</p>
+            {item.extras.map((e) => <p class="text-sm text-muted-foreground"><span class="mr-1.5 font-bold text-emerald-500">+</span>{e}</p>)}
+            {item.sin.map((s) => <p class="text-sm text-muted-foreground">Sin {s.toLowerCase()}</p>)}
+          </div>
+        </div>
+        <span class="shrink-0 text-base font-semibold tabular-nums">{pesos(item.precio)}</span>
+      </div>
+    ))}
+    <div class="flex items-center justify-between gap-3 border-t border-border/40 py-2.5 text-muted-foreground">
+      <span class="flex items-center gap-2 text-sm"><Icon name="truck" class="size-4" />Costo de envío</span>
+      <span class="text-sm font-medium tabular-nums">{pesos(PEDIDO.envio)}</span>
+    </div>
+  </div>
+</div>
+
+<div class="absolute inset-x-0 bottom-0 z-10 bg-[#FFFBF0] shadow-[0_-16px_24px_-8px_#FFFBF0]">
+  <div class:list={['mx-auto flex w-full max-w-[600px] flex-col gap-3 pt-3', px, compacto ? 'pb-9' : 'pb-5']}>
+    <div class="flex items-baseline justify-between gap-3">
+      <span class="text-sm font-semibold uppercase tracking-widest text-muted-foreground">Total cobrado</span>
+      <span class="text-3xl font-black tracking-tight text-[#FF7A00]">{pesos(PEDIDO.total)}</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-border/50 bg-secondary/30 text-muted-foreground"><Icon name="trash-2" class="size-5" /></span>
+      <span class="flex size-14 shrink-0 items-center justify-center rounded-2xl border border-border/50 bg-secondary/30 text-muted-foreground"><Icon name="message-circle" class="size-5" /></span>
+      <span class="flex h-14 flex-1 items-center justify-center rounded-2xl bg-[#FF7A00] text-lg font-bold text-white">Despachar pedido</span>
+    </div>
+  </div>
+</div>

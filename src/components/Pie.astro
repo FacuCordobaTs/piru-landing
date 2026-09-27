@@ -1,0 +1,83 @@
+---
+import Logo from './ui/Logo.astro'
+import Icon from './ui/Icon.astro'
+import { enlaceWhatsapp, INSTAGRAM, TIENDA_DEMO, WHATSAPP_VISIBLE } from '../data/oferta'
+
+const columnas = [
+  {
+    titulo: 'Producto',
+    enlaces: [
+      { href: '/#como-funciona', texto: 'Cómo funciona' },
+      { href: '/#tienda', texto: 'Tu tienda' },
+      { href: '/#panel', texto: 'Tu panel' },
+      { href: '/#clientes', texto: 'Tus clientes' },
+      { href: '/#precios', texto: 'Precios' },
+    ],
+  },
+  {
+    titulo: 'Ayuda',
+    enlaces: [
+      { href: '/#preguntas', texto: 'Preguntas frecuentes' },
+      { href: '/#empezar', texto: 'Cómo empezar' },
+      { href: TIENDA_DEMO, texto: 'Tienda de demostración', externo: true },
+    ],
+  },
+  {
+    titulo: 'Legal',
+    enlaces: [
+      { href: '/privacidad', texto: 'Privacidad' },
+      { href: '/terminos', texto: 'Términos y condiciones' },
+    ],
+  },
+]
+---
+
+<footer data-nav-oscuro class="bg-night text-white/70">
+  <div class="contenedor grid gap-12 py-16 md:grid-cols-[1.3fr_2fr] md:py-20">
+    <div class="max-w-sm">
+      <a href="/" class="inline-flex items-center gap-2.5" aria-label="Piru, inicio">
+        <Logo size={36} />
+        <span class="text-[22px] font-bold tracking-[-0.04em] text-white">Piru</span>
+      </a>
+      <p class="mt-5 text-[15px] leading-relaxed">
+        La tienda online, el sistema de pedidos y la agenda de clientes de tu local. Sin comisión por venta.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="inline-flex h-10 items-center gap-2 rounded-full bg-white/[.07] px-4 text-[14px] font-medium text-white ring-1 ring-white/10 transition-colors hover:bg-white/[.12]">
+          <Icon name="message-circle" class="size-4 text-wa" stroke={2.2} />
+          {WHATSAPP_VISIBLE}
+        </a>
+        <a href={INSTAGRAM} target="_blank" rel="noopener" class="inline-flex h-10 items-center gap-2 rounded-full bg-white/[.07] px-4 text-[14px] font-medium text-white ring-1 ring-white/10 transition-colors hover:bg-white/[.12]">
+          <Icon name="instagram" class="size-4" stroke={2.2} />
+          @piru.app
+        </a>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
+      {columnas.map((col) => (
+        <div>
+          <p class="text-[13px] font-semibold uppercase tracking-[.09em] text-white/40">{col.titulo}</p>
+          <ul class="mt-4 space-y-2.5">
+            {col.enlaces.map((e) => (
+              <li>
+                <a
+                  href={e.href}
+                  target={'externo' in e && e.externo ? '_blank' : undefined}
+                  rel={'externo' in e && e.externo ? 'noopener' : undefined}
+                  class="text-[15px] text-white/75 transition-colors hover:text-white"
+                >{e.texto}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="border-t border-white/[.08]">
+    <div class="contenedor flex flex-col gap-2 py-6 text-[13.5px] text-white/45 sm:flex-row sm:items-center sm:justify-between">
+      <p>© 2026 Piru · Hecho en Argentina</p>
+      <p>Las pantallas de esta página son de la app, con datos de ejemplo.</p>
+    </div>
+  </div>
+</footer>

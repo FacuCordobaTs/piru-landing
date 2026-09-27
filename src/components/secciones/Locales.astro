@@ -1,0 +1,23 @@
+---
+import Icon from '../ui/Icon.astro'
+import { LOCALES } from '../../data/oferta'
+---
+
+<section aria-label="Locales que ya usan Piru" class="border-y border-line/80 bg-white/60">
+  <div class="contenedor flex flex-col items-center gap-5 py-8 sm:flex-row sm:justify-center sm:gap-10">
+    <p class="text-center text-[14px] font-medium text-ink-3">Ya venden por su propio canal con Piru</p>
+    <ul class="flex flex-wrap items-center justify-center gap-3">
+      {LOCALES.map((l) => (
+        <li>
+          <a href={l.url} target="_blank" rel="noopener" class="group flex items-center gap-3 rounded-2xl bg-white py-2 pl-2 pr-4 ring-1 ring-line transition-shadow hover:shadow-md">
+            <img src={l.logo} alt="" width="44" height="44" loading="lazy" class="size-11 rounded-xl object-cover ring-1 ring-black/5" style={`background:${l.fondo}`} />
+            <span class="leading-tight">
+              <span class="block text-[15px] font-semibold text-ink">{l.nombre}</span>
+              <span class="flex items-center gap-1 text-[13px] text-ink-3 group-hover:text-brand-deep">{l.dominio}<Icon name="arrow-up-right" class="size-3.5" /></span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

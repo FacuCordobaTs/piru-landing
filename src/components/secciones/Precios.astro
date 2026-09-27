@@ -1,0 +1,204 @@
+---
+import Icon from '../ui/Icon.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { DIAS_PRUEBA, INCLUIDO_EN_BASE, MODULOS_PAGOS, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
+
+const comisiones = [20, 25, 30, 35]
+---
+
+<section id="precios" class="py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Precios</p>
+      <h2 class="titulo-lg mt-4">Un precio fijo por mes. Cero comisión por venta.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Vendas 50 o 1.500 pedidos, pagás lo mismo. Y lo que cobrás va directo a tu cuenta: Piru no toca tu plata.</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+      <article class="revelar tarjeta relative overflow-hidden p-7 sm:p-10">
+        <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/10 blur-3xl" aria-hidden="true" />
+        <p class="text-[15px] font-semibold text-brand-deep">Piru</p>
+        <p class="mt-1 text-[16px] text-ink-2">Todo para vender y atender tu local</p>
+        <p class="mt-6 flex items-end gap-2">
+          <span class="text-[56px] font-bold leading-none tracking-[-0.05em] tabular-nums min-[400px]:text-[64px] sm:text-[76px]">{pesos(PRECIO_BASE)}</span>
+          <span class="whitespace-nowrap pb-1.5 text-[17px] text-ink-3">/ mes</span>
+        </p>
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario"><Icon name="message-circle" class="size-[18px]" stroke={2.2} />Quiero mi tienda</a>
+          <p class="text-[14px] text-ink-3">{DIAS_PRUEBA} días de prueba · Pagás mes a mes</p>
+        </div>
+        <div class="my-8 h-px bg-line" />
+        <p class="text-[13px] font-semibold uppercase tracking-[.08em] text-ink-3">Incluye</p>
+        <ul class="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+          {INCLUIDO_EN_BASE.map((item) => (
+            <li class="flex gap-2.5 text-[15.5px] text-ink"><Icon name="check" class="mt-0.5 size-[18px] text-brand" stroke={2.6} />{item}</li>
+          ))}
+        </ul>
+      </article>
+
+      <div class="flex flex-col gap-5">
+        {MODULOS_PAGOS.map((m, i) => (
+          <article class="revelar tarjeta flex-1 p-7 sm:p-8" style={`--retraso:${(i + 1) * 90}ms`}>
+            <div class="flex items-start justify-between gap-4">
+              <span class="grid size-11 place-items-center rounded-2xl bg-sand text-ink ring-1 ring-line"><Icon name={m.icono as NombreIcono} class="size-5" /></span>
+              <span class="rounded-full bg-sand px-2.5 py-1 text-[12px] font-semibold text-ink-2 ring-1 ring-line">Opcional</span>
+            </div>
+            <p class="mt-5 text-[19px] font-semibold tracking-tight">{m.nombre}</p>
+            <p class="mt-1 text-[15px] font-semibold text-brand-deep tabular-nums">+{pesos(m.precio)} / mes</p>
+            <p class="mt-3 text-[15px] leading-relaxed text-ink-2">{m.descripcion}</p>
+          </article>
+        ))}
+        <p class="revelar px-2 text-[14px] text-ink-3">¿Preferís pagar el año por adelantado? Tenés descuento.</p>
+      </div>
+    </div>
+
+    <!-- Calculadora -->
+    <div id="calculadora" class="revelar mt-5 overflow-hidden rounded-[28px] bg-ink text-white">
+      <div class="grid lg:grid-cols-2">
+        <div class="p-7 sm:p-10">
+          <p class="antetitulo text-brand">Hacé la cuenta</p>
+          <h3 class="mt-3 text-[28px] font-bold leading-tight tracking-[-0.03em] sm:text-[34px]">¿Cuánto les dejás a las apps?</h3>
+
+          <div class="mt-9 space-y-8">
+            <div>
+              <div class="flex items-baseline justify-between gap-4">
+                <label for="calc-ventas" class="text-[15px] text-white/70">Lo que vendés por apps en un mes</label>
+                <output id="calc-ventas-valor" class="text-[20px] font-semibold tabular-nums">$3.000.000</output>
+              </div>
+              <input id="calc-ventas" type="range" min="500000" max="20000000" step="100000" value="3000000" class="rango mt-3" />
+            </div>
+
+            <fieldset>
+              <legend class="text-[15px] text-white/70">Comisión que te cobran</legend>
+              <div class="mt-3 grid grid-cols-4 gap-2">
+                {comisiones.map((c) => (
+                  <label class="comision">
+                    <input type="radio" name="calc-comision" value={c} checked={c === 30} class="sr-only" />
+                    <span>{c}%</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+
+            <div>
+              <div class="flex items-baseline justify-between gap-4">
+                <label for="calc-pase" class="text-[15px] text-white/70">De esos pedidos, cuántos pasan a tu tienda</label>
+                <output id="calc-pase-valor" class="text-[20px] font-semibold tabular-nums">30%</output>
+              </div>
+              <input id="calc-pase" type="range" min="10" max="100" step="5" value="30" class="rango mt-3" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-center gap-6 bg-white/[.04] p-7 sm:p-10" aria-live="polite">
+          <div class="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
+            <span class="text-[15px] text-white/70">Hoy les pagás en comisiones</span>
+            <span id="calc-comision-total" class="text-[22px] font-semibold tabular-nums text-[#FF8A7A]">$900.000</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
+            <span id="calc-ahorro-texto" class="text-[15px] text-white/70">Te ahorrás si pasa el 30% a tu tienda</span>
+            <span id="calc-ahorro" class="text-[22px] font-semibold tabular-nums">$270.000</span>
+          </div>
+          <div class="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
+            <span class="text-[15px] text-white/70">Piru, precio fijo</span>
+            <span class="text-[22px] font-semibold tabular-nums">−{pesos(PRECIO_BASE)}</span>
+          </div>
+          <div>
+            <p id="calc-resultado-texto" class="text-[15px] text-white/70">Te quedan por mes</p>
+            <p id="calc-resultado" class="mt-1 text-[48px] font-bold leading-none tracking-[-0.04em] tabular-nums text-emerald-300 sm:text-[56px]">+$230.000</p>
+          </div>
+          <p class="text-[12.5px] leading-relaxed text-white/40">Cálculo de ejemplo con tus números. No incluye lo que cobra tu medio de pago (por ejemplo, Mercado Pago) ni los adicionales.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rango {
+    width: 100%;
+    height: 28px;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    --lleno: 13%;
+  }
+  .rango::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--color-brand) var(--lleno), rgb(255 255 255 / .16) var(--lleno));
+  }
+  .rango::-moz-range-track { height: 6px; border-radius: 999px; background: rgb(255 255 255 / .16); }
+  .rango::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--color-brand); }
+  .rango::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    margin-top: -9px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgb(255 122 0 / .35), 0 2px 6px rgb(0 0 0 / .4);
+  }
+  .rango::-moz-range-thumb { width: 24px; height: 24px; border: 0; border-radius: 999px; background: #fff; box-shadow: 0 0 0 4px rgb(255 122 0 / .35); }
+  .rango:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 4px; }
+
+  .comision span {
+    display: grid;
+    place-items: center;
+    height: 46px;
+    border-radius: 14px;
+    background: rgb(255 255 255 / .06);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .1);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s, box-shadow .2s, color .2s;
+  }
+  .comision input:checked + span { background: var(--color-brand); box-shadow: none; }
+  .comision input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
+</style>
+
+<script>
+  import { PRECIO_BASE } from '../../data/oferta'
+
+  const fmt = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 })
+  const pesos = (n: number) => `$${fmt.format(Math.round(n))}`
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null
+
+  const ventas = $<HTMLInputElement>('calc-ventas')
+  const pase = $<HTMLInputElement>('calc-pase')
+  const radios = document.querySelectorAll<HTMLInputElement>('input[name="calc-comision"]')
+
+  function lleno(input: HTMLInputElement) {
+    const min = Number(input.min), max = Number(input.max), v = Number(input.value)
+    input.style.setProperty('--lleno', `${((v - min) / (max - min)) * 100}%`)
+  }
+
+  function calcular() {
+    if (!ventas || !pase) return
+    const v = Number(ventas.value)
+    const p = Number(pase.value) / 100
+    const c = Number([...radios].find((r) => r.checked)?.value ?? 30) / 100
+    const comision = v * c
+    const ahorro = comision * p
+    const neto = ahorro - PRECIO_BASE
+
+    $('calc-ventas-valor')!.textContent = pesos(v)
+    $('calc-pase-valor')!.textContent = `${Math.round(p * 100)}%`
+    $('calc-comision-total')!.textContent = pesos(comision)
+    $('calc-ahorro-texto')!.textContent = `Te ahorrás si pasa el ${Math.round(p * 100)}% a tu tienda`
+    $('calc-ahorro')!.textContent = pesos(ahorro)
+    const resultado = $('calc-resultado')!
+    resultado.textContent = `${neto >= 0 ? '+' : '−'}${pesos(Math.abs(neto))}`
+    resultado.classList.toggle('text-emerald-300', neto >= 0)
+    resultado.classList.toggle('text-white/60', neto < 0)
+    $('calc-resultado-texto')!.textContent = neto >= 0 ? 'Te quedan por mes' : 'Todavía no se paga: faltan por mes'
+    lleno(ventas)
+    lleno(pase)
+  }
+
+  ventas?.addEventListener('input', calcular)
+  pase?.addEventListener('input', calcular)
+  radios.forEach((r) => r.addEventListener('change', calcular))
+  calcular()
+</script>

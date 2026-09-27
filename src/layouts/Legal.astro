@@ -1,0 +1,46 @@
+---
+import Base from './Base.astro'
+import Icon from '../components/ui/Icon.astro'
+
+/** Páginas legales: el texto va tal cual en el slot (h2, p, ul) y toma el estilo de acá. */
+interface Props {
+  titulo: string
+  fecha: string
+  descripcion: string
+}
+
+const { titulo, fecha, descripcion } = Astro.props
+---
+
+<Base titulo={`${titulo} · Piru`} descripcion={descripcion}>
+  <article class="contenedor max-w-3xl pb-24 pt-32 sm:pb-32 sm:pt-40">
+    <a href="/" class="inline-flex items-center gap-1.5 text-[15px] font-medium text-brand-deep underline-offset-4 hover:underline"><Icon name="arrow-left" class="size-4" />Volver al inicio</a>
+    <h1 class="titulo-lg mt-8">{titulo}</h1>
+    <p class="mt-4 text-[14px] text-ink-3">{fecha}</p>
+    <div class="legal mt-12">
+      <slot />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .legal {
+    color: var(--color-ink-2);
+    font-size: 16.5px;
+    line-height: 1.7;
+  }
+  .legal > :global(* + *) { margin-top: 1.1em; }
+  .legal :global(h2) {
+    margin-top: 2.2em;
+    color: var(--color-ink);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  .legal :global(ul) { padding-left: 1.3em; list-style: disc; }
+  .legal :global(li + li) { margin-top: .5em; }
+  .legal :global(li::marker) { color: var(--color-brand); }
+  .legal :global(strong) { color: var(--color-ink); font-weight: 600; }
+  .legal :global(a) { color: var(--color-brand-deep); text-decoration: underline; text-underline-offset: 3px; }
+</style>

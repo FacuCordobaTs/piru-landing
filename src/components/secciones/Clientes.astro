@@ -1,0 +1,186 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Ventana from '../marcos/Ventana.astro'
+import Telefono from '../marcos/Telefono.astro'
+import PanelRetencion from '../replicas/panel/PanelRetencion.astro'
+import RetencionMovil from '../replicas/panel/RetencionMovil.astro'
+import { ESCALERA } from '../../data/demo'
+import { MODULOS_PAGOS, pesos } from '../../data/oferta'
+
+const retencion = MODULOS_PAGOS.find((m) => m.codigo === 'motor_recompra')!
+
+// Línea de tiempo de Martina: pide cada ~12 días; los umbrales son los de clientes-rfm.ts
+// (riesgo ≈ 1,5×, dormido 3×, perdido 6× su cadencia).
+const dias = 165
+const pedidos = [0, 12, 24, 37, 49, 61, 73]
+const ultimo = pedidos[pedidos.length - 1]
+const cadencia = 12
+const hoy = ultimo + 21
+const x = (d: number) => `${(d / dias) * 100}%`
+const zonas = [
+  { desde: ultimo, hasta: ultimo + cadencia * 1.5, clase: 'bg-white/[.07]', punto: '', texto: '' },
+  { desde: ultimo + cadencia * 1.5, hasta: ultimo + cadencia * 3, clase: 'bg-orange-500/80', punto: 'bg-orange-400', texto: 'En riesgo' },
+  { desde: ultimo + cadencia * 3, hasta: ultimo + cadencia * 6, clase: 'bg-violet-500/70', punto: 'bg-violet-400', texto: 'Dormida' },
+  { desde: ultimo + cadencia * 6, hasta: dias, clase: 'bg-rose-500/70', punto: 'bg-rose-400', texto: 'Perdida' },
+]
+
+const segmentos = [
+  { nombre: 'Primer pedido', punto: 'bg-emerald-400', texto: 'Compró una vez. Es el mensaje más importante: el que lo convierte en cliente habitual.' },
+  { nombre: 'En riesgo', punto: 'bg-orange-400', texto: 'Venía seguido y se está enfriando. Le hablás antes de perderlo.' },
+  { nombre: 'Dormido', punto: 'bg-violet-400', texto: 'Hace rato que no aparece. Le recordás lo que le gusta.' },
+  { nombre: 'Perdido', punto: 'bg-rose-400', texto: 'Pasaron meses. Un mensaje honesto, en tus días más tranquilos.' },
+]
+
+const cuidados = [
+  { icono: 'shield-check', texto: 'Nunca más de 4 mensajes en 30 días a la misma persona.' },
+  { icono: 'moon', texto: 'Nunca de noche: nada sale entre las 22 y las 9.' },
+  { icono: 'circle-x', texto: 'El que responde BAJA no vuelve a recibir mensajes.' },
+] as const
+---
+
+<section id="clientes" data-nav-oscuro class="relative overflow-hidden bg-night py-24 text-white/70 sm:py-32">
+  <div class="brillo pointer-events-none absolute inset-0" aria-hidden="true" />
+
+  <div class="contenedor relative">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo text-brand">Tus clientes</p>
+      <h2 class="titulo-lg mt-4 text-white">Cada pedido te deja un cliente. Piru hace que vuelva.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl text-white/65">
+        Conseguir un cliente nuevo es lo más caro de un local. Piru guarda a cada uno, aprende cada cuánto te pide y te avisa cuando se está yendo, con el mensaje listo para que vuelva.
+      </p>
+    </div>
+
+    <!-- Quién se está yendo -->
+    <div class="revelar mt-16 rounded-[32px] bg-white/[.04] p-7 ring-1 ring-white/10 sm:p-10">
+      <div class="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center">
+        <div>
+          <h3 class="titulo-md text-white">Sabés quién se está yendo, antes de perderlo</h3>
+          <p class="mt-4 text-[16.5px] leading-relaxed">
+            Cada cliente tiene su ritmo. Martina pedía cada 12 días: si pasan 18 sin pedir, Piru la marca <b class="font-semibold text-orange-300">en riesgo</b>. No es spam a toda tu base: es el mensaje justo a la persona justa.
+          </p>
+        </div>
+        <div class="linea-tiempo" aria-label="Línea de tiempo de ejemplo: pedidos cada 12 días y 21 días sin pedir" role="img">
+          <div class="relative h-[112px] sm:h-[150px]">
+            <div class="absolute inset-x-0 top-[58px] h-px bg-white/15" />
+            {zonas.map((z) => (
+              <div class:list={['absolute top-[92px] h-2 rounded-full', z.clase]} style={`left:${x(z.desde)};width:calc(${x(z.hasta - z.desde)} - 3px)`}>
+                {z.texto && <span class="absolute left-0 top-4 hidden whitespace-nowrap text-[12px] font-semibold text-white/75 sm:block">{z.texto}</span>}
+              </div>
+            ))}
+            {pedidos.map((d) => (
+              <span class="absolute top-[50px] size-4 -translate-x-1/2 rounded-full border-[3px] border-brand bg-night" style={`left:${x(d)}`} />
+            ))}
+            <div class="absolute top-[20px] -translate-x-1/2 text-center" style={`left:${x((pedidos[4] + pedidos[5]) / 2)}`}>
+              <span class="whitespace-nowrap rounded-full bg-white/10 px-2 py-0.5 text-[11.5px] font-medium text-white/80">cada ~12 días</span>
+            </div>
+            <div class="absolute top-[6px] h-[98px] w-px -translate-x-1/2 bg-orange-300" style={`left:${x(hoy)}`}>
+              <span class="absolute -top-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-orange-400 px-2.5 py-0.5 text-[12px] font-bold text-night">Hoy · 21 días sin pedir</span>
+            </div>
+          </div>
+          <ul class="flex flex-wrap gap-x-4 gap-y-1 text-[12px] font-semibold text-white/75 sm:hidden">
+            {zonas.filter((z) => z.texto).map((z) => (
+              <li class="flex items-center gap-1.5"><span class:list={['size-2 rounded-full', z.punto]} />{z.texto}</li>
+            ))}
+          </ul>
+          <p class="mt-3 text-[12.5px] text-white/40">Pedidos de Martina (ejemplo). El ritmo y los umbrales se calculan para cada cliente.</p>
+        </div>
+      </div>
+
+      <ul class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {segmentos.map((s) => (
+          <li class="rounded-2xl bg-white/[.04] p-5 ring-1 ring-white/[.08]">
+            <p class="flex items-center gap-2 text-[15px] font-semibold text-white"><span class:list={['size-2 rounded-full', s.punto]} />{s.nombre}</p>
+            <p class="mt-2 text-[14.5px] leading-relaxed">{s.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- El mensaje -->
+    <div class="mt-24">
+      <div class="revelar mx-auto max-w-3xl text-center">
+        <h3 class="titulo-md text-white">A quién, cuándo y qué decirle. Vos sólo tocás enviar.</h3>
+        <p class="mx-auto mt-4 max-w-2xl text-[16.5px] leading-relaxed">
+          Piru ordena a quién escribirle primero, te sugiere el momento —su horario de siempre, o tus días tranquilos para los que hace meses que no vienen— y arma el mensaje con su nombre, su plato favorito y un link con su pedido de siempre ya armado.
+        </p>
+      </div>
+
+      <div class="revelar mx-auto mt-12 w-[min(74%,300px)] drop-shadow-[0_30px_60px_rgb(0_0_0/.6)] md:hidden">
+        <Escala ancho={412} alto={866} etiqueta="Retención en el celular: el mensaje listo para Martina, con los botones para mandarlo por WhatsApp">
+          <Telefono><RetencionMovil /></Telefono>
+        </Escala>
+      </div>
+      <div class="revelar relative mt-12 hidden md:block">
+        <div class="-mx-8 overflow-x-auto px-8 pb-4 sin-barra lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0">
+          <div class="min-w-[760px] overflow-hidden rounded-[18px] shadow-[0_40px_90px_-30px_rgb(0_0_0/.8)] lg:min-w-0">
+            <Escala ancho={1280} alto={700} etiqueta="Retención: la lista de clientes para mandar hoy y el mensaje listo para Martina, con los resultados del mes">
+              <Ventana ancho={1280} alto={700}>
+                <PanelRetencion />
+              </Ventana>
+            </Escala>
+          </div>
+        </div>
+        <p class="mt-2 text-center text-[13px] text-white/40 lg:hidden">Deslizá para ver la pantalla completa →</p>
+      </div>
+    </div>
+
+    <!-- Escalera, cuidados y modos -->
+    <div class="mt-24 grid gap-5 lg:grid-cols-2">
+      <div class="revelar rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10 sm:p-9">
+        <h3 class="text-[22px] font-semibold tracking-tight text-white">Hasta tres mensajes, cada uno con su trabajo</h3>
+        <p class="mt-2 text-[15.5px]">Si no vuelve, el siguiente sale al menos 48 horas después. El descuento sube de a poco: no regalás margen a quien vuelve sin él.</p>
+        <ol class="mt-7 space-y-3">
+          {ESCALERA.map((e, i) => (
+            <li class="flex items-start gap-4 rounded-2xl bg-white/[.04] p-4 ring-1 ring-white/[.06]">
+              <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-white/10 text-[15px] font-bold text-white">{i + 1}</span>
+              <div class="min-w-0 flex-1">
+                <p class="flex flex-wrap items-center justify-between gap-2 text-[16px] font-semibold text-white">
+                  {e.titulo}
+                  <span class:list={['rounded-full px-2.5 py-0.5 text-[12.5px] font-bold', i === 0 ? 'bg-white/10 text-white/80' : 'bg-emerald-400/15 text-emerald-300']}>{e.descuento}</span>
+                </p>
+                <p class="mt-1 text-[14.5px] leading-relaxed">{e.detalle}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-5 text-[13.5px] text-white/45">El descuento viaja en el link y se aplica solo: tu cliente no tipea ningún código.</p>
+      </div>
+
+      <div class="revelar flex flex-col gap-5" style="--retraso:100ms">
+        <div class="rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10 sm:p-9">
+          <h3 class="text-[22px] font-semibold tracking-tight text-white">Tu base, cuidada</h3>
+          <ul class="mt-5 space-y-3.5">
+            {cuidados.map((c) => (
+              <li class="flex gap-3 text-[15.5px]"><Icon name={c.icono} class="mt-0.5 size-5 text-brand" />{c.texto}</li>
+            ))}
+          </ul>
+        </div>
+        <div class="grid flex-1 gap-5 sm:grid-cols-2">
+          <div class="rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10">
+            <span class="grid size-10 place-items-center rounded-xl bg-wa text-white"><Icon name="message-circle" class="size-5" /></span>
+            <p class="mt-4 text-[17px] font-semibold text-white">Desde tu WhatsApp</p>
+            <p class="mt-1.5 text-[14.5px] leading-relaxed">Copiás, se abre la conversación y tocás enviar. Sin costo por mensaje.</p>
+          </div>
+          <div class="rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10">
+            <span class="grid size-10 place-items-center rounded-xl bg-brand text-white"><Icon name="zap" class="size-5" /></span>
+            <p class="mt-4 text-[17px] font-semibold text-white">O que salga solo</p>
+            <p class="mt-1.5 text-[14.5px] leading-relaxed">Por la API oficial de WhatsApp, a tu ritmo diario. Usa créditos de mensajes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="revelar mt-10 text-center text-[15px] text-white/55">
+      Todo esto es parte de <b class="font-semibold text-white">{retencion.nombre}</b>, un adicional de {pesos(retencion.precio)} por mes que incluye el Club de Puntos. <a href="#precios" class="font-semibold text-brand underline-offset-4 hover:underline">Ver precios</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .brillo {
+    background:
+      radial-gradient(50rem 26rem at 50% 0%, rgb(255 122 0 / .16), transparent 70%),
+      radial-gradient(40rem 30rem at 85% 55%, rgb(255 122 0 / .08), transparent 70%);
+  }
+</style>

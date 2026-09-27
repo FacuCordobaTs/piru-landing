@@ -1,0 +1,60 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import ClaimListo from '../replicas/ClaimListo.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { DIAS_PRUEBA, enlaceWhatsapp } from '../../data/oferta'
+
+const pasos: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'message-circle', titulo: 'Nos escribís por WhatsApp', texto: 'Nos mandás tu carta como la tengas: una foto, un PDF o la pizarra del local.' },
+  { icono: 'store', titulo: 'Armamos tu tienda', texto: 'Cargamos tus productos, fotos, precios y zonas de envío. Sin costo.' },
+  { icono: 'rocket', titulo: 'Te llega el link y arrancás', texto: `Reclamás tu tienda, conectás tus cobros y hacés un pedido de prueba. Tenés ${DIAS_PRUEBA} días para probarla antes de pagar.` },
+]
+---
+
+<section id="empezar" class="overflow-hidden bg-sand py-24 sm:py-32">
+  <div class="contenedor grid items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+    <div>
+      <div class="revelar">
+        <p class="antetitulo">Cómo empezar</p>
+        <h2 class="titulo-lg mt-4">Te la dejamos andando. Vos mandás tu carta.</h2>
+        <p class="bajada mt-5 max-w-xl">No tenés que cargar nada ni aprender un sistema de golpe. Podés arrancar sólo con la tienda y sumar el punto de venta o las mesas cuando tu equipo esté listo.</p>
+      </div>
+
+      <ol class="mt-10 space-y-4">
+        {pasos.map((p, i) => (
+          <li class="revelar flex gap-5 rounded-[24px] bg-white p-6 ring-1 ring-line" style={`--retraso:${i * 80}ms`}>
+            <span class="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand-soft text-brand-deep">
+              <Icon name={p.icono} class="size-5" />
+              <span class="absolute -right-1.5 -top-1.5 grid size-6 place-items-center rounded-full bg-ink text-[12px] font-bold text-white">{i + 1}</span>
+            </span>
+            <div>
+              <p class="text-[18px] font-semibold tracking-tight">{p.titulo}</p>
+              <p class="mt-1 text-[15.5px] leading-relaxed text-ink-2">{p.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="revelar mt-8 flex flex-col gap-5 rounded-[24px] bg-ink p-6 text-white sm:flex-row sm:items-center sm:p-7">
+        <span class="grid size-14 shrink-0 place-items-center rounded-full bg-brand text-[18px] font-bold">FC</span>
+        <div class="min-w-0 flex-1">
+          <p class="text-[16px] leading-relaxed text-white/80">“Te armo la tienda personalmente y te acompaño en el cambio, para que tu equipo no sienta el golpe.”</p>
+          <p class="mt-2 text-[14px] font-semibold">Facundo Córdoba <span class="font-normal text-white/50">· creador de Piru</span></p>
+        </div>
+        <a href={enlaceWhatsapp('Hola Facundo! Quiero que me armes la tienda de mi local en Piru.')} target="_blank" rel="noopener" class="boton boton-primario shrink-0">Hablar con Facundo</a>
+      </div>
+    </div>
+
+    <div class="revelar mx-auto w-[min(78%,320px)]" style="--retraso:120ms">
+      <div class="drop-shadow-[0_34px_50px_rgba(40,20,5,0.3)]">
+        <Escala ancho={412} alto={866} etiqueta="Alta asistida: el dueño abre el link y ve que su menú ya está cargado">
+          <Telefono url="admin.piru.app">
+            <ClaimListo />
+          </Telefono>
+        </Escala>
+      </div>
+    </div>
+  </div>
+</section>

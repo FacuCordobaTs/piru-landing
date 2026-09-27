@@ -1,0 +1,20 @@
+---
+import Icon from '../../ui/Icon.astro'
+import TicketPedido from './TicketPedido.astro'
+
+/** Inicio del panel en el celular (el admin es responsive): el detalle del pedido a pantalla completa. */
+---
+
+<div class="relative flex h-full w-full flex-col bg-[#FFFBF0] pt-[54px] text-foreground">
+  <div class="flex h-12 shrink-0 items-center px-3">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="menu" class="size-5" /></span>
+  </div>
+  <header class="flex shrink-0 items-center justify-between gap-2 px-4 pb-1">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="arrow-left" class="size-5" /></span>
+    <span class="flex items-center gap-1.5"><span class="text-2xl font-bold tracking-tight">Hoy</span><Icon name="chevrons-up-down" class="size-5 text-muted-foreground" /></span>
+    <span class="flex h-8 items-center gap-1.5 rounded-xl border border-border bg-muted px-3 text-xs font-bold"><Icon name="list" class="size-3.5" />6</span>
+  </header>
+  <div class="relative min-h-0 flex-1 overflow-hidden">
+    <TicketPedido compacto />
+  </div>
+</div>

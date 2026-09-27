@@ -1,0 +1,53 @@
+---
+import Icon from '../ui/Icon.astro'
+
+/**
+ * Marco de celular a tamaño real: pantalla de 390 × 844 (un iPhone de 6,1") dentro de un bisel de
+ * 11 px, o sea un lienzo de 412 × 866. Va siempre dentro de <Escala ancho={412} alto={866}>.
+ * Con `url`, abajo aparece la barra del navegador: la tienda es una página web, no una app.
+ */
+interface Props {
+  /** Color de la barra de estado: texto oscuro sobre fondo claro o al revés. */
+  tono?: 'claro' | 'oscuro'
+  url?: string
+  /** Fondo de la barra del navegador (por defecto, translúcida clara). */
+  tonoNavegador?: 'claro' | 'oscuro'
+  class?: string
+}
+
+const { tono = 'claro', url, tonoNavegador = tono, class: className } = Astro.props
+---
+
+<div class:list={['telefono', className]}>
+  <span class="telefono-boton telefono-boton--accion" />
+  <span class="telefono-boton telefono-boton--vol1" />
+  <span class="telefono-boton telefono-boton--vol2" />
+  <span class="telefono-boton telefono-boton--power" />
+  <div class="telefono-pantalla">
+    <slot />
+
+    <div class:list={['telefono-estado', tono === 'oscuro' ? 'text-white' : 'text-[#111]']}>
+      <span class="telefono-hora">21:04</span>
+      <span class="telefono-iconos">
+        <svg viewBox="0 0 18 12" class="h-[11px]" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>
+        <svg viewBox="0 0 16 12" class="h-[11px]" aria-hidden="true"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0L8 11.5Zm-4-4.1L2.3 5.7a8.1 8.1 0 0 1 11.4 0L12 7.4a5.7 5.7 0 0 0-8 0ZM.6 4 0 3.4a11.3 11.3 0 0 1 16 0l-.6.6-1 1a9.9 9.9 0 0 0-12.8 0L.6 4Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 27 13" class="h-[12px]" aria-hidden="true"><rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2.4" fill="currentColor"/><path d="M25 4.5v4a2.2 2.2 0 0 0 0-4Z" fill="currentColor" opacity=".45"/></svg>
+      </span>
+    </div>
+    <span class="telefono-isla" />
+
+    {url && (
+      <div class:list={['telefono-navegador', tonoNavegador === 'oscuro' ? 'telefono-navegador--oscuro' : '']}>
+        <div class="telefono-navegador-url">
+          <span class="text-[15px] leading-none opacity-70">aA</span>
+          <span class="flex items-center gap-1.5 truncate">
+            <Icon name="lock" class="size-[13px] opacity-70" stroke={2.4} />
+            {url}
+          </span>
+          <Icon name="refresh-cw" class="size-[15px] opacity-70" stroke={2.2} />
+        </div>
+      </div>
+    )}
+    <span class:list={['telefono-home', tono === 'oscuro' && !url ? 'bg-white/80' : 'bg-black/80']} />
+  </div>
+</div>

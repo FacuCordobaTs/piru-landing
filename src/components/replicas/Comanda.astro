@@ -1,0 +1,45 @@
+---
+import { LOCAL, PEDIDO } from '../../data/demo'
+
+/**
+ * La comanda que sale por la impresora térmica, con el formato real de
+ * admin/src/utils/printerUtils.ts (32 columnas). Cambio deliberado: "PAGO: Transferencia"
+ * en vez del proveedor ("Transf. Talo").
+ */
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+const ancho = 32
+const plata = (n: number) => `$${n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+const fila = (izq: string, der: string) => izq + ' '.repeat(Math.max(1, ancho - izq.length - der.length)) + der
+const linea = '-'.repeat(ancho)
+---
+
+<div class:list={['comanda', className]}>
+  <pre class="text-center text-[21px] font-bold leading-tight">{LOCAL.nombre.toUpperCase()}</pre>
+  <pre>{linea}</pre>
+  <pre>{`Fecha: 27/9/2026 ${PEDIDO.hora}\nSucursal: ${LOCAL.sucursal}`}</pre>
+  <pre>{linea}</pre>
+  <pre class="font-bold">{`PEDIDO #${PEDIDO.id}\nDELIVERY`}</pre>
+  <pre>{linea}</pre>
+  <pre>{`Cliente: ${PEDIDO.cliente}\nTel: ${PEDIDO.telefono}`}</pre>
+  <pre class="font-bold">{`Dir: ${PEDIDO.direccion}`}</pre>
+  <pre>{linea}</pre>
+  <pre class="font-bold">PAGO: Transferencia</pre>
+  <pre>{linea}</pre>
+  {PEDIDO.items.map((item) => (
+    <>
+      <pre class="comanda-item">{`${item.cantidad}x ${item.nombre.replace(' · ', ' - ')}`}</pre>
+      <pre class="text-right">{plata(item.precio)}</pre>
+      {item.extras.length > 0 && <pre class="comanda-alto">{`  CON:\n${item.extras.map((e) => `   + ${e}`).join('\n')}`}</pre>}
+      {item.sin.length > 0 && <pre class="comanda-alto">{`  SIN:\n${item.sin.map((s) => `   - ${s}`).join('\n')}`}</pre>}
+    </>
+  ))}
+  <pre>{linea}</pre>
+  <pre>{fila('Costo Envio', PEDIDO.envio.toLocaleString('es-AR', { minimumFractionDigits: 2 }))}</pre>
+  <pre>{linea}</pre>
+  <pre class="comanda-alto text-right font-bold">{`Total : $ ${PEDIDO.total.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`}</pre>
+  <pre class="mt-2 text-center">Gracias por elegirnos.</pre>
+</div>

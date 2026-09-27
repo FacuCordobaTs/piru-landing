@@ -1,0 +1,109 @@
+---
+import '../styles/global.css'
+import Nav from '../components/Nav.astro'
+import Pie from '../components/Pie.astro'
+import { PRECIO_BASE } from '../data/oferta'
+
+interface Props {
+  titulo?: string
+  descripcion?: string
+  /** Ruta canónica; los datos estructurados del producto van sólo en la home. */
+  canonical?: string
+}
+
+const {
+  titulo = 'Piru · Tu tienda online y sistema de pedidos, sin comisiones',
+  descripcion = 'La tienda online, el sistema de pedidos y la agenda de clientes de tu local gastronómico. Tus clientes piden directo desde el celular y vos cobrás el 100%: precio fijo, sin comisión por venta.',
+  canonical = Astro.url.pathname,
+} = Astro.props
+
+const sitio = Astro.site?.toString().replace(/\/$/, '') ?? 'https://piru.app'
+const url = `${sitio}${canonical}`
+const imagen = `${sitio}/logopiru.jpeg`
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={url} />
+    <meta name="theme-color" content="#FFFCF7" />
+
+    <link rel="icon" type="image/jpeg" href="/piru/logo.jpg" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Piru" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:image" content={imagen} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={imagen} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet" />
+
+    <script is:inline>document.documentElement.classList.add('js')</script>
+
+    {canonical === '/' && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'Piru',
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web, Windows',
+          description: descripcion,
+          offers: { '@type': 'Offer', price: String(PRECIO_BASE), priceCurrency: 'ARS' },
+        })}
+      />
+    )}
+  </head>
+  <body>
+    <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Saltar al contenido</a>
+    <Nav />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+
+    <script>
+      // Aparición suave de bloques al entrar en pantalla.
+      const revelables = document.querySelectorAll<HTMLElement>('.revelar')
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entradas) => {
+          for (const e of entradas) {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible')
+              io.unobserve(e.target)
+            }
+          }
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 })
+        revelables.forEach((el) => io.observe(el))
+      } else {
+        revelables.forEach((el) => el.classList.add('visible'))
+      }
+
+      // Navegadores sin tan(atan2()) en CSS: la escala de las réplicas se calcula acá.
+      if (!CSS.supports('transform', 'scale(tan(atan2(1px, 2px)))')) {
+        const ro = new ResizeObserver((entradas) => {
+          for (const e of entradas) {
+            const el = e.target as HTMLElement
+            const w = Number(getComputedStyle(el).getPropertyValue('--escala-w')) || 1
+            el.style.setProperty('--escala-k', String(el.clientWidth / w))
+          }
+        })
+        document.querySelectorAll<HTMLElement>('.escala').forEach((el) => ro.observe(el))
+      }
+    </script>
+  </body>
+</html>

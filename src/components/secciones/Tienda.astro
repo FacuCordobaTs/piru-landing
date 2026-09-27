@@ -1,0 +1,164 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import TiendaMenu from '../replicas/tienda/TiendaMenu.astro'
+import TiendaGrupo from '../replicas/tienda/TiendaGrupo.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { TIENDA_DEMO } from '../../data/oferta'
+
+const colores = [
+  { nombre: 'Bordó', c1: '#7A2E3F', c2: '#F4EDE4' },
+  { nombre: 'Carbón', c1: '#1F1B18', c2: '#F6F1EA' },
+  { nombre: 'Verde', c1: '#1F4D3A', c2: '#F1EFE6' },
+  { nombre: 'Azul', c1: '#1E3A5F', c2: '#F1F0EB' },
+  { nombre: 'Rojo', c1: '#B42318', c2: '#FFF4EF' },
+  { nombre: 'Mostaza', c1: '#8A5A00', c2: '#FFF8E7' },
+]
+
+const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: string }[] = [
+  { icono: 'smartphone', titulo: 'Sin app y sin registro', texto: 'Se abre desde el navegador de cualquier celular. Tu cliente pone su nombre y su celular, y listo.' },
+  { icono: 'store', titulo: 'Con tu logo y tus colores', texto: 'Tu marca en cada pantalla, con tu link propio o tu dominio.' },
+  { icono: 'bike', titulo: 'Delivery por zonas, o retiro', texto: 'Cada zona con su costo de envío. La dirección se valida en el mapa antes de pagar.' },
+  { icono: 'clock', titulo: 'Horarios y pedidos programados', texto: 'Si estás cerrado, tus clientes pueden dejar el pedido para más tarde.' },
+  { icono: 'ticket', titulo: 'Promos que se aplican solas', texto: 'El descuento viaja en tu link: tu cliente no tiene que tipear ningún código.' },
+  { icono: 'sparkles', titulo: 'Puntos para los que vuelven', texto: 'Suman con cada compra y los canjean por productos.', modulo: 'Con Retención' },
+]
+---
+
+<section id="tienda" class="overflow-hidden bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar max-w-3xl">
+      <p class="antetitulo">Tu tienda</p>
+      <h2 class="titulo-lg mt-4">Una tienda con tu marca, hecha para pedir rápido</h2>
+      <p class="bajada mt-5 max-w-2xl">Tus fotos, tus precios y tus colores. Tus clientes la abren desde el link y piden en un minuto, sin llamarte ni esperar que contestes.</p>
+    </div>
+
+    <div class="mt-14 grid items-center gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
+      <div class="revelar flex flex-col items-center">
+        <div class="w-[min(80%,330px)] drop-shadow-[0_34px_50px_rgba(40,20,5,0.3)]">
+          <Escala ancho={412} alto={866} etiqueta="La tienda de ejemplo con el color elegido">
+            <Telefono url="my.piru.app/brasa">
+              <TiendaMenu id="tienda-colores" />
+            </Telefono>
+          </Escala>
+        </div>
+
+        <div class="mt-8 flex flex-col items-center gap-4">
+          <p class="text-[14px] font-medium text-ink-3">Probala con los colores de tu marca</p>
+          <div class="flex flex-wrap items-center justify-center gap-2.5" role="radiogroup" aria-label="Color de la tienda">
+            {colores.map((c, i) => (
+              <button
+                type="button"
+                class="muestra"
+                role="radio"
+                aria-checked={i === 0 ? 'true' : 'false'}
+                aria-label={c.nombre}
+                title={c.nombre}
+                data-c1={c.c1}
+                data-c2={c.c2}
+                style={`--m1:${c.c1};--m2:${c.c2}`}
+              />
+            ))}
+          </div>
+          <div class="flex items-center gap-1 rounded-full bg-white p-1 ring-1 ring-line" role="group" aria-label="Modo de la tienda">
+            <button type="button" class="modo activo" data-modo="claro" aria-pressed="true"><Icon name="sun" class="size-4" />Claro</button>
+            <button type="button" class="modo" data-modo="oscuro" aria-pressed="false"><Icon name="moon" class="size-4" />Oscuro</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <ul class="grid gap-x-10 gap-y-9 sm:grid-cols-2">
+          {funciones.map((f, i) => (
+            <li class="revelar" style={`--retraso:${i * 60}ms`}>
+              <span class="grid size-11 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name={f.icono} class="size-5" /></span>
+              <h3 class="mt-4 flex flex-wrap items-center gap-2 text-[18px] font-semibold tracking-tight">
+                {f.titulo}
+                {f.modulo && <span class="rounded-full bg-brand-soft px-2 py-0.5 text-[11.5px] font-semibold text-brand-deep ring-1 ring-brand/20">{f.modulo}</span>}
+              </h3>
+              <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{f.texto}</p>
+            </li>
+          ))}
+        </ul>
+        <a href={TIENDA_DEMO} target="_blank" rel="noopener" class="revelar boton boton-secundario mt-10">
+          Abrir la tienda de demostración<Icon name="arrow-up-right" class="size-4" />
+        </a>
+      </div>
+    </div>
+
+    <div class="revelar mt-24 grid items-center gap-12 overflow-hidden rounded-[32px] bg-white p-8 ring-1 ring-line sm:p-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
+      <div>
+        <p class="antetitulo">Pedido en grupo</p>
+        <h3 class="titulo-md mt-3">¿Piden entre varios? Cada uno elige desde su celular.</h3>
+        <p class="mt-4 text-[17px] leading-relaxed text-ink-2">
+          El que organiza comparte un link y cada uno agrega lo suyo. A la cocina llega una sola comanda, separada por persona, y se paga todo junto.
+        </p>
+        <ul class="mt-7 space-y-4 text-[16px] text-ink-2">
+          <li class="flex gap-3"><Icon name="receipt" class="mt-0.5 size-5 text-brand" />Una sola comanda, ordenada por persona.</li>
+          <li class="flex gap-3"><Icon name="user-plus" class="mt-0.5 size-5 text-brand" /><span><b class="font-semibold text-ink">Cada comensal queda en tu agenda</b> con su celular: cuatro amigos, cuatro clientes nuevos.</span></li>
+          <li class="flex gap-3"><Icon name="share-2" class="mt-0.5 size-5 text-brand" />Nadie descarga nada: se suman desde el link.</li>
+        </ul>
+      </div>
+      <div class="relative mx-auto w-[min(78%,300px)]">
+        <div class="drop-shadow-[0_30px_50px_rgba(40,20,5,0.28)]">
+          <Escala ancho={412} alto={866} etiqueta="La sala del pedido en grupo: quiénes están y qué eligió cada uno">
+            <Telefono url="my.piru.app/brasa">
+              <TiendaGrupo />
+            </Telefono>
+          </Escala>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .muestra {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--m1) 0 50%, var(--m2) 50% 100%);
+    box-shadow: 0 0 0 1px rgb(26 18 10 / .12), 0 2px 6px rgb(26 18 10 / .12);
+    cursor: pointer;
+    transition: transform .2s var(--ease-suave), box-shadow .2s;
+  }
+  .muestra:hover { transform: scale(1.08); }
+  .muestra[aria-checked='true'] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-brand); }
+  .modo {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-ink-3);
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
+  }
+  .modo.activo { background: var(--color-ink); color: #fff; }
+</style>
+
+<script>
+  const tienda = document.getElementById('tienda-colores')
+  const muestras = document.querySelectorAll<HTMLButtonElement>('.muestra')
+  const modos = document.querySelectorAll<HTMLButtonElement>('.modo')
+
+  muestras.forEach((m) => m.addEventListener('click', () => {
+    tienda?.style.setProperty('--c1', m.dataset.c1 ?? '')
+    tienda?.style.setProperty('--c2', m.dataset.c2 ?? '')
+    muestras.forEach((x) => x.setAttribute('aria-checked', String(x === m)))
+  }))
+
+  modos.forEach((b) => b.addEventListener('click', () => {
+    const oscuro = b.dataset.modo === 'oscuro'
+    tienda?.classList.toggle('tienda--oscura', oscuro)
+    modos.forEach((x) => {
+      x.classList.toggle('activo', x === b)
+      x.setAttribute('aria-pressed', String(x === b))
+    })
+  }))
+</script>

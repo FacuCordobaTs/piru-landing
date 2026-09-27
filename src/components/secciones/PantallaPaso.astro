@@ -1,0 +1,92 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Ventana from '../marcos/Ventana.astro'
+import TiendaMenu from '../replicas/tienda/TiendaMenu.astro'
+import TiendaProducto from '../replicas/tienda/TiendaProducto.astro'
+import TiendaPago from '../replicas/tienda/TiendaPago.astro'
+import PanelPedidos from '../replicas/panel/PanelPedidos.astro'
+import PanelCliente from '../replicas/panel/PanelCliente.astro'
+import PedidoMovil from '../replicas/panel/PedidoMovil.astro'
+import ClienteMovil from '../replicas/panel/ClienteMovil.astro'
+import WhatsApp from '../replicas/WhatsApp.astro'
+import { LOCAL } from '../../data/demo'
+
+/**
+ * La pantalla de cada paso de "Así viaja un pedido". En el escenario fijo de escritorio el panel se
+ * muestra en una ventana; en celular (`movil`), el mismo panel en su versión angosta.
+ */
+type ClavePantalla = 'menu' | 'producto' | 'pago' | 'panel' | 'cliente' | 'whatsapp'
+
+interface Props {
+  pantalla: ClavePantalla
+  movil?: boolean
+}
+
+const { pantalla, movil = false } = Astro.props
+const esPanel = pantalla === 'panel' || pantalla === 'cliente'
+const enVentana = esPanel && !movil
+---
+
+{!enVentana ? (
+  <div class="pantalla-telefono relative drop-shadow-[0_30px_50px_rgba(40,20,5,0.28)]">
+    {pantalla === 'menu' && (
+      <Escala ancho={412} alto={866} etiqueta={`La tienda de ${LOCAL.nombre} abierta desde el link, en el navegador del celular`}>
+        <Telefono url="my.piru.app/brasa"><TiendaMenu carrito={null} /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'producto' && (
+      <Escala ancho={412} alto={866} etiqueta="Detalle de la Smash burger: doble, sin cebolla caramelizada y con extra cheddar">
+        <Telefono url="my.piru.app/brasa" tono="oscuro" tonoNavegador="claro"><TiendaProducto /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'pago' && (
+      <Escala ancho={412} alto={866} etiqueta="Pago por transferencia con alias único y el aviso de transferencia recibida">
+        <Telefono url="my.piru.app/brasa"><TiendaPago /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'panel' && (
+      <Escala ancho={412} alto={866} etiqueta="El panel en el celular: el pedido #1284 de Martina con su comanda">
+        <Telefono><PedidoMovil /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'cliente' && (
+      <Escala ancho={412} alto={866} etiqueta="La ficha de Martina en la agenda de clientes, en el celular">
+        <Telefono><ClienteMovil /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'whatsapp' && (
+      <Escala ancho={412} alto={866} etiqueta="Mensaje de WhatsApp de Brasa a Martina con la foto de su hamburguesa favorita y un botón para pedir">
+        <Telefono><WhatsApp /></Telefono>
+      </Escala>
+    )}
+  </div>
+) : (
+  <div class="pantalla-ventana relative">
+    <div class="overflow-hidden rounded-[14px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_30px_60px_-20px_rgb(40_24_8/.32)]">
+      {pantalla === 'panel' && (
+        <Escala ancho={1040} alto={720} etiqueta="Panel de pedidos con el pedido #1284 de Martina recién llegado">
+          <Ventana ancho={1040} alto={720}><PanelPedidos compacta anchoLista={336} /></Ventana>
+        </Escala>
+      )}
+      {pantalla === 'cliente' && (
+        <Escala ancho={1040} alto={720} etiqueta="Ficha de Martina en la agenda de clientes: pedidos, gasto, cadencia y lo que más pide">
+          <Ventana ancho={1040} alto={720}><PanelCliente anchoLista={276} /></Ventana>
+        </Escala>
+      )}
+    </div>
+    {pantalla === 'panel' && (
+      <div class="aparece absolute -bottom-7 left-[3%] w-[min(360px,52%)] rounded-[22px] bg-white/85 p-3.5 shadow-[0_20px_40px_-12px_rgb(40_24_8/.35)] ring-1 ring-black/5 backdrop-blur-xl" style="--retraso:500ms">
+        <div class="flex items-start gap-3">
+          <span class="grid size-9 shrink-0 place-items-center rounded-[10px] bg-wa text-white"><Icon name="message-circle" class="size-5" /></span>
+          <div class="min-w-0 flex-1">
+            <p class="flex items-center justify-between text-[12px] text-ink-3"><span class="font-semibold uppercase tracking-wide">WhatsApp</span><span>ahora</span></p>
+            <p class="mt-0.5 text-[14px] font-semibold text-ink">{LOCAL.nombre}</p>
+            <p class="text-[13.5px] leading-snug text-ink-2">¡Tu comida está lista! Tu pedido ya está en camino a tu domicilio 🛵</p>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+)}

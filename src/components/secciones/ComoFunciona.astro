@@ -1,0 +1,173 @@
+---
+import PantallaPaso from './PantallaPaso.astro'
+
+type ClavePantalla = 'menu' | 'producto' | 'pago' | 'panel' | 'cliente' | 'whatsapp'
+interface Paso {
+  titulo: string
+  texto: string
+  pantalla: ClavePantalla
+  modulo?: string
+}
+
+const pasos: Paso[] = [
+  {
+    titulo: 'Tu cliente entra a tu link',
+    texto: 'Lo ponés en tu Instagram, en tus estados de WhatsApp o en un QR en la mesa. Se abre tu tienda al instante: sin descargar nada y sin crear usuario.',
+    pantalla: 'menu',
+  },
+  {
+    titulo: 'Arma el pedido a su gusto',
+    texto: 'Elige el tamaño, saca lo que no quiere y suma extras. Todo queda escrito, así la cocina recibe exactamente lo que pidió.',
+    pantalla: 'producto',
+  },
+  {
+    titulo: 'Paga como le queda cómodo',
+    texto: 'Mercado Pago, transferencia o efectivo. Con la transferencia automática, cada pedido tiene su propio alias y el pago se confirma solo: se terminaron los comprobantes.',
+    pantalla: 'pago',
+  },
+  {
+    titulo: 'Te llega a vos y a la cocina',
+    texto: 'Aparece en tu panel con todo el detalle, sabiendo quién es el cliente, y la comanda sale impresa. Con los avisos por WhatsApp, tu cliente se entera cuando sale.',
+    pantalla: 'panel',
+  },
+  {
+    titulo: 'Queda en tu agenda de clientes',
+    texto: 'Nombre, teléfono, qué pide, cada cuánto y cuánto gastó. Todo lo que una app de delivery nunca te muestra ahora es tuyo, y se arma solo.',
+    pantalla: 'cliente',
+  },
+  {
+    titulo: 'Y si deja de pedir, Piru te avisa',
+    texto: 'Martina pedía cada 12 días y hace tres semanas que no aparece. Piru le prepara un mensaje con su hamburguesa favorita y te dice cuándo mandarlo. Vos tocás enviar.',
+    pantalla: 'whatsapp',
+    modulo: 'Con Retención',
+  },
+]
+---
+
+<section id="como-funciona" class="relative py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar max-w-3xl">
+      <p class="antetitulo">Cómo funciona</p>
+      <h2 class="titulo-lg mt-4">Así viaja un pedido con Piru</h2>
+      <p class="bajada mt-5 max-w-2xl">Del Instagram de tu local a la cocina, y de vuelta a tu cliente. Seguilo paso a paso.</p>
+    </div>
+
+    <div class="historia mt-14 lg:mt-0 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <ol class="relative">
+        {pasos.map((p, i) => (
+          <li class:list={['paso', i === 0 && 'activo']} data-paso={i}>
+            <div class="paso-texto max-w-md">
+              <span class="paso-numero">{i + 1}</span>
+              <h3 class="mt-5 text-[26px] font-bold leading-tight tracking-[-0.03em] sm:text-[30px]">
+                {p.titulo}
+              </h3>
+              {p.modulo && <span class="mt-3 inline-flex rounded-full bg-brand-soft px-2.5 py-1 text-[12.5px] font-semibold text-brand-deep ring-1 ring-brand/20">{p.modulo}</span>}
+              <p class="mt-4 text-[17px] leading-relaxed text-ink-2">{p.texto}</p>
+            </div>
+            <div class="paso-pantalla lg:hidden">
+              <PantallaPaso pantalla={p.pantalla} movil />
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="hidden lg:block">
+        <div class="escenario">
+          {pasos.map((p, i) => (
+            <div class:list={['escena', i === 0 && 'activa']} data-escena={i} aria-hidden={i === 0 ? undefined : 'true'}>
+              <PantallaPaso pantalla={p.pantalla} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .paso { padding-bottom: 88px; }
+  .paso:last-child { padding-bottom: 0; }
+  .paso-numero {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #fff;
+    color: var(--color-ink);
+    font-size: 17px;
+    font-weight: 700;
+    box-shadow: 0 0 0 1px var(--color-line), 0 4px 10px -4px rgb(40 24 8 / .15);
+    transition: background-color .4s, color .4s, box-shadow .4s;
+  }
+  .paso-pantalla { margin-top: 32px; }
+  .paso-pantalla :global(.pantalla-telefono) { width: min(74%, 300px); margin: 0 auto; }
+
+  @media (min-width: 1024px) {
+    .paso {
+      min-height: 76vh;
+      display: flex;
+      align-items: center;
+      padding-bottom: 0;
+    }
+    .paso-texto { opacity: .3; transition: opacity .5s var(--ease-suave); }
+    .paso.activo .paso-texto { opacity: 1; }
+    .paso.activo .paso-numero { background: var(--color-brand); color: #fff; box-shadow: 0 10px 22px -8px rgb(255 122 0 / .7); }
+
+    .escenario { position: sticky; top: 12vh; height: 76vh; }
+    .escena {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(26px) scale(.97);
+      transition: opacity .55s var(--ease-suave), transform .7s var(--ease-suave);
+      pointer-events: none;
+    }
+    .escena.activa { opacity: 1; transform: none; }
+    .escena :global(.pantalla-telefono) { height: 100%; aspect-ratio: 412 / 866; }
+    /* La ventana se come el margen derecho de la página para que el panel se lea mejor. */
+    .escena:has(:global(.pantalla-ventana)) { justify-content: flex-start; }
+    .escena :global(.pantalla-ventana) {
+      flex: none;
+      width: calc(100% + max(0px, (100vw - 1200px) / 2) + 8px);
+    }
+    .paso:first-child { min-height: 60vh; }
+  }
+</style>
+
+<script>
+  const pasos = [...document.querySelectorAll<HTMLElement>('.historia .paso')]
+  const escenas = [...document.querySelectorAll<HTMLElement>('.historia .escena')]
+  let actual = 0
+
+  function activar(i: number) {
+    if (i === actual) return
+    actual = i
+    pasos.forEach((p, j) => p.classList.toggle('activo', j === i))
+    escenas.forEach((e, j) => {
+      const activa = j === i
+      e.classList.toggle('activa', activa)
+      if (activa) {
+        e.removeAttribute('aria-hidden')
+        // Vuelve a correr las apariciones (avisos, toasts) de la escena que entra.
+        e.querySelectorAll<HTMLElement>('.aparece, .aviso-transferencia').forEach((el) => {
+          el.style.animation = 'none'
+          void el.offsetWidth
+          el.style.animation = ''
+        })
+      } else {
+        e.setAttribute('aria-hidden', 'true')
+      }
+    })
+  }
+
+  if ('IntersectionObserver' in window && escenas.length) {
+    const io = new IntersectionObserver((entradas) => {
+      for (const e of entradas) if (e.isIntersecting) activar(Number((e.target as HTMLElement).dataset.paso))
+    }, { rootMargin: '-48% 0px -48% 0px' })
+    pasos.forEach((p) => io.observe(p))
+  }
+</script>

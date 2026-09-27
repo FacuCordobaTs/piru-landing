@@ -1,0 +1,113 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Ventana from '../marcos/Ventana.astro'
+import TiendaMenu from '../replicas/tienda/TiendaMenu.astro'
+import PanelPedidos from '../replicas/panel/PanelPedidos.astro'
+import Comanda from '../replicas/Comanda.astro'
+import { enlaceWhatsapp, pesos, PRECIO_BASE, DIAS_PRUEBA } from '../../data/oferta'
+import { LOCAL } from '../../data/demo'
+
+const checks = ['Te la armamos con tu carta', `${DIAS_PRUEBA} días de prueba`, `Precio fijo: ${pesos(PRECIO_BASE)} por mes`]
+---
+
+<section class="relative overflow-hidden pt-[128px] sm:pt-[150px]">
+  <div class="fondo-hero pointer-events-none absolute inset-0" aria-hidden="true" />
+
+  <div class="contenedor relative text-center">
+    <p class="revelar mx-auto inline-flex items-center gap-2.5 rounded-full bg-white/80 px-3.5 py-1.5 text-[13.5px] font-medium text-ink-2 ring-1 ring-line backdrop-blur">
+      <span class="punto-vivo" /><span class="sm:hidden">Tienda online + pedidos para gastronomía</span><span class="hidden sm:inline">Tienda online + sistema de pedidos para gastronomía</span>
+    </p>
+    <h1 class="revelar titulo-xl mx-auto mt-6 max-w-[14ch] sm:max-w-none" style="--retraso:80ms">
+      Tus clientes te piden directo.<br /><span class="text-brand">Sin comisiones.</span>
+    </h1>
+    <p class="revelar bajada mx-auto mt-6 max-w-[40rem]" style="--retraso:160ms">
+      Piru es la tienda online, el sistema de pedidos y la agenda de clientes de tu local. Ellos piden en un minuto
+      desde el celular, vos lo atendés en una sola pantalla y Piru te avisa cuándo invitarlos a volver.
+    </p>
+    <div class="revelar mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:240ms">
+      <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario w-full max-w-xs sm:w-auto">
+        <Icon name="message-circle" class="size-[18px]" stroke={2.2} />Quiero mi tienda
+      </a>
+      <a href="#como-funciona" class="boton boton-secundario w-full max-w-xs sm:w-auto">
+        Ver cómo funciona<Icon name="arrow-right" class="size-4 rotate-90" />
+      </a>
+    </div>
+    <ul class="revelar mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[14px] text-ink-2" style="--retraso:320ms">
+      {checks.map((c) => (
+        <li class="flex items-center gap-1.5"><Icon name="circle-check" class="size-4 text-brand" stroke={2.2} />{c}</li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Composición: el cliente pide en el celular → entra al panel → sale la comanda -->
+  <div class="revelar contenedor relative mt-14 pb-16 sm:mt-20 sm:pb-24" style="--retraso:200ms">
+    <div class="relative mx-auto hidden max-w-[1160px] md:block">
+      <div class="relative ml-[9%] w-[76%] rounded-[18px] sombra-profunda">
+        <Escala ancho={1280} alto={840} etiqueta={`Panel de pedidos de Piru: la lista del día con el pedido #1284 de ${LOCAL.nombre} abierto y su comanda`}>
+          <Ventana ancho={1280} alto={840}>
+            <PanelPedidos animarNuevo />
+          </Ventana>
+        </Escala>
+      </div>
+
+      <div class="absolute -bottom-[8%] left-0 w-[20%] drop-shadow-[0_30px_50px_rgba(40,20,5,0.35)]">
+        <div class="aparece absolute -top-[13%] left-[6%] z-10 flex items-center gap-2 whitespace-nowrap rounded-2xl bg-white/95 px-3.5 py-2.5 text-[13px] font-semibold text-ink shadow-lg ring-1 ring-line backdrop-blur" style="--retraso:1.3s">
+          <span class="grid size-6 place-items-center rounded-full bg-emerald-500 text-white"><Icon name="check" class="size-3.5" stroke={3} /></span>
+          Pagó por transferencia
+          <span class="font-normal text-ink-3">· se confirmó solo</span>
+        </div>
+        <Escala ancho={412} alto={866} etiqueta="La tienda de Brasa abierta en el celular de un cliente, con el pedido listo para enviar">
+          <Telefono url="my.piru.app/brasa">
+            <TiendaMenu />
+          </Telefono>
+        </Escala>
+      </div>
+
+      <div class="absolute right-0 top-[12%] w-[16.5%] rotate-[3deg]">
+        <div class="comanda-sale drop-shadow-[0_24px_30px_rgba(40,20,5,0.22)]">
+          <Escala ancho={290} alto={720} etiqueta="Comanda impresa del pedido #1284">
+            <Comanda />
+          </Escala>
+        </div>
+        <div class="aparece absolute -bottom-[3%] -left-[22%] flex -rotate-[3deg] items-center gap-2 whitespace-nowrap rounded-2xl bg-ink px-3.5 py-2.5 text-[13px] font-semibold text-white shadow-lg" style="--retraso:2.6s">
+          <Icon name="printer" class="size-4 text-brand" />La comanda sale sola
+        </div>
+      </div>
+    </div>
+
+    <!-- En celular: la tienda y la comanda -->
+    <div class="relative mx-auto flex max-w-[380px] items-start justify-center md:hidden">
+      <div class="relative z-10 w-[64%] drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
+        <Escala ancho={412} alto={866} etiqueta="La tienda de Brasa abierta en el celular de un cliente">
+          <Telefono url="my.piru.app/brasa">
+            <TiendaMenu />
+          </Telefono>
+        </Escala>
+      </div>
+      <div class="-ml-[10%] mt-[18%] w-[46%] rotate-[4deg]">
+        <div class="comanda-sale drop-shadow-[0_18px_24px_rgba(40,20,5,0.2)]">
+          <Escala ancho={290} alto={720} etiqueta="Comanda impresa del pedido">
+            <Comanda />
+          </Escala>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fondo-hero {
+    background:
+      radial-gradient(60rem 30rem at 50% 62%, rgb(255 122 0 / .13), transparent 70%),
+      radial-gradient(circle at 1px 1px, rgb(40 24 8 / .09) 1px, transparent 0) 0 0 / 26px 26px;
+    mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+  }
+  .sombra-profunda {
+    box-shadow:
+      0 2px 4px rgb(40 24 8 / .06),
+      0 24px 48px -12px rgb(40 24 8 / .22),
+      0 60px 120px -40px rgb(255 122 0 / .28);
+  }
+</style>

@@ -1,0 +1,26 @@
+---
+/**
+ * Muestra una réplica diseñada a tamaño real (px de la app) achicada al ancho disponible, como una
+ * captura: el lienzo mide `ancho × alto` y se escala sólo con CSS (`tan(atan2(100cqw, …))`),
+ * sin saltos de layout. El contenido es decorativo (`inert`): la descripción va en `etiqueta`.
+ */
+interface Props {
+  ancho: number
+  alto: number
+  etiqueta: string
+  class?: string
+}
+
+const { ancho, alto, etiqueta, class: className } = Astro.props
+---
+
+<div
+  class:list={['escala', className]}
+  style={`--escala-w:${ancho};--escala-h:${alto}`}
+  role="img"
+  aria-label={etiqueta}
+>
+  <div class="escala-lienzo" inert>
+    <slot />
+  </div>
+</div>

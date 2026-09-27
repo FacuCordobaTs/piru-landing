@@ -1,0 +1,34 @@
+---
+import Icon from '../ui/Icon.astro'
+
+/**
+ * Ventana de navegador/escritorio a tamaño real. `ancho × alto` es el lienzo completo; la barra
+ * mide 38 px y el resto es la app. Va dentro de <Escala> con las mismas medidas.
+ */
+interface Props {
+  ancho: number
+  alto: number
+  url?: string
+  class?: string
+}
+
+const { ancho, alto, url = 'admin.piru.app', class: className } = Astro.props
+---
+
+<div class:list={['ventana', className]} style={`width:${ancho}px;height:${alto}px`}>
+  <div class="ventana-barra">
+    <span class="flex gap-[7px]">
+      <span class="size-[11px] rounded-full bg-[#FF5F57]" />
+      <span class="size-[11px] rounded-full bg-[#FEBC2E]" />
+      <span class="size-[11px] rounded-full bg-[#28C840]" />
+    </span>
+    <span class="ventana-url">
+      <Icon name="lock" class="size-[11px]" stroke={2.4} />
+      {url}
+    </span>
+    <span class="w-[47px]" />
+  </div>
+  <div class="ventana-cuerpo">
+    <slot />
+  </div>
+</div>

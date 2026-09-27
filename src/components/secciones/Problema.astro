@@ -1,0 +1,94 @@
+---
+import Icon from '../ui/Icon.astro'
+import { pesos } from '../../data/oferta'
+
+const pedido = 20000
+const comision = 0.3
+const chat = [
+  { yo: false, texto: 'hola!! me pasás la carta?', hora: '20:41' },
+  { yo: true, texto: '📄 Carta-septiembre.pdf', hora: '20:44' },
+  { yo: false, texto: 'una napo grande y 6 de carne', hora: '20:52' },
+  { yo: false, texto: 'ah y una coca', hora: '20:52' },
+  { yo: false, texto: '📷 Foto · comprobante', hora: '20:58', foto: true },
+  { yo: false, texto: 'cuánto tarda?? 🙏', hora: '21:15' },
+]
+---
+
+<section class="bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">El problema</p>
+      <h2 class="titulo-lg mt-4">Hoy cada pedido te cuesta plata… o tiempo.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Por las apps pagás comisión en cada venta. Por WhatsApp lo pagás en horas contestando mensajes. Y en ninguno de los dos te quedás con el cliente.</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-2">
+      <article class="revelar tarjeta flex flex-col overflow-hidden p-7 sm:p-9">
+        <div class="flex items-center gap-3">
+          <span class="flex -space-x-2">
+            <span class="grid size-10 place-items-center rounded-xl bg-[#E7243B] text-white ring-2 ring-white"><Icon name="shopping-bag" class="size-5" /></span>
+            <span class="grid size-10 place-items-center rounded-xl bg-[#FF6A2B] text-white ring-2 ring-white"><Icon name="bike" class="size-5" /></span>
+          </span>
+          <h3 class="text-xl font-semibold tracking-tight">Por apps de delivery</h3>
+        </div>
+
+        <div class="mt-8 rounded-2xl bg-sand/70 p-5 ring-1 ring-line">
+          <div class="flex items-baseline justify-between text-[15px]">
+            <span class="text-ink-2">Un pedido de</span>
+            <span class="font-semibold tabular-nums">{pesos(pedido)}</span>
+          </div>
+          <div class="mt-3 flex h-4 overflow-hidden rounded-full bg-white ring-1 ring-line">
+            <span class="h-full bg-emerald-500/85" style={`width:${(1 - comision) * 100}%`} />
+            <span class="h-full bg-[#E7243B]" style={`width:${comision * 100}%`} />
+          </div>
+          <div class="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-[14px]">
+            <span class="flex items-center gap-1.5 whitespace-nowrap text-ink-2"><span class="size-2 rounded-full bg-emerald-500" />Te queda <b class="font-semibold text-ink tabular-nums">{pesos(pedido * (1 - comision))}</b></span>
+            <span class="flex items-center gap-1.5 whitespace-nowrap text-ink-2"><span class="size-2 rounded-full bg-[#E7243B]" />Comisión <b class="font-semibold text-[#C81E32] tabular-nums">−{pesos(pedido * comision)}</b></span>
+          </div>
+        </div>
+
+        <ul class="mt-8 space-y-3.5 text-[16px] text-ink-2">
+          <li class="flex gap-3"><Icon name="circle-x" class="mt-0.5 size-5 text-[#E7243B]" />Se quedan con entre el 25% y el 35% de cada pedido.</li>
+          <li class="flex gap-3"><Icon name="circle-x" class="mt-0.5 size-5 text-[#E7243B]" />El cliente es de la app: no sabés quién es ni cómo volver a hablarle.</li>
+          <li class="flex gap-3"><Icon name="circle-x" class="mt-0.5 size-5 text-[#E7243B]" />Cuando vuelve a pedir, pagás la comisión otra vez.</li>
+        </ul>
+      </article>
+
+      <article class="revelar tarjeta flex flex-col overflow-hidden p-7 sm:p-9" style="--retraso:120ms">
+        <div class="flex items-center gap-3">
+          <span class="grid size-10 place-items-center rounded-xl bg-wa text-white"><Icon name="message-circle" class="size-5" /></span>
+          <h3 class="text-xl font-semibold tracking-tight">Por WhatsApp, a mano</h3>
+          <span class="ml-auto shrink-0 whitespace-nowrap rounded-full bg-wa px-2.5 py-1 text-[12px] font-bold text-white">14 sin leer</span>
+        </div>
+
+        <div class="mt-8 space-y-1.5 rounded-2xl bg-[#EFEAE2] p-4" aria-label="Ejemplo de un pedido por chat">
+          {chat.map((m) => (
+            <div class:list={['flex', m.yo ? 'justify-end' : 'justify-start']}>
+              <span class:list={[
+                'max-w-[78%] rounded-lg px-2.5 py-1.5 text-[14px] leading-snug shadow-[0_1px_.5px_rgba(11,20,26,.13)]',
+                m.yo ? 'rounded-tr-none bg-[#D9FDD3]' : 'rounded-tl-none bg-white',
+                m.foto && 'italic text-ink-3',
+              ]}>
+                {m.texto}<span class="ml-2 align-bottom text-[10.5px] text-[#667781]">{m.hora}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <ul class="mt-8 space-y-3.5 text-[16px] text-ink-2">
+          <li class="flex gap-3"><Icon name="circle-x" class="mt-0.5 size-5 text-[#E7243B]" />Contestás uno por uno, pasás la carta y anotás a mano.</li>
+          <li class="flex gap-3"><Icon name="circle-x" class="mt-0.5 size-5 text-[#E7243B]" />Comprobantes para revisar y errores en la comanda.</li>
+          <li class="flex gap-3"><Icon name="circle-x" class="mt-0.5 size-5 text-[#E7243B]" />No queda nada guardado: no sabés quién te compra ni cada cuánto.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="revelar mt-5 flex flex-col items-start gap-5 rounded-[28px] bg-ink p-7 text-white sm:flex-row sm:items-center sm:p-9">
+      <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand"><Icon name="zap" class="size-6" /></span>
+      <p class="text-[19px] leading-snug text-white/80 sm:text-[21px]">
+        <b class="font-semibold text-white">Con Piru, tu cliente pide solo, paga solo y queda guardado.</b> Vos cocinás. Y no le das a nadie un porcentaje de lo que vendés.
+      </p>
+      <a href="#como-funciona" class="boton boton-primario shrink-0 sm:ml-auto">Ver cómo<Icon name="arrow-right" class="size-4" /></a>
+    </div>
+  </div>
+</section>

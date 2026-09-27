@@ -1,0 +1,57 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { FOTOS } from '../../../data/fotos'
+import { CLIENTA, MENSAJE_RECOMPRA, MOTOR } from '../../../data/demo'
+
+/**
+ * Retención en el celular, con el mismo rediseño que PanelRetencion.astro: el detalle de un cliente
+ * de la lista "Para mandar hoy" responde a quién, cuándo y qué, y muestra el mensaje como lo ve el cliente.
+ */
+const etiqueta = 'text-[10.5px] font-semibold uppercase tracking-wider text-muted-foreground/70'
+---
+
+<div class="relative flex h-full w-full flex-col bg-[#FFFBF0] pt-[54px] text-foreground">
+  <div class="flex h-12 shrink-0 items-center px-3">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="menu" class="size-5" /></span>
+  </div>
+  <div class="space-y-4 px-5">
+    <span class="flex items-center text-xs text-muted-foreground"><Icon name="arrow-left" class="mr-1.5 size-3.5" />Para mandar hoy · {MOTOR.enCola}</span>
+    <div class="flex items-center gap-3">
+      <span class="flex size-11 shrink-0 items-center justify-center rounded-full bg-muted/80 text-sm font-semibold">{CLIENTA.iniciales}</span>
+      <div class="min-w-0">
+        <p class="text-xl font-bold leading-tight tracking-tight">{CLIENTA.nombre}</p>
+        <span class="mt-1 inline-flex items-center gap-1.5 rounded-full border border-orange-500/20 bg-orange-500/10 px-2 py-0.5 text-[11px] font-medium text-orange-600"><span class="size-1.5 rounded-full bg-orange-500" />En riesgo</span>
+      </div>
+    </div>
+    <p class="text-[13px] text-muted-foreground">Pedía cada ~{CLIENTA.cadencia} días y hace {MOTOR.tiempoSinPedir} que no pide.</p>
+
+    <div class="grid grid-cols-2 gap-3 border-y border-border/40 py-3">
+      <div>
+        <span class={etiqueta}>Cuándo</span>
+        <p class="mt-1 flex items-center gap-1.5 text-[13px] font-semibold"><Icon name="clock" class="size-3.5 text-[#FF7A00]" />{MOTOR.horario}</p>
+      </div>
+      <div>
+        <span class={etiqueta}>Qué</span>
+        <p class="mt-1 text-[13px] font-semibold">1º de 3 · sin descuento</p>
+      </div>
+    </div>
+
+    <div class="rounded-2xl bg-[#EFEAE2] p-2.5">
+      <div class="rounded-lg rounded-tl-none bg-white p-1 shadow-[0_1px_.5px_rgba(11,20,26,.13)]">
+        <img src={FOTOS.smash.grande} alt="" loading="lazy" decoding="async" class="h-[96px] w-full rounded-md object-cover" />
+        <div class="px-1.5 pb-1 pt-1.5 text-[11.5px] leading-[1.35] text-[#111b21]">
+          {MENSAJE_RECOMPRA.slice(0, 3).map((l, i) => <p class:list={[i > 0 && 'mt-1.5']}>{l}</p>)}
+        </div>
+        <div class="flex items-center justify-center gap-1 border-t border-black/[.08] py-1.5 text-[11.5px] font-medium text-[#00A884]"><Icon name="external-link" class="size-3" />Pedir ahora</div>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <span class="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-foreground text-[13px] font-medium text-background"><Icon name="message-circle" class="size-4" />Abrir en WhatsApp</span>
+      <div class="grid grid-cols-[auto_1fr] gap-2">
+        <span class="inline-flex h-11 items-center gap-2 rounded-full border border-border/60 bg-background px-4 text-[13px] font-medium"><Icon name="copy" class="size-4" />Copiar</span>
+        <span class="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-orange-500 text-[13px] font-medium text-white"><Icon name="check-check" class="size-4" />Marcar como enviado</span>
+      </div>
+    </div>
+  </div>
+</div>

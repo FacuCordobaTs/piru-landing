@@ -1,0 +1,61 @@
+---
+import Icon from '../../ui/Icon.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { CAMPANAS } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/** El ranking de links de PanelCampanas.astro, en el celular: una tarjeta por link. */
+const filas = [...CAMPANAS].sort((a, b) => b.ventas - a.ventas)
+const max = Math.max(...filas.map((f) => f.ventas))
+const colores: Record<string, string> = {
+  amber: 'bg-amber-500/10 text-amber-600',
+  rose: 'bg-rose-500/10 text-rose-600',
+  violet: 'bg-violet-500/10 text-violet-600',
+  sky: 'bg-sky-500/10 text-sky-600',
+  emerald: 'bg-emerald-500/10 text-emerald-600',
+}
+---
+
+<div class="relative flex h-full w-full flex-col bg-[#FFFBF0] pt-[54px] text-foreground">
+  <div class="flex h-12 shrink-0 items-center justify-between px-3">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="menu" class="size-5" /></span>
+    <span class="mr-1 inline-flex h-8 items-center gap-1.5 rounded-lg bg-[#FF7A00] px-3 text-xs font-bold text-white"><Icon name="plus" class="size-3.5" />Nueva</span>
+  </div>
+  <div class="px-4">
+    <p class="text-lg font-bold tracking-tight">¿Qué publicación te trae ventas?</p>
+    <p class="mt-0.5 text-xs text-muted-foreground">Septiembre 2026 · ventas cobradas por link</p>
+    <div class="mt-4 space-y-2">
+      {filas.map((f) => (
+        <div class="rounded-2xl bg-white p-3">
+          <div class="flex items-center gap-2.5">
+            <span class:list={['flex size-8 shrink-0 items-center justify-center rounded-lg', colores[f.color]]}><Icon name={f.icono as NombreIcono} class="size-4" /></span>
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-[13px] font-semibold">{f.nombre}</p>
+              <p class="truncate text-[10.5px] text-muted-foreground">{f.canal}</p>
+            </div>
+            <span class="text-[13px] font-bold tabular-nums">{pesos(f.ventas)}</span>
+          </div>
+          <div class="mt-2.5 flex items-center gap-3 text-[11px] text-muted-foreground">
+            <span class="h-1.5 flex-1 overflow-hidden rounded-full bg-muted"><span class="block h-full rounded-full bg-[#FF7A00]" style={`width:${Math.round((f.ventas / max) * 100)}%`} /></span>
+            <span class="tabular-nums">{f.visitas.toLocaleString('es-AR')} visitas</span>
+            <span class="font-semibold tabular-nums text-foreground">{f.pedidos} pedidos</span>
+          </div>
+        </div>
+      ))}
+      <div class="rounded-2xl bg-muted/40 p-3 text-muted-foreground">
+        <div class="flex items-center gap-2.5">
+          <span class="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted"><Icon name="globe" class="size-4" /></span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-[13px] font-semibold text-foreground">Orgánico · sin campaña</p>
+            <p class="truncate text-[10.5px]">Entraron directo a tu tienda</p>
+          </div>
+          <span class="text-[13px] font-bold tabular-nums text-foreground">{pesos(1533900)}</span>
+        </div>
+        <div class="mt-2 flex justify-end gap-3 text-[11px]">
+          <span class="tabular-nums">2.310 visitas</span>
+          <span class="font-semibold tabular-nums text-foreground">116 pedidos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

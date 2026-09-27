@@ -1,0 +1,80 @@
+---
+import Icon from '../../ui/Icon.astro'
+import LogoLocal from './LogoLocal.astro'
+import TarjetaProducto from './TarjetaProducto.astro'
+import { MENU } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * Réplica del menú de la tienda (web/src/pages/MenuDelivery.tsx) en un celular.
+ * Cambios deliberados respecto de la app (para replicar después):
+ *  - logo de 112 px en vez de 192 px, para que los productos se vean sin scrollear;
+ *  - categorías en una sola fila deslizable (como en la sala grupal) en vez de la grilla de 2 columnas;
+ *  - precios con separador de miles ("$13.500") en vez de "$13500".
+ */
+interface Props {
+  id?: string
+  oscura?: boolean
+  carrito?: { items: number; total: number } | null
+}
+
+const { id, oscura = false, carrito = { items: 3, total: 25500 } } = Astro.props
+const categorias = ['Todas', ...MENU.map((c) => c.categoria)]
+---
+
+<div id={id} class:list={['tienda relative h-full w-full overflow-hidden bg-background text-foreground', oscura && 'tienda--oscura']}>
+  <div class="space-y-6 px-5 pt-[70px]">
+    <div class="flex justify-center">
+      <LogoLocal size={112} />
+    </div>
+
+    <div class="flex items-center gap-4 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-4">
+      <div class="flex shrink-0 -space-x-2.5">
+        <span class="z-[2] flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background"><Icon name="user" class="size-4" /></span>
+        <span class="z-[1] flex size-8 items-center justify-center rounded-full bg-primary/25 text-primary ring-2 ring-background"><Icon name="user" class="size-4" /></span>
+        <span class="flex size-8 items-center justify-center rounded-full border-2 border-dashed border-primary/40 bg-background text-primary/60"><Icon name="plus" class="size-4" /></span>
+      </div>
+      <div class="min-w-0 flex-1">
+        <p class="text-sm font-bold leading-tight text-foreground">¿Piden entre varios?</p>
+        <p class="mt-0.5 text-[11.5px] leading-snug text-muted-foreground">Compartí un link y cada uno agrega lo suyo</p>
+      </div>
+      <span class="flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-2 text-[11px] font-bold text-primary-foreground shadow-sm">
+        <Icon name="share-2" class="size-3.5" />Crear link
+      </span>
+    </div>
+
+    <div class="space-y-3 pt-1">
+      <p class="px-1 text-lg font-bold text-foreground">Categorías</p>
+      <div class="-mr-5 flex gap-2 overflow-hidden pl-1">
+        {categorias.map((c, i) => (
+          <span class:list={['flex h-10 shrink-0 items-center rounded-lg px-5 text-xs font-medium', i === 0 ? 'bg-primary text-primary-foreground shadow-md' : 'border border-transparent bg-secondary/50 text-secondary-foreground']}>{c}</span>
+        ))}
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      {MENU.slice(0, 2).map((cat) => (
+        <div class="space-y-4">
+          <p class="px-1 text-sm font-semibold uppercase tracking-wider text-muted-foreground">{cat.categoria}</p>
+          <div class="-mr-5 ml-2 flex gap-4 overflow-hidden pb-3">
+            {cat.productos.map((p) => <TarjetaProducto producto={p} />)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {carrito && (
+    <div class="absolute inset-x-0 bottom-[104px] z-40 flex justify-center">
+      <div class="vidrio-carrito relative flex items-center gap-4 rounded-full py-3.5 pl-5 pr-6">
+        <span class="absolute -right-1 -top-2 z-10 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-background bg-red-500 px-1 text-[10px] font-bold text-white">{carrito.items}</span>
+        <span class="flex items-center gap-2.5">
+          <Icon name="receipt" class="size-5 opacity-90" />
+          <span class="text-sm font-semibold tracking-wide">Ver Pedido</span>
+        </span>
+        <span class="h-4 w-px bg-current opacity-20" />
+        <span class="font-mono text-base font-bold">{pesos(carrito.total)}</span>
+      </div>
+    </div>
+  )}
+</div>

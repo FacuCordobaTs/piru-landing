@@ -1,0 +1,48 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { BORRADOR_POS, MENU } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * El punto de venta en el celular (PuntoDeVenta.tsx, paso "productos"): catálogo en 2 columnas y el botón al pedido.
+ * Cambio deliberado: la tarjeta de un producto que ya está en el pedido queda marcada, con la cantidad
+ * (en la app el marco naranja sólo indica el producto elegido con el teclado).
+ */
+const categorias = [MENU[2], MENU[1]]
+const items = BORRADOR_POS.items.reduce((s, i) => s + i.cantidad, 0)
+const enComanda = new Map(BORRADOR_POS.items.map((i) => [i.nombre, i.cantidad]))
+---
+
+<div class="relative flex h-full w-full flex-col bg-background pt-[54px] text-foreground">
+  <div class="flex h-12 shrink-0 items-center px-3">
+    <span class="grid size-9 place-items-center rounded-md"><Icon name="menu" class="size-5" /></span>
+  </div>
+  <div class="flex shrink-0 items-center justify-between px-4">
+    <span class="text-xs font-bold text-muted-foreground">Nuevo pedido</span>
+    <span class="flex items-center gap-2 text-xs font-semibold text-muted-foreground">Limpiar<span class="grid size-8 place-items-center"><Icon name="ellipsis" class="size-4" /></span></span>
+  </div>
+  <div class="p-3 pb-0">
+    <div class="relative flex h-10 items-center rounded-xl bg-white pl-10 text-sm text-muted-foreground shadow-sm">
+      <Icon name="search" class="absolute left-3 size-4 text-muted-foreground/60" />Buscar producto o tag...
+    </div>
+  </div>
+  <div class="min-h-0 flex-1 overflow-hidden p-3">
+    {categorias.map((cat) => (
+      <div class="mb-5">
+        <p class="mb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{cat.categoria}</p>
+        <div class="grid grid-cols-2 gap-3">
+          {cat.productos.slice(0, 4).map((p) => (
+            <div class:list={['relative min-h-28 rounded-2xl bg-white p-3 shadow-sm', enComanda.has(p.nombre) && 'ring-2 ring-[#FF7A00]']}>
+              <p class="line-clamp-3 min-h-[3.5rem] text-base font-semibold leading-snug">{p.nombre}</p>
+              <p class="mt-3 text-base font-bold tabular-nums text-[#FF7A00]">{pesos(p.precio)}</p>
+              {enComanda.has(p.nombre) && <span class="absolute right-2.5 top-2.5 grid size-6 place-items-center rounded-full bg-[#FF7A00] text-[11px] font-bold text-white">{enComanda.get(p.nombre)}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background via-background to-transparent p-3 pb-[38px] pt-8">
+    <span class="flex h-12 w-full items-center justify-center rounded-xl bg-[#FF7A00] text-[15px] font-bold text-white">Ver pedido ({items}) · {pesos(BORRADOR_POS.total)}</span>
+  </div>
+</div>
