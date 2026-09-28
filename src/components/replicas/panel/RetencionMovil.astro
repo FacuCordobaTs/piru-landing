@@ -1,7 +1,9 @@
 ---
 import Icon from '../../ui/Icon.astro'
-import { FOTOS } from '../../../data/fotos'
+import { cargarFotos } from '../../../data/fotos'
 import { CLIENTA, MENSAJE_RECOMPRA, MOTOR } from '../../../data/demo'
+
+const FOTOS = await cargarFotos()
 
 /**
  * Retención en el celular, con el mismo rediseño que PanelRetencion.astro: el detalle de un cliente

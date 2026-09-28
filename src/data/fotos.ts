@@ -5,6 +5,11 @@ import { getImage } from 'astro:assets'
  * (my.piru.app/prueba, servidas por images.piru.app): en el build Astro las baja, las achica y las
  * pasa a webp, así que el sitio publicado no depende de que sigan existiendo en el CDN.
  * Si una falla, se usa la URL original y el build sigue.
+ *
+ * Sin await de nivel superior: en el build, el chunk de la página y el del servicio de imágenes
+ * (sharp) se importan en círculo, y un await al cargar este módulo los deja esperándose entre sí.
+ * Con Node (el build de Cloudflare) el proceso sale con código 0 sin generar la portada; con Bun
+ * no se nota. Por eso las fotos se piden al renderizar, con `await cargarFotos()` en cada componente.
  */
 const ORIGEN = {
   smash: 'https://images.piru.app/a6e4ac7f-314c-4ca8-ac55-98f7418b8154.jpeg',
@@ -38,11 +43,15 @@ async function optimizar(url: string, ancho: number): Promise<string> {
   }
 }
 
-const entradas = await Promise.all(
-  (Object.entries(ORIGEN) as [ClaveFoto, string][]).map(async ([clave, url]) => {
-    const [chica, grande] = await Promise.all([optimizar(url, 400), optimizar(url, 900)])
-    return [clave, { chica, grande }] as const
-  }),
-)
+let fotos: Promise<Record<ClaveFoto, Foto>> | undefined
 
-export const FOTOS = Object.fromEntries(entradas) as Record<ClaveFoto, Foto>
+/** Optimiza todas las fotos una sola vez por build; las llamadas siguientes reusan el resultado. */
+export function cargarFotos(): Promise<Record<ClaveFoto, Foto>> {
+  fotos ??= Promise.all(
+    (Object.entries(ORIGEN) as [ClaveFoto, string][]).map(async ([clave, url]) => {
+      const [chica, grande] = await Promise.all([optimizar(url, 400), optimizar(url, 900)])
+      return [clave, { chica, grande }] as const
+    }),
+  ).then((entradas) => Object.fromEntries(entradas) as Record<ClaveFoto, Foto>)
+  return fotos
+}

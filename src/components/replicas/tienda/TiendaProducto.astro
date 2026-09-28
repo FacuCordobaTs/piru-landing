@@ -1,8 +1,10 @@
 ---
 import Icon from '../../ui/Icon.astro'
-import { FOTOS } from '../../../data/fotos'
+import { cargarFotos } from '../../../data/fotos'
 import { SMASH } from '../../../data/demo'
 import { pesos } from '../../../data/oferta'
+
+const FOTOS = await cargarFotos()
 
 /**
  * Réplica del detalle de producto (web/src/components/ProductDetailDrawer.tsx), en el paso de

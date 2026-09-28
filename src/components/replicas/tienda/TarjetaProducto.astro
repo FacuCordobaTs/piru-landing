@@ -1,7 +1,9 @@
 ---
-import { FOTOS } from '../../../data/fotos'
+import { cargarFotos } from '../../../data/fotos'
 import { pesos } from '../../../data/oferta'
 import type { Producto } from '../../../data/demo'
+
+const FOTOS = await cargarFotos()
 
 /** Réplica de `ProductoCard` (web/src/pages/MenuDelivery.tsx): con foto o sólo texto. */
 interface Props {

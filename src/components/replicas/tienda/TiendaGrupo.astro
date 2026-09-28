@@ -1,8 +1,10 @@
 ---
 import Icon from '../../ui/Icon.astro'
-import { FOTOS, type ClaveFoto } from '../../../data/fotos'
+import { cargarFotos, type ClaveFoto } from '../../../data/fotos'
 import { SALA } from '../../../data/demo'
 import { pesos } from '../../../data/oferta'
+
+const FOTOS = await cargarFotos()
 
 /**
  * Réplica de la sala del pedido en grupo (web/src/pages/Menu.tsx): quién está en el pedido,
