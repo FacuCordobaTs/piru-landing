@@ -1,0 +1,46 @@
+---
+import Icon from '../../ui/Icon.astro'
+import type { NombreIcono } from '../../ui/lucide'
+
+/**
+ * Barra inferior de la app de marketers en el celular (docs/MVP_MARKETERS.md §4.4). En la cartera:
+ * Locales, Comisiones y Cuenta. Dentro de un local: Resumen, Hoy, Días flojos, Campañas y Más.
+ */
+interface Props {
+  modo: 'cartera' | 'local'
+  activo: string
+  /** Mensajes para mandar hoy (el globito de "Hoy"). */
+  hoy?: number
+}
+
+const { modo, activo, hoy = 0 } = Astro.props
+const items: { clave: string; icono: NombreIcono; texto: string }[] = modo === 'cartera'
+  ? [
+      { clave: 'locales', icono: 'store', texto: 'Locales' },
+      { clave: 'comisiones', icono: 'hand-coins', texto: 'Comisiones' },
+      { clave: 'cuenta', icono: 'user-round', texto: 'Cuenta' },
+    ]
+  : [
+      { clave: 'resumen', icono: 'layout-dashboard', texto: 'Resumen' },
+      { clave: 'hoy', icono: 'message-circle', texto: 'Hoy' },
+      { clave: 'dias', icono: 'calendar-days', texto: 'Días flojos' },
+      { clave: 'campanas', icono: 'link', texto: 'Campañas' },
+      { clave: 'mas', icono: 'ellipsis', texto: 'Más' },
+    ]
+---
+
+<div class="absolute inset-x-0 bottom-0 z-40 border-t border-line bg-white/90 pb-[26px] pt-2 backdrop-blur-xl">
+  <div class="flex justify-around">
+    {items.map((it) => (
+      <span class:list={['relative flex w-[72px] flex-col items-center gap-1 text-[11px] font-medium', it.clave === activo ? 'text-ink' : 'text-ink-3']}>
+        <span class:list={['grid h-7 w-12 place-items-center rounded-full', it.clave === activo && 'bg-brand-soft text-brand-deep']}>
+          <Icon name={it.icono} class="size-[19px]" stroke={it.clave === activo ? 2.3 : 2} />
+        </span>
+        {it.texto}
+        {it.clave === 'hoy' && hoy > 0 && (
+          <span class="absolute right-2.5 top-[-3px] grid h-[18px] min-w-[18px] place-items-center rounded-full bg-brand px-1 text-[10px] font-bold text-white ring-2 ring-white">{hoy}</span>
+        )}
+      </span>
+    ))}
+  </div>
+</div>

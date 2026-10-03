@@ -1,0 +1,74 @@
+---
+import Icon from '../ui/Icon.astro'
+import { COMISION_MARKETER, DIAS_PRUEBA, PRECIO_BASE, RETENCION, enlaceWhatsapp, pesos } from '../../data/oferta'
+
+const preguntas = [
+  {
+    p: '¿Los mensajes salen de un número nuevo?',
+    r: 'No. Salen del WhatsApp del local, el mismo donde recibe los pedidos y donde sus clientes ya le escriben. Piru arma la lista y el texto; el local, o vos si tenés su WhatsApp vinculado, toca enviar.',
+  },
+  {
+    p: '¿Necesito la API de WhatsApp o aprobar plantillas en Meta?',
+    r: 'No. Nada de lo que usás depende de Meta: no hay que conectar nada, ni aprobar plantillas, ni pagar por mensaje.',
+  },
+  {
+    p: '¿Cómo sé qué historia vendió?',
+    r: 'Cada historia, reel, influencer o QR lleva su propio link. Piru cuenta las visitas y los pedidos cobrados que entraron por cada uno; si cargás la inversión de un anuncio, también ves el retorno.',
+  },
+  {
+    p: '¿Cuánto cobro y cómo?',
+    r: `El ${COMISION_MARKETER}% de lo que paga cada local por su suscripción, todos los meses, desde que empieza a pagar y mientras siga trabajando con vos. Ves cada comisión en tu app y te la transferimos a tu cuenta.`,
+  },
+  {
+    p: '¿De quién son los datos de los clientes?',
+    r: 'Del local. Vos tenés acceso mientras el local quiera: te lo da con tu código y te lo puede sacar cuando quiera, desde su panel.',
+  },
+  {
+    p: '¿Qué puedo ver y tocar de cada local?',
+    r: 'Ves sus ventas, sus clientes y lo que vendió cada link. Manejás links y campañas, cupones, club de puntos, recompra y días flojos. No tocás precios, pedidos, cobros ni la configuración del local.',
+  },
+  {
+    p: '¿Qué pasa si un local deja de trabajar conmigo?',
+    r: 'Te saca el acceso y desde ese momento deja de generar comisión. Lo que ya cobraste, cobrado está.',
+  },
+  {
+    p: '¿Mi cliente tiene que dejar las apps de delivery?',
+    r: 'No hace falta. La idea es que sus clientes de siempre pasen a pedirle directo: cada pedido que pasa a su tienda es una comisión que deja de pagar.',
+  },
+  {
+    p: '¿Cuánto le cuesta al local?',
+    r: `Un precio fijo de ${pesos(PRECIO_BASE)} por mes, sin comisión por venta. ${RETENCION.nombre} (recompra y club de puntos) es un adicional de ${pesos(RETENCION.precio)}. Le armamos la tienda con su carta y tiene ${DIAS_PRUEBA} días para probarla.`,
+  },
+  {
+    p: '¿Puedo manejar muchos locales?',
+    r: 'Sí. Todos aparecen en tu app con sus ventas, su día flojo y lo que hay para hacer hoy en cada uno.',
+  },
+]
+---
+
+<section id="preguntas" class="bg-sand py-24 sm:py-32">
+  <div class="contenedor grid gap-12 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-20">
+    <div class="revelar lg:sticky lg:top-28 lg:self-start">
+      <p class="antetitulo">Preguntas</p>
+      <h2 class="titulo-lg mt-4">Lo que preguntan los marketers</h2>
+      <p class="bajada mt-5">¿Te quedó alguna duda? Escribinos y te contesta una persona, no un bot.</p>
+      <a href={enlaceWhatsapp('Hola! Soy marketer y tengo una pregunta sobre Piru.')} target="_blank" rel="noopener" class="boton boton-secundario mt-7"><Icon name="message-circle" class="size-[18px] text-wa-deep" stroke={2.2} />Preguntar por WhatsApp</a>
+    </div>
+
+    <div class="revelar divide-y divide-line border-y border-line">
+      {preguntas.map((q, i) => (
+        <details class="pregunta group" open={i === 0}>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-left text-[18px] font-semibold tracking-tight">
+            {q.p}
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-white text-ink-2 ring-1 ring-line transition-transform duration-300 group-open:rotate-45"><Icon name="plus" class="size-4" /></span>
+          </summary>
+          <p class="-mt-1 max-w-2xl pb-6 pr-12 text-[16.5px] leading-relaxed text-ink-2">{q.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pregunta summary::-webkit-details-marker { display: none; }
+</style>

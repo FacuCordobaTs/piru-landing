@@ -1,0 +1,85 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Monograma from './Monograma.astro'
+import NavMovil from './NavMovil.astro'
+import { idSvg, sparkline } from './graficos'
+import { CARTERA, MARKETER, TOTALES_CARTERA, variacion } from '../../../data/marketers'
+import { millones, pesos } from '../../../data/oferta'
+
+/** App de marketers → Tus locales, en el celular: la misma cartera de Cartera.astro, una tarjeta por local. */
+const totalVar = variacion(TOTALES_CARTERA.ventas30d, TOTALES_CARTERA.ventas30dAnterior)
+const etiqueta = 'text-[10.5px] font-semibold uppercase tracking-[.09em] text-ink-3'
+---
+
+<div class="relative h-full w-full overflow-hidden bg-paper pt-[54px] text-ink">
+  <div class="flex items-center justify-between px-5 pb-4 pt-3">
+    <div>
+      <p class="text-[25px] font-bold leading-none tracking-[-0.035em]">Hola, {MARKETER.corto}</p>
+      <p class="mt-1.5 text-[13px] text-ink-3">Tus locales · últimos 30 días</p>
+    </div>
+    <span class="grid size-10 place-items-center rounded-full bg-ink text-[13px] font-bold text-white">{MARKETER.iniciales}</span>
+  </div>
+
+  <div class="grid grid-cols-2 gap-2.5 px-5">
+    <div class="rounded-2xl bg-white p-3.5 ring-1 ring-line">
+      <p class={etiqueta}>Ventas</p>
+      <p class="mt-1.5 text-[22px] font-bold leading-none tracking-[-0.03em] tabular-nums">{millones(TOTALES_CARTERA.ventas30d)}</p>
+      <p class="mt-1.5 text-[11.5px] font-medium text-emerald-600">+{totalVar}% vs. mes anterior</p>
+    </div>
+    <div class="rounded-2xl bg-white p-3.5 ring-1 ring-line">
+      <p class={etiqueta}>Tu comisión</p>
+      <p class="mt-1.5 text-[22px] font-bold leading-none tracking-[-0.03em] tabular-nums">{pesos(TOTALES_CARTERA.comisionMes)}</p>
+      <p class="mt-1.5 text-[11.5px] text-ink-3">de octubre</p>
+    </div>
+  </div>
+
+  <div class="mx-5 mt-2.5 flex items-center gap-3 rounded-2xl bg-brand-soft px-3.5 py-3 text-brand-deep">
+    <span class="grid size-8 place-items-center rounded-full bg-brand text-white"><Icon name="message-circle" class="size-4" /></span>
+    <p class="flex-1 text-[13px] leading-tight"><b class="font-semibold">{TOTALES_CARTERA.mensajesHoy} mensajes para mandar hoy</b><br /><span class="text-brand-deep/80">en {TOTALES_CARTERA.localesConMensajes} locales</span></p>
+    <Icon name="chevron-right" class="size-4" />
+  </div>
+
+  <div class="mt-4 space-y-2.5 px-5">
+    {CARTERA.map((l) => {
+      const v = variacion(l.ventas30d, l.ventas30dAnterior)
+      const s = sparkline(l.ventasSemanales, 310, 38)
+      const grad = idSvg(`sp-cartera-movil-${l.id}`)
+      return (
+        <div class="rounded-[18px] bg-white p-3.5 ring-1 ring-line">
+          <div class="flex items-center gap-2.5">
+            <Monograma inicial={l.inicial} color={l.color} size={36} />
+            <div class="min-w-0 flex-1">
+              <p class="flex items-center gap-1.5 text-[15px] font-semibold leading-tight tracking-tight">
+                <span class="truncate">{l.nombre}</span>
+                {l.estado === 'prueba' && <span class="shrink-0 rounded-full bg-sky-500/10 px-1.5 py-px text-[10px] font-semibold text-sky-700">En prueba</span>}
+                {l.estado === 'sin-retencion' && <span class="shrink-0 rounded-full bg-sand px-1.5 py-px text-[10px] font-semibold text-ink-3 ring-1 ring-line">Sin Retención</span>}
+              </p>
+              <p class="truncate text-[11.5px] text-ink-3">{l.rubro}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-[15px] font-bold leading-tight tabular-nums">{pesos(l.ventas30d)}</p>
+              <p class:list={['text-[11px] font-bold tabular-nums', v >= 0 ? 'text-emerald-600' : 'text-rose-600']}>{v >= 0 ? '+' : '−'}{Math.abs(v)}%</p>
+            </div>
+          </div>
+          <svg viewBox="0 0 310 38" class="mt-2 h-[38px] w-full" aria-hidden="true">
+            <defs>
+              <linearGradient id={grad} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color={l.color} stop-opacity=".18" />
+                <stop offset="1" stop-color={l.color} stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path d={s.area} fill={`url(#${grad})`} />
+            <path d={s.linea} fill="none" stroke={l.color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="mt-1.5 flex items-center gap-3 text-[11.5px] text-ink-3">
+            <span><b class="font-semibold tabular-nums text-ink">{l.pedidos30d}</b> pedidos</span>
+            <span>Flojo: {l.diaFlojo.toLowerCase()}</span>
+            {l.mensajesHoy > 0 && <span class="ml-auto rounded-full bg-brand-soft px-2 py-0.5 text-[11px] font-semibold text-brand-deep">Hoy: {l.mensajesHoy}</span>}
+          </div>
+        </div>
+      )
+    })}
+  </div>
+
+  <NavMovil modo="cartera" activo="locales" />
+</div>

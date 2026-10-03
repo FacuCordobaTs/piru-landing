@@ -1,0 +1,80 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
+import HoyMovil from '../replicas/marketers/HoyMovil.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { LOCAL } from '../../data/demo'
+
+const puntos: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'smartphone', titulo: 'El número de siempre', texto: 'Sale del WhatsApp donde el local ya recibe los pedidos. Sus clientes lo tienen agendado y le contestan.' },
+  { icono: 'shield-check', titulo: 'Sin Meta de por medio', texto: 'No hay que conectar la API, aprobar plantillas ni pagar por mensaje. Funciona desde el primer día.' },
+  { icono: 'message-circle', titulo: 'Lo manda quien tiene el WhatsApp', texto: 'El local desde su celular, o vos si tenés su WhatsApp en tu compu. La app pregunta antes de abrirlo, para que nunca salga de tu número.' },
+  { icono: 'heart', titulo: 'Con cuidado de la base', texto: 'Nunca más de 4 mensajes en 30 días a la misma persona, horarios de día, y el que pide la baja no recibe más.' },
+]
+---
+
+<section id="whatsapp" data-nav-oscuro class="relative overflow-hidden bg-night py-24 text-white/70 sm:py-32">
+  <div class="brillo pointer-events-none absolute inset-0" aria-hidden="true" />
+
+  <div class="contenedor relative grid items-center gap-16 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+    <div>
+      <div class="revelar">
+        <p class="antetitulo text-brand">Desde el WhatsApp del local</p>
+        <h2 class="titulo-lg mt-4 text-white">Sin número nuevo. Sin API. Sin esperar aprobaciones.</h2>
+        <p class="bajada mt-5 text-white/65">El cliente ya le escribió al local para hacer su pedido. La invitación a volver sale de ese mismo WhatsApp, en esa misma conversación: Piru arma la lista y el mensaje, y alguien toca enviar.</p>
+      </div>
+      <ul class="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+        {puntos.map((p, i) => (
+          <li class="revelar" style={`--retraso:${i * 70}ms`}>
+            <span class="grid size-10 place-items-center rounded-xl bg-white/[.07] text-brand ring-1 ring-white/10"><Icon name={p.icono} class="size-5" /></span>
+            <p class="mt-3.5 text-[17px] font-semibold text-white">{p.titulo}</p>
+            <p class="mt-1.5 text-[15px] leading-relaxed">{p.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="revelar relative" style="--retraso:120ms">
+      <div class="relative mx-auto hidden max-w-[560px] md:block">
+        <div class="absolute left-0 top-[9%] w-[46%] -rotate-[4deg] opacity-95">
+          <div class="drop-shadow-[0_30px_50px_rgb(0_0_0/.55)]">
+            <Escala ancho={412} alto={866} etiqueta="La app de marketers: los mensajes de hoy de Brasa, con la confirmación de que este celular tiene el WhatsApp del local">
+              <Telefono><HoyMovil /></Telefono>
+            </Escala>
+          </div>
+          <p class="mt-4 text-center text-[13px] font-medium text-white/50">Tu app · Hoy</p>
+        </div>
+        <div class="relative z-10 ml-auto w-[56%]">
+          <div class="drop-shadow-[0_40px_70px_rgb(0_0_0/.65)]">
+            <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre}: el pedido que mandó Martina hace tres semanas y, en el mismo chat, la invitación del martes con 15% OFF y su respuesta`}>
+              <Telefono><WhatsAppLocal variante="dia-flojo" /></Telefono>
+            </Escala>
+          </div>
+          <p class="mt-4 text-center text-[13px] font-medium text-white/50">El WhatsApp de {LOCAL.nombre}</p>
+        </div>
+        <div class="aparece absolute left-[34%] top-[46%] z-20 flex items-center gap-2 whitespace-nowrap rounded-full bg-wa-deep px-4 py-2.5 text-[13.5px] font-semibold text-white shadow-[0_14px_30px_-10px_rgb(31_175_85/.8)]" style="--retraso:700ms">
+          <Icon name="message-circle" class="size-4" />Abrir WhatsApp<Icon name="arrow-right" class="size-4" />
+        </div>
+      </div>
+
+      <div class="mx-auto w-[min(74%,300px)] md:hidden">
+        <div class="drop-shadow-[0_30px_60px_rgb(0_0_0/.6)]">
+          <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre}: el pedido de Martina y, en el mismo chat, la invitación del martes`}>
+            <Telefono><WhatsAppLocal variante="dia-flojo" /></Telefono>
+          </Escala>
+        </div>
+        <p class="mt-4 text-center text-[13px] font-medium text-white/50">El WhatsApp de {LOCAL.nombre}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .brillo {
+    background:
+      radial-gradient(50rem 26rem at 70% 10%, rgb(37 211 102 / .1), transparent 70%),
+      radial-gradient(40rem 30rem at 10% 80%, rgb(255 122 0 / .1), transparent 70%);
+  }
+</style>

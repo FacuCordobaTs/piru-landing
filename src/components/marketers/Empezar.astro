@@ -1,0 +1,62 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import ClaimListo from '../replicas/ClaimListo.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { ENTRAR_MARKETERS, TEXTO_WA_PARTNER, enlaceWhatsapp } from '../../data/oferta'
+
+const pasos: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'message-circle', titulo: 'Nos escribís', texto: 'Te contamos cómo funciona, te damos tu código de partner y el acceso a tu app.' },
+  { icono: 'store', titulo: 'Sumamos a tus locales', texto: 'Les armamos la tienda con su carta, sin costo. Cada local te da acceso con tu código.' },
+  { icono: 'rocket', titulo: 'Manejás todo desde tu app', texto: 'Links, clientes, puntos, recompra y días flojos de cada local, en marketing.piru.app.' },
+]
+---
+
+<section id="empezar" class="overflow-hidden py-24 sm:py-32">
+  <div class="contenedor grid items-center gap-16 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+    <div>
+      <div class="revelar">
+        <p class="antetitulo">Cómo empezar</p>
+        <h2 class="titulo-lg mt-4">Tu primer local, esta semana.</h2>
+        <p class="bajada mt-5 max-w-xl">No tenés que cargar nada ni aprender un sistema. Nosotros armamos las tiendas; vos te encargás de lo que ya sabés hacer: que vendan.</p>
+      </div>
+
+      <ol class="mt-10 space-y-4">
+        {pasos.map((p, i) => (
+          <li class="revelar flex gap-5 rounded-[24px] bg-white p-6 ring-1 ring-line" style={`--retraso:${i * 80}ms`}>
+            <span class="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand-soft text-brand-deep">
+              <Icon name={p.icono} class="size-5" />
+              <span class="absolute -right-1.5 -top-1.5 grid size-6 place-items-center rounded-full bg-ink text-[12px] font-bold text-white">{i + 1}</span>
+            </span>
+            <div>
+              <p class="text-[18px] font-semibold tracking-tight">{p.titulo}</p>
+              <p class="mt-1 text-[15.5px] leading-relaxed text-ink-2">{p.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="revelar mt-8 flex flex-col gap-5 rounded-[24px] bg-ink p-6 text-white sm:flex-row sm:items-center sm:p-7">
+        <span class="grid size-14 shrink-0 place-items-center rounded-full bg-brand text-[18px] font-bold">FC</span>
+        <div class="min-w-0 flex-1">
+          <p class="text-[16px] leading-relaxed text-white/80">“Estamos armando el programa con los primeros marketers, uno por uno. Escribime y vemos juntos cómo sumar a tus locales.”</p>
+          <p class="mt-2 text-[14px] font-semibold">Facundo Córdoba <span class="font-normal text-white/50">· creador de Piru</span></p>
+        </div>
+        <a href={enlaceWhatsapp('Hola Facundo! Soy marketer y quiero sumar a mis clientes a Piru.')} target="_blank" rel="noopener" class="boton boton-primario shrink-0">Hablar con Facundo</a>
+      </div>
+      <p class="revelar mt-5 text-[14.5px] text-ink-3">¿Ya sos partner? <a href={ENTRAR_MARKETERS} class="font-semibold text-brand-deep underline-offset-4 hover:underline">Entrá a tu app</a> · <a href={enlaceWhatsapp(TEXTO_WA_PARTNER)} target="_blank" rel="noopener" class="font-semibold text-brand-deep underline-offset-4 hover:underline">Pedir mi código</a></p>
+    </div>
+
+    <figure class="revelar mx-auto w-[min(78%,320px)]" style="--retraso:120ms">
+      <div class="drop-shadow-[0_34px_50px_rgba(40,20,5,0.3)]">
+        <Escala ancho={412} alto={866} etiqueta="Lo que ve tu cliente cuando abre el link: su tienda ya armada, con el menú cargado">
+          <Telefono url="admin.piru.app">
+            <ClaimListo />
+          </Telefono>
+        </Escala>
+      </div>
+      <figcaption class="mt-5 text-center text-[14px] text-ink-3">Lo que ve tu cliente cuando le armamos la tienda</figcaption>
+    </figure>
+  </div>
+</section>

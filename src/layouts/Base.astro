@@ -7,19 +7,23 @@ import { PRECIO_BASE } from '../data/oferta'
 interface Props {
   titulo?: string
   descripcion?: string
-  /** Ruta canónica; los datos estructurados del producto van sólo en la home. */
+  /** Ruta canónica; los datos estructurados del producto van sólo en las dos portadas. */
   canonical?: string
+  /** A quién le habla la página: cambia el menú (la home es para marketers). */
+  pagina?: 'marketers' | 'locales'
 }
 
 const {
-  titulo = 'Piru · Tu tienda online y sistema de pedidos, sin comisiones',
-  descripcion = 'La tienda online, el sistema de pedidos y la agenda de clientes de tu local gastronómico. Tus clientes piden directo desde el celular y vos cobrás el 100%: precio fijo, sin comisión por venta.',
+  titulo = 'Piru · Tienda online, clientes y recompra para gastronomía',
+  descripcion = 'La tienda online, la base de clientes y la recompra de los locales gastronómicos, y la app de los marketers que los hacen crecer. Precio fijo, sin comisión por venta.',
   canonical = Astro.url.pathname,
+  pagina = 'marketers',
 } = Astro.props
 
 const sitio = Astro.site?.toString().replace(/\/$/, '') ?? 'https://piru.app'
 const url = `${sitio}${canonical}`
 const imagen = `${sitio}/logopiru.jpeg`
+const portada = canonical === '/' || canonical === '/locales'
 ---
 
 <!doctype html>
@@ -53,13 +57,14 @@ const imagen = `${sitio}/logopiru.jpeg`
 
     <script is:inline>document.documentElement.classList.add('js')</script>
 
-    {canonical === '/' && (
+    {portada && (
       <script
         type="application/ld+json"
         set:html={JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'SoftwareApplication',
           name: 'Piru',
+          url,
           applicationCategory: 'BusinessApplication',
           operatingSystem: 'Web, Windows',
           description: descripcion,
@@ -70,7 +75,7 @@ const imagen = `${sitio}/logopiru.jpeg`
   </head>
   <body>
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Saltar al contenido</a>
-    <Nav />
+    <Nav pagina={pagina} />
     <main id="contenido">
       <slot />
     </main>
@@ -103,6 +108,32 @@ const imagen = `${sitio}/logopiru.jpeg`
           }
         })
         document.querySelectorAll<HTMLElement>('.escala').forEach((el) => ro.observe(el))
+      }
+
+      // Código de marketer: un link como piru.app/locales?ref=AGUS deja el código en este
+      // navegador y lo suma al mensaje de los links a nuestro WhatsApp, para que la consulta
+      // del local nos llegue a nombre de su marketer (docs/MVP_MARKETERS.md §7).
+      const CLAVE_REF = 'piru-ref'
+      const valido = (c: string) => /^[A-Z0-9_-]{2,32}$/.test(c)
+      let codigo = (new URLSearchParams(location.search).get('ref') ?? '').trim().toUpperCase()
+      try {
+        if (valido(codigo)) localStorage.setItem(CLAVE_REF, codigo)
+        else codigo = (localStorage.getItem(CLAVE_REF) ?? '').toUpperCase()
+      } catch {
+        // Sin almacenamiento (modo privado, cookies bloqueadas): vale sólo para esta visita.
+      }
+      if (valido(codigo)) {
+        const firma = `Vengo de parte de ${codigo}.`
+        document.querySelectorAll<HTMLAnchorElement>('a[href^="https://wa.me/"]').forEach((a) => {
+          const destino = new URL(a.href)
+          const texto = destino.searchParams.get('text') ?? ''
+          if (texto.includes(firma)) return
+          a.href = `${destino.origin}${destino.pathname}?text=${encodeURIComponent(texto ? `${texto}\n\n${firma}` : firma)}`
+        })
+        document.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
+          el.querySelectorAll('[data-ref-codigo]').forEach((c) => { c.textContent = codigo })
+          el.hidden = false
+        })
       }
     </script>
   </body>

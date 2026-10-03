@@ -1,7 +1,7 @@
 ---
 import Icon from '../ui/Icon.astro'
 import type { NombreIcono } from '../ui/lucide'
-import { DIAS_PRUEBA, INCLUIDO_EN_BASE, MODULOS_PAGOS, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { DIAS_PRUEBA, INCLUIDO_EN_BASE, PRECIO_BASE, RETENCION, enlaceWhatsapp, pesos } from '../../data/oferta'
 
 const comisiones = [20, 25, 30, 35]
 ---
@@ -37,17 +37,23 @@ const comisiones = [20, 25, 30, 35]
       </article>
 
       <div class="flex flex-col gap-5">
-        {MODULOS_PAGOS.map((m, i) => (
-          <article class="revelar tarjeta flex-1 p-7 sm:p-8" style={`--retraso:${(i + 1) * 90}ms`}>
-            <div class="flex items-start justify-between gap-4">
-              <span class="grid size-11 place-items-center rounded-2xl bg-sand text-ink ring-1 ring-line"><Icon name={m.icono as NombreIcono} class="size-5" /></span>
-              <span class="rounded-full bg-sand px-2.5 py-1 text-[12px] font-semibold text-ink-2 ring-1 ring-line">Opcional</span>
-            </div>
-            <p class="mt-5 text-[19px] font-semibold tracking-tight">{m.nombre}</p>
-            <p class="mt-1 text-[15px] font-semibold text-brand-deep tabular-nums">+{pesos(m.precio)} / mes</p>
-            <p class="mt-3 text-[15px] leading-relaxed text-ink-2">{m.descripcion}</p>
-          </article>
-        ))}
+        <article class="revelar tarjeta flex-1 p-7 sm:p-8" style="--retraso:90ms">
+          <div class="flex items-start justify-between gap-4">
+            <span class="grid size-11 place-items-center rounded-2xl bg-sand text-ink ring-1 ring-line"><Icon name={RETENCION.icono as NombreIcono} class="size-5" /></span>
+            <span class="rounded-full bg-sand px-2.5 py-1 text-[12px] font-semibold text-ink-2 ring-1 ring-line">Opcional</span>
+          </div>
+          <p class="mt-5 text-[19px] font-semibold tracking-tight">{RETENCION.nombre}</p>
+          <p class="mt-1 text-[15px] font-semibold text-brand-deep tabular-nums">+{pesos(RETENCION.precio)} / mes</p>
+          <p class="mt-3 text-[15px] leading-relaxed text-ink-2">{RETENCION.descripcion}</p>
+        </article>
+        <article class="revelar flex-1 rounded-[28px] bg-ink p-7 text-white/70 sm:p-8" style="--retraso:180ms">
+          <div class="flex items-start justify-between gap-4">
+            <span class="grid size-11 place-items-center rounded-2xl bg-white/10 text-white"><Icon name="handshake" class="size-5" /></span>
+            <span class="rounded-full bg-white/10 px-2.5 py-1 text-[12px] font-semibold text-white/80">Sin costo extra</span>
+          </div>
+          <p class="mt-5 text-[19px] font-semibold tracking-tight text-white">¿Trabajás con un marketer?</p>
+          <p class="mt-3 text-[15px] leading-relaxed">Le das acceso con su código y maneja tus links, cupones, clientes, puntos y recompra desde su app. No toca tus precios, tus pedidos ni tus cobros, y le sacás el acceso cuando quieras. Tu precio no cambia.</p>
+        </article>
         <p class="revelar px-2 text-[14px] text-ink-3">¿Preferís pagar el año por adelantado? Tenés descuento.</p>
       </div>
     </div>

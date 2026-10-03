@@ -1,15 +1,21 @@
 ---
 import PantallaPaso from './PantallaPaso.astro'
+import type { Paso } from './pasos'
 
-type ClavePantalla = 'menu' | 'producto' | 'pago' | 'panel' | 'cliente' | 'whatsapp'
-interface Paso {
-  titulo: string
-  texto: string
-  pantalla: ClavePantalla
-  modulo?: string
+/**
+ * Historia en pasos con el escenario fijo a la derecha. La usan las dos páginas: `/locales` con el
+ * recorrido de un pedido (los valores por defecto) y la home de marketers con su sistema.
+ * Va una sola por página: el script toma los `.paso` y las `.escena` del documento.
+ */
+interface Props {
+  id?: string
+  antetitulo?: string
+  titulo?: string
+  bajada?: string
+  pasos?: Paso[]
 }
 
-const pasos: Paso[] = [
+const PASOS_DEL_PEDIDO: Paso[] = [
   {
     titulo: 'Tu cliente entra a tu link',
     texto: 'Lo ponés en tu Instagram, en tus estados de WhatsApp o en un QR en la mesa. Se abre tu tienda al instante: sin descargar nada y sin crear usuario.',
@@ -27,7 +33,7 @@ const pasos: Paso[] = [
   },
   {
     titulo: 'Te llega a vos y a la cocina',
-    texto: 'Aparece en tu panel con todo el detalle, sabiendo quién es el cliente, y la comanda sale impresa. Con los avisos por WhatsApp, tu cliente se entera cuando sale.',
+    texto: 'Te llega escrito a tu WhatsApp, como siempre, y aparece en tu panel con todo el detalle y sabiendo quién es el cliente. La comanda sale impresa.',
     pantalla: 'panel',
   },
   {
@@ -37,19 +43,27 @@ const pasos: Paso[] = [
   },
   {
     titulo: 'Y si deja de pedir, Piru te avisa',
-    texto: 'Martina pedía cada 12 días y hace tres semanas que no aparece. Piru le prepara un mensaje con su hamburguesa favorita y te dice cuándo mandarlo. Vos tocás enviar.',
+    texto: 'Martina pedía cada 12 días y hace tres semanas que no aparece. Piru le prepara un mensaje con su hamburguesa favorita y te dice cuándo mandarlo. Sale de tu WhatsApp, en el mismo chat de sus pedidos: vos tocás enviar.',
     pantalla: 'whatsapp',
     modulo: 'Con Retención',
   },
 ]
+
+const {
+  id = 'como-funciona',
+  antetitulo = 'Cómo funciona',
+  titulo = 'Así viaja un pedido con Piru',
+  bajada = 'Del Instagram de tu local a la cocina, y de vuelta a tu cliente. Seguilo paso a paso.',
+  pasos = PASOS_DEL_PEDIDO,
+} = Astro.props
 ---
 
-<section id="como-funciona" class="relative py-24 sm:py-32">
+<section id={id} class="relative py-24 sm:py-32">
   <div class="contenedor">
     <div class="revelar max-w-3xl">
-      <p class="antetitulo">Cómo funciona</p>
-      <h2 class="titulo-lg mt-4">Así viaja un pedido con Piru</h2>
-      <p class="bajada mt-5 max-w-2xl">Del Instagram de tu local a la cocina, y de vuelta a tu cliente. Seguilo paso a paso.</p>
+      <p class="antetitulo">{antetitulo}</p>
+      <h2 class="titulo-lg mt-4">{titulo}</h2>
+      <p class="bajada mt-5 max-w-2xl">{bajada}</p>
     </div>
 
     <div class="historia mt-14 lg:mt-0 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">

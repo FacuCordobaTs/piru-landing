@@ -6,9 +6,7 @@ import Telefono from '../marcos/Telefono.astro'
 import PanelRetencion from '../replicas/panel/PanelRetencion.astro'
 import RetencionMovil from '../replicas/panel/RetencionMovil.astro'
 import { ESCALERA } from '../../data/demo'
-import { MODULOS_PAGOS, pesos } from '../../data/oferta'
-
-const retencion = MODULOS_PAGOS.find((m) => m.codigo === 'motor_recompra')!
+import { RETENCION, pesos } from '../../data/oferta'
 
 // Línea de tiempo de Martina: pide cada ~12 días; los umbrales son los de clientes-rfm.ts
 // (riesgo ≈ 1,5×, dormido 3×, perdido 6× su cadencia).
@@ -32,10 +30,12 @@ const segmentos = [
   { nombre: 'Perdido', punto: 'bg-rose-400', texto: 'Pasaron meses. Un mensaje honesto, en tus días más tranquilos.' },
 ]
 
+// Los mensajes salen a mano del WhatsApp del local (docs/MVP_MARKETERS.md §1): las protecciones
+// son sobre lo que Piru propone mandar, no sobre un envío automático.
 const cuidados = [
-  { icono: 'shield-check', texto: 'Nunca más de 4 mensajes en 30 días a la misma persona.' },
-  { icono: 'moon', texto: 'Nunca de noche: nada sale entre las 22 y las 9.' },
-  { icono: 'circle-x', texto: 'El que responde BAJA no vuelve a recibir mensajes.' },
+  { icono: 'shield-check', texto: 'Nunca te propone más de 4 mensajes en 30 días a la misma persona.' },
+  { icono: 'moon', texto: 'Nunca de noche: entre las 22 y las 9 no te propone mandar nada.' },
+  { icono: 'users', texto: 'Un grupo chico no recibe nada, para medir cuántos vuelven por el mensaje y cuántos habrían vuelto igual.' },
 ] as const
 ---
 
@@ -129,7 +129,7 @@ const cuidados = [
     <div class="mt-24 grid gap-5 lg:grid-cols-2">
       <div class="revelar rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10 sm:p-9">
         <h3 class="text-[22px] font-semibold tracking-tight text-white">Hasta tres mensajes, cada uno con su trabajo</h3>
-        <p class="mt-2 text-[15.5px]">Si no vuelve, el siguiente sale al menos 48 horas después. El descuento sube de a poco: no regalás margen a quien vuelve sin él.</p>
+        <p class="mt-2 text-[15.5px]">Si no vuelve, Piru te propone el siguiente al menos 48 horas después. El descuento sube de a poco: no regalás margen a quien vuelve sin él.</p>
         <ol class="mt-7 space-y-3">
           {ESCALERA.map((e, i) => (
             <li class="flex items-start gap-4 rounded-2xl bg-white/[.04] p-4 ring-1 ring-white/[.06]">
@@ -160,19 +160,19 @@ const cuidados = [
           <div class="rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10">
             <span class="grid size-10 place-items-center rounded-xl bg-wa text-white"><Icon name="message-circle" class="size-5" /></span>
             <p class="mt-4 text-[17px] font-semibold text-white">Desde tu WhatsApp</p>
-            <p class="mt-1.5 text-[14.5px] leading-relaxed">Copiás, se abre la conversación y tocás enviar. Sin costo por mensaje.</p>
+            <p class="mt-1.5 text-[14.5px] leading-relaxed">Sale de tu número, en el mismo chat de sus pedidos. Se abre la conversación con el mensaje escrito y tocás enviar. Sin número nuevo ni costo por mensaje.</p>
           </div>
           <div class="rounded-[28px] bg-white/[.04] p-7 ring-1 ring-white/10">
-            <span class="grid size-10 place-items-center rounded-xl bg-brand text-white"><Icon name="zap" class="size-5" /></span>
-            <p class="mt-4 text-[17px] font-semibold text-white">O que salga solo</p>
-            <p class="mt-1.5 text-[14.5px] leading-relaxed">Por la API oficial de WhatsApp, a tu ritmo diario. Usa créditos de mensajes.</p>
+            <span class="grid size-10 place-items-center rounded-xl bg-brand text-white"><Icon name="handshake" class="size-5" /></span>
+            <p class="mt-4 text-[17px] font-semibold text-white">Con tu marketer</p>
+            <p class="mt-1.5 text-[14.5px] leading-relaxed">Si trabajás con uno, le das acceso y arma las tandas, los cupones y los días flojos por vos. Vos seguís tocando enviar.</p>
           </div>
         </div>
       </div>
     </div>
 
     <p class="revelar mt-10 text-center text-[15px] text-white/55">
-      Todo esto es parte de <b class="font-semibold text-white">{retencion.nombre}</b>, un adicional de {pesos(retencion.precio)} por mes que incluye el Club de Puntos. <a href="#precios" class="font-semibold text-brand underline-offset-4 hover:underline">Ver precios</a>
+      Todo esto es parte de <b class="font-semibold text-white">{RETENCION.nombre}</b>, un adicional de {pesos(RETENCION.precio)} por mes que incluye el Club de Puntos. <a href="#precios" class="font-semibold text-brand underline-offset-4 hover:underline">Ver precios</a>
     </p>
   </div>
 </section>

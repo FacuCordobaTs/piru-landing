@@ -424,6 +424,35 @@
     background: #fff;
     clip-path: polygon(0 0, 100% 0, 100% 100%);
   }
+  /* Una burbuja seguida de otra del mismo lado no lleva colita (como en WhatsApp). */
+  .burbuja--seguida { border-radius: 10px; }
+  .burbuja--seguida::before { display: none; }
+
+  /* Burbuja saliente (la que manda el local), con la colita arriba a la derecha */
+  .burbuja-sale {
+    position: relative;
+    margin-right: 8px;
+    margin-left: auto;
+    padding: 4px;
+    border-radius: 10px 0 10px 10px;
+    background: #D9FDD3;
+    box-shadow: 0 1px .5px rgb(11 20 26 / .13);
+  }
+  .burbuja-sale::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -8px;
+    width: 8px;
+    height: 13px;
+    background: #D9FDD3;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+
+  /* Mapa de calor de días flojos: los días cerrados van con trama, no con color. */
+  .celda-cerrada {
+    background: repeating-linear-gradient(135deg, #ECE4D8 0 5px, #F6F0E6 5px 10px);
+  }
 
   /* Comanda de impresora térmica */
   .comanda {

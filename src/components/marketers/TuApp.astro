@@ -1,0 +1,79 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import CarteraMovil from '../replicas/marketers/CarteraMovil.astro'
+import ResumenMovil from '../replicas/marketers/ResumenMovil.astro'
+import HoyMovil from '../replicas/marketers/HoyMovil.astro'
+import ComisionesMovil from '../replicas/marketers/ComisionesMovil.astro'
+import type { NombreIcono } from '../ui/lucide'
+
+const pantallas = [
+  { clave: 'cartera', titulo: 'Tus locales', texto: 'Cómo viene cada uno', etiqueta: 'Tus locales: la cartera con las ventas cobradas, la variación y la tendencia de cada local' },
+  { clave: 'resumen', titulo: 'Cada local', texto: 'Ventas, clientes y su día flojo', etiqueta: 'El resumen de Brasa: ventas cobradas, clientes nuevos, para recuperar, los que volvieron y su día más flojo' },
+  { clave: 'hoy', titulo: 'Hoy', texto: 'Los mensajes para mandar', etiqueta: 'Hoy: los mensajes del día de Brasa, dos ya enviados y el de Diego listo para abrir en WhatsApp' },
+  { clave: 'comisiones', titulo: 'Comisiones', texto: 'Lo que cobrás, local por local', etiqueta: 'Comisiones: lo pendiente de octubre y lo que aporta cada local' },
+] as const
+
+const funciones: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'store', titulo: 'Tu cartera de un vistazo', texto: 'Ventas cobradas, clientes nuevos y la tendencia de 8 semanas de cada local.' },
+  { icono: 'message-circle', titulo: 'Lo que hay para hoy', texto: 'Los mensajes de recompra del día, listos para salir del WhatsApp del local.' },
+  { icono: 'calendar-days', titulo: 'Días flojos', texto: 'Qué días vende menos cada local y a quién invitar justo esos días.' },
+  { icono: 'link', titulo: 'Links y campañas', texto: 'Un link por historia, reel o influencer, con sus pedidos y ventas cobradas.' },
+  { icono: 'users', titulo: 'Clientes y puntos', texto: 'La base de cada local por segmento, y su club de puntos para que vuelvan.' },
+  { icono: 'repeat-2', titulo: 'Recompra', texto: 'Tandas de mensajes con tu texto, el descuento que elijas y un grupo de control.' },
+]
+---
+
+<section id="app" class="overflow-hidden bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Tu app</p>
+      <h2 class="titulo-lg mt-4">Todos tus locales, en una app</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Entrás a marketing.piru.app y ves cómo viene cada local. Tocás uno y manejás sus links, sus clientes, sus puntos y su recompra, desde la compu o desde el celular.</p>
+    </div>
+  </div>
+
+  <div class="revelar mt-14">
+    <div class="sin-barra flex snap-x snap-mandatory gap-5 overflow-x-auto px-[max(20px,calc((100vw_-_1200px)/2_+_32px))] pb-6 lg:grid lg:snap-none lg:grid-cols-4 lg:overflow-visible">
+      {pantallas.map((p, i) => (
+        <figure class:list={['w-[min(64vw,270px)] shrink-0 snap-center lg:w-auto', i % 2 === 1 && 'lg:translate-y-10']}>
+          <div class="drop-shadow-[0_30px_45px_rgba(40,20,5,0.26)]">
+            <Escala ancho={412} alto={866} etiqueta={p.etiqueta}>
+              <Telefono>
+                {p.clave === 'cartera' && <CarteraMovil />}
+                {p.clave === 'resumen' && <ResumenMovil />}
+                {p.clave === 'hoy' && <HoyMovil />}
+                {p.clave === 'comisiones' && <ComisionesMovil />}
+              </Telefono>
+            </Escala>
+          </div>
+          <figcaption class="mt-5 text-center">
+            <span class="block text-[16px] font-semibold tracking-tight text-ink">{p.titulo}</span>
+            <span class="text-[14px] text-ink-3">{p.texto}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <ul class="mt-16 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+      {funciones.map((f, i) => (
+        <li class="revelar" style={`--retraso:${(i % 3) * 70}ms`}>
+          <span class="grid size-11 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name={f.icono} class="size-5" /></span>
+          <h3 class="mt-4 text-[18px] font-semibold tracking-tight">{f.titulo}</h3>
+          <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{f.texto}</p>
+        </li>
+      ))}
+    </ul>
+
+    <div class="revelar mt-14 flex flex-col gap-5 rounded-[28px] bg-white p-7 ring-1 ring-line sm:flex-row sm:items-center sm:p-9">
+      <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-ink text-white"><Icon name="lock" class="size-5" /></span>
+      <div class="flex-1">
+        <p class="text-[19px] font-semibold tracking-tight">El local te da acceso con tu código, y te lo saca cuando quiera.</p>
+        <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">Ves y manejás lo de marketing. No ves ni tocás cobros, precios, pedidos ni la configuración del local: los datos son suyos, y por eso confía.</p>
+      </div>
+    </div>
+  </div>
+</section>

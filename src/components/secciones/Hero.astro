@@ -24,7 +24,7 @@ const checks = ['Te la armamos con tu carta', `${DIAS_PRUEBA} días de prueba`, 
     </h1>
     <p class="revelar bajada mx-auto mt-6 max-w-[40rem]" style="--retraso:160ms">
       Piru es la tienda online, el sistema de pedidos y la agenda de clientes de tu local. Ellos piden en un minuto
-      desde el celular, vos lo atendés en una sola pantalla y Piru te avisa cuándo invitarlos a volver.
+      desde el celular, el pedido te llega a tu WhatsApp y a una sola pantalla, y Piru te avisa cuándo invitarlos a volver.
     </p>
     <div class="revelar mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:240ms">
       <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario w-full max-w-xs sm:w-auto">
@@ -34,6 +34,10 @@ const checks = ['Te la armamos con tu carta', `${DIAS_PRUEBA} días de prueba`, 
         Ver cómo funciona<Icon name="arrow-right" class="size-4 rotate-90" />
       </a>
     </div>
+    <!-- Visible sólo si la visita trae el código de un marketer (?ref=): lo completa layouts/Base.astro. -->
+    <p data-ref hidden class="revelar mx-auto mt-5 flex w-fit items-center gap-2 rounded-full bg-brand-soft px-3.5 py-1.5 text-[13.5px] font-medium text-brand-deep ring-1 ring-brand/20" style="--retraso:280ms">
+      <Icon name="handshake" class="size-4" />Te recomendó tu marketer · código <b data-ref-codigo class="font-bold"></b>
+    </p>
     <ul class="revelar mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[14px] text-ink-2" style="--retraso:320ms">
       {checks.map((c) => (
         <li class="flex items-center gap-1.5"><Icon name="circle-check" class="size-4 text-brand" stroke={2.2} />{c}</li>

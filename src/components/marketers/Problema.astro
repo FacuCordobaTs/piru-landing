@@ -1,0 +1,105 @@
+---
+import Icon from '../ui/Icon.astro'
+import { pesos } from '../../data/oferta'
+
+const pedido = 20000
+const comision = 0.3
+const estadisticas = [
+  { icono: 'eye', nombre: 'Reproducciones', valor: '8.930' },
+  { icono: 'heart', nombre: 'Me gusta', valor: '1.204' },
+  { icono: 'send', nombre: 'Compartidos', valor: '96' },
+] as const
+const chat = [
+  { texto: 'hola!! me pasás la carta?', hora: '20:41' },
+  { texto: 'una napo grande y 6 de carne', hora: '20:52' },
+  { texto: 'ah y una coca', hora: '20:52' },
+  { texto: 'cuánto tarda?? 🙏', hora: '21:15' },
+]
+---
+
+<section class="bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">El problema</p>
+      <h2 class="titulo-lg mt-4">Hacés crecer el local. Pero no lo podés demostrar.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Tu cliente te mide por una sola cosa: si vendió más. Y hoy las ventas pasan por lugares donde vos no ves nada.</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-3">
+      <article class="revelar tarjeta flex flex-col p-7">
+        <div class="flex items-center gap-3">
+          <span class="flex -space-x-2">
+            <span class="grid size-10 place-items-center rounded-xl bg-[#E7243B] text-white ring-2 ring-white"><Icon name="shopping-bag" class="size-5" /></span>
+            <span class="grid size-10 place-items-center rounded-xl bg-[#FF6A2B] text-white ring-2 ring-white"><Icon name="bike" class="size-5" /></span>
+          </span>
+          <h3 class="text-[19px] font-semibold leading-tight tracking-tight">Las apps se quedan con el cliente</h3>
+        </div>
+        <div class="mt-7 rounded-2xl bg-sand/70 p-5 ring-1 ring-line">
+          <div class="flex items-baseline justify-between text-[15px]">
+            <span class="text-ink-2">Un pedido de</span>
+            <span class="font-semibold tabular-nums">{pesos(pedido)}</span>
+          </div>
+          <div class="mt-3 flex h-4 overflow-hidden rounded-full bg-white ring-1 ring-line">
+            <span class="h-full bg-emerald-500/85" style={`width:${(1 - comision) * 100}%`} />
+            <span class="h-full bg-[#E7243B]" style={`width:${comision * 100}%`} />
+          </div>
+          <div class="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-[14px]">
+            <span class="flex items-center gap-1.5 whitespace-nowrap text-ink-2"><span class="size-2 rounded-full bg-emerald-500" />Le queda <b class="font-semibold text-ink tabular-nums">{pesos(pedido * (1 - comision))}</b></span>
+            <span class="flex items-center gap-1.5 whitespace-nowrap text-ink-2"><span class="size-2 rounded-full bg-[#E7243B]" />Comisión <b class="font-semibold text-[#C81E32] tabular-nums">−{pesos(pedido * comision)}</b></span>
+          </div>
+          <p class="mt-3 flex items-center gap-1.5 border-t border-line pt-3 text-[13.5px] text-ink-2"><Icon name="clock" class="size-4 text-ink-3" />Y la plata le llega de 7 a 10 días después.</p>
+        </div>
+        <p class="mt-6 text-[15.5px] leading-relaxed text-ink-2">Se quedan con entre el 30% y el 40% de cada pedido y el cliente es de ellas. Lo que vos traés con contenido, lo factura la app.</p>
+      </article>
+
+      <article class="revelar tarjeta flex flex-col p-7" style="--retraso:100ms">
+        <div class="flex items-center gap-3">
+          <span class="grid size-10 place-items-center rounded-xl bg-ink text-white"><Icon name="eye" class="size-5" /></span>
+          <h3 class="text-[19px] font-semibold leading-tight tracking-tight">Tu contenido vende, pero no se ve</h3>
+        </div>
+        <div class="mt-7 rounded-2xl bg-sand/70 p-5 ring-1 ring-line">
+          <p class="text-[12px] font-semibold uppercase tracking-[.09em] text-ink-3">El reel del jueves</p>
+          <ul class="mt-3 space-y-2.5">
+            {estadisticas.map((e) => (
+              <li class="flex items-center justify-between text-[15px] text-ink-2">
+                <span class="flex items-center gap-2"><Icon name={e.icono} class="size-4 text-ink-3" />{e.nombre}</span>
+                <span class="font-semibold tabular-nums text-ink">{e.valor}</span>
+              </li>
+            ))}
+            <li class="flex items-center justify-between border-t border-line pt-2.5 text-[15px]">
+              <span class="flex items-center gap-2 font-semibold text-[#C81E32]"><Icon name="circle-question-mark" class="size-4" />Ventas</span>
+              <span class="font-bold text-[#C81E32]">¿?</span>
+            </li>
+          </ul>
+        </div>
+        <p class="mt-6 text-[15.5px] leading-relaxed text-ink-2">El dueño ve vistas y me gusta, pero nadie sabe cuánto vendió el reel. Y cuando baja la venta, el primer gasto que se recorta sos vos.</p>
+      </article>
+
+      <article class="revelar tarjeta flex flex-col p-7" style="--retraso:200ms">
+        <div class="flex items-center gap-3">
+          <span class="grid size-10 place-items-center rounded-xl bg-wa text-white"><Icon name="message-circle" class="size-5" /></span>
+          <h3 class="text-[19px] font-semibold leading-tight tracking-tight">Los clientes se pierden en el chat</h3>
+          <span class="ml-auto shrink-0 whitespace-nowrap rounded-full bg-wa px-2.5 py-1 text-[12px] font-bold text-white">14 sin leer</span>
+        </div>
+        <div class="mt-7 space-y-1.5 rounded-2xl bg-[#EFEAE2] p-4" aria-label="Ejemplo de un pedido por chat">
+          {chat.map((m) => (
+            <div class="flex justify-start">
+              <span class="max-w-[85%] rounded-lg rounded-tl-none bg-white px-2.5 py-1.5 text-[14px] leading-snug shadow-[0_1px_.5px_rgba(11,20,26,.13)]">
+                {m.texto}<span class="ml-2 align-bottom text-[10.5px] text-[#667781]">{m.hora}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+        <p class="mt-6 text-[15.5px] leading-relaxed text-ink-2">Los pedidos se anotan a mano, no queda nada guardado y nadie le vuelve a escribir al que dejó de pedir.</p>
+      </article>
+    </div>
+
+    <div class="revelar mt-5 flex flex-col items-start gap-5 rounded-[28px] bg-ink p-7 text-white sm:flex-row sm:items-center sm:p-9">
+      <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand"><Icon name="zap" class="size-6" /></span>
+      <p class="text-[19px] leading-snug text-white/80 sm:text-[21px]">
+        <b class="font-semibold text-white">Con Piru, cada historia tiene su link, cada pedido queda cobrado y guardado, y cada cliente vuelve por el WhatsApp del local.</b> Lo que hacés, se ve en plata.
+      </p>
+      <a href="#sistema" class="boton boton-primario shrink-0 sm:ml-auto">Ver cómo<Icon name="arrow-right" class="size-4" /></a>
+    </div>
+  </div>
+</section>

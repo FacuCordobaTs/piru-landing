@@ -1,0 +1,100 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Logo from '../../ui/Logo.astro'
+import Monograma from './Monograma.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { CARTERA, MARKETER } from '../../../data/marketers'
+
+/**
+ * Barra lateral de la app de marketers en escritorio (docs/MVP_MARKETERS.md §4.4–4.5): en la cartera
+ * lista los locales; dentro de un local, sus secciones con el selector de local arriba.
+ */
+type SeccionCartera = 'locales' | 'comisiones' | 'cuenta'
+type SeccionLocal = 'resumen' | 'hoy' | 'dias' | 'campanas' | 'clientes' | 'recompra' | 'puntos' | 'cupones' | 'estadisticas'
+
+interface Props {
+  modo: 'cartera' | 'local'
+  activo: SeccionCartera | SeccionLocal
+}
+
+const { modo, activo } = Astro.props
+const brasa = CARTERA[0]
+
+const itemsCartera: { clave: SeccionCartera; icono: NombreIcono; texto: string }[] = [
+  { clave: 'locales', icono: 'store', texto: 'Tus locales' },
+  { clave: 'comisiones', icono: 'hand-coins', texto: 'Comisiones' },
+  { clave: 'cuenta', icono: 'user-round', texto: 'Cuenta' },
+]
+const itemsLocal: { clave: SeccionLocal; icono: NombreIcono; texto: string; badge?: number }[] = [
+  { clave: 'resumen', icono: 'layout-dashboard', texto: 'Resumen' },
+  { clave: 'hoy', icono: 'message-circle', texto: 'Hoy', badge: brasa.mensajesHoy },
+  { clave: 'dias', icono: 'calendar-days', texto: 'Días flojos' },
+  { clave: 'campanas', icono: 'link', texto: 'Campañas' },
+  { clave: 'clientes', icono: 'users', texto: 'Clientes' },
+  { clave: 'recompra', icono: 'repeat-2', texto: 'Recompra' },
+  { clave: 'puntos', icono: 'sparkles', texto: 'Puntos' },
+  { clave: 'cupones', icono: 'ticket', texto: 'Cupones' },
+  { clave: 'estadisticas', icono: 'trending-up', texto: 'Estadísticas' },
+]
+const items = modo === 'cartera' ? itemsCartera : itemsLocal
+---
+
+<aside class="flex h-full w-[232px] shrink-0 flex-col border-r border-line bg-white/70 px-3.5 pb-4 pt-5">
+  <div class="flex items-center gap-2 px-1.5">
+    <Logo size={28} />
+    <span class="text-[17px] font-bold tracking-[-0.04em] text-ink">Piru</span>
+    <span class="rounded-full bg-brand-soft px-2 py-0.5 text-[10.5px] font-semibold text-brand-deep">marketers</span>
+  </div>
+
+  {modo === 'local' && (
+    <div class="mt-5 flex items-center gap-2.5 rounded-2xl bg-white p-2.5 ring-1 ring-line">
+      <Monograma inicial={brasa.inicial} color={brasa.color} size={34} />
+      <div class="min-w-0 flex-1 leading-tight">
+        <p class="truncate text-[14px] font-semibold text-ink">{brasa.nombre}</p>
+        <p class="truncate text-[11.5px] text-ink-3">{brasa.rubro}</p>
+      </div>
+      <Icon name="chevrons-up-down" class="size-4 text-ink-3" />
+    </div>
+  )}
+
+  <nav class="mt-5 space-y-0.5">
+    {items.map((it) => (
+      <div class:list={['flex h-10 items-center gap-3 rounded-xl px-3 text-[14px] font-medium', it.clave === activo ? 'bg-ink text-white' : 'text-ink-2']}>
+        <Icon name={it.icono} class="size-[17px]" />
+        <span class="flex-1">{it.texto}</span>
+        {'badge' in it && it.badge ? (
+          <span class:list={['grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11px] font-bold tabular-nums', it.clave === activo ? 'bg-white text-ink' : 'bg-brand text-white']}>{it.badge}</span>
+        ) : null}
+      </div>
+    ))}
+  </nav>
+
+  {modo === 'cartera' && (
+    <div class="mt-7">
+      <p class="px-3 text-[10.5px] font-semibold uppercase tracking-[.1em] text-ink-3">Tus locales</p>
+      <ul class="mt-2 space-y-0.5">
+        {CARTERA.map((l) => (
+          <li class="flex h-9 items-center gap-2.5 px-3 text-[13.5px] text-ink-2">
+            <Monograma inicial={l.inicial} color={l.color} size={20} />
+            <span class="flex-1 truncate">{l.nombre}</span>
+            {l.mensajesHoy > 0 && <span class="text-[11.5px] font-semibold tabular-nums text-brand-deep">{l.mensajesHoy}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+
+  <div class="mt-auto space-y-2">
+    {modo === 'local' && (
+      <div class="flex h-9 items-center gap-2 px-3 text-[13px] font-medium text-ink-3"><Icon name="arrow-left" class="size-4" />Tus locales</div>
+    )}
+    <div class="flex items-center gap-2.5 rounded-2xl bg-sand/70 p-2.5">
+      <span class="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-[11.5px] font-bold text-white">{MARKETER.iniciales}</span>
+      <div class="min-w-0 flex-1 leading-tight">
+        <p class="truncate text-[13px] font-semibold text-ink">{MARKETER.nombre}</p>
+        <p class="truncate text-[11px] text-ink-3">Código <span class="font-semibold text-ink-2">{MARKETER.codigo}</span></p>
+      </div>
+      <Icon name="copy" class="size-3.5 text-ink-3" />
+    </div>
+  </div>
+</aside>

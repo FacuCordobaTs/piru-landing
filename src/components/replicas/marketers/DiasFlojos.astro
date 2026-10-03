@@ -1,0 +1,132 @@
+---
+import Icon from '../../ui/Icon.astro'
+import BarraApp from './BarraApp.astro'
+import { colorCelda, decimal, ESCALA_CALOR } from './graficos'
+import {
+  CANDIDATOS, CANDIDATOS_CONTROL, CANDIDATOS_TOTAL, FLOJOS, FRANJAS, MAXIMO_CELDA, PROMEDIO_FRANJA, SEMANA,
+} from '../../../data/marketers'
+
+/**
+ * App de marketers → Días flojos, en escritorio (docs/MVP_MARKETERS.md §4.5 y §5.4). A la izquierda,
+ * el mapa de calor día × franja de las últimas 8 semanas con los huecos más grandes; a la derecha,
+ * a quién invitar el día elegido. Los que vienen igual quedan afuera: invitarlos es regalar margen.
+ */
+const etiqueta = 'text-[11px] font-semibold uppercase tracking-[.09em] text-ink-3'
+const totalDia = (franjas: number[]) => franjas.reduce((t, n) => t + n, 0)
+const elegibles = CANDIDATOS.filter((c) => c.elegible).length
+---
+
+<div class="flex h-full w-full bg-paper text-ink">
+  <BarraApp modo="local" activo="dias" />
+
+  <div class="min-w-0 flex-1 px-8 pt-6">
+    <div class="flex items-end justify-between">
+      <div>
+        <p class="text-[27px] font-bold leading-none tracking-[-0.035em]">Días flojos</p>
+        <p class="mt-2 text-[14px] text-ink-3">Pedidos promedio por día y franja · últimas 8 semanas</p>
+      </div>
+      <div class="flex items-center gap-1 rounded-full bg-white p-1 text-[12.5px] font-semibold ring-1 ring-line">
+        <span class="rounded-full bg-ink px-3 py-1.5 text-white">8 semanas</span>
+        <span class="px-3 py-1.5 text-ink-3">12</span>
+        <span class="px-3 py-1.5 text-ink-3">26</span>
+      </div>
+    </div>
+
+    <div class="mt-5 grid grid-cols-[minmax(0,1fr)_372px] gap-5">
+      <div class="space-y-4">
+        <div class="rounded-[20px] bg-white p-5 ring-1 ring-line">
+          <div class="grid grid-cols-[98px_repeat(7,minmax(0,1fr))] gap-1.5">
+            <span />
+            {SEMANA.map((d) => (
+              <span class:list={['pb-1 text-center text-[12.5px] font-semibold', d.nombre === 'Martes' ? 'text-ink' : 'text-ink-3']}>
+                {d.corto}
+                {!d.abierto && <span class="block text-[10px] font-medium text-ink-3/80">cerrado</span>}
+              </span>
+            ))}
+            {FRANJAS.map((f, fi) => (
+              <>
+                <span class="flex flex-col justify-center pr-2">
+                  <span class="text-[13px] font-semibold">{f.nombre}</span>
+                  <span class="text-[11px] text-ink-3">{f.rango} h</span>
+                </span>
+                {SEMANA.map((d) => {
+                  const valor = d.franjas[fi]
+                  const c = colorCelda(valor, MAXIMO_CELDA)
+                  const flojo = d.nombre === 'Martes' && f.clave === 'noche'
+                  return d.abierto ? (
+                    <span
+                      class:list={['relative grid h-[54px] place-items-center rounded-xl text-[13.5px] font-semibold tabular-nums', flojo && 'ring-2 ring-ink ring-offset-2']}
+                      style={`background:${c.fondo};color:${c.texto}`}
+                    >
+                      {decimal(valor)}
+                      {flojo && <span class="absolute -top-2.5 right-1 rounded-full bg-ink px-1.5 py-px text-[10px] font-bold text-white">−55%</span>}
+                    </span>
+                  ) : (
+                    <span class="celda-cerrada h-[54px] rounded-xl" />
+                  )
+                })}
+              </>
+            ))}
+            <span class="pt-2 text-[12px] font-semibold text-ink-3">Total del día</span>
+            {SEMANA.map((d) => (
+              <span class:list={['pt-2 text-center text-[13px] font-semibold tabular-nums', d.nombre === 'Martes' ? 'text-brand-deep' : 'text-ink-2']}>{d.abierto ? decimal(totalDia(d.franjas)) : '—'}</span>
+            ))}
+          </div>
+          <div class="mt-4 flex items-center gap-2 border-t border-line pt-3 text-[11.5px] text-ink-3">
+            Menos pedidos
+            <span class="flex gap-1">{ESCALA_CALOR.map((c) => <span class="size-3.5 rounded-[4px]" style={`background:${c}`} />)}</span>
+            Más pedidos
+            <span class="ml-auto flex items-center gap-1.5"><span class="celda-cerrada size-3.5 rounded-[4px]" />Cerrado</span>
+          </div>
+        </div>
+
+        <div class="rounded-[20px] bg-white p-5 ring-1 ring-line">
+          <p class={etiqueta}>Tus días flojos</p>
+          <ol class="mt-3 space-y-2">
+            {FLOJOS.map((f, i) => (
+              <li class:list={['flex items-center gap-3 rounded-xl px-3 py-2.5', i === 0 ? 'bg-brand-soft/70' : 'bg-sand/60']}>
+                <span class:list={['grid size-7 place-items-center rounded-lg text-[12.5px] font-bold', i === 0 ? 'bg-ink text-white' : 'bg-white text-ink-2 ring-1 ring-line']}>{i + 1}</span>
+                <div class="min-w-0 flex-1">
+                  <p class="text-[14px] font-semibold">{f.dia} {f.franja.toLowerCase()}</p>
+                  <p class="text-[12px] text-ink-3">{decimal(f.pedidos)} pedidos · el promedio de esa franja es {decimal(f.promedio)}</p>
+                </div>
+                <span class="rounded-full bg-white px-2.5 py-1 text-[12px] font-semibold tabular-nums text-ink-2 ring-1 ring-line">le faltan {Math.round(f.promedio - f.pedidos)}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-[20px] bg-white p-5 ring-1 ring-line">
+        <span class="inline-flex w-fit items-center gap-1.5 rounded-full bg-ink px-2.5 py-1 text-[11.5px] font-semibold text-white"><Icon name="moon" class="size-3.5" />Martes noche</span>
+        <p class="mt-3 text-[21px] font-bold leading-tight tracking-[-0.025em]">{CANDIDATOS_TOTAL} clientes pueden venir</p>
+        <p class="mt-1.5 text-[12.5px] leading-relaxed text-ink-3">Ya pidieron un martes o hace rato que no vuelven. Los que vienen igual quedan afuera: invitarlos sería regalar margen.</p>
+
+        <ul class="mt-4 space-y-1">
+          {CANDIDATOS.map((c) => (
+            <li class:list={['flex items-center gap-2.5 rounded-xl px-2 py-2', !c.elegible && 'opacity-50']}>
+              <span class:list={['grid size-[18px] shrink-0 place-items-center rounded-[5px]', c.elegible ? 'bg-ink text-white' : 'ring-1 ring-ink-3/50']}>
+                {c.elegible && <Icon name="check" class="size-3" stroke={3} />}
+              </span>
+              <span class="grid size-8 shrink-0 place-items-center rounded-full bg-sand text-[11px] font-bold text-ink-2">{c.iniciales}</span>
+              <div class="min-w-0 flex-1">
+                <p class="flex items-center gap-1.5 text-[13px] font-semibold">
+                  <span class="truncate">{c.nombre}</span>
+                  <span class="flex shrink-0 items-center gap-1 text-[11px] font-medium text-ink-3"><span class:list={['size-1.5 rounded-full', c.punto]} />{c.segmento}</span>
+                </p>
+                <p class="truncate text-[11.5px] text-ink-3">{c.motivo}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-1 px-2 text-[12px] font-medium text-ink-3">Y {CANDIDATOS_TOTAL - elegibles} más en la lista</p>
+
+        <div class="mt-auto space-y-2 pt-4">
+          <span class="flex h-11 w-full items-center justify-center gap-2 rounded-full bg-ink text-[13.5px] font-semibold text-white"><Icon name="message-circle" class="size-4" />Invitar a {CANDIDATOS_TOTAL} clientes el martes</span>
+          <span class="flex h-11 w-full items-center justify-center gap-2 rounded-full text-[13.5px] font-semibold ring-1 ring-line"><Icon name="sticker" class="size-4" />Link del día para historias y estados</span>
+          <p class="pt-1 text-center text-[11.5px] leading-snug text-ink-3">{CANDIDATOS_CONTROL} más quedan sin mensaje, como grupo de control: así sabés cuántos pedidos trajo la invitación.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

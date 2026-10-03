@@ -1,0 +1,38 @@
+---
+import Icon from '../ui/Icon.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { DIAS_PRUEBA, PRECIO_BASE, pesos } from '../../data/oferta'
+
+const razones: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'hand-coins', titulo: 'Sin comisión por venta', texto: `Un precio fijo de ${pesos(PRECIO_BASE)} por mes. Lo que cobra va directo a su cuenta: Piru no toca su plata.` },
+  { icono: 'message-circle', titulo: 'Los pedidos, a su WhatsApp', texto: 'Le llegan escritos y completos al número de siempre, y además quedan en su panel.' },
+  { icono: 'users', titulo: 'Sus clientes, guardados', texto: 'Nombre, celular, qué pide y cada cuánto. Lo que una app de delivery nunca le muestra.' },
+  { icono: 'store', titulo: 'Una tienda con su marca', texto: 'Sus fotos, sus colores y su link, o su propio dominio. Se pide en un minuto, sin descargar nada.' },
+  { icono: 'utensils-crossed', titulo: 'Se la armamos con su carta', texto: `Nos manda la carta como la tenga y se la dejamos lista. Tiene ${DIAS_PRUEBA} días para probarla.` },
+  { icono: 'printer', titulo: 'Y todo el local en una pantalla', texto: 'Pedidos, mostrador, mesas, comandas impresas y caja. Si se corta internet, sigue andando.' },
+]
+---
+
+<section id="para-tu-cliente" class="bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <div class="revelar lg:sticky lg:top-28 lg:self-start">
+        <p class="antetitulo">Lo que gana tu cliente</p>
+        <h2 class="titulo-lg mt-4">Una propuesta que el local no rechaza</h2>
+        <p class="bajada mt-5">Lo que le proponés no le suma un gasto: le saca comisiones. Cada pedido que pasa de la app a su tienda es plata que deja de pagar.</p>
+        <a href="/locales" class="boton boton-secundario mt-8">Ver la página para locales<Icon name="arrow-right" class="size-4" /></a>
+        <p class="mt-4 text-[14px] leading-relaxed text-ink-3">Mandásela con tu código al final del link (<span class="font-semibold text-ink-2">/locales?ref=TUCÓDIGO</span>) y su consulta nos llega a tu nombre.</p>
+      </div>
+
+      <ul class="grid gap-4 sm:grid-cols-2">
+        {razones.map((r, i) => (
+          <li class="revelar rounded-[24px] bg-white p-6 ring-1 ring-line" style={`--retraso:${(i % 2) * 80}ms`}>
+            <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name={r.icono} class="size-5" /></span>
+            <h3 class="mt-4 text-[17.5px] font-semibold tracking-tight">{r.titulo}</h3>
+            <p class="mt-1.5 text-[15px] leading-relaxed text-ink-2">{r.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

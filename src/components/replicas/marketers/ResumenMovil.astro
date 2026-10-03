@@ -1,0 +1,99 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Monograma from './Monograma.astro'
+import NavMovil from './NavMovil.astro'
+import { idSvg, sparkline } from './graficos'
+import { CARTERA, RESUMEN_BRASA, variacion } from '../../../data/marketers'
+import { pesos } from '../../../data/oferta'
+
+/**
+ * App de marketers → el Resumen de un local, en el celular (docs/MVP_MARKETERS.md §4.5): un número
+ * protagonista (ventas cobradas), lo que pasa con sus clientes y las tres acciones de todos los días.
+ */
+const brasa = CARTERA[0]
+const v = variacion(brasa.ventas30d, brasa.ventas30dAnterior)
+const s = sparkline(brasa.ventasSemanales, 318, 54)
+const r = RESUMEN_BRASA
+const etiqueta = 'text-[10.5px] font-semibold uppercase tracking-[.09em] text-ink-3'
+const retorno = Math.round((r.volvieron / r.contactados) * 100)
+const grad = idSvg('sp-resumen-brasa')
+---
+
+<div class="relative h-full w-full overflow-hidden bg-paper pt-[54px] text-ink">
+  <div class="flex h-11 items-center justify-between px-4 text-[13px] text-ink-3">
+    <span class="flex items-center gap-0.5 font-medium"><Icon name="chevron-left" class="size-4" />Tus locales</span>
+    <span class="flex items-center gap-1.5 font-medium text-ink-2"><Icon name="external-link" class="size-3.5" />Ver tienda</span>
+  </div>
+
+  <div class="flex items-center gap-3 px-5">
+    <Monograma inicial={brasa.inicial} color={brasa.color} size={46} />
+    <div class="min-w-0">
+      <p class="text-[24px] font-bold leading-none tracking-[-0.035em]">{brasa.nombre}</p>
+      <p class="mt-1.5 flex items-center gap-1.5 text-[12px] text-ink-3"><Icon name="link" class="size-3" />my.piru.app/brasa<Icon name="copy" class="size-3" /></p>
+    </div>
+  </div>
+
+  <div class="mx-5 mt-4 rounded-[20px] bg-white p-4 ring-1 ring-line">
+    <p class={etiqueta}>Ventas cobradas · 30 días</p>
+    <p class="mt-2 flex items-center gap-2">
+      <span class="text-[30px] font-bold leading-none tracking-[-0.035em] tabular-nums">{pesos(brasa.ventas30d)}</span>
+      <span class="inline-flex items-center gap-0.5 rounded-full bg-emerald-500/10 px-1.5 py-0.5 text-[11.5px] font-bold text-emerald-700"><Icon name="trending-up" class="size-3" stroke={2.6} />+{v}%</span>
+    </p>
+    <svg viewBox="0 0 318 54" class="mt-3 h-[54px] w-full" aria-hidden="true">
+      <defs>
+        <linearGradient id={grad} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color={brasa.color} stop-opacity=".2" />
+          <stop offset="1" stop-color={brasa.color} stop-opacity="0" />
+        </linearGradient>
+      </defs>
+      <path d={s.area} fill={`url(#${grad})`} />
+      <path d={s.linea} fill="none" stroke={brasa.color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx={s.ultimo[0]} cy={s.ultimo[1]} r="3.4" fill="#fff" stroke={brasa.color} stroke-width="2" />
+    </svg>
+    <p class="mt-1 flex justify-between text-[10.5px] text-ink-3"><span>hace 8 semanas</span><span>esta semana</span></p>
+  </div>
+
+  <div class="mx-5 mt-2.5 grid grid-cols-2 gap-2.5">
+    <div class="rounded-2xl bg-white p-3.5 ring-1 ring-line">
+      <p class={etiqueta}>Clientes nuevos</p>
+      <p class="mt-1.5 text-[22px] font-bold leading-none tabular-nums">{r.clientesNuevos}</p>
+      <p class="mt-1.5 text-[11px] leading-snug text-ink-3">por tus links y la tienda</p>
+    </div>
+    <div class="rounded-2xl bg-white p-3.5 ring-1 ring-line">
+      <p class={etiqueta}>Para recuperar</p>
+      <p class="mt-1.5 text-[22px] font-bold leading-none tabular-nums">{r.paraRecuperar}</p>
+      <p class="mt-2 flex gap-2 text-[11px] text-ink-3">
+        {r.recuperar.map((g) => <span class="flex items-center gap-1"><span class:list={['size-1.5 rounded-full', g.punto]} />{g.cantidad}</span>)}
+      </p>
+    </div>
+    <div class="rounded-2xl bg-white p-3.5 ring-1 ring-line">
+      <p class={etiqueta}>Volvieron</p>
+      <p class="mt-1.5 text-[22px] font-bold leading-none tabular-nums">{r.volvieron} <span class="text-[13px] font-semibold text-ink-3">de {r.contactados}</span></p>
+      <p class="mt-1.5 text-[11px] leading-snug text-ink-3"><b class="font-semibold text-emerald-600">{retorno}%</b> · sin mensaje, {r.volvieronControl}</p>
+    </div>
+    <div class="rounded-2xl bg-white p-3.5 ring-1 ring-line">
+      <p class={etiqueta}>Día más flojo</p>
+      <p class="mt-1.5 text-[17px] font-bold leading-tight">Martes noche</p>
+      <p class="mt-1 text-[11px] leading-snug text-ink-3">vende menos de la mitad</p>
+    </div>
+  </div>
+
+  <div class="mx-5 mt-2.5 flex items-center gap-3 rounded-2xl bg-white p-3.5 ring-1 ring-line">
+    <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-rose-500/10 text-rose-600"><Icon name="sticker" class="size-[18px]" /></span>
+    <div class="min-w-0 flex-1">
+      <p class={etiqueta}>La que más vendió</p>
+      <p class="mt-0.5 truncate text-[13.5px] font-semibold">{r.mejorLink.nombre}</p>
+    </div>
+    <div class="text-right">
+      <p class="text-[14px] font-bold tabular-nums">{pesos(r.mejorLink.ventas)}</p>
+      <p class="text-[11px] text-ink-3">{r.mejorLink.pedidos} pedidos</p>
+    </div>
+  </div>
+
+  <div class="mx-5 mt-3 flex gap-2">
+    <span class="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-ink text-[12.5px] font-semibold text-white"><Icon name="sticker" class="size-4" />Link de historia</span>
+    <span class="flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-white text-[12.5px] font-semibold ring-1 ring-line"><Icon name="calendar-days" class="size-4" />Invitar el martes</span>
+  </div>
+
+  <NavMovil modo="local" activo="resumen" hoy={brasa.mensajesHoy} />
+</div>

@@ -1,0 +1,59 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Monograma from './Monograma.astro'
+import NavMovil from './NavMovil.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { CAMPANAS } from '../../../data/demo'
+import { CARTERA } from '../../../data/marketers'
+import { pesos } from '../../../data/oferta'
+
+/** App de marketers → Campañas en el celular: el ranking de Campanas.astro, una tarjeta por link. */
+const brasa = CARTERA[0]
+const filas = [...CAMPANAS].sort((a, b) => b.ventas - a.ventas)
+const max = Math.max(...filas.map((f) => f.ventas))
+const colores: Record<string, string> = {
+  amber: 'bg-amber-500/10 text-amber-600',
+  rose: 'bg-rose-500/10 text-rose-600',
+  violet: 'bg-violet-500/10 text-violet-600',
+  sky: 'bg-sky-500/10 text-sky-600',
+  emerald: 'bg-emerald-500/10 text-emerald-600',
+}
+---
+
+<div class="relative h-full w-full overflow-hidden bg-paper pt-[54px] text-ink">
+  <div class="flex h-11 items-center gap-2 px-4 text-[13px] font-medium text-ink-3">
+    <Icon name="chevron-left" class="size-4" />
+    <Monograma inicial={brasa.inicial} color={brasa.color} size={20} />
+    {brasa.nombre}
+  </div>
+
+  <div class="flex items-end justify-between px-5">
+    <div>
+      <p class="text-[26px] font-bold leading-none tracking-[-0.035em]">Campañas</p>
+      <p class="mt-1.5 text-[13px] text-ink-3">Septiembre · ventas cobradas por link</p>
+    </div>
+    <span class="inline-flex h-9 items-center gap-1.5 rounded-full bg-ink px-3.5 text-[12.5px] font-semibold text-white"><Icon name="plus" class="size-4" />Nuevo link</span>
+  </div>
+
+  <div class="mt-4 space-y-2 px-4">
+    {filas.map((f) => (
+      <div class="rounded-[18px] bg-white p-3 ring-1 ring-line">
+        <div class="flex items-center gap-2.5">
+          <span class:list={['grid size-9 shrink-0 place-items-center rounded-xl', colores[f.color]]}><Icon name={f.icono as NombreIcono} class="size-[17px]" /></span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-[13.5px] font-semibold leading-tight">{f.nombre}</p>
+            <p class="truncate text-[11px] text-ink-3">{f.canal}</p>
+          </div>
+          <span class="text-[14px] font-bold tabular-nums">{pesos(f.ventas)}</span>
+        </div>
+        <div class="mt-2.5 flex items-center gap-3 text-[11px] text-ink-3">
+          <span class="h-1.5 flex-1 overflow-hidden rounded-full bg-line"><span class="block h-full rounded-full bg-brand" style={`width:${Math.round((f.ventas / max) * 100)}%`} /></span>
+          <span class="tabular-nums">{f.visitas.toLocaleString('es-AR')} visitas</span>
+          <span class="font-semibold tabular-nums text-ink">{f.pedidos} pedidos</span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <NavMovil modo="local" activo="campanas" hoy={brasa.mensajesHoy} />
+</div>

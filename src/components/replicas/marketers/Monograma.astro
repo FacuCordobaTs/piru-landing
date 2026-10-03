@@ -1,0 +1,17 @@
+---
+/** Logo de un local en la app de marketers: su inicial sobre su color. */
+interface Props {
+  inicial: string
+  color: string
+  size?: number
+  class?: string
+}
+
+const { inicial, color, size = 40, class: className } = Astro.props
+---
+
+<span
+  class:list={['grid shrink-0 place-items-center font-bold text-white', className]}
+  style={`width:${size}px;height:${size}px;border-radius:${Math.round(size * 0.3)}px;background:${color};font-size:${Math.round(size * 0.44)}px;letter-spacing:-0.04em;box-shadow:inset 0 0 0 1px rgb(255 255 255 / .12)`}
+  aria-hidden="true"
+>{inicial}</span>

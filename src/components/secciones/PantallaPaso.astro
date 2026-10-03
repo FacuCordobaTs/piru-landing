@@ -10,15 +10,17 @@ import PanelPedidos from '../replicas/panel/PanelPedidos.astro'
 import PanelCliente from '../replicas/panel/PanelCliente.astro'
 import PedidoMovil from '../replicas/panel/PedidoMovil.astro'
 import ClienteMovil from '../replicas/panel/ClienteMovil.astro'
-import WhatsApp from '../replicas/WhatsApp.astro'
-import { LOCAL } from '../../data/demo'
+import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
+import HistoriaInstagram from '../replicas/HistoriaInstagram.astro'
+import CampanasMovil from '../replicas/marketers/CampanasMovil.astro'
+import { LOCAL, PEDIDO } from '../../data/demo'
+import type { ClavePantalla } from './pasos'
 
 /**
- * La pantalla de cada paso de "Así viaja un pedido". En el escenario fijo de escritorio el panel se
- * muestra en una ventana; en celular (`movil`), el mismo panel en su versión angosta.
+ * La pantalla de cada paso de "Así viaja un pedido" (y del sistema del marketer en la home). En el
+ * escenario fijo de escritorio el panel se muestra en una ventana; en celular (`movil`), el mismo
+ * panel en su versión angosta. Los chats son siempre el WhatsApp del local (`WhatsAppLocal`).
  */
-type ClavePantalla = 'menu' | 'producto' | 'pago' | 'panel' | 'cliente' | 'whatsapp'
-
 interface Props {
   pantalla: ClavePantalla
   movil?: boolean
@@ -57,8 +59,23 @@ const enVentana = esPanel && !movil
       </Escala>
     )}
     {pantalla === 'whatsapp' && (
-      <Escala ancho={412} alto={866} etiqueta="Mensaje de WhatsApp de Brasa a Martina con la foto de su hamburguesa favorita y un botón para pedir">
-        <Telefono><WhatsApp /></Telefono>
+      <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre}: arriba el pedido que mandó Martina hace tres semanas, abajo el mensaje del local invitándola a volver, en el mismo chat`}>
+        <Telefono><WhatsAppLocal variante="recompra" /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'whatsapp-pedido' && (
+      <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre} con el pedido #${PEDIDO.id} que mandó Martina desde la tienda, escrito y completo`}>
+        <Telefono><WhatsAppLocal variante="pedido" /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'historia' && (
+      <Escala ancho={412} alto={866} etiqueta={`Una historia de ${LOCAL.nombre}: "Martes de smash, 15% OFF sólo hoy", con el sticker de link "Pedí acá"`}>
+        <Telefono tono="oscuro"><HistoriaInstagram /></Telefono>
+      </Escala>
+    )}
+    {pantalla === 'campanas-app' && (
+      <Escala ancho={412} alto={866} etiqueta="La app de marketers: las campañas de Brasa ordenadas por ventas cobradas">
+        <Telefono><CampanasMovil /></Telefono>
       </Escala>
     )}
   </div>
@@ -82,8 +99,8 @@ const enVentana = esPanel && !movil
           <span class="grid size-9 shrink-0 place-items-center rounded-[10px] bg-wa text-white"><Icon name="message-circle" class="size-5" /></span>
           <div class="min-w-0 flex-1">
             <p class="flex items-center justify-between text-[12px] text-ink-3"><span class="font-semibold uppercase tracking-wide">WhatsApp</span><span>ahora</span></p>
-            <p class="mt-0.5 text-[14px] font-semibold text-ink">{LOCAL.nombre}</p>
-            <p class="text-[13.5px] leading-snug text-ink-2">¡Tu comida está lista! Tu pedido ya está en camino a tu domicilio 🛵</p>
+            <p class="mt-0.5 text-[14px] font-semibold text-ink">{PEDIDO.cliente}</p>
+            <p class="text-[13.5px] leading-snug text-ink-2">¡Hola {LOCAL.nombre}! Te paso mi pedido: Pedido #{PEDIDO.id}…</p>
           </div>
         </div>
       </div>

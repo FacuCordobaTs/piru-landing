@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro'
+import Hero from '../components/secciones/Hero.astro'
+import Locales from '../components/secciones/Locales.astro'
+import Problema from '../components/secciones/Problema.astro'
+import ComoFunciona from '../components/secciones/ComoFunciona.astro'
+import Tienda from '../components/secciones/Tienda.astro'
+import Panel from '../components/secciones/Panel.astro'
+import Clientes from '../components/secciones/Clientes.astro'
+import Campanas from '../components/secciones/Campanas.astro'
+import Precios from '../components/secciones/Precios.astro'
+import Empezar from '../components/secciones/Empezar.astro'
+import Preguntas from '../components/secciones/Preguntas.astro'
+import CtaFinal from '../components/secciones/CtaFinal.astro'
+
+/**
+ * La página para los dueños de locales (antes era la home). Los marketers la mandan con su
+ * código, /locales?ref=CODIGO, y la consulta nos llega a su nombre (ver layouts/Base.astro).
+ */
+---
+
+<Base
+  pagina="locales"
+  canonical="/locales"
+  titulo="Piru para tu local · Tu tienda online y sistema de pedidos, sin comisiones"
+  descripcion="La tienda online, el sistema de pedidos y la agenda de clientes de tu local gastronómico. Tus clientes piden directo desde el celular, el pedido te llega a tu WhatsApp y vos cobrás el 100%: precio fijo, sin comisión por venta."
+>
+  <Hero />
+  <Locales />
+  <Problema />
+  <ComoFunciona />
+  <Tienda />
+  <Panel />
+  <Clientes />
+  <Campanas />
+  <Precios />
+  <Empezar />
+  <Preguntas />
+  <CtaFinal />
+</Base>

@@ -1,0 +1,135 @@
+---
+import Icon from '../ui/Icon.astro'
+import { LOCAL, MENSAJE_DIA_FLOJO, MENSAJE_RECOMPRA, PEDIDO, SMASH, type MensajeManual } from '../../data/demo'
+import { pesos } from '../../data/oferta'
+
+/**
+ * El WhatsApp del LOCAL abierto en el chat con Martina (docs/MVP_MARKETERS.md §1): reemplaza a la
+ * réplica de plantilla de Meta. Arriba, el pedido que ella mandó desde la tienda, con el formato real
+ * de `web/src/lib/whatsappOrderMessage.ts`; abajo, la invitación a volver en ESE MISMO chat: texto
+ * plano con el link pegado, sin tilde de cuenta verificada ni botón de plantilla.
+ *  - `pedido`: el pedido recién llegado y la respuesta del local.
+ *  - `recompra`: tres semanas después, el 1º mensaje de recompra (link de `lo-mismo`).
+ *  - `dia-flojo`: el martes, la invitación del día flojo (link de `reactivacion`, 15 %).
+ */
+interface Props {
+  variante?: 'pedido' | 'recompra' | 'dia-flojo'
+}
+
+const { variante = 'recompra' } = Astro.props
+
+const cheddar = SMASH.extras.find((e) => e.nombre === 'Extra cheddar')!
+const subtotal = PEDIDO.items.reduce((t, it) => t + it.precio, 0)
+type Linea = { t: string; negrita?: boolean; cursiva?: boolean; resto?: string }
+const pedido: Linea[] = [
+  { t: `¡Hola ${LOCAL.nombre}! ☺ Te paso mi pedido:` },
+  { t: '' },
+  { t: `№ Pedido #${PEDIDO.id}`, negrita: true },
+  { t: `• ${PEDIDO.cliente}` },
+  { t: '' },
+  { t: '▣ Productos', negrita: true },
+  { t: 'Hamburguesas', cursiva: true },
+  { t: `• 1x ${PEDIDO.items[0].nombre} — ${pesos(PEDIDO.items[0].precio)}` },
+  { t: `   ↳ Sin: ${PEDIDO.items[0].sin[0]}` },
+  { t: `   ↳ Extra: ${cheddar.nombre} (+${pesos(cheddar.precio)})` },
+  { t: '' },
+  { t: 'Para acompañar', cursiva: true },
+  { t: `• 1x ${PEDIDO.items[1].nombre} — ${pesos(PEDIDO.items[1].precio)}` },
+  { t: `• 1x ${PEDIDO.items[2].nombre} — ${pesos(PEDIDO.items[2].precio)}` },
+  { t: '' },
+  { t: '$ Resumen', negrita: true },
+  { t: `Subtotal: ${pesos(subtotal)}` },
+  { t: `Envío: ${pesos(PEDIDO.envio)}` },
+  { t: `Total: ${pesos(PEDIDO.total)}`, negrita: true },
+  { t: '' },
+  { t: '▤ Pago:', negrita: true, resto: ` Transferencia · Alias: ${LOCAL.alias}` },
+  { t: '' },
+  { t: '➜ Entrega:', negrita: true, resto: ' Delivery' },
+  { t: `⌖ ${PEDIDO.direccion}` },
+]
+
+const completo = variante === 'pedido'
+const lineasPedido = completo ? pedido : pedido.slice(0, 10)
+const invitacion: MensajeManual = variante === 'dia-flojo' ? MENSAJE_DIA_FLOJO : MENSAJE_RECOMPRA
+const respuesta = variante === 'dia-flojo'
+  ? { texto: '¡Uh, justo! La pido ahora 🙌', hora: '19:06' }
+  : { texto: 'Jajaja me leyeron la mente 😍 ya la pido', hora: '21:03' }
+/** La hora de cada burbuja, abajo a la derecha como en WhatsApp. */
+const claseHora = 'ml-2 inline-block translate-y-[3px] align-bottom text-[11px] text-[#667781]'
+const claseTilde = 'ml-0.5 inline size-[15px] translate-y-[3px] text-[#53BDEB]'
+---
+
+<div class="relative flex h-full w-full flex-col bg-[#EFEAE2] text-[#111b21]">
+  <div class="z-10 flex h-[108px] shrink-0 items-end gap-2.5 border-b border-black/[.06] bg-[#F6F5F3]/95 px-3 pb-2.5 backdrop-blur">
+    <span class="flex items-center text-[#007AFF]">
+      <Icon name="chevron-left" class="size-7" stroke={2.4} />
+      <span class="-ml-1 text-[17px]">8</span>
+    </span>
+    <span class="grid size-[38px] shrink-0 place-items-center rounded-full bg-[#DFE5E7] text-[14px] font-semibold text-[#54656F]">MG</span>
+    <div class="min-w-0 flex-1">
+      <p class="truncate text-[16.5px] font-semibold leading-tight">{PEDIDO.cliente}</p>
+      <p class="text-[12.5px] leading-tight text-[#667781]">en línea</p>
+    </div>
+    <span class="flex items-center gap-5 pb-1.5 pr-2 text-[#007AFF]">
+      <Icon name="video" class="size-[22px]" />
+      <Icon name="phone" class="size-[19px]" />
+    </span>
+  </div>
+
+  <div class="flex flex-1 flex-col justify-end gap-1.5 overflow-hidden px-3 pb-3">
+    <div class="flex justify-center py-1">
+      <span class="rounded-lg bg-white/90 px-3 py-1 text-[12.5px] font-medium text-[#54656f] shadow-sm">{completo ? 'Hoy' : '23 de septiembre'}</span>
+    </div>
+
+    <div class="burbuja max-w-[304px]">
+      <div class:list={['px-1.5 pb-1 pt-1 leading-[1.36] text-[#111b21]', completo ? 'text-[13.5px]' : 'text-[13px]']}>
+        {lineasPedido.map((l) => (
+          <p class:list={['min-h-[1.36em] whitespace-pre-wrap', l.negrita && !l.resto && 'font-bold', l.cursiva && 'italic']}>
+            {l.resto ? <><b class="font-bold">{l.t}</b>{l.resto}</> : l.t}
+          </p>
+        ))}
+        {!completo && <p class="font-medium text-[#027EB5]">Leer más</p>}
+        <p class="-mt-1 text-right"><span class={claseHora}>{PEDIDO.hora}</span></p>
+      </div>
+    </div>
+
+    <div class="burbuja-sale max-w-[290px]">
+      <p class="px-1.5 pb-0.5 pt-1 text-[14px] leading-[1.36]">¡Gracias Martina! Ya entra a la cocina 🔥<span class={claseHora}>21:05</span><Icon name="check-check" class={claseTilde} /></p>
+    </div>
+
+    {!completo && (
+      <>
+        <div class="flex justify-center py-1.5">
+          <span class="rounded-lg bg-white/90 px-3 py-1 text-[12.5px] font-medium text-[#54656f] shadow-sm">Hoy</span>
+        </div>
+
+        <div class="burbuja-sale max-w-[304px]">
+          <div class="flex gap-2.5 rounded-[7px] bg-[#C9EFC2]/70 p-1.5">
+            <span class="grid size-[58px] shrink-0 place-items-center rounded-md bg-[#7A2E3F] text-[#F4EDE4]"><Icon name="flame" class="size-7" stroke={2.3} /></span>
+            <div class="min-w-0 py-0.5 leading-tight">
+              <p class="truncate text-[13px] font-semibold">{LOCAL.nombre} · {LOCAL.bajada}</p>
+              <p class="mt-0.5 line-clamp-2 text-[12px] text-[#54656F]">Pedí en un minuto, sin descargar nada</p>
+              <p class="mt-0.5 text-[11.5px] text-[#667781]">my.piru.app</p>
+            </div>
+          </div>
+          <div class="px-1.5 pb-0.5 pt-1.5 text-[14px] leading-[1.36]">
+            {invitacion.lineas.map((l, i) => <p class:list={[i > 0 && 'mt-[0.9em]']}>{l}</p>)}
+            <p class="truncate text-[#027EB5] underline decoration-[#027EB5]/40">{invitacion.link}</p>
+            <p class="-mt-1 text-right"><span class={claseHora}>{invitacion.hora}</span><Icon name="check-check" class={claseTilde} /></p>
+          </div>
+        </div>
+
+        <div class="burbuja max-w-[280px]">
+          <p class="px-1.5 pb-0.5 pt-1 text-[14px] leading-[1.36]">{respuesta.texto}<span class={claseHora}>{respuesta.hora}</span></p>
+        </div>
+      </>
+    )}
+  </div>
+
+  <div class="flex h-[92px] shrink-0 items-start gap-3 border-t border-black/[.06] bg-[#F6F5F3] px-3 pt-2.5 text-[#007AFF]">
+    <Icon name="plus" class="mt-1 size-7" stroke={1.8} />
+    <span class="h-9 flex-1 rounded-full border border-black/[.1] bg-white" />
+    <Icon name="camera" class="mt-1.5 size-6" stroke={1.8} />
+    <Icon name="mic" class="mt-1.5 size-6" stroke={1.8} />
+  </div>
+</div>

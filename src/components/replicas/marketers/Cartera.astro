@@ -1,0 +1,108 @@
+---
+import Icon from '../../ui/Icon.astro'
+import BarraApp from './BarraApp.astro'
+import Monograma from './Monograma.astro'
+import { idSvg, sparkline } from './graficos'
+import { CARTERA, MARKETER, TOTALES_CARTERA, variacion } from '../../../data/marketers'
+import { COMISION_MARKETER, millones, pesos } from '../../../data/oferta'
+
+/**
+ * App de marketers → Tus locales, en escritorio (docs/MVP_MARKETERS.md §4.5). Pantalla nueva: es el
+ * diseño de referencia para `marketers/`. Arriba los totales de la cartera; abajo, un local por tarjeta
+ * con sus ventas cobradas, la tendencia de 8 semanas y lo que hay para hacer hoy.
+ */
+const totalVar = variacion(TOTALES_CARTERA.ventas30d, TOTALES_CARTERA.ventas30dAnterior)
+const pagan = CARTERA.filter((l) => l.suscripcionMensual > 0).length
+const etiqueta = 'text-[11px] font-semibold uppercase tracking-[.09em] text-ink-3'
+const kpis = [
+  { titulo: 'Ventas de tus locales', valor: millones(TOTALES_CARTERA.ventas30d), detalle: `+${totalVar}% vs. los 30 días anteriores`, positivo: true },
+  { titulo: 'Tu comisión de octubre', valor: pesos(TOTALES_CARTERA.comisionMes), detalle: `${pagan} locales que pagan · ${COMISION_MARKETER}%` },
+  { titulo: 'Para mandar hoy', valor: `${TOTALES_CARTERA.mensajesHoy} mensajes`, detalle: `en ${TOTALES_CARTERA.localesConMensajes} locales` },
+  { titulo: 'Clientes nuevos', valor: String(TOTALES_CARTERA.clientesNuevos30d), detalle: `en tus ${CARTERA.length} locales` },
+]
+---
+
+<div class="flex h-full w-full bg-paper text-ink">
+  <BarraApp modo="cartera" activo="locales" />
+
+  <div class="min-w-0 flex-1 px-9 pb-7 pt-7">
+    <div class="flex items-end justify-between gap-6">
+      <div>
+        <p class="text-[27px] font-bold leading-none tracking-[-0.035em]">Hola, {MARKETER.corto}</p>
+        <p class="mt-2 text-[14px] text-ink-3">Así vienen tus locales · últimos 30 días</p>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <span class="flex h-10 w-52 items-center gap-2 rounded-full bg-white px-4 text-[13.5px] text-ink-3 ring-1 ring-line"><Icon name="search" class="size-4" />Buscar un local</span>
+        <span class="inline-flex h-10 items-center gap-2 rounded-full bg-ink px-4 text-[13.5px] font-semibold text-white"><Icon name="user-plus" class="size-4" />Sumar un local</span>
+      </div>
+    </div>
+
+    <div class="mt-6 grid grid-cols-4 gap-3">
+      {kpis.map((k) => (
+        <div class="rounded-2xl bg-white p-4 ring-1 ring-line">
+          <p class={etiqueta}>{k.titulo}</p>
+          <p class="mt-2 text-[25px] font-bold leading-none tracking-[-0.03em] tabular-nums">{k.valor}</p>
+          <p class:list={['mt-2 text-[12.5px]', k.positivo ? 'font-medium text-emerald-600' : 'text-ink-3']}>{k.detalle}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-5 grid grid-cols-2 gap-4">
+      {CARTERA.map((l) => {
+        const v = variacion(l.ventas30d, l.ventas30dAnterior)
+        const s = sparkline(l.ventasSemanales, 196, 60)
+        const grad = idSvg(`sp-cartera-${l.id}`)
+        return (
+          <div class="rounded-[20px] bg-white p-5 ring-1 ring-line shadow-[0_1px_2px_rgb(40_24_8/.04),0_12px_28px_-20px_rgb(40_24_8/.25)]">
+            <div class="flex items-center gap-3">
+              <Monograma inicial={l.inicial} color={l.color} size={42} />
+              <div class="min-w-0 flex-1">
+                <p class="flex items-center gap-2 text-[16.5px] font-semibold tracking-tight">
+                  {l.nombre}
+                  {l.estado === 'prueba' && <span class="rounded-full bg-sky-500/10 px-2 py-0.5 text-[11px] font-semibold text-sky-700">En prueba</span>}
+                  {l.estado === 'sin-retencion' && <span class="rounded-full bg-sand px-2 py-0.5 text-[11px] font-semibold text-ink-3 ring-1 ring-line">Sin Retención</span>}
+                </p>
+                <p class="text-[12.5px] text-ink-3">{l.rubro}</p>
+              </div>
+              <span class="inline-flex h-8 items-center gap-1 rounded-full px-3 text-[12.5px] font-semibold text-ink-2 ring-1 ring-line">Entrar<Icon name="chevron-right" class="size-3.5" /></span>
+            </div>
+
+            <div class="mt-4 flex items-end justify-between gap-4">
+              <div>
+                <p class="text-[11.5px] text-ink-3">Ventas cobradas · 30 días</p>
+                <p class="mt-1 flex items-center gap-2">
+                  <span class="text-[25px] font-bold leading-none tracking-[-0.03em] tabular-nums">{pesos(l.ventas30d)}</span>
+                  <span class:list={['inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[11.5px] font-bold tabular-nums', v >= 0 ? 'bg-emerald-500/10 text-emerald-700' : 'bg-rose-500/10 text-rose-700']}>
+                    <Icon name={v >= 0 ? 'trending-up' : 'trending-down'} class="size-3" stroke={2.6} />{v >= 0 ? '+' : '−'}{Math.abs(v)}%
+                  </span>
+                </p>
+              </div>
+              <svg viewBox="0 0 196 60" class="h-[60px] w-[196px]" aria-hidden="true">
+                <defs>
+                  <linearGradient id={grad} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color={l.color} stop-opacity=".2" />
+                    <stop offset="1" stop-color={l.color} stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path d={s.area} fill={`url(#${grad})`} />
+                <path d={s.linea} fill="none" stroke={l.color} stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx={s.ultimo[0]} cy={s.ultimo[1]} r="3.4" fill="#fff" stroke={l.color} stroke-width="2" />
+              </svg>
+            </div>
+
+            <div class="mt-4 flex items-center gap-4 border-t border-line pt-3 text-[12.5px] text-ink-2">
+              <span><b class="font-semibold tabular-nums text-ink">{l.pedidos30d}</b> pedidos</span>
+              <span><b class="font-semibold tabular-nums text-ink">{l.clientesNuevos30d}</b> clientes nuevos</span>
+              <span class="text-ink-3">Flojo: {l.diaFlojo.toLowerCase()}</span>
+              {l.mensajesHoy > 0 ? (
+                <span class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1 text-[12px] font-semibold text-brand-deep"><Icon name="message-circle" class="size-3.5" />Hoy: {l.mensajesHoy} mensajes</span>
+              ) : (
+                <span class="ml-auto text-[12px] text-ink-3">Hoy: nada pendiente</span>
+              )}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  </div>
+</div>

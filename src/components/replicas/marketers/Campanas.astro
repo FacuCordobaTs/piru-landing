@@ -1,0 +1,129 @@
+---
+import Icon from '../../ui/Icon.astro'
+import BarraApp from './BarraApp.astro'
+import type { NombreIcono } from '../../ui/lucide'
+import { cargarFotos } from '../../../data/fotos'
+import { CAMPANAS } from '../../../data/demo'
+import { HISTORIA_MARTES } from '../../../data/marketers'
+import { pesos } from '../../../data/oferta'
+
+const FOTOS = await cargarFotos()
+
+/**
+ * App de marketers → Campañas, en escritorio (docs/MVP_MARKETERS.md §4.5): el ranking de links por
+ * ventas cobradas (el mismo criterio que GrowthAssetsPanel en el admin) y, a la derecha, la hoja de
+ * "Nuevo link" a mitad de carga: un link por historia, creado en segundos.
+ */
+const filas = [...CAMPANAS].sort((a, b) => b.ventas - a.ventas)
+const max = Math.max(...filas.map((f) => f.ventas))
+const reel = CAMPANAS.find((c) => c.slug === 'reel-papas')!
+const bolsas = CAMPANAS.find((c) => c.slug === 'bolsas')!
+const colores: Record<string, string> = {
+  amber: 'bg-amber-500/10 text-amber-600',
+  rose: 'bg-rose-500/10 text-rose-600',
+  violet: 'bg-violet-500/10 text-violet-600',
+  sky: 'bg-sky-500/10 text-sky-600',
+  emerald: 'bg-emerald-500/10 text-emerald-600',
+}
+const columnas = 'grid grid-cols-[minmax(0,1fr)_62px_62px_168px] items-center gap-3'
+const etiqueta = 'text-[11px] font-semibold uppercase tracking-[.09em] text-ink-3'
+const canales = ['Historia', 'Reel', 'Estado de WhatsApp', 'Anuncio', 'Influencer', 'QR']
+---
+
+<div class="flex h-full w-full bg-paper text-ink">
+  <BarraApp modo="local" activo="campanas" />
+
+  <div class="min-w-0 flex-1 px-8 pt-6">
+    <div class="flex items-end justify-between">
+      <div>
+        <p class="text-[27px] font-bold leading-none tracking-[-0.035em]">Campañas</p>
+        <p class="mt-2 text-[14px] text-ink-3">Ventas cobradas que entraron por cada link · septiembre</p>
+      </div>
+      <span class="inline-flex h-10 items-center gap-2 rounded-full bg-ink px-4 text-[13.5px] font-semibold text-white"><Icon name="plus" class="size-4" />Nuevo link</span>
+    </div>
+
+    <div class="mt-5 grid grid-cols-[minmax(0,1fr)_336px] gap-5">
+      <div class="space-y-3">
+        <div class="overflow-hidden rounded-[20px] bg-white ring-1 ring-line">
+          <div class:list={[columnas, 'border-b border-line px-4 py-3', etiqueta]}>
+            <span>Link</span><span class="text-right">Visitas</span><span class="text-right">Pedidos</span><span>Ventas cobradas</span>
+          </div>
+          {filas.map((f, i) => (
+            <div class:list={[columnas, 'px-4 py-3', i > 0 && 'border-t border-line/70']}>
+              <div class="flex min-w-0 items-center gap-3">
+                <span class:list={['grid size-9 shrink-0 place-items-center rounded-xl', colores[f.color]]}><Icon name={f.icono as NombreIcono} class="size-[18px]" /></span>
+                <div class="min-w-0">
+                  <p class="truncate text-[13.5px] font-semibold">{f.nombre}</p>
+                  <p class="truncate text-[11.5px] text-ink-3">{f.canal} · /c/{f.slug}</p>
+                </div>
+              </div>
+              <span class="text-right text-[13px] tabular-nums text-ink-3">{f.visitas.toLocaleString('es-AR')}</span>
+              <span class="text-right text-[13px] font-semibold tabular-nums">{f.pedidos}</span>
+              <div class="flex items-center gap-2.5">
+                <span class="h-2 rounded-full bg-brand" style={`width:${Math.round((f.ventas / max) * 64)}px;opacity:${0.35 + 0.65 * (f.ventas / max)}`} />
+                <span class="text-[13px] font-bold tabular-nums">{pesos(f.ventas)}</span>
+              </div>
+            </div>
+          ))}
+          <div class:list={[columnas, 'border-t border-line bg-sand/50 px-4 py-3 text-ink-3']}>
+            <div class="flex min-w-0 items-center gap-3">
+              <span class="grid size-9 shrink-0 place-items-center rounded-xl bg-white ring-1 ring-line"><Icon name="globe" class="size-[18px]" /></span>
+              <div class="min-w-0"><p class="text-[13.5px] font-semibold text-ink">Orgánico · sin link</p><p class="text-[11.5px]">Entraron directo a la tienda</p></div>
+            </div>
+            <span class="text-right text-[13px] tabular-nums">2.310</span>
+            <span class="text-right text-[13px] font-semibold tabular-nums text-ink">116</span>
+            <span class="text-[13px] font-bold tabular-nums text-ink">{pesos(1533900)}</span>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3 rounded-[20px] bg-white p-4 ring-1 ring-line">
+          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-brand-soft text-brand-deep"><Icon name="info" class="size-4" /></span>
+          <p class="text-[13px] leading-relaxed text-ink-2">El reel tuvo <b class="font-semibold text-ink">{Math.round(reel.visitas / bolsas.visitas)} veces más visitas</b> que el QR de las bolsas, pero el QR vendió <b class="font-semibold text-ink">{(bolsas.ventas / reel.ventas).toLocaleString('es-AR', { maximumFractionDigits: 0 })} veces más</b>: {pesos(bolsas.ventas)} contra {pesos(reel.ventas)}.</p>
+        </div>
+      </div>
+
+      <div class="rounded-[20px] bg-white p-5 ring-1 ring-ink/10 shadow-[0_24px_48px_-24px_rgb(40_24_8/.35)]">
+        <div class="flex items-center justify-between">
+          <p class="text-[17px] font-bold tracking-tight">Nuevo link</p>
+          <Icon name="x" class="size-4 text-ink-3" />
+        </div>
+
+        <p class:list={[etiqueta, 'mt-4']}>Nombre</p>
+        <div class="mt-1.5 flex h-10 items-center rounded-xl bg-paper px-3 text-[13.5px] ring-1 ring-line">Historia martes 14/10<span class="ml-px h-4 w-px bg-ink" /></div>
+
+        <p class:list={[etiqueta, 'mt-4']}>Dónde lo vas a usar</p>
+        <div class="mt-1.5 flex flex-wrap gap-1.5">
+          {canales.map((c, i) => (
+            <span class:list={['rounded-full px-2.5 py-1 text-[12px] font-medium', i === 0 ? 'bg-ink text-white' : 'bg-paper text-ink-2 ring-1 ring-line']}>{c}</span>
+          ))}
+        </div>
+
+        <p class:list={[etiqueta, 'mt-4']}>Qué abre</p>
+        <div class="mt-1.5 grid grid-cols-3 gap-1 rounded-xl bg-paper p-1 text-center text-[12.5px] font-semibold ring-1 ring-line">
+          <span class="rounded-lg py-1.5 text-ink-3">La tienda</span>
+          <span class="rounded-lg bg-white py-1.5 shadow-[0_1px_2px_rgb(40_24_8/.12)]">Un producto</span>
+          <span class="rounded-lg py-1.5 text-ink-3">Un carrito</span>
+        </div>
+        <div class="mt-2 flex items-center gap-2.5 rounded-xl bg-paper p-2 ring-1 ring-line">
+          <img src={FOTOS.smash.chica} alt="" loading="lazy" decoding="async" class="size-9 rounded-lg object-cover" />
+          <span class="flex-1 text-[13px] font-semibold">Smash burger</span>
+          <Icon name="chevron-down" class="size-4 text-ink-3" />
+        </div>
+
+        <div class="mt-3 flex items-center gap-2.5">
+          <span class="relative h-[22px] w-[38px] rounded-full bg-emerald-500"><span class="absolute right-[3px] top-[3px] size-4 rounded-full bg-white" /></span>
+          <p class="text-[13px]"><b class="font-semibold">15% OFF</b> <span class="text-ink-3">· sólo el martes 14/10</span></p>
+        </div>
+
+        <div class="mt-4 rounded-2xl bg-brand-soft/80 p-3.5">
+          <p class="text-[11px] font-semibold uppercase tracking-[.09em] text-brand-deep">Tu link</p>
+          <div class="mt-1.5 flex items-center gap-2">
+            <p class="min-w-0 flex-1 truncate text-[13.5px] font-semibold text-ink">my.piru.app/brasa/c/{HISTORIA_MARTES.slug}</p>
+            <span class="inline-flex h-8 items-center gap-1.5 rounded-full bg-ink px-3 text-[12px] font-semibold text-white"><Icon name="copy" class="size-3.5" />Copiar</span>
+          </div>
+          <p class="mt-2 text-[11.5px] text-ink-2">Pegalo en el sticker de link de tu historia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

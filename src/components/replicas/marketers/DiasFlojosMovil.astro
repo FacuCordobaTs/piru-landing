@@ -1,0 +1,72 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Monograma from './Monograma.astro'
+import NavMovil from './NavMovil.astro'
+import { colorCelda, decimal } from './graficos'
+import { CANDIDATOS, CANDIDATOS_TOTAL, CARTERA, FRANJAS, MAXIMO_CELDA, PROMEDIO_FRANJA, SEMANA } from '../../../data/marketers'
+
+/** Días flojos en el celular: el mismo mapa de calor de DiasFlojos.astro, compacto, y la invitación abajo. */
+const brasa = CARTERA[0]
+const primeros = CANDIDATOS.filter((c) => c.elegible).slice(0, 3)
+---
+
+<div class="relative h-full w-full overflow-hidden bg-paper pt-[54px] text-ink">
+  <div class="flex h-11 items-center gap-2 px-4 text-[13px] font-medium text-ink-3">
+    <Icon name="chevron-left" class="size-4" />
+    <Monograma inicial={brasa.inicial} color={brasa.color} size={20} />
+    {brasa.nombre}
+  </div>
+
+  <div class="px-5">
+    <p class="text-[26px] font-bold leading-none tracking-[-0.035em]">Días flojos</p>
+    <p class="mt-1.5 text-[13px] text-ink-3">Pedidos promedio · últimas 8 semanas</p>
+  </div>
+
+  <div class="mx-4 mt-4 rounded-[18px] bg-white p-3 ring-1 ring-line">
+    <div class="grid grid-cols-[58px_repeat(7,minmax(0,1fr))] gap-1">
+      <span />
+      {SEMANA.map((d) => <span class:list={['text-center text-[11px] font-semibold', d.nombre === 'Martes' ? 'text-ink' : 'text-ink-3']}>{d.corto}</span>)}
+      {FRANJAS.map((f, fi) => (
+        <>
+          <span class="flex items-center text-[11.5px] font-semibold text-ink-2">{f.nombre}</span>
+          {SEMANA.map((d) => {
+            const c = colorCelda(d.franjas[fi], MAXIMO_CELDA)
+            const flojo = d.nombre === 'Martes' && f.clave === 'noche'
+            return d.abierto ? (
+              <span class:list={['grid h-10 place-items-center rounded-lg text-[11px] font-semibold tabular-nums', flojo && 'ring-2 ring-ink ring-offset-1']} style={`background:${c.fondo};color:${c.texto}`}>{decimal(d.franjas[fi])}</span>
+            ) : (
+              <span class="celda-cerrada h-10 rounded-lg" />
+            )
+          })}
+        </>
+      ))}
+    </div>
+  </div>
+
+  <div class="mx-4 mt-2.5 flex items-start gap-3 rounded-[18px] bg-brand-soft/80 p-3.5">
+    <span class="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-white"><Icon name="moon" class="size-4" /></span>
+    <p class="text-[12.5px] leading-snug text-ink-2"><b class="font-semibold text-ink">El martes a la noche vendés menos de la mitad:</b> {decimal(SEMANA[1].franjas[2])} pedidos contra {decimal(PROMEDIO_FRANJA[2])} de una noche promedio.</p>
+  </div>
+
+  <div class="mt-4 px-5">
+    <p class="text-[15px] font-bold tracking-tight">{CANDIDATOS_TOTAL} clientes pueden venir el martes</p>
+    <ul class="mt-2 space-y-1">
+      {primeros.map((c) => (
+        <li class="flex items-center gap-2.5 py-1.5">
+          <span class="grid size-[18px] shrink-0 place-items-center rounded-[5px] bg-ink text-white"><Icon name="check" class="size-3" stroke={3} /></span>
+          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-sand text-[11px] font-bold text-ink-2">{c.iniciales}</span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-[13px] font-semibold leading-tight">{c.nombre}</p>
+            <p class="truncate text-[11.5px] text-ink-3">{c.motivo}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="absolute inset-x-5 bottom-[96px]">
+    <span class="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-ink text-[14px] font-semibold text-white shadow-[0_12px_28px_-12px_rgb(25_21_18/.6)]"><Icon name="message-circle" class="size-4" />Invitar a {CANDIDATOS_TOTAL} clientes el martes</span>
+  </div>
+
+  <NavMovil modo="local" activo="dias" hoy={brasa.mensajesHoy} />
+</div>

@@ -1,0 +1,59 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Ventana from '../marcos/Ventana.astro'
+import Telefono from '../marcos/Telefono.astro'
+import DiasFlojosApp from '../replicas/marketers/DiasFlojos.astro'
+import DiasFlojosMovil from '../replicas/marketers/DiasFlojosMovil.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { CANDIDATOS_TOTAL } from '../../data/marketers'
+
+const reglas: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'badge-percent', titulo: 'No regalás margen', texto: 'Los que vienen igual no se invitan. Un descuento para el martes a quien pide todos los viernes no suma un pedido: lo corre de día.' },
+  { icono: 'calendar-days', titulo: 'Primero, los que ya vinieron ese día', texto: 'Si alguien pidió tres veces un martes, encabeza la lista. Después, los que hace rato que no vuelven.' },
+  { icono: 'gauge', titulo: 'Medido contra un grupo de control', texto: 'Una parte de la lista no recibe nada. Así sabés cuántos pedidos de más trajo la invitación, y no cuántos iban a llegar igual.' },
+]
+---
+
+<section id="dias-flojos" class="py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Días flojos</p>
+      <h2 class="titulo-lg mt-4">Llená los días en que la cocina está vacía</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Piru mira 8 semanas de pedidos de cada local y te muestra qué días y qué franjas venden menos. Y te dice a quién invitar justo esos días: el martes a la noche de Brasa tiene {CANDIDATOS_TOTAL} candidatos.</p>
+    </div>
+
+    <div class="revelar mx-auto mt-12 w-[min(74%,300px)] drop-shadow-[0_30px_50px_rgba(40,20,5,0.28)] md:hidden">
+      <Escala ancho={412} alto={866} etiqueta="Días flojos en el celular: el mapa de calor de Brasa con el martes a la noche marcado y los clientes para invitar">
+        <Telefono><DiasFlojosMovil /></Telefono>
+      </Escala>
+    </div>
+    <div class="revelar mt-14 hidden md:block">
+      <div class="-mx-8 overflow-x-auto px-8 pb-4 sin-barra lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0">
+        <div class="min-w-[760px] overflow-hidden rounded-[18px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_40px_80px_-30px_rgb(40_24_8/.35)] lg:min-w-0">
+          <Escala ancho={1280} alto={780} etiqueta={`Días flojos de Brasa: pedidos promedio por día y franja de las últimas 8 semanas, con el lunes cerrado y el martes a la noche como el hueco más grande, y a la derecha los ${CANDIDATOS_TOTAL} clientes que pueden venir`}>
+            <Ventana ancho={1280} alto={780} url="marketing.piru.app">
+              <DiasFlojosApp />
+            </Ventana>
+          </Escala>
+        </div>
+      </div>
+      <p class="mt-2 text-center text-[13px] text-ink-3 lg:hidden">Deslizá para ver la pantalla completa →</p>
+    </div>
+
+    <ul class="mt-14 grid gap-5 md:grid-cols-3">
+      {reglas.map((r, i) => (
+        <li class="revelar tarjeta p-7" style={`--retraso:${i * 80}ms`}>
+          <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name={r.icono} class="size-5" /></span>
+          <h3 class="mt-4 text-[18px] font-semibold tracking-tight">{r.titulo}</h3>
+          <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{r.texto}</p>
+        </li>
+      ))}
+    </ul>
+
+    <p class="revelar mx-auto mt-8 flex max-w-3xl items-start justify-center gap-2 text-center text-[15px] text-ink-2">
+      <Icon name="sticker" class="mt-0.5 size-5 shrink-0 text-brand" />
+      <span>Y para ese mismo día, un link que vale sólo ese día, para la historia y el estado de WhatsApp. La invitación por WhatsApp usa <b class="font-semibold text-ink">Retención</b>; el análisis y el link, todos los locales.</span>
+    </p>
+  </div>
+</section>

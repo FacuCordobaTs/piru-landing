@@ -1,0 +1,52 @@
+---
+import Icon from '../ui/Icon.astro'
+import { cargarFotos } from '../../data/fotos'
+import { HISTORIA_MARTES } from '../../data/marketers'
+
+const FOTOS = await cargarFotos()
+
+/**
+ * Una historia del local con el sticker de link (el paso "le vendés por historias"). Es una historia
+ * genérica: la interfaz se evoca con sus formas (barras de progreso, sticker, caja de mensaje) y sin
+ * logo ni nombre de la red. El link es el de la campaña del martes en Piru.
+ */
+---
+
+<div class="relative h-full w-full overflow-hidden bg-black text-white">
+  <img src={FOTOS.smash.grande} alt="" loading="lazy" decoding="async" class="absolute inset-0 h-full w-full scale-[1.08] object-cover" />
+  <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(0_0_0/.55)_0%,rgb(0_0_0/0)_22%,rgb(0_0_0/0)_58%,rgb(0_0_0/.6)_100%)]" />
+
+  <div class="absolute inset-x-3 top-[58px] flex gap-1">
+    <span class="h-[2.5px] flex-1 rounded-full bg-white" />
+    <span class="h-[2.5px] flex-1 overflow-hidden rounded-full bg-white/35"><span class="block h-full w-3/5 bg-white" /></span>
+    <span class="h-[2.5px] flex-1 rounded-full bg-white/35" />
+  </div>
+
+  <div class="absolute inset-x-3 top-[70px] flex items-center gap-2.5">
+    <span class="grid size-9 place-items-center rounded-full bg-[#7A2E3F] text-[#F4EDE4] ring-2 ring-white/90"><Icon name="flame" class="size-[18px]" stroke={2.4} /></span>
+    <p class="text-[14.5px] font-semibold">{HISTORIA_MARTES.cuenta}</p>
+    <p class="text-[14px] text-white/70">{HISTORIA_MARTES.hace}</p>
+    <span class="ml-auto flex items-center gap-4">
+      <Icon name="ellipsis" class="size-6" />
+      <Icon name="x" class="size-6" />
+    </span>
+  </div>
+
+  <div class="absolute inset-x-0 top-[300px] flex flex-col items-center gap-2 px-6 text-center">
+    <span class="rotate-[-3deg] rounded-[10px] bg-white px-3.5 py-1.5 text-[34px] font-black leading-none tracking-[-0.04em] text-[#7A2E3F]">MARTES DE SMASH</span>
+    <span class="rotate-[-3deg] rounded-[8px] bg-[#7A2E3F] px-3 py-1 text-[19px] font-bold tracking-tight text-[#F4EDE4]">15% OFF · sólo hoy</span>
+  </div>
+
+  <div class="absolute inset-x-0 top-[452px] flex justify-center">
+    <span class="flex rotate-[2deg] items-center gap-2 rounded-[12px] bg-white px-4 py-2.5 shadow-[0_10px_30px_rgb(0_0_0/.35)]">
+      <Icon name="link" class="size-[19px] text-[#3797F0]" stroke={2.6} />
+      <span class="text-[17px] font-bold uppercase tracking-tight text-[#3797F0]">Pedí acá</span>
+    </span>
+  </div>
+
+  <div class="absolute inset-x-3 bottom-[34px] flex items-center gap-3">
+    <span class="flex h-11 flex-1 items-center rounded-full border border-white/70 px-4 text-[14.5px] text-white/90">Enviar mensaje</span>
+    <Icon name="heart" class="size-7" stroke={1.8} />
+    <Icon name="send" class="size-7" stroke={1.8} />
+  </div>
+</div>

@@ -1,13 +1,11 @@
 ---
 import Icon from '../../ui/Icon.astro'
-import { cargarFotos } from '../../../data/fotos'
 import { CLIENTA, MENSAJE_RECOMPRA, MOTOR } from '../../../data/demo'
-
-const FOTOS = await cargarFotos()
 
 /**
  * Retención en el celular, con el mismo rediseño que PanelRetencion.astro: el detalle de un cliente
- * de la lista "Para mandar hoy" responde a quién, cuándo y qué, y muestra el mensaje como lo ve el cliente.
+ * de la lista "Para mandar hoy" responde a quién, cuándo y qué, y muestra el mensaje como sale del
+ * WhatsApp del local (modo manual: el link pegado al texto, sin botón de plantilla).
  */
 const etiqueta = 'text-[10.5px] font-semibold uppercase tracking-wider text-muted-foreground/70'
 ---
@@ -39,13 +37,14 @@ const etiqueta = 'text-[10.5px] font-semibold uppercase tracking-wider text-mute
     </div>
 
     <div class="rounded-2xl bg-[#EFEAE2] p-2.5">
-      <div class="rounded-lg rounded-tl-none bg-white p-1 shadow-[0_1px_.5px_rgba(11,20,26,.13)]">
-        <img src={FOTOS.smash.grande} alt="" loading="lazy" decoding="async" class="h-[96px] w-full rounded-md object-cover" />
-        <div class="px-1.5 pb-1 pt-1.5 text-[11.5px] leading-[1.35] text-[#111b21]">
-          {MENSAJE_RECOMPRA.slice(0, 3).map((l, i) => <p class:list={[i > 0 && 'mt-1.5']}>{l}</p>)}
+      <div class="burbuja-sale">
+        <div class="px-1.5 pb-0.5 pt-1 text-[11.5px] leading-[1.35] text-[#111b21]">
+          {MENSAJE_RECOMPRA.lineas.map((l, i) => <p class:list={[i > 0 && 'mt-1.5']}>{l}</p>)}
+          <p class="truncate text-[#027EB5] underline decoration-[#027EB5]/40">{MENSAJE_RECOMPRA.link}</p>
+          <p class="mt-0.5 flex items-center justify-end gap-0.5 text-[10px] text-[#667781]">{MENSAJE_RECOMPRA.hora}<Icon name="check-check" class="size-3.5 text-[#53BDEB]" /></p>
         </div>
-        <div class="flex items-center justify-center gap-1 border-t border-black/[.08] py-1.5 text-[11.5px] font-medium text-[#00A884]"><Icon name="external-link" class="size-3" />Pedir ahora</div>
       </div>
+      <p class="mt-1.5 text-center text-[10px] leading-snug text-[#54656f]">Sale de tu WhatsApp, en el mismo chat de sus pedidos.</p>
     </div>
 
     <div class="space-y-2">

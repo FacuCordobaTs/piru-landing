@@ -1,29 +1,85 @@
 ---
 import Base from '../layouts/Base.astro'
-import Hero from '../components/secciones/Hero.astro'
+import Hero from '../components/marketers/Hero.astro'
 import Locales from '../components/secciones/Locales.astro'
-import Problema from '../components/secciones/Problema.astro'
+import Problema from '../components/marketers/Problema.astro'
 import ComoFunciona from '../components/secciones/ComoFunciona.astro'
-import Tienda from '../components/secciones/Tienda.astro'
-import Panel from '../components/secciones/Panel.astro'
-import Clientes from '../components/secciones/Clientes.astro'
-import Campanas from '../components/secciones/Campanas.astro'
-import Precios from '../components/secciones/Precios.astro'
-import Empezar from '../components/secciones/Empezar.astro'
-import Preguntas from '../components/secciones/Preguntas.astro'
-import CtaFinal from '../components/secciones/CtaFinal.astro'
+import Links from '../components/marketers/Links.astro'
+import WhatsAppDelLocal from '../components/marketers/WhatsAppDelLocal.astro'
+import DiasFlojos from '../components/marketers/DiasFlojos.astro'
+import TuApp from '../components/marketers/TuApp.astro'
+import Comision from '../components/marketers/Comision.astro'
+import ParaTuCliente from '../components/marketers/ParaTuCliente.astro'
+import Empezar from '../components/marketers/Empezar.astro'
+import Preguntas from '../components/marketers/Preguntas.astro'
+import CtaFinal from '../components/marketers/CtaFinal.astro'
+import type { Paso } from '../components/secciones/pasos'
+import { COMISION_MARKETER } from '../data/oferta'
+
+/**
+ * La home le habla a los marketers que trabajan con locales gastronómicos (docs/MVP_MARKETERS.md §7).
+ * La página para los dueños de locales vive en /locales.
+ */
+
+// El sistema que el marketer ya le vende a sus clientes (contenido → historias → WhatsApp →
+// recompra → anuncios), con lo que Piru mide en cada paso.
+const PASOS_SISTEMA: Paso[] = [
+  {
+    titulo: 'El contenido lleva a la tienda',
+    texto: 'El reel trae seguidores; la bio y cada historia llevan a la tienda del local. Se abre al instante, sin descargar nada ni crear usuario, y se pide en un minuto.',
+    pantalla: 'menu',
+  },
+  {
+    titulo: 'Cada historia, con su link',
+    texto: 'Martes de smash, 15% sólo hoy: la historia lleva su propio link. Piru cuenta las visitas y los pedidos cobrados que entraron por él. Se terminó el "me parece que funcionó".',
+    pantalla: 'historia',
+  },
+  {
+    titulo: 'El pedido llega al WhatsApp del local',
+    texto: 'Escrito y completo, al número de siempre, en el chat con su cliente. Ese chat es el que después trae la recompra: el cliente ya le escribe ahí.',
+    pantalla: 'whatsapp-pedido',
+  },
+  {
+    titulo: 'Cada pedido suma un cliente a la base',
+    texto: 'Nombre, celular, qué pide y cada cuánto. La base es del local y crece sola con cada pedido, sin planillas ni formularios.',
+    pantalla: 'cliente',
+  },
+  {
+    titulo: 'Y Piru avisa quién se está yendo',
+    texto: 'Martina pedía cada 12 días y hace tres semanas que no aparece. Piru arma el mensaje con su pedido de siempre. Sale del WhatsApp del local, en el mismo chat de sus pedidos.',
+    pantalla: 'whatsapp',
+    modulo: 'Con Retención',
+  },
+  {
+    titulo: 'Con los números, el próximo anuncio',
+    texto: 'Qué historia vendió, cuánto y cuántos volvieron. Con eso decidís dónde poner la plata del anuncio, y se lo mostrás a tu cliente con ventas cobradas, no con likes.',
+    pantalla: 'campanas-app',
+  },
+]
 ---
 
-<Base>
+<Base
+  pagina="marketers"
+  canonical="/"
+  titulo="Piru para marketers · Que tus clientes gastronómicos vendan por redes, y que se note"
+  descripcion={`La tienda, la base de clientes y la recompra de los locales que manejás: cada historia con su link, cada venta medida y los clientes que vuelven por el WhatsApp del local. Y cobrás el ${COMISION_MARKETER}% de cada suscripción, todos los meses.`}
+>
   <Hero />
   <Locales />
   <Problema />
-  <ComoFunciona />
-  <Tienda />
-  <Panel />
-  <Clientes />
-  <Campanas />
-  <Precios />
+  <ComoFunciona
+    id="sistema"
+    antetitulo="El sistema"
+    titulo="Contenido, historias, WhatsApp y recompra. Con números."
+    bajada="El sistema que ya le proponés a tus clientes, con cada paso medido: del reel a la tienda, de la tienda al WhatsApp del local y de vuelta a pedir."
+    pasos={PASOS_SISTEMA}
+  />
+  <Links />
+  <WhatsAppDelLocal />
+  <DiasFlojos />
+  <TuApp />
+  <Comision />
+  <ParaTuCliente />
   <Empezar />
   <Preguntas />
   <CtaFinal />

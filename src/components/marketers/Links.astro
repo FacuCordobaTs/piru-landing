@@ -1,0 +1,70 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Ventana from '../marcos/Ventana.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Campanas from '../replicas/marketers/Campanas.astro'
+import CampanasMovil from '../replicas/marketers/CampanasMovil.astro'
+import { CAMPANAS } from '../../data/demo'
+import { pesos } from '../../data/oferta'
+
+const reel = CAMPANAS.find((c) => c.slug === 'reel-papas')!
+const bolsas = CAMPANAS.find((c) => c.slug === 'bolsas')!
+const canales = ['Historias de Instagram', 'Reels y TikTok', 'Meta Ads', 'Estados de WhatsApp', 'Influencers', 'QR en el salón', 'Bolsas de delivery']
+---
+
+<section id="links" class="bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-end">
+      <div class="revelar">
+        <p class="antetitulo">Un link por historia</p>
+        <h2 class="titulo-lg mt-4">Mostrale a tu cliente qué historia vendió</h2>
+        <p class="bajada mt-5 max-w-xl">Cada historia, reel, influencer o QR lleva su propio link. A fin de mes no llevás capturas de likes: llevás pedidos cobrados, publicación por publicación.</p>
+      </div>
+      <div class="revelar rounded-[24px] bg-white p-6 ring-1 ring-line" style="--retraso:100ms">
+        <p class="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[.08em] text-brand-deep"><Icon name="info" class="size-4" />Lo que te muestra</p>
+        <p class="mt-3 text-[17px] leading-snug text-ink">
+          El reel tuvo casi <b class="font-semibold">{Math.round(reel.visitas / bolsas.visitas)} veces más visitas</b> que el QR de las bolsas de delivery. Pero el QR vendió <b class="font-semibold">más del triple</b>: {pesos(bolsas.ventas)} contra {pesos(reel.ventas)}.
+        </p>
+        <p class="mt-3 text-[14px] text-ink-3">Esa es la conversación que querés tener con tu cliente.</p>
+      </div>
+    </div>
+
+    <ul class="revelar mt-8 flex flex-wrap gap-2">
+      {canales.map((c) => <li class="rounded-full bg-white px-3.5 py-1.5 text-[14px] font-medium text-ink-2 ring-1 ring-line">{c}</li>)}
+    </ul>
+
+    <div class="revelar mx-auto mt-12 w-[min(74%,300px)] drop-shadow-[0_30px_50px_rgba(40,20,5,0.28)] md:hidden">
+      <Escala ancho={412} alto={866} etiqueta="La app de marketers en el celular: las campañas de Brasa ordenadas por ventas cobradas">
+        <Telefono><CampanasMovil /></Telefono>
+      </Escala>
+    </div>
+    <div class="revelar mt-12 hidden md:block">
+      <div class="-mx-8 overflow-x-auto px-8 pb-4 sin-barra lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0">
+        <div class="min-w-[760px] overflow-hidden rounded-[18px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_40px_80px_-30px_rgb(40_24_8/.35)] lg:min-w-0">
+          <Escala ancho={1280} alto={760} etiqueta="La app de marketers: el ranking de links de Brasa por ventas cobradas y la hoja para crear el link de la historia del martes">
+            <Ventana ancho={1280} alto={760} url="marketing.piru.app">
+              <Campanas />
+            </Ventana>
+          </Escala>
+        </div>
+      </div>
+      <p class="mt-2 text-center text-[13px] text-ink-3 lg:hidden">Deslizá para ver la pantalla completa →</p>
+    </div>
+
+    <div class="revelar mt-10 grid gap-4 sm:grid-cols-3">
+      <div class="flex gap-3">
+        <span class="grid size-10 shrink-0 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name="mouse-pointer-click" class="size-5" /></span>
+        <p class="text-[15px] leading-relaxed text-ink-2"><b class="font-semibold text-ink">En segundos, desde el celular.</b> Nombre, dónde lo usás y qué abre: la tienda, un producto en promo o un carrito armado.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="grid size-10 shrink-0 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name="badge-check" class="size-5" /></span>
+        <p class="text-[15px] leading-relaxed text-ink-2"><b class="font-semibold text-ink">Sólo cuenta lo cobrado.</b> Un clic no es una venta: el ranking suma pedidos pagados, no visitas.</p>
+      </div>
+      <div class="flex gap-3">
+        <span class="grid size-10 shrink-0 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name="rocket" class="size-5" /></span>
+        <p class="text-[15px] leading-relaxed text-ink-2"><b class="font-semibold text-ink">Y si hay pauta, el retorno.</b> Cargás la inversión del anuncio y ves cuánto vendió por cada peso.</p>
+      </div>
+    </div>
+  </div>
+</section>

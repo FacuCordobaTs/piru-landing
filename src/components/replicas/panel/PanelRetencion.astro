@@ -1,11 +1,8 @@
 ---
 import Icon from '../../ui/Icon.astro'
 import Barra from './Barra.astro'
-import { cargarFotos } from '../../../data/fotos'
 import { CLIENTA, MENSAJE_RECOMPRA, MOTOR } from '../../../data/demo'
 import { pesos } from '../../../data/oferta'
-
-const FOTOS = await cargarFotos()
 
 /**
  * Retención → Motor de recompra (admin/src/pages/MotorRecompra.tsx), REDISEÑADA a propósito para
@@ -13,7 +10,8 @@ const FOTOS = await cargarFotos()
  *  - la cola se llama "Para mandar hoy" y cada fila dice en castellano por qué está ahí;
  *  - el detalle responde tres preguntas —a quién, cuándo y qué— en ese orden, sin la jerga interna
  *    ("Voz", "Toque", "Link: Reactivación", "Stock / Flujo nuevo", "Prioridad #n en cola");
- *  - el mensaje se previsualiza como lo ve el cliente (burbuja de WhatsApp con la foto);
+ *  - el mensaje se previsualiza como sale del WhatsApp del local en modo manual: burbuja propia con
+ *    el link pegado al texto, sin foto de encabezado ni botón de plantilla (docs/MVP_MARKETERS.md §1);
  *  - "Cambiar mensaje" queda como acción secundaria.
  */
 interface Props {
@@ -110,15 +108,14 @@ const etiqueta = 'text-[11px] font-semibold uppercase tracking-wider text-muted-
           </div>
 
           <div class="rounded-2xl bg-[#EFEAE2] p-3">
-            <div class="relative rounded-lg rounded-tl-none bg-white p-1 shadow-[0_1px_.5px_rgba(11,20,26,.13)]">
-              <img src={FOTOS.smash.grande} alt="" loading="lazy" decoding="async" class="h-[118px] w-full rounded-md object-cover" />
-              <div class="px-1.5 pb-1 pt-1.5 text-[12px] leading-[1.38] text-[#111b21]">
-                {MENSAJE_RECOMPRA.map((l, i) => <p class:list={[i > 0 && 'mt-2']}>{l}</p>)}
-                <p class="mt-0.5 text-right text-[10px] text-[#667781]">21:00</p>
+            <div class="burbuja-sale">
+              <div class="px-1.5 pb-0.5 pt-1 text-[12px] leading-[1.38] text-[#111b21]">
+                {MENSAJE_RECOMPRA.lineas.map((l, i) => <p class:list={[i > 0 && 'mt-2']}>{l}</p>)}
+                <p class="truncate text-[#027EB5] underline decoration-[#027EB5]/40">{MENSAJE_RECOMPRA.link}</p>
+                <p class="mt-0.5 flex items-center justify-end gap-0.5 text-[10px] text-[#667781]">{MENSAJE_RECOMPRA.hora}<Icon name="check-check" class="size-3.5 text-[#53BDEB]" /></p>
               </div>
-              <div class="mt-0.5 flex items-center justify-center gap-1 border-t border-black/[.08] py-1.5 text-[12px] font-medium text-[#00A884]"><Icon name="external-link" class="size-3.5" />Pedir ahora</div>
             </div>
-            <p class="mt-2 text-center text-[10.5px] leading-snug text-[#54656f]">El link abre su pedido de siempre, ya armado.</p>
+            <p class="mt-2 text-center text-[10.5px] leading-snug text-[#54656f]">Sale de tu WhatsApp. El link abre su pedido de siempre, ya armado.</p>
           </div>
         </div>
       </div>

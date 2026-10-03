@@ -140,13 +140,39 @@ export const MOTOR = {
   tiempoSinPedir: '3 semanas',
 }
 
-/** El 1º toque de un cliente en riesgo, tal cual el recetario (`recetas-recompra.ts`). */
-export const MENSAJE_RECOMPRA = [
-  '¡Hola Martina! 👋',
-  `Venís pidiendo seguido en ${LOCAL.nombre} y hace 3 semanas que no te vemos. Se nos antojó tentarte con la Smash burger. 😋`,
-  'Tu pedido te está esperando: armalo en segundos desde acá.',
-  'Tocá el botón y pedí en segundos 👇',
-]
+/** Un mensaje que el local manda desde su propio WhatsApp: texto libre con el link pegado abajo. */
+export interface MensajeManual {
+  lineas: string[]
+  /** Así lo muestra WhatsApp: sin protocolo y cortado al final. */
+  link: string
+  hora: string
+}
+
+/**
+ * El 1º mensaje de recompra de un cliente en riesgo, como sale en modo manual: desde el WhatsApp del
+ * local y con el link pegado al texto, sin botón de plantilla (docs/MVP_MARKETERS.md §1). El link es
+ * el de `lo-mismo`: su pedido de siempre, armado y sin descuento.
+ */
+export const MENSAJE_RECOMPRA: MensajeManual = {
+  lineas: [
+    '¡Hola Martina! 👋',
+    `Hace 3 semanas que no te vemos por ${LOCAL.nombre} y se nos antojó tentarte con tu Smash de siempre 😋`,
+    'Te dejamos tu pedido armado. Pedilo en un minuto desde acá:',
+  ],
+  link: `my.piru.app/${LOCAL.username}/c/lo-mismo?tk=v1.4c9e…`,
+  hora: '21:00',
+}
+
+/** La invitación de un día flojo: 15 % en toda la carta, con el link de `reactivacion`. */
+export const MENSAJE_DIA_FLOJO: MensajeManual = {
+  lineas: [
+    '¡Hola Martina! 👋',
+    `Hoy martes en ${LOCAL.nombre} tenés 15% OFF en toda la carta. ¿Se te antoja la Smash de siempre? 🍔`,
+    'Entrá desde este link y el descuento se aplica solo:',
+  ],
+  link: `my.piru.app/${LOCAL.username}/c/reactivacion?tk=v1.8f2a…`,
+  hora: '19:02',
+}
 
 export const ESCALERA = [
   { toque: '1º mensaje', titulo: 'El antojo', detalle: 'La foto de su plato favorito y una invitación a repetir.', descuento: 'Sin descuento' },

@@ -5,10 +5,13 @@
  * Última verificación contra las migraciones (27 de septiembre de 2026):
  *  - suscripción base `piru` → `update_precio_suscripcion_base_40000.sql`;
  *  - `motor_recompra` ("Retención") → `update_modulo_retencion.sql`;
- *  - `avisos_automaticos_whatsapp` (200 avisos utility por mes) → `add_suscripcion_unica_modulos.sql`;
  *  - `crecimiento` (campañas) y `codigos_descuento` son incluidos → `update_modulo_crecimiento_gratuito.sql`.
  * El trial de 5 días es el del alta asistida (claim / panel interno, `DIAS_TRIAL_DEFAULT`).
  * Si cambia un precio en la base, cambialo acá también.
+ *
+ * "Avisos automáticos por WhatsApp" sigue existiendo en el catálogo, pero la landing no lo vende:
+ * el foco son los locales que mandan todo desde su propio WhatsApp, sin la API de Meta
+ * (docs/MVP_MARKETERS.md §1).
  */
 
 export const WHATSAPP_NUMERO = '543408681915'
@@ -16,12 +19,30 @@ export const WHATSAPP_VISIBLE = '+54 9 3408 68-1915'
 export const INSTAGRAM = 'https://www.instagram.com/piru.app'
 export const TIENDA_DEMO = 'https://my.piru.app/prueba'
 
-export function enlaceWhatsapp(texto = 'Hola! Quiero mi tienda en Piru para mi local.') {
+/** La app de los marketers (docs/MVP_MARKETERS.md §4). */
+export const APP_MARKETERS = 'https://marketing.piru.app'
+export const ENTRAR_MARKETERS = `${APP_MARKETERS}/login`
+
+export const TEXTO_WA_LOCAL = 'Hola! Quiero mi tienda en Piru para mi local.'
+export const TEXTO_WA_PARTNER = 'Hola! Soy marketer y quiero sumar a mis clientes a Piru.'
+
+/**
+ * Link a nuestro WhatsApp con el texto ya escrito. Si la visita trae un código de marketer
+ * (`?ref=`), el script de `layouts/Base.astro` le suma "Vengo de parte de …" a estos links.
+ */
+export function enlaceWhatsapp(texto = TEXTO_WA_LOCAL) {
   return `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`
 }
 
 export const PRECIO_BASE = 40000
 export const DIAS_PRUEBA = 5
+
+/**
+ * Porcentaje de la suscripción de cada local que cobra su marketer, todos los meses, mientras el
+ * local le dé acceso. Espejo del default de `marketer.comision_porcentaje` (migración
+ * `add_marketers.sql`). Es una decisión abierta (docs/MVP_MARKETERS.md §14): si cambia, cambiala acá.
+ */
+export const COMISION_MARKETER = 20
 
 export const MODULOS_PAGOS = [
   {
@@ -31,18 +52,14 @@ export const MODULOS_PAGOS = [
     icono: 'repeat-2',
     descripcion: 'Te dice a quién escribirle, cuándo y qué decirle para que vuelva a pedir. Incluye el Club de Puntos.',
   },
-  {
-    codigo: 'avisos_automaticos_whatsapp',
-    nombre: 'Avisos automáticos por WhatsApp',
-    precio: 30000,
-    icono: 'message-circle',
-    descripcion: 'Tus clientes reciben el estado del pedido desde tu número: confirmado, en camino y listo. Incluye 200 avisos por mes.',
-  },
 ] as const
+
+export const RETENCION = MODULOS_PAGOS[0]
 
 export const INCLUIDO_EN_BASE = [
   'Tienda online con tu marca y tu link',
   'Delivery, retiro y pedidos programados',
+  'Pedidos a tu WhatsApp, como siempre',
   'Pedido en grupo',
   'Panel de pedidos y comandas impresas',
   'Punto de venta que funciona sin internet',
@@ -51,8 +68,7 @@ export const INCLUIDO_EN_BASE = [
   'Agenda de clientes con historial',
   'Links de campaña medidos y cupones',
   'Estadísticas de ventas',
-  'Repartidores y cierre de caja',
-  'Varias sucursales',
+  'Repartidores, cierre de caja y sucursales',
 ] as const
 
 export const LOCALES = [
@@ -63,3 +79,7 @@ export const LOCALES = [
 const ARS = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 })
 /** "$40.000": el formato de plata de toda la landing (y el que proponemos para la tienda). */
 export const pesos = (n: number) => `$${ARS.format(Math.round(n))}`
+
+/** "$12,2 M": montos grandes en tarjetas chicas. */
+export const millones = (n: number) =>
+  `$${(n / 1_000_000).toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} M`
