@@ -5,25 +5,23 @@ import { ENTRAR_MARKETERS, enlaceWhatsapp, INSTAGRAM, TIENDA_DEMO, WHATSAPP_VISI
 
 const columnas = [
   {
-    titulo: 'Marketers',
+    titulo: 'Locales',
     enlaces: [
-      { href: '/#sistema', texto: 'El sistema' },
-      { href: '/#dias-flojos', texto: 'Días flojos' },
-      { href: '/#app', texto: 'Tu app' },
-      { href: '/#comision', texto: 'Tu comisión' },
+      { href: '/#como-funciona', texto: 'Cómo funciona' },
+      { href: '/#marketing', texto: 'Tu marketing' },
+      { href: '/#tienda', texto: 'Tu tienda' },
+      { href: '/#precios', texto: 'Precios' },
       { href: '/#preguntas', texto: 'Preguntas' },
-      { href: ENTRAR_MARKETERS, texto: 'Entrar a tu app', externo: true },
+      { href: TIENDA_DEMO, texto: 'Tienda de demostración', externo: true },
     ],
   },
   {
-    titulo: 'Locales',
+    titulo: 'Marketers',
     enlaces: [
-      { href: '/locales', texto: 'Piru para tu local' },
-      { href: '/locales#tienda', texto: 'Tu tienda' },
-      { href: '/locales#panel', texto: 'Tu panel' },
-      { href: '/locales#clientes', texto: 'Tus clientes' },
-      { href: '/locales#precios', texto: 'Precios' },
-      { href: TIENDA_DEMO, texto: 'Tienda de demostración', externo: true },
+      { href: '/marketers', texto: 'Piru para marketers' },
+      { href: '/marketers#comision', texto: 'Tu comisión' },
+      { href: '/marketers#preguntas', texto: 'Preguntas' },
+      { href: ENTRAR_MARKETERS, texto: 'Entrar a tu app', externo: true },
     ],
   },
   {
@@ -44,7 +42,7 @@ const columnas = [
         <span class="text-[22px] font-bold tracking-[-0.04em] text-white">Piru</span>
       </a>
       <p class="mt-5 text-[15px] leading-relaxed">
-        La tienda online, la base de clientes y la recompra de los locales gastronómicos, y la app de los marketers que los hacen crecer. Sin comisión por venta.
+        La tienda online sin comisiones y el marketing de los locales gastronómicos: pedidos directos a tu WhatsApp y clientes que vuelven.
       </p>
       <div class="mt-6 flex flex-wrap gap-2">
         <a href={enlaceWhatsapp('Hola! Tengo una consulta sobre Piru.')} target="_blank" rel="noopener" class="inline-flex h-10 items-center gap-2 rounded-full bg-white/[.07] px-4 text-[14px] font-medium text-white ring-1 ring-white/10 transition-colors hover:bg-white/[.12]">

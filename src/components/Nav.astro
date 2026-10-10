@@ -4,103 +4,40 @@ import Icon from './ui/Icon.astro'
 import { ENTRAR_MARKETERS, TEXTO_WA_LOCAL, TEXTO_WA_PARTNER, enlaceWhatsapp } from '../data/oferta'
 
 interface Props {
-  /** La home le habla a los marketers; /locales, a los dueños de locales. */
-  pagina?: 'marketers' | 'locales'
+  /** La home le habla a los locales; /marketers, a los marketers. */
+  pagina?: 'locales' | 'marketers'
 }
 
-const { pagina = 'marketers' } = Astro.props
-
-const menus = {
-  marketers: {
-    inicio: '/',
-    enlaces: [
-      { href: '/#sistema', texto: 'El sistema' },
-      { href: '/#dias-flojos', texto: 'Días flojos' },
-      { href: '/#app', texto: 'Tu app' },
-      { href: '/#comision', texto: 'Comisión' },
-      { href: '/#preguntas', texto: 'Preguntas' },
-    ],
-    entrar: ENTRAR_MARKETERS,
-    cta: { href: enlaceWhatsapp(TEXTO_WA_PARTNER), largo: 'Quiero ser partner', corto: 'Sumarme' },
-  },
-  locales: {
-    inicio: '/locales',
-    enlaces: [
-      { href: '/locales#como-funciona', texto: 'Cómo funciona' },
-      { href: '/locales#tienda', texto: 'Tienda' },
-      { href: '/locales#panel', texto: 'Panel' },
-      { href: '/locales#clientes', texto: 'Clientes' },
-      { href: '/locales#precios', texto: 'Precios' },
-      { href: '/locales#preguntas', texto: 'Preguntas' },
-    ],
-    entrar: undefined,
-    cta: { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Quiero mi tienda', corto: 'Empezar' },
-  },
-}
-const menu = menus[pagina]
-
-const publicos = [
-  { clave: 'marketers', href: '/', texto: 'Marketers' },
-  { clave: 'locales', href: '/locales', texto: 'Locales' },
-]
+const { pagina = 'locales' } = Astro.props
+const marketers = pagina === 'marketers'
+const cta = marketers
+  ? { href: enlaceWhatsapp(TEXTO_WA_PARTNER), largo: 'Quiero ser partner', corto: 'Sumarme' }
+  : { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Quiero mi tienda', corto: 'Empezar' }
+const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] font-medium text-ink-2 transition-colors hover:bg-ink/[.04] hover:text-ink sm:px-3.5'
 ---
 
 <header id="nav" class="nav fixed inset-x-0 top-0 z-50">
-  <nav class="contenedor flex h-[68px] items-center justify-between gap-4" aria-label="Principal">
-    <div class="flex items-center gap-4">
-      <a href={menu.inicio} class="flex items-center gap-2.5 rounded-xl" aria-label="Piru, inicio">
-        <Logo size={32} />
-        <span class="nav-marca text-[21px] font-bold tracking-[-0.04em] text-ink transition-colors">Piru</span>
-      </a>
-      <!-- Una página por público: el que llega a la home y tiene un local lo encuentra acá. -->
-      <div class="nav-publicos hidden items-center rounded-full bg-white/70 p-1 ring-1 ring-line md:flex" aria-label="Para quién">
-        {publicos.map((p) => (
-          <a
-            href={p.href}
-            aria-current={p.clave === pagina ? 'page' : undefined}
-            class="nav-publico rounded-full px-3 py-1.5 text-[13.5px] font-semibold text-ink-2 transition-colors hover:text-ink"
-          >{p.texto}</a>
-        ))}
-      </div>
-    </div>
+  <nav class="contenedor flex h-[68px] items-center justify-between gap-3" aria-label="Principal">
+    <a href={marketers ? '/marketers' : '/'} class="flex items-center gap-2.5 rounded-xl" aria-label={marketers ? 'Piru para marketers, inicio' : 'Piru, inicio'}>
+      <Logo size={32} />
+      <span class="nav-marca text-[21px] font-bold tracking-[-0.04em] text-ink transition-colors">Piru</span>
+      {marketers && <span class="nav-insignia hidden rounded-full bg-brand-soft px-2 py-0.5 text-[11px] font-semibold text-brand-deep min-[420px]:inline">marketers</span>}
+    </a>
 
-    <ul class="hidden items-center gap-1 xl:flex">
-      {menu.enlaces.map((e) => (
-        <li>
-          <a href={e.href} class="nav-enlace rounded-full px-3.5 py-2 text-[14.5px] font-medium text-ink-2 transition-colors hover:bg-ink/[.04] hover:text-ink">{e.texto}</a>
-        </li>
-      ))}
-    </ul>
-
-    <div class="flex items-center gap-2">
-      {menu.entrar && (
-        <a href={menu.entrar} class="nav-enlace hidden rounded-full px-3.5 py-2 text-[14.5px] font-medium text-ink-2 transition-colors hover:bg-ink/[.04] hover:text-ink lg:inline-flex">Entrar</a>
+    <div class="flex items-center gap-1 sm:gap-2">
+      {marketers ? (
+        <>
+          <a href="/" class:list={[enlace, 'inline-flex']}><span class="hidden min-[380px]:inline">Para&nbsp;</span>locales</a>
+          <a href={ENTRAR_MARKETERS} class:list={[enlace, 'hidden md:inline-flex']}>Entrar</a>
+        </>
+      ) : (
+        <a href="/marketers" class:list={[enlace, 'inline-flex']}><span class="hidden min-[380px]:inline">Para&nbsp;</span>marketers</a>
       )}
-      <a href={menu.cta.href} target="_blank" rel="noopener" class="boton boton-primario boton-chico">
+      <a href={cta.href} target="_blank" rel="noopener" class="boton boton-primario boton-chico">
         <Icon name="message-circle" class="size-[17px]" stroke={2.2} />
-        <span class="hidden min-[400px]:inline">{menu.cta.largo}</span>
-        <span class="min-[400px]:hidden">{menu.cta.corto}</span>
+        <span class="hidden min-[440px]:inline">{cta.largo}</span>
+        <span class="min-[440px]:hidden">{cta.corto}</span>
       </a>
-      <details class="menu-movil relative xl:hidden">
-        <summary class="grid size-10 cursor-pointer list-none place-items-center rounded-full bg-white ring-1 ring-line" aria-label="Abrir menú">
-          <Icon name="menu" class="size-5 icono-abrir" />
-          <Icon name="x" class="size-5 icono-cerrar" />
-        </summary>
-        <div class="absolute right-0 top-12 w-60 rounded-2xl bg-white p-2 shadow-xl ring-1 ring-line">
-          {menu.enlaces.map((e) => (
-            <a href={e.href} class="block rounded-xl px-3.5 py-2.5 text-[15px] font-medium text-ink-2 hover:bg-sand hover:text-ink">{e.texto}</a>
-          ))}
-          <div class="my-1.5 h-px bg-line" />
-          {pagina === 'marketers' ? (
-            <a href="/locales" class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[15px] font-medium text-ink-2 hover:bg-sand hover:text-ink">¿Tenés un local?<Icon name="arrow-right" class="size-4 text-ink-3" /></a>
-          ) : (
-            <a href="/" class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[15px] font-medium text-ink-2 hover:bg-sand hover:text-ink">¿Sos marketer?<Icon name="arrow-right" class="size-4 text-ink-3" /></a>
-          )}
-          {menu.entrar && (
-            <a href={menu.entrar} class="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-[15px] font-semibold text-ink hover:bg-sand">Entrar a tu app<Icon name="arrow-up-right" class="size-4 text-ink-3" /></a>
-          )}
-        </div>
-      </details>
     </div>
   </nav>
 </header>
@@ -115,7 +52,6 @@ const publicos = [
     -webkit-backdrop-filter: blur(16px) saturate(1.5);
     box-shadow: 0 1px 0 rgb(40 24 8 / .07);
   }
-  .nav-publico[aria-current='page'] { background: var(--color-ink); color: #fff; }
   /* Sobre las secciones oscuras el menú se oscurece para no quedar gris. */
   .nav.nav--oscuro {
     background: rgb(18 15 13 / .8);
@@ -124,13 +60,6 @@ const publicos = [
   .nav.nav--oscuro :global(.nav-marca) { color: #fff; }
   .nav.nav--oscuro :global(.nav-enlace) { color: rgb(255 255 255 / .72); }
   .nav.nav--oscuro :global(.nav-enlace:hover) { color: #fff; background: rgb(255 255 255 / .08); }
-  .nav.nav--oscuro .nav-publicos { background: rgb(255 255 255 / .06); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12); }
-  .nav.nav--oscuro .nav-publico { color: rgb(255 255 255 / .7); }
-  .nav.nav--oscuro .nav-publico[aria-current='page'] { background: #fff; color: var(--color-ink); }
-  .menu-movil summary::-webkit-details-marker { display: none; }
-  .menu-movil :global(.icono-cerrar) { display: none; }
-  .menu-movil[open] :global(.icono-cerrar) { display: block; }
-  .menu-movil[open] :global(.icono-abrir) { display: none; }
 </style>
 
 <script>
@@ -147,11 +76,4 @@ const publicos = [
   }
   window.addEventListener('scroll', alScrollear, { passive: true })
   alScrollear()
-
-  // El menú móvil se cierra al elegir un destino o tocar afuera.
-  const menu = document.querySelector<HTMLDetailsElement>('.menu-movil')
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')))
-  document.addEventListener('click', (e) => {
-    if (menu?.open && !menu.contains(e.target as Node)) menu.removeAttribute('open')
-  })
 </script>

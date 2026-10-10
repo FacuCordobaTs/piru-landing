@@ -1,0 +1,77 @@
+---
+import Escena from './Escena.astro'
+import { CLIENTA } from '../../data/demo'
+
+/**
+ * La línea de tiempo de Martina, que pide cada ~12 días: a 1,5 veces su ritmo sin pedir "se está
+ * yendo", a 3 "hace tiempo no viene" y a 6 "dejó de pedir", contados desde su último pedido (los
+ * umbrales de backend/src/lib/clientes-rfm.ts). Es la escena RitmoCliente de la guía de marketers.
+ */
+const X0 = 26
+const ANCHO = 408
+const DIAS = 126
+const x = (dia: number) => X0 + (dia / DIAS) * ANCHO
+const ritmo = CLIENTA.cadencia
+const PEDIDOS = [0, ritmo, ritmo * 2, ritmo * 3]
+const ULTIMO = PEDIDOS[PEDIDOS.length - 1]
+const HOY = ULTIMO + 21
+const ZONAS = [
+  { desde: ULTIMO, hasta: ULTIMO + ritmo * 1.5, clase: 'bg-ink/10' },
+  { desde: ULTIMO + ritmo * 1.5, hasta: ULTIMO + ritmo * 3, clase: 'bg-orange-500' },
+  { desde: ULTIMO + ritmo * 3, hasta: ULTIMO + ritmo * 6, clase: 'bg-violet-500' },
+  { desde: ULTIMO + ritmo * 6, hasta: DIAS, clase: 'bg-rose-500' },
+]
+const MARCAS = [
+  { dia: ULTIMO + ritmo * 1.5, texto: '1,5×' },
+  { dia: ULTIMO + ritmo * 3, texto: '3×' },
+  { dia: ULTIMO + ritmo * 6, texto: '6×' },
+]
+const LEYENDA = [
+  { texto: 'Se está yendo', clase: 'bg-orange-500' },
+  { texto: 'Hace tiempo no viene', clase: 'bg-violet-500' },
+  { texto: 'Dejó de pedir', clase: 'bg-rose-500' },
+]
+const Y = 132
+---
+
+<Escena
+  ancho={460}
+  alto={250}
+  etiqueta={`La línea de tiempo de una clienta que pide cada ${ritmo} días. A los ${HOY - ULTIMO} días sin pedir ya pasó 1,5 veces su ritmo y figura como «Se está yendo»; a 3 veces, «Hace tiempo no viene»; a 6 veces, «Dejó de pedir».`}
+>
+  <div class="e-aparece absolute left-[24px] top-[16px] flex items-center gap-2.5">
+    <span class="grid size-8 place-items-center rounded-full bg-brand-soft text-[11px] font-bold text-brand-deep">{CLIENTA.iniciales}</span>
+    <p class="text-[13.5px] font-semibold text-ink">Martina pide cada ~{ritmo} días</p>
+  </div>
+  <span class="e-pop absolute right-[24px] top-[20px] rounded-full bg-orange-500 px-2.5 py-1 text-[11px] font-bold text-white shadow-[0_8px_18px_-8px_rgb(249_115_22/.8)]" style="--d:2900ms">Hoy: se está yendo</span>
+
+  <div class="absolute h-px bg-ink/15" style={`left:${X0}px;width:${ANCHO}px;top:${Y}px`} />
+
+  <div class="e-aparece absolute" style={`left:${x(ritmo)}px;width:${x(ritmo * 2) - x(ritmo)}px;top:${Y - 30}px;--d:800ms`}>
+    <div class="h-[7px] rounded-t-[4px] border-x-[1.5px] border-t-[1.5px] border-ink/30" />
+    <span class="absolute -top-[20px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-2 py-0.5 text-[10.5px] font-semibold text-ink-2 shadow-[0_0_0_1px_#ECE4D8]">cada ~{ritmo} días</span>
+  </div>
+
+  {PEDIDOS.map((dia, i) => (
+    <span class="e-pop absolute size-[15px] rounded-full border-[3.5px] border-brand bg-white" style={`left:${x(dia) - 7.5}px;top:${Y - 7.5}px;--d:${150 + i * 150}ms`} />
+  ))}
+
+  {ZONAS.map((z, i) => (
+    <div class:list={['e-barra absolute h-2 rounded-full', z.clase]} style={`left:${x(z.desde) + 2}px;width:${x(z.hasta) - x(z.desde) - 4}px;top:${Y + 20}px;--d:${1000 + i * 180}ms`} />
+  ))}
+  {MARCAS.map((m, i) => (
+    <span class="e-aparece absolute -translate-x-1/2 text-[11px] font-semibold tabular-nums text-ink-3" style={`left:${x(m.dia)}px;top:${Y + 34}px;--d:${1300 + i * 180}ms`}>{m.texto}</span>
+  ))}
+  <p class="e-aparece absolute text-[10.5px] text-ink-3" style={`left:${X0}px;top:${Y + 34}px;--d:1300ms`}>Sin pedir, en veces su ritmo:</p>
+
+  <!-- "Hoy": viaja desde el último pedido hasta los 21 días sin pedir. -->
+  <div class="e-avanza absolute w-[2px] rounded-full bg-orange-500" style={`left:${x(HOY) - 1}px;top:${Y - 58}px;height:86px;--d:1700ms;--desde:${x(ULTIMO) - x(HOY)}px`}>
+    <span class="absolute -top-[22px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-orange-500 px-2.5 py-1 text-[11px] font-bold text-white">Hoy · {HOY - ULTIMO} días sin pedir</span>
+  </div>
+
+  <div class="e-sube absolute flex gap-4" style={`left:${X0}px;top:${Y + 70}px;--d:1500ms`}>
+    {LEYENDA.map((l) => (
+      <span class="flex items-center gap-1.5 text-[11.5px] font-medium text-ink-2"><span class:list={['size-2 rounded-full', l.clase]} />{l.texto}</span>
+    ))}
+  </div>
+</Escena>

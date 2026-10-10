@@ -1,40 +1,25 @@
 ---
-import Base from '../layouts/Base.astro'
-import Hero from '../components/secciones/Hero.astro'
-import Locales from '../components/secciones/Locales.astro'
-import Problema from '../components/secciones/Problema.astro'
-import ComoFunciona from '../components/secciones/ComoFunciona.astro'
-import Tienda from '../components/secciones/Tienda.astro'
-import Panel from '../components/secciones/Panel.astro'
-import Clientes from '../components/secciones/Clientes.astro'
-import Campanas from '../components/secciones/Campanas.astro'
-import Precios from '../components/secciones/Precios.astro'
-import Empezar from '../components/secciones/Empezar.astro'
-import Preguntas from '../components/secciones/Preguntas.astro'
-import CtaFinal from '../components/secciones/CtaFinal.astro'
-
 /**
- * La página para los dueños de locales (antes era la home). Los marketers la mandan con su
- * código, /locales?ref=CODIGO, y la consulta nos llega a su nombre (ver layouts/Base.astro).
+ * La página para locales ahora es la home. /locales sigue viva porque los marketers comparten
+ * /locales?ref=CODIGO (marketers/src/pages/Cartera.tsx): redirige a / conservando la consulta y el
+ * ancla, así el código de referido llega igual (lo guarda el script de layouts/Base.astro). Las
+ * redirecciones de astro.config.mjs no sirven acá: generan un meta refresh que pierde la consulta.
  */
+const sitio = Astro.site?.toString().replace(/\/$/, '') ?? 'https://piru.app'
 ---
 
-<Base
-  pagina="locales"
-  canonical="/locales"
-  titulo="Piru para tu local · Tu tienda online y sistema de pedidos, sin comisiones"
-  descripcion="La tienda online, el sistema de pedidos y la agenda de clientes de tu local gastronómico. Tus clientes piden directo desde el celular, el pedido te llega a tu WhatsApp y vos cobrás el 100%: precio fijo, sin comisión por venta."
->
-  <Hero />
-  <Locales />
-  <Problema />
-  <ComoFunciona />
-  <Tienda />
-  <Panel />
-  <Clientes />
-  <Campanas />
-  <Precios />
-  <Empezar />
-  <Preguntas />
-  <CtaFinal />
-</Base>
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Piru · Tu tienda online sin comisiones</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={`${sitio}/`} />
+    <script is:inline>location.replace('/' + location.search + location.hash)</script>
+    <noscript><meta http-equiv="refresh" content="0; url=/" /></noscript>
+  </head>
+  <body>
+    <a href="/">Ir a Piru</a>
+  </body>
+</html>

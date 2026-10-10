@@ -45,14 +45,15 @@ const comisiones = [20, 25, 30, 35]
           <p class="mt-5 text-[19px] font-semibold tracking-tight">{RETENCION.nombre}</p>
           <p class="mt-1 text-[15px] font-semibold text-brand-deep tabular-nums">+{pesos(RETENCION.precio)} / mes</p>
           <p class="mt-3 text-[15px] leading-relaxed text-ink-2">{RETENCION.descripcion}</p>
+          <ul class="mt-4 space-y-2.5">
+            {RETENCION.incluye.map((item) => (
+              <li class="flex gap-2.5 text-[15px] text-ink"><Icon name="check" class="mt-0.5 size-[18px] text-brand" stroke={2.6} />{item}</li>
+            ))}
+          </ul>
         </article>
-        <article class="revelar flex-1 rounded-[28px] bg-ink p-7 text-white/70 sm:p-8" style="--retraso:180ms">
-          <div class="flex items-start justify-between gap-4">
-            <span class="grid size-11 place-items-center rounded-2xl bg-white/10 text-white"><Icon name="handshake" class="size-5" /></span>
-            <span class="rounded-full bg-white/10 px-2.5 py-1 text-[12px] font-semibold text-white/80">Sin costo extra</span>
-          </div>
-          <p class="mt-5 text-[19px] font-semibold tracking-tight text-white">¿Trabajás con un marketer?</p>
-          <p class="mt-3 text-[15px] leading-relaxed">Le das acceso con su código y maneja tus links, cupones, clientes, puntos y recompra desde su app. No toca tus precios, tus pedidos ni tus cobros, y le sacás el acceso cuando quieras. Tu precio no cambia.</p>
+        <article class="revelar rounded-[28px] bg-ink p-7 text-white/70 sm:p-8" style="--retraso:180ms">
+          <p class="flex items-center gap-2.5 text-[17px] font-semibold tracking-tight text-white"><Icon name="handshake" class="size-5 text-brand" />¿Trabajás con un marketer?</p>
+          <p class="mt-2 text-[15px] leading-relaxed">Lo maneja desde su app, con tu permiso, y tu precio no cambia. <a href="#tu-marketer" class="font-semibold text-white underline-offset-4 hover:underline">Cómo funciona</a></p>
         </article>
         <p class="revelar px-2 text-[14px] text-ink-3">¿Preferís pagar el año por adelantado? Tenés descuento.</p>
       </div>

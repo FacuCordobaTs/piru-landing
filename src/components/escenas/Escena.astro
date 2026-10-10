@@ -1,0 +1,113 @@
+---
+import './escenas.css'
+
+/**
+ * El lienzo de una ilustración animada, hermana de las escenas de la guía de la app de marketers
+ * (marketers/src/components/escenas/Escena.tsx): se diseña a `ancho × alto` px y se escala al ancho
+ * disponible sólo con CSS, con la misma clase `escala` que las réplicas (marcos/Escala.astro). Es
+ * decorativa: lo que muestra va en `etiqueta`.
+ *
+ * Las animaciones esperan a que la escena entre en pantalla y se congelan al salir (el script de
+ * abajo marca `data-vista` y `data-pausada` en todo `[data-anima]`).
+ *  - `secuencia` (ms): cada tanto la escena pasa a la fase siguiente (`data-fase`, de 0 a
+ *    `fases - 1`; `--n` cuenta las fases sin volver a cero, para rotaciones que siempre avanzan).
+ *    Sin JS o con movimiento reducido queda en `quieta`: conviene que sea la fase que mejor se
+ *    explica sola.
+ *  - `data-contar` en un elemento de adentro: el número cuenta desde `data-desde` hasta
+ *    `data-contar` la primera vez que la escena se ve. El texto del HTML es el valor final.
+ */
+interface Props {
+  ancho: number
+  alto: number
+  etiqueta: string
+  secuencia?: number
+  fases?: number
+  quieta?: number
+  class?: string
+}
+
+const { ancho, alto, etiqueta, secuencia, fases, quieta = 0, class: className } = Astro.props
+---
+
+<div
+  class:list={['escala escena', className]}
+  style={`--escala-w:${ancho};--escala-h:${alto}`}
+  role="img"
+  aria-label={etiqueta}
+  data-anima
+  data-secuencia={secuencia}
+  data-fases={fases}
+  data-fase={secuencia ? quieta : undefined}
+>
+  <div class="escala-lienzo" inert>
+    <slot />
+  </div>
+</div>
+
+<script>
+  const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const formato = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 })
+  const texto = (valor: number, tipo?: string) => {
+    const n = formato.format(Math.round(valor))
+    return tipo === 'pesos' ? `$${n}` : n
+  }
+
+  function contar(el: HTMLElement) {
+    const hasta = Number(el.dataset.contar)
+    const desde = Number(el.dataset.desde ?? 0)
+    const ms = Number(el.dataset.ms ?? 1200)
+    const inicio = performance.now() + Number(el.dataset.retraso ?? 0)
+    const paso = (t: number) => {
+      const p = Math.min(1, Math.max(0, (t - inicio) / ms))
+      el.textContent = texto(desde + (hasta - desde) * (1 - (1 - p) ** 3), el.dataset.formato)
+      if (p < 1) requestAnimationFrame(paso)
+    }
+    requestAnimationFrame(paso)
+  }
+
+  const relojes = new Map<HTMLElement, number>()
+
+  function mirar(el: HTMLElement, visible: boolean) {
+    el.toggleAttribute('data-pausada', !visible)
+    if (!visible) {
+      window.clearInterval(relojes.get(el))
+      relojes.delete(el)
+      return
+    }
+    if (!el.hasAttribute('data-vista')) {
+      el.setAttribute('data-vista', '')
+      if (!reducido) el.querySelectorAll<HTMLElement>('[data-contar]').forEach(contar)
+    }
+    const ms = Number(el.dataset.secuencia)
+    if (!ms || reducido || relojes.has(el)) return
+    const fases = Number(el.dataset.fases) || 1
+    relojes.set(el, window.setInterval(() => {
+      const n = Number(el.style.getPropertyValue('--n') || 0) + 1
+      el.style.setProperty('--n', String(n))
+      el.dataset.fase = String(n % fases)
+    }, ms))
+  }
+
+  const animadas = [...document.querySelectorAll<HTMLElement>('[data-anima]')]
+  if (!reducido) {
+    // Con movimiento, cada escena arranca desde el principio: los números en su valor inicial y
+    // las secuencias en la fase 0.
+    for (const el of animadas) {
+      el.querySelectorAll<HTMLElement>('[data-contar]').forEach((c) => {
+        c.textContent = texto(Number(c.dataset.desde ?? 0), c.dataset.formato)
+      })
+      if (el.dataset.secuencia) {
+        el.dataset.fase = '0'
+        el.style.setProperty('--n', '0')
+      }
+    }
+  }
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entradas) => {
+      for (const e of entradas) mirar(e.target as HTMLElement, e.isIntersecting)
+    }, { threshold: 0.2 })
+    animadas.forEach((el) => io.observe(el))
+  } else {
+    animadas.forEach((el) => mirar(el, true))
+  }
+</script>

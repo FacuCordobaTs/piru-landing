@@ -188,6 +188,12 @@ export const CAMPANAS = [
   { icono: 'circle-play', color: 'emerald', nombre: 'Reel papas con cheddar', canal: 'Reels & TikTok', tipo: 'Link de seguimiento', slug: 'reel-papas', visitas: 1204, pedidos: 9, ventas: 118700 },
 ] as const
 
+/** Lo que se vendió en septiembre sin ningún link de campaña: la línea de base del ranking. */
+export const ORGANICO = { visitas: 2310, pedidos: 116, ventas: 1533900 }
+
+/** Un cupón de los que se escriben al pagar, con sus resultados del mes. */
+export const CUPON = { codigo: 'MARTES', descuento: '15%', minimo: 10000, vence: '31/10', limite: 100, usos: 23, clientes: 18, ventas: 310500 }
+
 export const METRICAS = {
   periodo: 'Septiembre 2026',
   facturado: 4218600,

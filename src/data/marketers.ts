@@ -128,19 +128,24 @@ export const CANDIDATOS = [
 
 // ── Hoy: los mensajes del día de Brasa, en modo manual ───────────────────────────────────────────
 
+/**
+ * La agenda de un martes: los mensajes de recompra del día (el 1º de la escalera va sin descuento,
+ * con el link de su pedido de siempre) y una invitación de día flojo, que nunca lleva descuento
+ * (docs/CUSTOMERS_AND_GROWTH.md, "Días flojos en la agenda").
+ */
 export const HOY = {
   fecha: 'Martes 14 de octubre',
   total: 6,
   enviados: 2,
   mensajes: [
-    { nombre: 'Martina González', iniciales: 'MG', motivo: 'Día flojo · pidió 2 veces un martes', enviado: true },
-    { nombre: 'Pablo Ríos', iniciales: 'PR', motivo: 'Día flojo · su único pedido fue un martes', enviado: true },
+    { nombre: 'Martina González', iniciales: 'MG', motivo: 'Se está yendo · mensaje 1 de 3', enviado: true },
+    { nombre: 'Pablo Ríos', iniciales: 'PR', motivo: 'Primer pedido · hace 16 días', enviado: true },
     {
-      nombre: 'Diego Luna', iniciales: 'DL', motivo: 'Día flojo · pide cada 8 días y van 15', enviado: false, abierto: true,
-      texto: ['¡Hola Diego! 👋', 'Hoy martes en Brasa tenés 15% OFF en toda la carta 🍔', 'Entrá desde este link y el descuento se aplica solo:'],
-      link: 'my.piru.app/brasa/c/reactivacion?tk=v1.2d7c…',
+      nombre: 'Diego Luna', iniciales: 'DL', motivo: 'Se está yendo · pide cada 8 días y van 15', enviado: false, abierto: true,
+      texto: ['¡Hola Diego! 👋', 'Hace dos semanas que no te vemos por Brasa. ¿Te tentás con tu Smash de siempre? 🍔', 'Te dejamos tu pedido armado:'],
+      link: 'my.piru.app/brasa/c/lo-mismo?tk=v1.2d7c…',
     },
-    { nombre: 'Sofía Méndez', iniciales: 'SM', motivo: 'Día flojo · venía todos los meses', enviado: false },
+    { nombre: 'Sofía Méndez', iniciales: 'SM', motivo: 'Día flojo · invitación sin descuento', enviado: false },
   ],
 }
 

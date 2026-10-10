@@ -1,0 +1,53 @@
+---
+import Escena from './Escena.astro'
+import Icon from '../ui/Icon.astro'
+import { CUPON } from '../../data/demo'
+import { pesos } from '../../data/oferta'
+
+/**
+ * El cupón MARTES con su descuento, compra mínima y vencimiento, y al lado lo que trajo: usos,
+ * clientes y ventas cobradas. Es la escena CuponTicket de la guía de la app de marketers.
+ */
+// Un ticket con el talón a la derecha: muescas arriba y abajo a la altura del corte.
+const TICKET =
+  'M16 0 H152 A12 12 0 0 0 176 0 H220 A16 16 0 0 1 236 16 V136 A16 16 0 0 1 220 152 H176 A12 12 0 0 0 152 152 H16 A16 16 0 0 1 0 136 V16 A16 16 0 0 1 16 0 Z'
+---
+
+<Escena
+  ancho={460}
+  alto={250}
+  etiqueta={`El cupón ${CUPON.codigo} con ${CUPON.descuento} de descuento, compra mínima y vencimiento. Al lado, sus resultados: ${CUPON.usos} usos de ${CUPON.limite}, ${CUPON.clientes} clientes y ${pesos(CUPON.ventas)} en ventas cobradas.`}
+>
+  <div class="e-pop absolute left-[20px] top-[46px] h-[152px] w-[236px] rotate-[-2deg]" style="--d:100ms">
+    <svg class="absolute inset-0 drop-shadow-[0_14px_22px_rgb(40_24_8/.18)]" width="236" height="152" viewBox="0 0 236 152" aria-hidden="true">
+      <path d={TICKET} fill="#fff" stroke="#ECE4D8" />
+      <path d="M164 16 V136" stroke="#ECE4D8" stroke-width="1.5" stroke-dasharray="4 4" />
+    </svg>
+    <div class="absolute left-[18px] top-[16px] w-[136px]">
+      <p class="text-[9.5px] font-semibold uppercase tracking-[.1em] text-ink-3">Cupón</p>
+      <p class="mt-1 font-mono text-[25px] font-bold leading-none tracking-wide text-ink">{CUPON.codigo}</p>
+      <p class="mt-2 text-[17px] font-bold text-brand-deep">{CUPON.descuento} OFF</p>
+      <p class="mt-2 text-[10px] leading-snug text-ink-3">Compra mínima {pesos(CUPON.minimo)}<br />Hasta el {CUPON.vence} · {CUPON.limite} usos</p>
+    </div>
+    <span class="absolute left-[184px] top-[56px] grid size-10 place-items-center rounded-full bg-brand-soft text-brand-deep"><Icon name="percent" class="size-[18px]" stroke={2.6} /></span>
+  </div>
+
+  <div class="e-derecha e-tarjeta absolute left-[278px] top-[26px] w-[164px] p-4" style="--d:500ms">
+    <p class="text-[10px] font-semibold uppercase tracking-[.08em] text-ink-3">Resultados</p>
+    <div class="mt-3 flex items-baseline justify-between">
+      <span class="text-[11.5px] text-ink-2">Usos</span>
+      <span class="text-[13px] font-bold tabular-nums text-ink">{CUPON.usos} de {CUPON.limite}</span>
+    </div>
+    <div class="mt-1.5 h-1.5 rounded-full bg-line">
+      <div class="e-barra h-full rounded-full bg-brand" style={`width:${(CUPON.usos / CUPON.limite) * 100}%;--d:900ms`} />
+    </div>
+    <div class="mt-3 flex items-baseline justify-between">
+      <span class="text-[11.5px] text-ink-2">Clientes</span>
+      <span class="text-[13px] font-bold tabular-nums text-ink">{CUPON.clientes}</span>
+    </div>
+    <div class="mt-3 border-t border-line pt-3">
+      <p class="text-[11.5px] text-ink-2">Ventas cobradas</p>
+      <p class="mt-0.5 text-[20px] font-bold tabular-nums tracking-tight text-ink" data-contar={CUPON.ventas} data-formato="pesos" data-ms="1400" data-retraso="900">{pesos(CUPON.ventas)}</p>
+    </div>
+  </div>
+</Escena>

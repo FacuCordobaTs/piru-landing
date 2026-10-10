@@ -1,0 +1,75 @@
+---
+import Escena from './Escena.astro'
+import Icon from '../ui/Icon.astro'
+import { CLIENTA, LOCAL, PEDIDO } from '../../data/demo'
+import { pesos } from '../../data/oferta'
+
+/**
+ * El pedido de Martina llega al WhatsApp del local y suma en su ficha: pedidos, gasto, cada cuánto
+ * pide, su favorito y por dónde llegó. Es la escena FichaCliente de la guía de la app de marketers.
+ */
+// Del pedido en el chat a la ficha.
+const RUTA = 'M 122 196 C 122 238, 156 240, 186 228'
+const datos = [
+  { titulo: 'Pedidos', valor: String(CLIENTA.pedidos), mas: true },
+  { titulo: 'Gastó', valor: pesos(CLIENTA.total) },
+  { titulo: 'Pide cada', valor: `~${CLIENTA.cadencia} días` },
+  { titulo: 'Favorito', valor: CLIENTA.top[0].nombre },
+]
+---
+
+<Escena
+  ancho={460}
+  alto={336}
+  etiqueta={`El pedido de ${PEDIDO.primerNombre} llega al WhatsApp del local y actualiza su ficha: ${CLIENTA.pedidos} pedidos, ${pesos(CLIENTA.total)} gastados, pide cada ${CLIENTA.cadencia} días, su favorito es la ${CLIENTA.top[0].nombre} y llegó por una historia de Instagram.`}
+>
+  <div class="e-izquierda absolute left-[16px] top-[16px] w-[236px] overflow-hidden rounded-[18px] bg-[#EFEAE2] shadow-[0_0_0_1px_rgb(25_21_18/.06),0_18px_34px_-20px_rgb(40_24_8/.5)]">
+    <div class="flex items-center gap-2 bg-[#0B6E5C] px-3 py-2 text-white">
+      <span class="grid size-7 place-items-center rounded-full bg-white/20 text-[10.5px] font-bold">{CLIENTA.iniciales}</span>
+      <div>
+        <p class="text-[12.5px] font-semibold leading-tight">{CLIENTA.nombre}</p>
+        <p class="text-[10px] text-white/70">Tu WhatsApp · {LOCAL.nombre}</p>
+      </div>
+    </div>
+    <div class="p-2.5">
+      <div class="e-burbuja-entra e-sube max-w-[196px] px-2.5 py-2 text-[11.5px] leading-[1.38]" style="--d:350ms">
+        <p>¡Hola {LOCAL.nombre}! Te paso mi pedido:</p>
+        <p class="mt-1 font-semibold">Pedido #{PEDIDO.id} · {PEDIDO.tipo}</p>
+        <p>1 × Smash burger doble</p>
+        <p>1 × Papas con cheddar</p>
+        <p class="mt-1">Total: <b>{pesos(PEDIDO.total)}</b></p>
+        <p class="text-right text-[9.5px] text-[#667781]">{PEDIDO.hora}</p>
+      </div>
+    </div>
+  </div>
+
+  <svg class="absolute inset-0" width="460" height="336" viewBox="0 0 460 336" fill="none" aria-hidden="true">
+    <path d={RUTA} stroke="#FF7A00" stroke-width="2" stroke-linecap="round" opacity=".55" class="e-hormigas" />
+  </svg>
+  <span class="e-viaja absolute left-0 top-0 size-3 rounded-full bg-brand shadow-[0_0_0_5px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA}");--t:3s;--d:900ms`} />
+
+  <div class="e-derecha e-tarjeta absolute left-[184px] top-[100px] w-[264px] p-4" style="--d:600ms">
+    <span class="e-pop absolute -top-2.5 right-4 inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10.5px] font-bold text-amber-700 ring-1 ring-amber-200" style="--d:1700ms">
+      <Icon name="crown" class="size-[11px]" stroke={2.4} />VIP
+    </span>
+    <div class="flex items-center gap-3">
+      <span class="grid size-10 shrink-0 place-items-center rounded-full bg-brand-soft text-[13px] font-bold text-brand-deep">{CLIENTA.iniciales}</span>
+      <div class="min-w-0 flex-1">
+        <p class="truncate text-[14.5px] font-semibold leading-tight text-ink">{CLIENTA.nombre}</p>
+        <p class="text-[11px] text-ink-3">{CLIENTA.telefono}</p>
+      </div>
+    </div>
+    <div class="mt-3 grid grid-cols-2 gap-2">
+      {datos.map((x, i) => (
+        <div class="e-sube relative rounded-xl bg-sand px-2.5 py-2" style={`--d:${850 + i * 120}ms`}>
+          <p class="text-[9.5px] font-semibold uppercase tracking-[.07em] text-ink-3">{x.titulo}</p>
+          <p class="mt-0.5 truncate text-[12.5px] font-bold tabular-nums text-ink">{x.valor}</p>
+          {x.mas && <span class="e-pop absolute right-2 top-2 rounded-full bg-emerald-600 px-1.5 text-[10px] font-bold text-white" style="--d:1450ms">+1</span>}
+        </div>
+      ))}
+    </div>
+    <p class="e-aparece mt-3 flex items-center gap-1.5 text-[11.5px] text-ink-2" style="--d:1450ms">
+      <Icon name="link" class="size-[13px] text-brand" stroke={2.4} />Llegó por <b class="font-semibold text-ink">{CLIENTA.fuente}</b>
+    </p>
+  </div>
+</Escena>

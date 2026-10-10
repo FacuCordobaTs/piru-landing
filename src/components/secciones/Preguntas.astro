@@ -1,11 +1,11 @@
 ---
 import Icon from '../ui/Icon.astro'
-import { DIAS_PRUEBA, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { DIAS_PRUEBA, PRECIO_BASE, RETENCION, enlaceWhatsapp, pesos } from '../../data/oferta'
 
 const preguntas = [
   {
     p: '¿Tengo que dejar las apps de delivery?',
-    r: 'No. Podés seguir en las apps y sumar tu tienda propia. La idea es que tus clientes de siempre te pidan directo: vos cobrás el 100% y ellos quedan en tu agenda.',
+    r: 'No. Podés seguir en las apps y sumar tu tienda propia. La idea es que tus clientes de siempre te pidan directo: vos cobrás el 100% y ellos quedan en tu base.',
   },
   {
     p: '¿Mis clientes tienen que descargar algo o registrarse?',
@@ -20,40 +20,28 @@ const preguntas = [
     r: 'No. Salen de tu WhatsApp, el mismo donde te llegan los pedidos: Piru arma la lista y el mensaje, y vos tocás enviar. No hace falta conectar nada con Meta ni pagar por mensaje.',
   },
   {
+    p: '¿Qué viene incluido del marketing?',
+    r: `Los links de campaña, los cupones, tu base de clientes con quién se está yendo y el análisis de días flojos vienen con tu tienda. ${RETENCION.nombre} (${pesos(RETENCION.precio)} por mes) suma los mensajes de recompra de cada día, el club de puntos y las invitaciones de los días flojos.`,
+  },
+  {
     p: '¿Cómo y cuándo cobro?',
     r: 'Tus clientes pagan con Mercado Pago (con tu propia cuenta), por transferencia o en efectivo. La plata va directo a tu cuenta: Piru no la toca ni se queda con un porcentaje.',
-  },
-  {
-    p: '¿Cómo funciona la transferencia que se confirma sola?',
-    r: 'Con la transferencia automática, cada pedido genera su propio alias. Cuando el cliente transfiere, el pago se confirma solo y el pedido pasa a la cocina. Si preferís, también podés usar tu alias de siempre y confirmar el pago vos desde el panel.',
-  },
-  {
-    p: '¿Necesito una computadora? ¿Y una impresora?',
-    r: 'Piru funciona en la computadora, la tablet o el celular. Para que las comandas salgan solas, instalás la app de Piru para Windows y usás tu impresora térmica de cocina.',
-  },
-  {
-    p: '¿Qué pasa si se corta internet?',
-    r: 'El punto de venta sigue andando: guarda las ventas en la compu y las sube cuando vuelve la conexión.',
   },
   {
     p: '¿Tengo que cargar el menú yo?',
     r: 'No. Nos mandás tu carta y te armamos la tienda con tus productos, fotos y precios. Después la editás cuando quieras: cambiar un precio, sumar una foto o pausar un producto lleva segundos.',
   },
   {
-    p: '¿Sirve si tengo salón, mesas o varias sucursales?',
-    r: 'Sí. Tenés mapa de mesas, app para mozos y comandas por mesa, y cada sucursal con sus pedidos y sus zonas de envío. Todo convive en la misma pantalla que los pedidos de la tienda.',
+    p: '¿Necesito una computadora? ¿Y una impresora?',
+    r: 'Piru funciona en la computadora, la tablet o el celular. Para que las comandas salgan solas, instalás la app de Piru para Windows y usás tu impresora térmica de cocina. Y si se corta internet, el punto de venta sigue andando.',
   },
   {
     p: '¿Puedo trabajar con mi marketer?',
-    r: 'Sí. Le das acceso con su código y maneja tus links, campañas, cupones, clientes, puntos y recompra desde su app. No toca tus precios, tus pedidos ni tus cobros, y le sacás el acceso cuando quieras.',
+    r: 'Sí. Le das acceso con su código y maneja tus campañas, cupones, clientes, puntos y recompra desde su propia app. No toca tus precios, tus pedidos ni tus cobros, y le sacás el acceso cuando quieras.',
   },
   {
     p: '¿Hay contrato o permanencia?',
     r: `No. Pagás ${pesos(PRECIO_BASE)} mes a mes y los adicionales sólo si los activás. Arrancás con ${DIAS_PRUEBA} días de prueba, y si preferís pagar el año por adelantado tenés descuento.`,
-  },
-  {
-    p: '¿Puedo usar mi propio dominio?',
-    r: 'Sí. Tu tienda puede estar en my.piru.app/tulocal o en tu propio dominio, como che-milanesa.com o alfajorconpapas.com.',
   },
 ]
 ---

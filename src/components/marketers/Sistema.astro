@@ -1,0 +1,71 @@
+---
+import Icon from '../ui/Icon.astro'
+import Herramienta from '../secciones/Herramienta.astro'
+import LinkMedido from '../escenas/LinkMedido.astro'
+import EnvioHoy from '../escenas/EnvioHoy.astro'
+import MapaDias from '../escenas/MapaDias.astro'
+import ClubPuntos from '../escenas/ClubPuntos.astro'
+import { DIAS_PRUEBA, PRECIO_BASE, pesos } from '../../data/oferta'
+import { CARRUSEL, DESLIZA, TARJETA_CARRUSEL } from '../secciones/carrusel'
+
+/**
+ * Lo que el marketer maneja de cada local, con las mismas escenas que la home y la guía de la app:
+ * links medidos, los mensajes del día desde el WhatsApp del local, días flojos y puntos. Abajo, en
+ * una línea, lo que gana el local, con el link a la home (la página que le manda).
+ */
+---
+
+<section id="sistema" class="overflow-hidden bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">El sistema</p>
+      <h2 class="titulo-lg mt-4">Todo el marketing de cada local, medido en ventas</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">El local vende por su tienda propia, sin comisión, y cada pedido le suma un cliente a su base. Vos manejás lo que hace crecer esas ventas, desde tu app.</p>
+    </div>
+
+    <div class={`${CARRUSEL} mt-14 lg:grid-cols-2`}>
+      <Herramienta
+        class={TARJETA_CARRUSEL}
+        titulo="Un link por historia"
+        texto="Cada historia, reel o influencer lleva su link. A fin de mes le mostrás al local pedidos cobrados, publicación por publicación: no likes."
+        modulo="incluido"
+      >
+        <LinkMedido slot="escena" />
+      </Herramienta>
+      <Herramienta
+        class={TARJETA_CARRUSEL}
+        titulo="Los mensajes del día, desde su WhatsApp"
+        texto="Piru arma a quién escribirle y el mensaje. Sale del WhatsApp del local, en el mismo chat de sus pedidos: lo manda el local, o vos si tenés su WhatsApp vinculado."
+        modulo="retencion"
+      >
+        <EnvioHoy slot="escena" voz="marketer" />
+      </Herramienta>
+      <Herramienta
+        class={TARJETA_CARRUSEL}
+        titulo="Sus días flojos, llenos"
+        texto="Ves qué días y franjas vende menos cada local y, para ese hueco, armás el link del día para la historia. Con Retención, además, invitás a los clientes que pueden venir."
+        modulo="incluido"
+      >
+        <MapaDias slot="escena" />
+      </Herramienta>
+      <Herramienta
+        class={TARJETA_CARRUSEL}
+        titulo="Puntos para que vuelvan"
+        texto="El club de puntos de cada local: cada pedido cobrado suma y los clientes canjean envío gratis, descuentos o productos."
+        modulo="retencion"
+      >
+        <ClubPuntos slot="escena" />
+      </Herramienta>
+    </div>
+    <p class={DESLIZA}>Deslizá para ver las cuatro<Icon name="arrow-right" class="size-3.5" /></p>
+
+    <div class="revelar mt-5 flex flex-col items-start gap-5 rounded-[28px] bg-ink p-7 text-white sm:flex-row sm:items-center sm:p-9">
+      <span class="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand"><Icon name="store" class="size-6" /></span>
+      <p class="flex-1 text-[17px] leading-snug text-white/75 sm:text-[19px]">
+        <b class="font-semibold text-white">Y el local gana su canal propio:</b> tienda sin comisión, pedidos a su WhatsApp, sus clientes guardados y un precio fijo de {pesos(PRECIO_BASE)} por mes. Se la armamos con su carta y tiene {DIAS_PRUEBA} días de prueba.
+      </p>
+      <a href="/" class="boton boton-primario shrink-0">Ver la página para locales<Icon name="arrow-right" class="size-4" /></a>
+    </div>
+    <p class="revelar mt-4 text-center text-[14px] text-ink-3">Mandásela con tu link de referido (lo tenés en tu app, en Cuenta) y su consulta nos llega a tu nombre.</p>
+  </div>
+</section>

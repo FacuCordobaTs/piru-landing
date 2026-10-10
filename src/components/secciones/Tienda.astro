@@ -3,7 +3,6 @@ import Icon from '../ui/Icon.astro'
 import Escala from '../marcos/Escala.astro'
 import Telefono from '../marcos/Telefono.astro'
 import TiendaMenu from '../replicas/tienda/TiendaMenu.astro'
-import TiendaGrupo from '../replicas/tienda/TiendaGrupo.astro'
 import type { NombreIcono } from '../ui/lucide'
 import { TIENDA_DEMO } from '../../data/oferta'
 
@@ -16,17 +15,17 @@ const colores = [
   { nombre: 'Mostaza', c1: '#8A5A00', c2: '#FFF8E7' },
 ]
 
-const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: string }[] = [
+const funciones: { icono: NombreIcono; titulo: string; texto: string }[] = [
   { icono: 'smartphone', titulo: 'Sin app y sin registro', texto: 'Se abre desde el navegador de cualquier celular. Tu cliente pone su nombre y su celular, y listo.' },
   { icono: 'store', titulo: 'Con tu logo y tus colores', texto: 'Tu marca en cada pantalla, con tu link propio o tu dominio.' },
   { icono: 'bike', titulo: 'Delivery por zonas, o retiro', texto: 'Cada zona con su costo de envío. La dirección se valida en el mapa antes de pagar.' },
   { icono: 'clock', titulo: 'Horarios y pedidos programados', texto: 'Si estás cerrado, tus clientes pueden dejar el pedido para más tarde.' },
-  { icono: 'ticket', titulo: 'Promos que se aplican solas', texto: 'El descuento viaja en tu link: tu cliente no tiene que tipear ningún código.' },
-  { icono: 'sparkles', titulo: 'Puntos para los que vuelven', texto: 'Suman con cada compra y los canjean por productos.', modulo: 'Con Retención' },
+  { icono: 'users', titulo: 'Pedido en grupo', texto: 'Cada uno elige desde su celular y llega una sola comanda. Cuatro amigos, cuatro clientes en tu base.' },
+  { icono: 'wallet', titulo: 'Cobrás con lo que ya usás', texto: 'Mercado Pago con tu cuenta, transferencia o efectivo. La plata va directo a vos.' },
 ]
 ---
 
-<section id="tienda" class="overflow-hidden bg-sand py-24 sm:py-32">
+<section id="tienda" class="overflow-hidden py-24 sm:py-32">
   <div class="contenedor">
     <div class="revelar max-w-3xl">
       <p class="antetitulo">Tu tienda</p>
@@ -73,10 +72,7 @@ const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: s
           {funciones.map((f, i) => (
             <li class="revelar" style={`--retraso:${i * 60}ms`}>
               <span class="grid size-11 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name={f.icono} class="size-5" /></span>
-              <h3 class="mt-4 flex flex-wrap items-center gap-2 text-[18px] font-semibold tracking-tight">
-                {f.titulo}
-                {f.modulo && <span class="rounded-full bg-brand-soft px-2 py-0.5 text-[11.5px] font-semibold text-brand-deep ring-1 ring-brand/20">{f.modulo}</span>}
-              </h3>
+              <h3 class="mt-4 text-[18px] font-semibold tracking-tight">{f.titulo}</h3>
               <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{f.texto}</p>
             </li>
           ))}
@@ -84,30 +80,6 @@ const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: s
         <a href={TIENDA_DEMO} target="_blank" rel="noopener" class="revelar boton boton-secundario mt-10">
           Abrir la tienda de demostración<Icon name="arrow-up-right" class="size-4" />
         </a>
-      </div>
-    </div>
-
-    <div class="revelar mt-24 grid items-center gap-12 overflow-hidden rounded-[32px] bg-white p-8 ring-1 ring-line sm:p-12 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
-      <div>
-        <p class="antetitulo">Pedido en grupo</p>
-        <h3 class="titulo-md mt-3">¿Piden entre varios? Cada uno elige desde su celular.</h3>
-        <p class="mt-4 text-[17px] leading-relaxed text-ink-2">
-          El que organiza comparte un link y cada uno agrega lo suyo. A la cocina llega una sola comanda, separada por persona, y se paga todo junto.
-        </p>
-        <ul class="mt-7 space-y-4 text-[16px] text-ink-2">
-          <li class="flex gap-3"><Icon name="receipt" class="mt-0.5 size-5 text-brand" />Una sola comanda, ordenada por persona.</li>
-          <li class="flex gap-3"><Icon name="user-plus" class="mt-0.5 size-5 text-brand" /><span><b class="font-semibold text-ink">Cada comensal queda en tu agenda</b> con su celular: cuatro amigos, cuatro clientes nuevos.</span></li>
-          <li class="flex gap-3"><Icon name="share-2" class="mt-0.5 size-5 text-brand" />Nadie descarga nada: se suman desde el link.</li>
-        </ul>
-      </div>
-      <div class="relative mx-auto w-[min(78%,300px)]">
-        <div class="drop-shadow-[0_30px_50px_rgba(40,20,5,0.28)]">
-          <Escala ancho={412} alto={866} etiqueta="La sala del pedido en grupo: quiénes están y qué eligió cada uno">
-            <Telefono url="my.piru.app/brasa">
-              <TiendaGrupo />
-            </Telefono>
-          </Escala>
-        </div>
       </div>
     </div>
   </div>

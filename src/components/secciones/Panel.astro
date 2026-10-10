@@ -20,22 +20,22 @@ const pestanas: { clave: string; nombre: string; icono: NombreIcono; texto: stri
   { clave: 'estadisticas', nombre: 'Estadísticas', icono: 'trending-up', texto: 'Cuánto vendiste, cómo te pagaron y qué se vendió más, del mes o del rango que elijas.', etiqueta: 'Estadísticas: facturado del mes, medios de pago, origen de las ventas y productos más pedidos', etiquetaMovil: 'Estadísticas en el celular: facturado del mes, medios de pago y productos más pedidos' },
 ]
 
-const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: string }[] = [
-  { icono: 'printer', titulo: 'Comandas que salen solas', texto: 'Con la app de Piru para Windows, cada pedido se imprime en tu impresora de cocina.' },
-  { icono: 'message-circle', titulo: 'Pedidos a tu WhatsApp', texto: 'Cada pedido te llega escrito y completo a tu número de siempre, en el chat con tu cliente, y además queda en el panel.' },
-  { icono: 'wifi-off', titulo: 'Sigue andando sin internet', texto: 'El punto de venta guarda las ventas en la compu y las sube cuando vuelve la conexión.' },
-  { icono: 'armchair', titulo: 'Mesas y app para mozos', texto: 'Cada mozo toma pedidos desde su celular; la comanda de la mesa sale en cocina.' },
-  { icono: 'bike', titulo: 'Repartidores y mapa', texto: 'Asignás cada envío a tu cadete y ves todos los pedidos del día en el mapa.' },
-  { icono: 'calendar-days', titulo: 'Caja por turno', texto: 'Cerrás el turno y sabés cuánto entró en efectivo, transferencias y Mercado Pago.' },
+const funciones: { icono: NombreIcono; texto: string }[] = [
+  { icono: 'printer', texto: 'Comandas que salen solas' },
+  { icono: 'wifi-off', texto: 'Sigue andando sin internet' },
+  { icono: 'armchair', texto: 'Mesas y app para mozos' },
+  { icono: 'bike', texto: 'Repartidores y mapa' },
+  { icono: 'calendar-days', texto: 'Caja por turno' },
+  { icono: 'building-2', texto: 'Varias sucursales' },
 ]
 ---
 
-<section id="panel" class="py-24 sm:py-32">
+<section id="panel" class="bg-sand py-24 sm:py-32">
   <div class="contenedor">
     <div class="revelar mx-auto max-w-3xl text-center">
       <p class="antetitulo">Tu panel</p>
-      <h2 class="titulo-lg mt-4">Todos tus pedidos, en una sola pantalla</h2>
-      <p class="bajada mx-auto mt-5 max-w-2xl">Los de la tienda, los del mostrador y los de las mesas, con la comanda clara y listos para despachar. En la compu, la tablet o el celular.</p>
+      <h2 class="titulo-lg mt-4">Y todo tu local, en una sola pantalla</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Los pedidos de la tienda, los del mostrador y los de las mesas, con la comanda clara y listos para despachar. En la compu, la tablet o el celular.</p>
     </div>
 
     <div class="revelar mt-12">
@@ -103,15 +103,10 @@ const funciones: { icono: NombreIcono; titulo: string; texto: string; modulo?: s
       ))}
     </div>
 
-    <ul class="mt-20 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-      {funciones.map((f, i) => (
-        <li class="revelar" style={`--retraso:${(i % 3) * 70}ms`}>
-          <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name={f.icono} class="size-5" /></span>
-          <h3 class="mt-4 flex flex-wrap items-center gap-2 text-[18px] font-semibold tracking-tight">
-            {f.titulo}
-            {f.modulo && <span class="rounded-full bg-sand px-2 py-0.5 text-[11.5px] font-semibold text-ink-2 ring-1 ring-line">{f.modulo}</span>}
-          </h3>
-          <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{f.texto}</p>
+    <ul class="revelar mx-auto mt-14 flex max-w-4xl flex-wrap justify-center gap-2.5 md:mt-16">
+      {funciones.map((f) => (
+        <li class="flex items-center gap-2 rounded-full bg-white py-2 pl-2 pr-4 text-[14.5px] font-medium text-ink-2 ring-1 ring-line">
+          <span class="grid size-7 place-items-center rounded-full bg-brand-soft text-brand-deep"><Icon name={f.icono} class="size-[15px]" /></span>{f.texto}
         </li>
       ))}
     </ul>

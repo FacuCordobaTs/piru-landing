@@ -1,0 +1,145 @@
+---
+import Escena from './Escena.astro'
+import Icon from '../ui/Icon.astro'
+import { CLIENTA, LOCAL, MENSAJE_RECOMPRA, PEDIDO } from '../../data/demo'
+
+/**
+ * Hoy, mensaje por mensaje: se abre el WhatsApp del local con el texto listo, se manda ahí y se
+ * marca enviado en la app. Es la escena EnvioHoy de la guía de la app de marketers. Fases (cada
+ * 1,6 s): 0 listo · 1 toca "Abrir WhatsApp" · 2 en WhatsApp, enviado · 3 toca "Marcar enviado" ·
+ * 4 registrado. Quieta, queda en la 4.
+ *
+ * `voz`: para el dueño el chat es "Tu WhatsApp"; para el marketer, el WhatsApp del local.
+ */
+interface Props {
+  voz?: 'duenio' | 'marketer'
+}
+
+const { voz = 'duenio' } = Astro.props
+const TEXTO = `¡Hola ${PEDIDO.primerNombre}! 👋 Hace 3 semanas que no te vemos por ${LOCAL.nombre}. ¿Te tentás con tu Smash de siempre? Te dejamos tu pedido armado:`
+const chat = voz === 'duenio' ? 'Tu WhatsApp' : `WhatsApp de ${LOCAL.nombre}`
+---
+
+<Escena
+  ancho={460}
+  alto={340}
+  secuencia={1600}
+  fases={5}
+  quieta={4}
+  class="envio-hoy"
+  etiqueta={`Hoy en la app: el mensaje para ${PEDIDO.primerNombre} se abre en el WhatsApp de ${LOCAL.nombre} con el texto listo, se manda desde ahí y después se marca como enviado.`}
+>
+  <div class="e-sube e-tarjeta absolute left-[30px] top-[12px] w-[400px] p-4">
+    <div class="flex items-end justify-between gap-3">
+      <div>
+        <p class="text-[20px] font-bold leading-none tracking-tight text-ink">Hoy</p>
+        <p class="mt-1 text-[11px] text-ink-3">{LOCAL.nombre} · martes</p>
+      </div>
+      <div class="w-[118px]">
+        <p class="text-right text-[11px] font-semibold tabular-nums text-ink-2"><span class="envio-n-antes">2</span><span class="envio-n-despues">3</span> de 6 enviados</p>
+        <div class="mt-1 h-[5px] overflow-hidden rounded-full bg-line">
+          <div class="envio-progreso h-full rounded-full bg-emerald-500" />
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-3 flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-[11.5px] text-emerald-900 ring-1 ring-emerald-600/15">
+      <Icon name="smartphone" class="size-[15px] text-emerald-700" />
+      Este celular tiene el <b class="font-semibold">WhatsApp de {LOCAL.nombre}</b>
+    </p>
+
+    <div class="mt-3 flex items-center gap-2.5">
+      <span class="envio-avatar grid size-9 shrink-0 place-items-center rounded-full text-[11.5px] font-bold">{CLIENTA.iniciales}</span>
+      <div class="min-w-0 flex-1">
+        <p class="text-[13.5px] font-semibold leading-tight text-ink">{CLIENTA.nombre}</p>
+        <p class="text-[11px] text-ink-3">Se está yendo · Mensaje 1 de 3</p>
+      </div>
+      <span class="envio-badge-antes text-[11px] font-semibold text-ink-3">Sin descuento</span>
+      <span class="envio-badge-despues e-pop items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-700"><Icon name="check-check" class="size-[13px]" />Enviado</span>
+    </div>
+
+    <div class="mt-2.5 rounded-xl bg-[#EFEAE2] p-2.5">
+      <div class="e-burbuja e-sube ml-auto max-w-[300px] px-2.5 py-2 text-[11.5px] leading-[1.4]" style="--d:400ms">
+        {TEXTO}
+        <span class="mt-1 block truncate text-[#027EB5] underline decoration-[#027EB5]/40">{MENSAJE_RECOMPRA.link}</span>
+      </div>
+    </div>
+
+    <div class="mt-3 flex gap-2">
+      <span class="envio-wa relative flex h-9 flex-1 items-center justify-center gap-2 rounded-full bg-wa-deep text-[12.5px] font-semibold text-white">
+        <Icon name="message-circle" class="size-[15px]" />Abrir WhatsApp
+        <span class="envio-toque envio-toque-wa"><span class="e-onda" /><Icon name="pointer" class="e-pop" stroke={2} /></span>
+      </span>
+      <span class="envio-marcar relative flex h-9 items-center gap-1.5 rounded-full px-4 text-[12.5px] font-semibold">
+        <Icon name="check" class="size-[15px]" />Marcar enviado
+        <span class="envio-toque envio-toque-marcar"><span class="e-onda" /><Icon name="pointer" class="e-pop" stroke={2} /></span>
+      </span>
+    </div>
+
+    <div class="envio-chat e-sube absolute inset-x-3 bottom-3 overflow-hidden rounded-[16px] bg-[#EFEAE2] shadow-[0_-12px_30px_-12px_rgb(0_0_0/.35)] ring-1 ring-black/5">
+      <div class="flex items-center gap-2 bg-[#0B6E5C] px-3 py-2 text-white">
+        <span class="grid size-6 place-items-center rounded-full bg-white/20 text-[9.5px] font-bold">{CLIENTA.iniciales}</span>
+        <p class="text-[12px] font-semibold">{CLIENTA.nombre}</p>
+        <p class="ml-auto text-[10px] text-white/70">{chat}</p>
+      </div>
+      <div class="p-2.5">
+        <div class="e-burbuja ml-auto max-w-[280px] px-2.5 py-1.5 text-[11px] leading-[1.35]">
+          <span class="line-clamp-2">{TEXTO}</span>
+          <span class="mt-0.5 flex items-center justify-end gap-1 text-[9.5px] text-[#667781]">19:02<Icon name="check-check" class="e-pop size-3 text-[#53BDEB]" /></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</Escena>
+
+<style is:global>
+  /* Lo que cambia al marcarlo enviado (fases 3 y 4). */
+  .envio-hoy .envio-n-despues,
+  .envio-hoy .envio-badge-despues { display: none; }
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-n-antes,
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-badge-antes { display: none; }
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-n-despues { display: inline; }
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-badge-despues { display: inline-flex; }
+
+  .envio-hoy .envio-progreso { width: calc(2 / 6 * 100%); transition: width .7s; }
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-progreso { width: 50%; }
+
+  .envio-hoy .envio-avatar { background: #F6F0E6; color: #4A433C; transition: background-color .5s, color .5s; }
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-avatar { background: rgb(16 185 129 / .1); color: #047857; }
+
+  .envio-hoy .envio-wa,
+  .envio-hoy .envio-marcar { transition: scale .2s, background-color .3s, color .3s, box-shadow .3s; }
+  .envio-hoy[data-fase='1'] .envio-wa,
+  .envio-hoy[data-fase='3'] .envio-marcar { scale: .97; }
+  .envio-hoy .envio-marcar { color: #191512; box-shadow: inset 0 0 0 1px #ECE4D8; }
+  .envio-hoy:is([data-fase='3'], [data-fase='4']) .envio-marcar { background: #191512; color: #fff; box-shadow: inset 0 0 0 1px #191512; }
+
+  /* El dedo que toca un botón: se muestra sólo en su fase, y al mostrarse corre la animación. */
+  .envio-hoy .envio-toque { display: none; position: absolute; inset: 0; pointer-events: none; }
+  .envio-hoy[data-fase='1'] .envio-toque-wa,
+  .envio-hoy[data-fase='3'] .envio-toque-marcar { display: block; }
+  .envio-hoy .envio-toque .e-onda {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / .7);
+  }
+  .envio-hoy .envio-toque svg {
+    position: absolute;
+    right: 4px;
+    bottom: -12px;
+    width: 22px;
+    height: 22px;
+    fill: #fff;
+    color: #191512;
+    filter: drop-shadow(0 1px 1px rgb(0 0 0 / .3));
+  }
+
+  /* El chat de WhatsApp aparece sólo mientras se manda. */
+  .envio-hoy .envio-chat { display: none; }
+  .envio-hoy[data-fase='2'] .envio-chat { display: block; }
+</style>

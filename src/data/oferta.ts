@@ -51,6 +51,7 @@ export const MODULOS_PAGOS = [
     precio: 30000,
     icono: 'repeat-2',
     descripcion: 'Te dice a quién escribirle, cuándo y qué decirle para que vuelva a pedir. Incluye el Club de Puntos.',
+    incluye: ['Los mensajes de recompra de cada día', 'El club de puntos', 'Las invitaciones de los días flojos'],
   },
 ] as const
 
@@ -65,9 +66,9 @@ export const INCLUIDO_EN_BASE = [
   'Punto de venta que funciona sin internet',
   'Mesas y app para mozos',
   'Cobros con Mercado Pago y transferencia',
-  'Agenda de clientes con historial',
+  'Base de clientes y quién se está yendo',
   'Links de campaña medidos y cupones',
-  'Estadísticas de ventas',
+  'Días flojos y estadísticas de ventas',
   'Repartidores, cierre de caja y sucursales',
 ] as const
 

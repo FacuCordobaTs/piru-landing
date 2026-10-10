@@ -3,9 +3,9 @@ import PantallaPaso from './PantallaPaso.astro'
 import type { Paso } from './pasos'
 
 /**
- * Historia en pasos con el escenario fijo a la derecha. La usan las dos páginas: `/locales` con el
- * recorrido de un pedido (los valores por defecto) y la home de marketers con su sistema.
- * Va una sola por página: el script toma los `.paso` y las `.escena` del documento.
+ * Historia en pasos con el escenario fijo a la derecha: el recorrido de un pedido, de la tienda al
+ * WhatsApp del local (los valores por defecto). Va una sola por página: el script toma los `.paso`
+ * y las `.escena-paso` del documento.
  */
 interface Props {
   id?: string
@@ -17,8 +17,8 @@ interface Props {
 
 const PASOS_DEL_PEDIDO: Paso[] = [
   {
-    titulo: 'Tu cliente entra a tu link',
-    texto: 'Lo ponés en tu Instagram, en tus estados de WhatsApp o en un QR en la mesa. Se abre tu tienda al instante: sin descargar nada y sin crear usuario.',
+    titulo: 'Entra a tu tienda desde tu link',
+    texto: 'Lo ponés en tu Instagram, en tus estados de WhatsApp o en un QR en la mesa. Tu tienda se abre al instante, con tu marca y tus fotos: sin descargar nada y sin crear usuario.',
     pantalla: 'menu',
   },
   {
@@ -28,32 +28,21 @@ const PASOS_DEL_PEDIDO: Paso[] = [
   },
   {
     titulo: 'Paga como le queda cómodo',
-    texto: 'Mercado Pago, transferencia o efectivo. Con la transferencia automática, cada pedido tiene su propio alias y el pago se confirma solo: se terminaron los comprobantes.',
+    texto: 'Mercado Pago, transferencia o efectivo, y la plata va directo a tu cuenta. Con la transferencia automática, cada pedido tiene su alias y el pago se confirma solo.',
     pantalla: 'pago',
   },
   {
-    titulo: 'Te llega a vos y a la cocina',
-    texto: 'Te llega escrito a tu WhatsApp, como siempre, y aparece en tu panel con todo el detalle y sabiendo quién es el cliente. La comanda sale impresa.',
-    pantalla: 'panel',
-  },
-  {
-    titulo: 'Queda en tu agenda de clientes',
-    texto: 'Nombre, teléfono, qué pide, cada cuánto y cuánto gastó. Todo lo que una app de delivery nunca te muestra ahora es tuyo, y se arma solo.',
-    pantalla: 'cliente',
-  },
-  {
-    titulo: 'Y si deja de pedir, Piru te avisa',
-    texto: 'Martina pedía cada 12 días y hace tres semanas que no aparece. Piru le prepara un mensaje con su hamburguesa favorita y te dice cuándo mandarlo. Sale de tu WhatsApp, en el mismo chat de sus pedidos: vos tocás enviar.',
-    pantalla: 'whatsapp',
-    modulo: 'Con Retención',
+    titulo: 'Y te llega a tu WhatsApp',
+    texto: 'Escrito y completo, a tu número de siempre y en el chat con tu cliente. También entra a tu panel y la comanda sale impresa. Y el cliente queda guardado en tu base.',
+    pantalla: 'whatsapp-pedido',
   },
 ]
 
 const {
-  id = 'como-funciona',
-  antetitulo = 'Cómo funciona',
-  titulo = 'Así viaja un pedido con Piru',
-  bajada = 'Del Instagram de tu local a la cocina, y de vuelta a tu cliente. Seguilo paso a paso.',
+  id = 'pedido',
+  antetitulo = 'Del link a tu WhatsApp',
+  titulo = 'Así te pide un cliente',
+  bajada = 'Una tienda rápida y con tu marca, que se abre desde un link. Del Instagram de tu local a tu WhatsApp, en un minuto.',
   pasos = PASOS_DEL_PEDIDO,
 } = Astro.props
 ---
@@ -86,9 +75,9 @@ const {
       </ol>
 
       <div class="hidden lg:block">
-        <div class="escenario">
+        <div class="escenario-fijo">
           {pasos.map((p, i) => (
-            <div class:list={['escena', i === 0 && 'activa']} data-escena={i} aria-hidden={i === 0 ? undefined : 'true'}>
+            <div class:list={['escena-paso', i === 0 && 'activa']} data-escena={i} aria-hidden={i === 0 ? undefined : 'true'}>
               <PantallaPaso pantalla={p.pantalla} />
             </div>
           ))}
@@ -119,7 +108,7 @@ const {
 
   @media (min-width: 1024px) {
     .paso {
-      min-height: 76vh;
+      min-height: 70vh;
       display: flex;
       align-items: center;
       padding-bottom: 0;
@@ -128,8 +117,8 @@ const {
     .paso.activo .paso-texto { opacity: 1; }
     .paso.activo .paso-numero { background: var(--color-brand); color: #fff; box-shadow: 0 10px 22px -8px rgb(255 122 0 / .7); }
 
-    .escenario { position: sticky; top: 12vh; height: 76vh; }
-    .escena {
+    .escenario-fijo { position: sticky; top: 12vh; height: 76vh; }
+    .escena-paso {
       position: absolute;
       inset: 0;
       display: flex;
@@ -140,11 +129,11 @@ const {
       transition: opacity .55s var(--ease-suave), transform .7s var(--ease-suave);
       pointer-events: none;
     }
-    .escena.activa { opacity: 1; transform: none; }
-    .escena :global(.pantalla-telefono) { height: 100%; aspect-ratio: 412 / 866; }
+    .escena-paso.activa { opacity: 1; transform: none; }
+    .escena-paso :global(.pantalla-telefono) { height: 100%; aspect-ratio: 412 / 866; }
     /* La ventana se come el margen derecho de la página para que el panel se lea mejor. */
-    .escena:has(:global(.pantalla-ventana)) { justify-content: flex-start; }
-    .escena :global(.pantalla-ventana) {
+    .escena-paso:has(:global(.pantalla-ventana)) { justify-content: flex-start; }
+    .escena-paso :global(.pantalla-ventana) {
       flex: none;
       width: calc(100% + max(0px, (100vw - 1200px) / 2) + 8px);
     }
@@ -154,7 +143,7 @@ const {
 
 <script>
   const pasos = [...document.querySelectorAll<HTMLElement>('.historia .paso')]
-  const escenas = [...document.querySelectorAll<HTMLElement>('.historia .escena')]
+  const escenas = [...document.querySelectorAll<HTMLElement>('.historia .escena-paso')]
   let actual = 0
 
   function activar(i: number) {

@@ -5,11 +5,7 @@ import { COMISION_MARKETER, DIAS_PRUEBA, PRECIO_BASE, RETENCION, enlaceWhatsapp,
 const preguntas = [
   {
     p: '¿Los mensajes salen de un número nuevo?',
-    r: 'No. Salen del WhatsApp del local, el mismo donde recibe los pedidos y donde sus clientes ya le escriben. Piru arma la lista y el texto; el local, o vos si tenés su WhatsApp vinculado, toca enviar.',
-  },
-  {
-    p: '¿Cómo se mandan los mensajes?',
-    r: 'Piru te deja el mensaje listo. Abrís el WhatsApp del local, revisás el texto y tocás enviar, desde el celular o la compu donde lo tengas vinculado.',
+    r: 'No. Salen del WhatsApp del local, el mismo donde recibe los pedidos y donde sus clientes ya le escriben. Piru arma la lista y el texto; el local, o vos si tenés su WhatsApp vinculado, abre el chat y toca enviar. Sin API ni costo por mensaje.',
   },
   {
     p: '¿Cómo sé qué historia vendió?',
@@ -32,16 +28,8 @@ const preguntas = [
     r: 'Te saca el acceso y desde ese momento deja de generar comisión. Lo que ya cobraste, cobrado está.',
   },
   {
-    p: '¿Mi cliente tiene que dejar las apps de delivery?',
-    r: 'No hace falta. La idea es que sus clientes de siempre pasen a pedirle directo: cada pedido que pasa a su tienda es una comisión que deja de pagar.',
-  },
-  {
     p: '¿Cuánto le cuesta al local?',
     r: `Un precio fijo de ${pesos(PRECIO_BASE)} por mes, sin comisión por venta. ${RETENCION.nombre} (recompra y club de puntos) es un adicional de ${pesos(RETENCION.precio)}. Le armamos la tienda con su carta y tiene ${DIAS_PRUEBA} días para probarla.`,
-  },
-  {
-    p: '¿Puedo manejar muchos locales?',
-    r: 'Sí. Todos aparecen en tu app con sus ventas, su día flojo y lo que hay para hacer hoy en cada uno.',
   },
 ]
 ---

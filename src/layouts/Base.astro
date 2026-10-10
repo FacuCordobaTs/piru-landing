@@ -9,21 +9,21 @@ interface Props {
   descripcion?: string
   /** Ruta canónica; los datos estructurados del producto van sólo en las dos portadas. */
   canonical?: string
-  /** A quién le habla la página: cambia el menú (la home es para marketers). */
-  pagina?: 'marketers' | 'locales'
+  /** A quién le habla la página: cambia el menú (la home es para los locales). */
+  pagina?: 'locales' | 'marketers'
 }
 
 const {
-  titulo = 'Piru · Tienda online, clientes y recompra para gastronomía',
-  descripcion = 'La tienda online, la base de clientes y la recompra de los locales gastronómicos, y la app de los marketers que los hacen crecer. Precio fijo, sin comisión por venta.',
+  titulo = 'Piru · Tienda online sin comisiones y marketing para gastronomía',
+  descripcion = 'La tienda online sin comisiones y el marketing de los locales gastronómicos: pedidos directos a su WhatsApp, su base de clientes y la recompra. Precio fijo, sin comisión por venta.',
   canonical = Astro.url.pathname,
-  pagina = 'marketers',
+  pagina = 'locales',
 } = Astro.props
 
 const sitio = Astro.site?.toString().replace(/\/$/, '') ?? 'https://piru.app'
 const url = `${sitio}${canonical}`
 const imagen = `${sitio}/logopiru.jpeg`
-const portada = canonical === '/' || canonical === '/locales'
+const portada = canonical === '/' || canonical === '/marketers'
 ---
 
 <!doctype html>
@@ -110,9 +110,10 @@ const portada = canonical === '/' || canonical === '/locales'
         document.querySelectorAll<HTMLElement>('.escala').forEach((el) => ro.observe(el))
       }
 
-      // Código de marketer: un link como piru.app/locales?ref=AGUS deja el código en este
-      // navegador y lo suma al mensaje de los links a nuestro WhatsApp, para que la consulta
-      // del local nos llegue a nombre de su marketer (docs/MVP_MARKETERS.md §7).
+      // Código de marketer: un link como piru.app/?ref=AGUS (o el viejo /locales?ref=AGUS, que
+      // redirige acá con la consulta) deja el código en este navegador y lo suma al mensaje de
+      // los links a nuestro WhatsApp, para que la consulta del local nos llegue a nombre de su
+      // marketer (docs/MVP_MARKETERS.md §7).
       const CLAVE_REF = 'piru-ref'
       const valido = (c: string) => /^[A-Z0-9_-]{2,32}$/.test(c)
       let codigo = (new URLSearchParams(location.search).get('ref') ?? '').trim().toUpperCase()

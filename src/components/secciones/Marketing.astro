@@ -1,0 +1,153 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Herramienta from './Herramienta.astro'
+import LinkMedido from '../escenas/LinkMedido.astro'
+import CuponTicket from '../escenas/CuponTicket.astro'
+import FichaCliente from '../escenas/FichaCliente.astro'
+import RitmoCliente from '../escenas/RitmoCliente.astro'
+import ClubPuntos from '../escenas/ClubPuntos.astro'
+import MapaDias from '../escenas/MapaDias.astro'
+import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
+import { ESCALERA, LOCAL } from '../../data/demo'
+import { PROMEDIO_FRANJA, SEMANA } from '../../data/marketers'
+import { decimal } from '../replicas/marketers/graficos'
+import { APP_MARKETERS, RETENCION, pesos } from '../../data/oferta'
+import { CARRUSEL, DESLIZA, TARJETA_CARRUSEL } from './carrusel'
+
+/**
+ * Las herramientas de marketing, una por tarjeta y con su ilustración (las escenas de la guía de la
+ * app de marketers): primero las que traen clientes nuevos, después las que hacen que vuelvan. En
+ * escritorio es una grilla; más angosto, cada grupo es un carrusel que se desliza, para no hacer
+ * la página eterna. Las reglas que se nombran son las de la app (docs/CUSTOMERS_AND_GROWTH.md): si
+ * cambia una, cambia acá.
+ */
+const grupo = 'flex items-center gap-3 text-[15px] font-semibold text-ink'
+const carrusel = `${CARRUSEL} mt-6 lg:grid-cols-12`
+---
+
+<section id="marketing" class="overflow-hidden bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Tu marketing</p>
+      <h2 class="titulo-lg mt-4">Más clientes nuevos. Y que los de siempre vuelvan.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Todo lo que pasa por tu tienda queda medido y guardado. Con eso, Piru te dice qué publicación vende, quién se está yendo y qué mandarle para que vuelva.</p>
+    </div>
+
+    <div class="revelar mt-14 flex items-center gap-4 sm:mt-16">
+      <p class={grupo}><span class="grid size-9 place-items-center rounded-xl bg-ink text-white"><Icon name="megaphone" class="size-[18px]" /></span>Conseguí clientes nuevos</p>
+      <span class="h-px flex-1 bg-line" />
+    </div>
+    <div class={carrusel}>
+      <Herramienta
+        class={`${TARJETA_CARRUSEL} lg:col-span-7`}
+        titulo="Un link para cada publicación"
+        texto="Cada historia, reel, QR o influencer lleva su propio link. Piru cuenta los pedidos cobrados de cada uno: sabés qué publicación vende, no sólo cuál tiene likes."
+        modulo="incluido"
+      >
+        <LinkMedido slot="escena" />
+      </Herramienta>
+      <Herramienta
+        class={`${TARJETA_CARRUSEL} lg:col-span-5`}
+        titulo="Promos que se aplican solas"
+        texto="El descuento viaja en el link, o en un cupón como MARTES, con vencimiento y límite de usos. Y ves cuánto vendió."
+        modulo="incluido"
+        anchoEscena={440}
+      >
+        <CuponTicket slot="escena" />
+      </Herramienta>
+    </div>
+    <p class={DESLIZA}>Deslizá para ver la otra<Icon name="arrow-right" class="size-3.5" /></p>
+
+    <div class="revelar mt-14 flex items-center gap-4 sm:mt-16">
+      <p class={grupo}><span class="grid size-9 place-items-center rounded-xl bg-brand text-white"><Icon name="repeat-2" class="size-[18px]" /></span>Hacé que vuelvan</p>
+      <span class="h-px flex-1 bg-line" />
+    </div>
+    <div class={carrusel}>
+      <Herramienta
+        class={`${TARJETA_CARRUSEL} lg:col-span-6`}
+        titulo="Tu base de clientes se arma sola"
+        texto="Cada pedido crea o actualiza la ficha del cliente: qué pide, cada cuánto, cuánto gastó y por dónde llegó. Sin planillas."
+        modulo="incluido"
+      >
+        <FichaCliente slot="escena" />
+      </Herramienta>
+      <Herramienta
+        class={`${TARJETA_CARRUSEL} lg:col-span-6`}
+        titulo="Te avisa quién se está yendo"
+        texto="Cada cliente tiene su ritmo. Si Martina pedía cada 12 días y lleva 18 sin pedir, Piru la marca «se está yendo», antes de que la pierdas."
+        modulo="incluido"
+      >
+        <RitmoCliente slot="escena" />
+      </Herramienta>
+
+      <!-- El mensaje: la réplica del WhatsApp del local, con la escalera de los tres mensajes. -->
+      <article class:list={['revelar tarjeta flex flex-col overflow-hidden lg:col-span-7 lg:flex-row', TARJETA_CARRUSEL]}>
+        <div class="flex flex-col p-6 sm:p-7 lg:w-[54%] lg:justify-center">
+          <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+            <h3 class="text-[20px] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[21px]">El mensaje listo, desde tu WhatsApp</h3>
+            <span class="rounded-full bg-brand-soft px-2 py-0.5 text-[11.5px] font-semibold text-brand-deep ring-1 ring-brand/20">Con Retención</span>
+          </div>
+          <p class="mt-2 text-[15.5px] leading-relaxed text-ink-2">Piru te muestra a quién escribirle, con el mensaje armado y un link con su pedido de siempre. Lo mandás desde tu número, en el mismo chat.</p>
+          <ol class="mt-5 space-y-2">
+            {ESCALERA.map((e, i) => (
+              <li class="flex items-center gap-3 rounded-2xl bg-paper px-3 py-2 ring-1 ring-line">
+                <span class:list={['grid size-7 shrink-0 place-items-center rounded-lg text-[12.5px] font-bold', i === 0 ? 'bg-ink text-white' : 'bg-sand text-ink-2']}>{i + 1}</span>
+                <span class="min-w-0 flex-1 text-[14px] font-semibold text-ink">{e.titulo}</span>
+                <span class:list={['shrink-0 rounded-full px-2 py-0.5 text-[11.5px] font-bold', i === 0 ? 'bg-sand text-ink-2' : 'bg-emerald-50 text-emerald-700']}>{e.descuento}</span>
+              </li>
+            ))}
+          </ol>
+          <p class="mt-3 hidden text-[13.5px] leading-relaxed text-ink-3 sm:block">Si no vuelve, el siguiente llega días después. Si pide, sale de la lista.</p>
+        </div>
+        <!-- En celular se ve sólo la parte de abajo del chat: el mensaje y la respuesta. -->
+        <div class="escenario relative flex flex-1 justify-center overflow-hidden px-6 pt-12 lg:w-[46%] lg:flex-none lg:items-center lg:py-10">
+          <div class="flex h-[230px] w-[230px] items-end overflow-hidden lg:h-auto lg:w-[84%] lg:overflow-visible lg:drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
+            <div class="w-full shrink-0">
+              <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre}: arriba el pedido que mandó Martina hace tres semanas, abajo el mensaje del local invitándola a volver, en el mismo chat, y su respuesta`}>
+                <Telefono><WhatsAppLocal variante="recompra" /></Telefono>
+              </Escala>
+            </div>
+          </div>
+          <span class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[12.5px] font-semibold text-ink shadow-md ring-1 ring-line"><Icon name="sparkles" class="size-3.5 text-brand" />Lo arma Piru · lo mandás vos</span>
+        </div>
+      </article>
+
+      <Herramienta
+        class={`${TARJETA_CARRUSEL} lg:col-span-5`}
+        titulo="Puntos para que vuelvan"
+        texto="Cada pedido cobrado suma puntos. Tus clientes los canjean por envío gratis, un descuento o un producto: una razón más para pedirte a vos."
+        modulo="retencion"
+        anchoEscena={460}
+      >
+        <ClubPuntos slot="escena" />
+      </Herramienta>
+
+      <Herramienta
+        class={`${TARJETA_CARRUSEL} lg:col-span-12`}
+        horizontal
+        anchoEscena={500}
+        titulo="Llená los días flojos"
+        texto="Piru mira tus últimas semanas y te marca qué días y franjas venden menos. Para ese día, armás un link que vale sólo ese día y sumás a la agenda a los clientes que pueden venir."
+      >
+        <MapaDias slot="escena" />
+        <p class="mt-5 flex items-start gap-3 rounded-2xl bg-brand-soft/70 p-4 text-[14.5px] leading-relaxed text-ink-2">
+          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-white"><Icon name="moon" class="size-4" /></span>
+          <span><b class="font-semibold text-ink">El martes a la noche, {LOCAL.nombre} vende menos de la mitad:</b> {decimal(SEMANA[1].franjas[2])} pedidos contra {decimal(PROMEDIO_FRANJA[2])} de una noche promedio.</span>
+        </p>
+        <p class="mt-3 text-[13.5px] text-ink-3">El análisis y el link del día vienen incluidos; la invitación por WhatsApp es parte de Retención.</p>
+      </Herramienta>
+    </div>
+    <p class={DESLIZA}>Deslizá para ver las cinco<Icon name="arrow-right" class="size-3.5" /></p>
+
+    <div class="revelar mt-10 flex flex-col items-start gap-4 rounded-[24px] bg-white p-6 ring-1 ring-line sm:flex-row sm:items-center sm:p-7">
+      <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name="smartphone" class="size-5" /></span>
+      <p class="flex-1 text-[15px] leading-relaxed text-ink-2">
+        Todo esto lo manejás desde tu app de marketing, en la compu o en el celular. Los links, los cupones, tu base de clientes y el análisis de días flojos vienen incluidos;
+        los mensajes de recompra, el club de puntos y las invitaciones son parte de <b class="font-semibold text-ink">{RETENCION.nombre}</b> (+{pesos(RETENCION.precio)} por mes).
+      </p>
+      <a href={`${APP_MARKETERS}/guia?para=duenio`} target="_blank" rel="noopener" class="boton boton-secundario boton-chico shrink-0">Ver la guía<Icon name="arrow-up-right" class="size-4" /></a>
+    </div>
+  </div>
+</section>

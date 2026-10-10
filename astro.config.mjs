@@ -10,9 +10,9 @@ export default defineConfig({
   image: {
     domains: ['images.piru.app'],
   },
-  // La experiencia del comensal vive dentro de la página para locales (la home es para marketers).
+  // La experiencia del comensal es "Así te pide un cliente", en la home (que es para los locales).
   redirects: {
-    '/experiencia': '/locales#tienda',
+    '/experiencia': '/#pedido',
   },
   vite: {
     plugins: [tailwindcss()],

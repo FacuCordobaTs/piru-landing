@@ -1,0 +1,59 @@
+---
+import Escena from './Escena.astro'
+import Icon from '../ui/Icon.astro'
+import { FRANJAS, PROMEDIO_FRANJA, SEMANA } from '../../data/marketers'
+import { decimal } from '../replicas/marketers/graficos'
+
+/**
+ * El mapa de la semana: pedidos promedio por día y franja, con el hueco más grande marcado (el
+ * martes a la noche, contra el promedio de las noches abiertas). Es la escena MapaDias de la guía
+ * de la app de marketers. Un día abierto por debajo del 70 % del promedio es un día flojo.
+ */
+const MAX = Math.max(...SEMANA.flatMap((d) => d.franjas))
+const X = 58
+const COL = 76
+const GAP = 6
+const Y = 38
+const FILA = 36
+const FLOJO = { fila: 1, columna: 2 }
+const faltan = Math.ceil(PROMEDIO_FRANJA[FLOJO.columna] - SEMANA[FLOJO.fila].franjas[FLOJO.columna])
+const izquierda = X + FLOJO.columna * (COL + GAP)
+const arriba = Y + FLOJO.fila * FILA
+---
+
+<Escena
+  ancho={460}
+  alto={320}
+  etiqueta={`Mapa de la semana: pedidos promedio por día y franja. El lunes está cerrado y el martes a la noche es el hueco más grande: le faltan ${faltan} pedidos para el promedio.`}
+>
+  {FRANJAS.map((f, c) => (
+    <p class="e-aparece absolute text-center text-[11px] font-semibold text-ink-3" style={`left:${X + c * (COL + GAP)}px;width:${COL}px;top:14px`}>{f.nombre}</p>
+  ))}
+  {SEMANA.map((dia, r) => (
+    <>
+      <p class="e-aparece absolute text-[11.5px] font-semibold text-ink-2" style={`left:18px;top:${Y + r * FILA + 7}px`}>{dia.corto}</p>
+      {dia.franjas.map((v, c) => (
+        <span
+          class:list={['e-pop absolute grid h-[30px] place-items-center rounded-lg font-semibold tabular-nums', dia.abierto ? 'text-[11.5px] text-ink' : 'celda-cerrada text-[10px] text-ink-3']}
+          style={`left:${X + c * (COL + GAP)}px;top:${Y + r * FILA}px;width:${COL}px;${dia.abierto ? `background-color:rgba(255,122,0,${(0.09 + (0.65 * v) / MAX).toFixed(3)});` : ''}--d:${120 + (r + c) * 55}ms`}
+        >{dia.abierto ? decimal(v) : 'Cerrado'}</span>
+      ))}
+    </>
+  ))}
+
+  <span class="pointer-events-none absolute rounded-lg ring-2 ring-ink" style={`left:${izquierda}px;top:${arriba}px;width:${COL}px;height:30px`} />
+  <span class="e-latido pointer-events-none absolute rounded-lg" style={`left:${izquierda}px;top:${arriba}px;width:${COL}px;height:30px;--d:1300ms`} />
+  <svg class="absolute inset-0" width="460" height="320" viewBox="0 0 460 320" fill="none" aria-hidden="true">
+    <path d={`M ${izquierda + COL + 3} ${arriba + 15} L 316 ${arriba + 15}`} stroke="#191512" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 4" class="e-aparece" style="--d:1000ms" />
+  </svg>
+
+  <div class="e-derecha e-tarjeta absolute left-[318px] top-[40px] w-[128px] p-3" style="--d:1000ms">
+    <p class="text-[9.5px] font-semibold uppercase tracking-[.08em] text-brand-deep">El más flojo</p>
+    <p class="mt-1 text-[14px] font-bold leading-tight text-ink">Martes · Noche</p>
+    <p class="mt-1.5 text-[11px] leading-snug text-ink-2">Le faltan {faltan} pedidos para el promedio</p>
+    <span class="mt-2.5 flex h-7 items-center justify-center gap-1.5 rounded-full bg-ink text-[11px] font-semibold text-white"><Icon name="send" class="size-[11px]" />Invitar clientes</span>
+    <span class="mt-1.5 flex h-7 items-center justify-center rounded-full text-[11px] font-semibold text-ink ring-1 ring-line">Link del día</span>
+  </div>
+
+  <p class="e-aparece absolute left-[18px] top-[296px] text-[10.5px] text-ink-3" style="--d:1500ms">Pedidos promedio de las últimas 8 semanas · más naranja, más movimiento</p>
+</Escena>
