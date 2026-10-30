@@ -1,41 +1,44 @@
 ---
 import Base from '../layouts/Base.astro'
 import Hero from '../components/secciones/Hero.astro'
-import Locales from '../components/secciones/Locales.astro'
-import Circuito from '../components/secciones/Circuito.astro'
-import ComoFunciona from '../components/secciones/ComoFunciona.astro'
-import Marketing from '../components/secciones/Marketing.astro'
-import TuMarketer from '../components/secciones/TuMarketer.astro'
-import Tienda from '../components/secciones/Tienda.astro'
+import Paginas from '../components/secciones/Paginas.astro'
+import Caminos from '../components/secciones/Caminos.astro'
+import Plantillas from '../components/secciones/Plantillas.astro'
+import Editor from '../components/secciones/Editor.astro'
+import Motor from '../components/secciones/Motor.astro'
+import Modulos from '../components/secciones/Modulos.astro'
 import Panel from '../components/secciones/Panel.astro'
+import Marketing from '../components/secciones/Marketing.astro'
 import Precios from '../components/secciones/Precios.astro'
 import Empezar from '../components/secciones/Empezar.astro'
 import Preguntas from '../components/secciones/Preguntas.astro'
 import CtaFinal from '../components/secciones/CtaFinal.astro'
 
 /**
- * La home le habla al dueño del local: su tienda propia, donde le piden directo y sin comisión, y el
- * marketing para conseguir clientes nuevos y que vuelvan. Primero las dos ideas juntas (portada y
- * circuito), después cada una en detalle y, al final, lo de siempre: precios, cómo empezar y
- * preguntas. Los marketers tienen su página en /marketers; los links que comparten, /locales?ref=…,
- * llegan acá con el código (pages/locales.astro y layouts/Base.astro).
+ * La home le habla al dueño del local y abre con lo principal: la página propia del local, con un
+ * diseño que no es el de todos (docs/ENFOQUE_PAGINAS.md). Primero la página (portada, páginas
+ * publicadas, cómo hacerla, plantillas y editor); después lo que Piru pone debajo (la compra, los
+ * módulos y el panel) y, en segundo plano, los clientes y el marketing. Al final, precios, cómo
+ * empezar y preguntas. Los marketers tienen su página en /marketers; los links que comparten,
+ * /locales?ref=…, llegan acá con el código (pages/locales.astro y layouts/Base.astro).
  */
 ---
 
 <Base
   pagina="locales"
   canonical="/"
-  titulo="Piru · Tu tienda online sin comisiones, y el marketing para que tus clientes vuelvan"
-  descripcion="La tienda online y el marketing de tu local gastronómico. Tus clientes piden directo desde el celular, el pedido te llega a tu WhatsApp y cobrás el 100%. Y Piru te ayuda a conseguir clientes nuevos y a que vuelvan a pedir. Precio fijo, sin comisión por venta."
+  titulo="Piru · La página propia de tu local gastronómico, con pedidos, cobros y todo tu local"
+  descripcion="Piru es la plataforma para vender online de los locales gastronómicos. Diseñá tu página con una plantilla, a tu gusto o con nuestra ayuda, con tu dominio. Debajo ya funcionan la carta, los pedidos a tu WhatsApp, los cobros, el punto de venta, las mesas y tus clientes. Sin comisión por venta."
 >
   <Hero />
-  <Locales />
-  <Circuito />
-  <ComoFunciona />
-  <Marketing />
-  <TuMarketer />
-  <Tienda />
+  <Paginas />
+  <Caminos />
+  <Plantillas />
+  <Editor />
+  <Motor />
+  <Modulos />
   <Panel />
+  <Marketing />
   <Precios />
   <Empezar />
   <Preguntas />

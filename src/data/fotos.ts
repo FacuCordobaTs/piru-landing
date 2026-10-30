@@ -2,7 +2,7 @@ import { getImage } from 'astro:assets'
 
 /**
  * Fotos de los productos que se ven dentro de las réplicas. Son las de la tienda demo de Piru
- * (my.piru.app/prueba, servidas por images.piru.app): en el build Astro las baja, las achica y las
+ * (my.piru.app/prueba) y las de las páginas publicadas de Alfajor y Che Milanesa (images.piru.app): en el build Astro las baja, las achica y las
  * pasa a webp, así que el sitio publicado no depende de que sigan existiendo en el CDN.
  * Si una falla, se usa la URL original y el build sigue.
  *
@@ -22,6 +22,16 @@ const ORIGEN = {
   empCarne: 'https://images.piru.app/3b5e30e4-c72e-4493-a034-c715439e8e71.jpeg',
   empPollo: 'https://images.piru.app/953a2c40-3ef3-44b2-bbd9-cbed93cceee6.jpeg',
   empArabes: 'https://images.piru.app/93cba681-4150-46aa-9d7c-90aa1cd6d8bc.jpeg',
+  // Páginas publicadas (replicas/paginas/): fotos reales de Alfajor con Papas y de Che Milanesa.
+  alfCheese: 'https://images.piru.app/5fe2dade-a659-4759-bc4a-13e4520d01d9.jpeg',
+  alfAmerican: 'https://images.piru.app/8fb9d2e2-e75c-4d6e-b8e5-d1878532ed78.jpeg',
+  alfOnion: 'https://images.piru.app/9ec61bf8-e608-4b08-b598-9847dcf00b21.jpeg',
+  alfRemera: 'https://images.piru.app/a07c1e1d-2e8a-49d8-8b2f-bfac4b25a418.jpeg',
+  alfBuzo: 'https://images.piru.app/e0013cb9-8c10-4999-907c-b56e399f9dd9.jpeg',
+  cheClasico: 'https://images.piru.app/205e6044-cfc7-46bb-9797-c65422a8e927.jpeg',
+  cheNapoli: 'https://images.piru.app/d78b98f5-50f7-4c35-b43c-898f6b10e982.jpeg',
+  cheTurin: 'https://images.piru.app/88ba9f6c-dc0a-4f7b-a834-4fa75890b58e.jpeg',
+  cheSantaFe: 'https://images.piru.app/8876b86a-b6fb-4f5b-8c92-623f97d36cfd.jpeg',
 } as const
 
 export type ClaveFoto = keyof typeof ORIGEN

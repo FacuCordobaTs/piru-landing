@@ -1,0 +1,49 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Páginas de locales dentro de las réplicas (components/replicas/paginas/).
+   Alfajor con Papas: las tipografías de su marca, copiadas de alfajor/public/fonts.
+   Eastman es la versión de prueba: no trae números (tienen marcas "trial"), así que el
+   unicode-range los deja afuera y los dibuja Barlow Condensed, igual que en alfajor/src/index.css.
+   ───────────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Eastman';
+  src: url('/fuentes/Eastman-Condensed-Heavy-trial.otf') format('opentype');
+  font-weight: 800;
+  font-display: swap;
+  unicode-range: U+0000-002F, U+003A-10FFFF;
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  src: url('/fuentes/BarlowCondensed-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fuentes/NeueHaasDisplay-Roman.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Haas Display';
+  src: url('/fuentes/NeueHaasDisplay-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+.pag-alfajor { font-family: 'Neue Haas Display', 'Inter', sans-serif; color: #083821; background: #efeae7; }
+.pag-alfajor .f-alfajor { font-family: 'Eastman', 'Barlow Condensed', sans-serif; font-weight: 800; letter-spacing: -.01em; }
+.pag-alfajor .f-barlow { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; }
+.pag-che { font-family: 'Inter', sans-serif; color: #fff; background: #111; }
+.pag-che .f-che { font-family: 'Alfa Slab One', Georgia, serif; font-weight: 400; }
+
+@keyframes pag-marquesina { to { transform: translateX(-50%); } }
+.pag-marquesina { animation: pag-marquesina 22s linear infinite; }
+
+/* Plantillas de la tienda (web/src/features/tienda/). Los colores son variables para que el
+   selector de Plantillas.astro las pinte con el color de marca que elija la visita. */
+.plantilla { font-family: var(--p-cuerpo); color: var(--p-texto); background: var(--p-fondo); transition: background-color .45s var(--ease-suave), color .45s var(--ease-suave); }
+.plantilla .p-titulo { font-family: var(--p-titulos); }
+.plantilla--elegante { --p-fondo: #f6f1e8; --p-texto: #17130f; --p-superficie: #fdfbf7; --p-acento: #a83d1a; --p-vivo: #ff5a1f; --p-titulos: 'Bricolage Grotesque', sans-serif; --p-cuerpo: 'Bricolage Grotesque', sans-serif; }
+.plantilla--moderna { --p-fondo: #f5f7fa; --p-texto: #171d2b; --p-superficie: #fff; --p-acento: #315cfd; --p-vivo: #315cfd; --p-titulos: 'Unbounded', sans-serif; --p-cuerpo: 'Manrope', sans-serif; }
+.plantilla--artesanal { --p-fondo: #f4ead8; --p-texto: #392a20; --p-superficie: #fffaf1; --p-acento: #a34b34; --p-vivo: #a34b34; --p-titulos: 'Fraunces', Georgia, serif; --p-cuerpo: 'Nunito Sans', sans-serif; }
+.plantilla * { transition: background-color .45s var(--ease-suave), color .45s var(--ease-suave), border-color .45s var(--ease-suave); }

@@ -12,7 +12,13 @@ const { pagina = 'locales' } = Astro.props
 const marketers = pagina === 'marketers'
 const cta = marketers
   ? { href: enlaceWhatsapp(TEXTO_WA_PARTNER), largo: 'Quiero ser partner', corto: 'Sumarme' }
-  : { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Quiero mi tienda', corto: 'Empezar' }
+  : { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Crear mi página', corto: 'Empezar' }
+const SECCIONES = [
+  { href: '/#paginas', texto: 'Páginas' },
+  { href: '/#plantillas', texto: 'Plantillas' },
+  { href: '/#modulos', texto: 'Módulos' },
+  { href: '/#precios', texto: 'Precios' },
+]
 const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] font-medium text-ink-2 transition-colors hover:bg-ink/[.04] hover:text-ink sm:px-3.5'
 ---
 
@@ -31,7 +37,10 @@ const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] fon
           <a href={ENTRAR_MARKETERS} class:list={[enlace, 'hidden md:inline-flex']}>Entrar</a>
         </>
       ) : (
-        <a href="/marketers" class:list={[enlace, 'inline-flex']}><span class="hidden min-[380px]:inline">Para&nbsp;</span>marketers</a>
+        <>
+          {SECCIONES.map((s) => <a href={s.href} class:list={[enlace, 'hidden lg:inline-flex']}>{s.texto}</a>)}
+          <a href="/marketers" class:list={[enlace, 'inline-flex']}><span class="hidden min-[380px]:inline">Para&nbsp;</span>marketers</a>
+        </>
       )}
       <a href={cta.href} target="_blank" rel="noopener" class="boton boton-primario boton-chico">
         <Icon name="message-circle" class="size-[17px]" stroke={2.2} />

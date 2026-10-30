@@ -1,0 +1,72 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Ventana from '../marcos/Ventana.astro'
+import Escena from '../escenas/Escena.astro'
+import EditorPaginas from '../replicas/paginas/EditorPaginas.astro'
+import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
+import type { NombreIcono } from '../ui/lucide'
+
+/**
+ * El editor de Páginas, grande, con avisos que señalan cada parte. En celular la ventana va entera
+ * (achicada) y los avisos pasan a la lista de abajo.
+ */
+const funciones: { icono: NombreIcono; texto: string }[] = [
+  { icono: 'smartphone', texto: 'Vista previa en celular y compu' },
+  { icono: 'refresh-cw', texto: 'Versiones para volver atrás' },
+  { icono: 'lock', texto: 'Tu dominio, con candado' },
+  { icono: 'search', texto: 'Lista para que te encuentren en Google' },
+  { icono: 'layers', texto: 'El código completo, si lo querés' },
+  { icono: 'users', texto: 'Una cuenta para tu diseñador' },
+]
+const avisos: { icono: NombreIcono; titulo: string; texto: string; clase: string; animacion: string; d: number }[] = [
+  { icono: 'pointer', titulo: 'Arrastrá para ordenar', texto: 'Cada sección se suma, se esconde o se mueve.', clase: 'left-0 top-[300px]', animacion: 'e-izquierda', d: 500 },
+  { icono: 'sparkles', titulo: 'Pedilo con tus palabras', texto: 'La IA hace el cambio y lo ves antes de publicar.', clase: 'left-[420px] top-[700px]', animacion: 'e-sube', d: 900 },
+  { icono: 'pencil', titulo: 'Tocás y cambiás', texto: 'Títulos, botones, fotos y video de cada sección.', clase: 'right-0 top-[250px]', animacion: 'e-derecha', d: 1300 },
+  { icono: 'refresh-cw', titulo: 'Nada se pierde', texto: 'Cada publicación queda guardada.', clase: 'right-[160px] top-0', animacion: 'e-baja', d: 1700 },
+]
+---
+
+<section id="editor" class="overflow-hidden bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">El editor</p>
+      <h2 class="titulo-lg mt-4">Cambiás todo, sin tocar código</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Tocás lo que querés cambiar y lo ves al instante en el celular. Cuando te gusta, publicás. Y si sabés programar, no hay techo: la página es tuya, con su código.</p>
+    </div>
+
+    <div class="revelar mt-14 hidden md:block">
+      <Escena ancho={1240} alto={820} etiqueta="El editor de Páginas: las secciones de la página a la izquierda, la vista previa en el celular al centro, las propiedades de la portada a la derecha y una barra para pedirle cambios a la IA">
+        <div class="absolute left-[70px] top-[60px] w-[1100px] overflow-hidden rounded-[18px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_40px_80px_-30px_rgb(40_24_8/.35)]">
+          <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas">
+            <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} /></EditorPaginas></Ventana>
+          </Escala>
+        </div>
+        {avisos.map((a) => (
+          <div class:list={[a.animacion, 'absolute flex w-[250px] items-start gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur', a.clase]} style={`--d:${a.d}ms`}>
+            <span class="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white"><Icon name={a.icono} class="size-4" /></span>
+            <span class="text-[14px] font-semibold leading-snug text-ink">{a.titulo}<span class="block text-[12.5px] font-normal text-ink-3">{a.texto}</span></span>
+          </div>
+        ))}
+      </Escena>
+    </div>
+    <div class="revelar mt-12 md:hidden">
+      <div class="-mx-5 overflow-x-auto px-5 pb-3 sin-barra">
+        <div class="w-[760px] overflow-hidden rounded-[14px] shadow-[0_24px_50px_-24px_rgb(40_24_8/.4)]">
+          <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas">
+            <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} video={false} /></EditorPaginas></Ventana>
+          </Escala>
+        </div>
+      </div>
+      <p class="mt-2 text-center text-[13px] text-ink-3">Deslizá para ver el editor completo →</p>
+    </div>
+
+    <ul class="revelar mx-auto mt-14 flex max-w-4xl flex-wrap justify-center gap-2.5 md:mt-6">
+      {funciones.map((f) => (
+        <li class="flex items-center gap-2 rounded-full bg-white py-2 pl-2 pr-4 text-[14.5px] font-medium text-ink-2 ring-1 ring-line">
+          <span class="grid size-7 place-items-center rounded-full bg-brand-soft text-brand-deep"><Icon name={f.icono} class="size-[15px]" /></span>{f.texto}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

@@ -2,23 +2,30 @@
 import Icon from '../ui/Icon.astro'
 import Escala from '../marcos/Escala.astro'
 import Telefono from '../marcos/Telefono.astro'
+import Ventana from '../marcos/Ventana.astro'
 import Escena from '../escenas/Escena.astro'
-import TiendaMenu from '../replicas/tienda/TiendaMenu.astro'
-import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
-import { enlaceWhatsapp, pesos, PRECIO_BASE, DIAS_PRUEBA } from '../../data/oferta'
-import { CLIENTA, LOCAL, PEDIDO } from '../../data/demo'
+import EditorPaginas from '../replicas/paginas/EditorPaginas.astro'
+import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
+import PaginaChe from '../replicas/paginas/PaginaChe.astro'
+import Plantilla from '../replicas/paginas/Plantilla.astro'
+import { enlaceWhatsapp, pesos, PRECIO_BASE } from '../../data/oferta'
+import { PEDIDO } from '../../data/demo'
 
 /**
- * La portada le habla al local y dice las dos cosas de entrada: una tienda propia donde le piden
- * directo, con el pedido en su WhatsApp y sin comisión, y el marketing para conseguir clientes y que
- * vuelvan. La composición muestra el recorrido del cliente (la tienda → el WhatsApp del local) con
- * tres avisos: por dónde llegó, cuánto se paga de comisión y que el cliente queda en la base.
+ * La portada dice lo principal: la página propia del local, con su diseño. La escena muestra el
+ * editor de Páginas con la página de Alfajor y, al lado, el celular que va pasando por páginas
+ * distintas (dos diseños a medida y dos plantillas) mientras el pedido sigue llegando igual:
+ * el diseño cambia, lo de abajo es siempre Piru. La secuencia la maneja escenas/Escena.astro.
  */
-const checks = ['Te la armamos con tu carta', `${DIAS_PRUEBA} días de prueba`, `Precio fijo: ${pesos(PRECIO_BASE)} por mes`]
-const etiqueta = `Martina arma su pedido en la tienda de ${LOCAL.nombre} desde el celular y el pedido #${PEDIDO.id} le llega escrito al WhatsApp del local, sin comisión. Martina queda guardada en la base de clientes.`
-// Del botón "Ver Pedido" de la tienda al pedido que llega al chat.
-const RUTA = 'M 372 552 C 520 552, 548 330, 684 330'
-const RUTA_MOVIL = 'M 128 330 C 150 380, 200 400, 236 352'
+const checks = ['Plantillas o diseño a medida', 'Con tu dominio', `Sin comisión · ${pesos(PRECIO_BASE)} por mes`]
+const disenos = [
+  { rotulo: 'Diseño a medida', nombre: 'Alfajor con Papas', url: 'alfajorconpapas.com' },
+  { rotulo: 'Plantilla', nombre: 'Moderna', url: 'brasa.piru.app' },
+  { rotulo: 'Diseño a medida', nombre: 'Che Milanesa', url: 'che-milanesa.com' },
+  { rotulo: 'Plantilla', nombre: 'Artesanal', url: 'brasa.piru.app' },
+]
+const etiqueta = 'El editor de Páginas con la página de Alfajor con Papas y, al lado, un celular que muestra páginas de locales con diseños distintos: Alfajor con Papas, la plantilla Moderna, Che Milanesa y la plantilla Artesanal. Los pedidos llegan igual al WhatsApp del local, sin comisión.'
+const RUTA = 'M 752 114 C 790 114, 790 166, 828 176'
 ---
 
 <section class="relative overflow-hidden pt-[128px] sm:pt-[150px]">
@@ -26,21 +33,21 @@ const RUTA_MOVIL = 'M 128 330 C 150 380, 200 400, 236 352'
 
   <div class="contenedor relative text-center">
     <p class="revelar mx-auto inline-flex items-center gap-2.5 rounded-full bg-white/80 px-3.5 py-1.5 text-[13.5px] font-medium text-ink-2 ring-1 ring-line backdrop-blur">
-      <span class="punto-vivo" />Tienda online + marketing para gastronomía
+      <span class="punto-vivo" />La plataforma para vender online en gastronomía
     </p>
-    <h1 class="revelar titulo-xl mx-auto mt-6 max-w-[13ch] sm:max-w-none" style="--retraso:80ms">
-      Vendé sin comisiones.<br /><span class="text-brand">Y hacé que vuelvan.</span>
+    <h1 class="revelar titulo-xl mx-auto mt-6 max-w-[15ch] sm:max-w-none" style="--retraso:80ms">
+      Tu local, con su propia página.<br /><span class="text-brand">Con tu diseño, no el de todos.</span>
     </h1>
-    <p class="revelar bajada mx-auto mt-6 max-w-[42rem]" style="--retraso:160ms">
-      Piru es tu tienda online y tu marketing. Tus clientes piden en un minuto desde el celular y el pedido
-      te llega a tu WhatsApp. Después, Piru te ayuda a conseguir clientes nuevos y a que los de siempre vuelvan a pedir.
+    <p class="revelar bajada mx-auto mt-6 max-w-[44rem]" style="--retraso:160ms">
+      Diseñá la página de tu local con una plantilla, a tu gusto o con nuestra ayuda. Debajo, Piru pone
+      todo lo demás: la carta, los pedidos a tu WhatsApp, los cobros, el salón y tus clientes.
     </p>
     <div class="revelar mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:240ms">
       <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario w-full max-w-xs sm:w-auto">
-        <Icon name="message-circle" class="size-[18px]" stroke={2.2} />Quiero mi tienda
+        <Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear mi página
       </a>
-      <a href="#como-funciona" class="boton boton-secundario w-full max-w-xs sm:w-auto">
-        Ver cómo funciona<Icon name="arrow-down" class="size-4" />
+      <a href="#paginas" class="boton boton-secundario w-full max-w-xs sm:w-auto">
+        Ver páginas hechas con Piru<Icon name="arrow-down" class="size-4" />
       </a>
     </div>
     <!-- Visible sólo si la visita trae el código de un marketer (?ref=): lo completa layouts/Base.astro. -->
@@ -54,72 +61,98 @@ const RUTA_MOVIL = 'M 128 330 C 150 380, 200 400, 236 352'
     </ul>
   </div>
 
-  <!-- El recorrido del cliente: pide en la tienda → le llega al WhatsApp del local. -->
   <div class="revelar contenedor relative mt-12 pb-16 sm:mt-16 sm:pb-24" style="--retraso:200ms">
+    <!-- Escritorio -->
     <div class="mx-auto hidden max-w-[1100px] md:block">
-      <Escena ancho={1100} alto={660} etiqueta={etiqueta}>
-        <div class="absolute left-[140px] top-[24px] w-[300px] -rotate-2 drop-shadow-[0_30px_50px_rgba(40,20,5,0.3)]">
-          <Escala ancho={412} alto={866} etiqueta={`La tienda de ${LOCAL.nombre} en el celular de un cliente`}>
-            <Telefono url="my.piru.app/brasa"><TiendaMenu /></Telefono>
-          </Escala>
-        </div>
-        <div class="absolute left-[660px] top-[24px] w-[300px] rotate-2 drop-shadow-[0_30px_50px_rgba(40,20,5,0.3)]">
-          <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre} con el pedido #${PEDIDO.id}`}>
-            <Telefono><WhatsAppLocal variante="pedido" /></Telefono>
+      <Escena ancho={1100} alto={680} etiqueta={etiqueta} secuencia={3200} fases={4} class="hero-escena">
+        <div class="absolute left-0 top-[56px] w-[760px] overflow-hidden rounded-[16px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_40px_80px_-30px_rgb(40_24_8/.4)]">
+          <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas">
+            <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} /></EditorPaginas></Ventana>
           </Escala>
         </div>
 
-        <svg class="absolute inset-0" width="1100" height="660" viewBox="0 0 1100 660" fill="none" aria-hidden="true">
+        <!-- El celular cambia de página; el rótulo de arriba dice cuál es. -->
+        <div class="absolute left-[808px] top-[52px] h-[44px] w-[292px]">
+          {disenos.map((d, i) => (
+            <p class="hero-diseno absolute inset-0 flex items-center justify-center gap-2 text-[13px]" data-d={i}>
+              <span class:list={['rounded-full px-2.5 py-1 font-semibold', d.rotulo === 'Plantilla' ? 'bg-sand text-ink-2 ring-1 ring-line' : 'bg-brand-soft text-brand-deep ring-1 ring-brand/20']}>{d.rotulo}</span>
+              <span class="font-semibold text-ink">{d.nombre}</span>
+            </p>
+          ))}
+        </div>
+        <div class="absolute left-[808px] top-[100px] w-[292px] rotate-2 drop-shadow-[0_30px_50px_rgba(40,20,5,0.32)]">
+          <div class="relative">
+            {disenos.map((d, i) => (
+              <div class:list={['hero-diseno', i > 0 && 'absolute inset-0']} data-d={i}>
+                <Escala ancho={412} alto={866} etiqueta={`${d.rotulo}: ${d.nombre}`}>
+                  <Telefono url={d.url} tono={i === 2 ? 'oscuro' : 'claro'} tonoNavegador={i === 2 ? 'oscuro' : 'claro'}>
+                    {i === 0 && <PaginaAlfajor />}
+                    {i === 1 && <Plantilla plantilla="moderna" />}
+                    {i === 2 && <PaginaChe />}
+                    {i === 3 && <Plantilla plantilla="artesanal" />}
+                  </Telefono>
+                </Escala>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- De "Publicar" al celular. -->
+        <svg class="absolute inset-0" width="1100" height="680" viewBox="0 0 1100 680" fill="none" aria-hidden="true">
           <path d={RUTA} stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" class="e-hormigas" />
-          <path d="M 672 322 L 686 330 L 672 339" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        <span class="e-viaja absolute left-0 top-0 size-3.5 rounded-full bg-brand shadow-[0_0_0_6px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA}");--t:2.8s;--d:900ms`} />
-        <span class="e-pop absolute left-[468px] top-[262px] flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-3.5 py-2 text-[13px] font-semibold text-white shadow-[0_14px_28px_-12px_rgb(25_21_18/.7)]" style="--d:700ms">
-          <Icon name="receipt" class="size-4 text-brand" />Pedido #{PEDIDO.id} · {pesos(PEDIDO.total)}
-        </span>
+        <span class="e-viaja absolute left-0 top-0 size-3.5 rounded-full bg-brand shadow-[0_0_0_6px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA}");--t:2.4s;--d:900ms`} />
+        <span class="e-pop absolute left-[716px] top-[96px] grid size-9 place-items-center rounded-full bg-ink text-white shadow-lg" style="--d:600ms"><Icon name="mouse-pointer-click" class="size-4" /></span>
 
-        <div class="e-sube absolute left-[0px] top-[96px] flex w-[230px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1100ms">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-rose-500 text-white"><Icon name="sticker" class="size-4" stroke={2.3} /></span>
-          <span class="text-[13px] font-semibold leading-snug text-ink">Llegó por tu historia de Instagram<span class="block text-[12px] font-normal text-ink-3">Cada link, con sus ventas</span></span>
+        <div class="e-sube absolute left-[24px] top-[560px] flex w-[250px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1100ms">
+          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white"><Icon name="globe" class="size-4" /></span>
+          <span class="text-[13px] font-semibold leading-snug text-ink">Publicada en tu dominio<span class="block text-[12px] font-normal text-ink-3">Y si no te gusta, volvés atrás</span></span>
         </div>
-        <div class="e-sube absolute left-[436px] top-[566px] flex w-[228px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1500ms">
+        <div class="e-sube absolute left-[330px] top-[600px] flex w-[268px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1500ms">
+          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-wa text-white"><Icon name="message-circle" class="size-4" /></span>
+          <span class="text-[13px] font-semibold leading-snug text-ink">Pedido #{PEDIDO.id} · {pesos(PEDIDO.total)}<span class="block text-[12px] font-normal text-ink-3">Llega a tu WhatsApp, con cualquier diseño</span></span>
+        </div>
+        <div class="e-sube absolute left-[660px] top-[470px] flex w-[200px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1900ms">
           <span class="grid size-8 shrink-0 place-items-center rounded-full bg-emerald-500 text-white"><Icon name="check" class="size-4" stroke={3} /></span>
-          <span class="text-[13px] font-semibold leading-snug text-ink">Comisión: $0<span class="block text-[12px] font-normal text-ink-3">El 100% de la venta es tuyo</span></span>
-        </div>
-        <div class="e-sube absolute left-[870px] top-[430px] flex w-[230px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1900ms">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white"><Icon name="users" class="size-4" /></span>
-          <span class="text-[13px] font-semibold leading-snug text-ink">{PEDIDO.primerNombre} queda en tu base<span class="block text-[12px] font-normal text-ink-3">Si deja de pedir, Piru te avisa</span></span>
+          <span class="text-[13px] font-semibold leading-snug text-ink">Comisión: $0<span class="block text-[12px] font-normal text-ink-3">El 100% es tuyo</span></span>
         </div>
       </Escena>
     </div>
 
-    <!-- En celular: los dos teléfonos encimados y los avisos más importantes. -->
+    <!-- Celular: la página que cambia y los dos avisos más importantes. -->
     <div class="mx-auto max-w-[420px] md:hidden">
-      <Escena ancho={390} alto={540} etiqueta={etiqueta}>
-        <div class="absolute left-[4px] top-[8px] w-[196px] -rotate-3 drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
-          <Escala ancho={412} alto={866} etiqueta={`La tienda de ${LOCAL.nombre} en el celular de un cliente`}>
-            <Telefono url="my.piru.app/brasa"><TiendaMenu /></Telefono>
-          </Escala>
+      <Escena ancho={390} alto={600} etiqueta={etiqueta} secuencia={3200} fases={4} class="hero-escena">
+        <div class="absolute left-0 right-0 top-0 h-[36px]">
+          {disenos.map((d, i) => (
+            <p class="hero-diseno absolute inset-0 flex items-center justify-center gap-2 text-[13px]" data-d={i}>
+              <span class:list={['rounded-full px-2.5 py-1 font-semibold', d.rotulo === 'Plantilla' ? 'bg-sand text-ink-2 ring-1 ring-line' : 'bg-brand-soft text-brand-deep ring-1 ring-brand/20']}>{d.rotulo}</span>
+              <span class="font-semibold text-ink">{d.nombre}</span>
+            </p>
+          ))}
         </div>
-        <div class="absolute left-[190px] top-[84px] w-[196px] rotate-3 drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
-          <Escala ancho={412} alto={866} etiqueta={`El WhatsApp de ${LOCAL.nombre} con el pedido #${PEDIDO.id}`}>
-            <Telefono><WhatsAppLocal variante="pedido" /></Telefono>
-          </Escala>
+        <div class="absolute left-[78px] top-[46px] w-[234px] drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
+          <div class="relative">
+            {disenos.map((d, i) => (
+              <div class:list={['hero-diseno', i > 0 && 'absolute inset-0']} data-d={i}>
+                <Escala ancho={412} alto={866} etiqueta={`${d.rotulo}: ${d.nombre}`}>
+                  <Telefono url={d.url} tono={i === 2 ? 'oscuro' : 'claro'} tonoNavegador={i === 2 ? 'oscuro' : 'claro'}>
+                    {i === 0 && <PaginaAlfajor video={false} />}
+                    {i === 1 && <Plantilla plantilla="moderna" />}
+                    {i === 2 && <PaginaChe />}
+                    {i === 3 && <Plantilla plantilla="artesanal" />}
+                  </Telefono>
+                </Escala>
+              </div>
+            ))}
+          </div>
         </div>
-        <svg class="absolute inset-0" width="390" height="540" viewBox="0 0 390 540" fill="none" aria-hidden="true">
-          <path d={RUTA_MOVIL} stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" class="e-hormigas" />
-        </svg>
-        <span class="e-viaja absolute left-0 top-0 size-3 rounded-full bg-brand shadow-[0_0_0_5px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA_MOVIL}");--t:2.6s;--d:900ms`} />
-        <span class="e-pop absolute left-[70px] top-[416px] flex items-center gap-1.5 whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-[12.5px] font-semibold text-white shadow-[0_12px_24px_-10px_rgb(25_21_18/.7)]" style="--d:700ms">
-          <Icon name="receipt" class="size-[15px] text-brand" />Pedido #{PEDIDO.id} · {pesos(PEDIDO.total)}
-        </span>
-        <div class="e-sube absolute left-[8px] top-[466px] flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2.5 text-left shadow-lg ring-1 ring-line" style="--d:1300ms">
+        <div class="e-sube absolute left-[6px] top-[440px] flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2.5 text-left shadow-lg ring-1 ring-line" style="--d:1100ms">
+          <span class="grid size-7 shrink-0 place-items-center rounded-full bg-wa text-white"><Icon name="message-circle" class="size-3.5" /></span>
+          <span class="text-[12.5px] font-semibold leading-tight text-ink">Pedido a tu WhatsApp</span>
+        </div>
+        <div class="e-sube absolute right-[6px] top-[520px] flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2.5 text-left shadow-lg ring-1 ring-line" style="--d:1500ms">
           <span class="grid size-7 shrink-0 place-items-center rounded-full bg-emerald-500 text-white"><Icon name="check" class="size-3.5" stroke={3} /></span>
           <span class="text-[12.5px] font-semibold leading-tight text-ink">Comisión: $0</span>
-        </div>
-        <div class="e-sube absolute left-[164px] top-[466px] flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2.5 text-left shadow-lg ring-1 ring-line" style="--d:1700ms">
-          <span class="grid size-7 shrink-0 place-items-center rounded-full bg-brand text-white"><Icon name="users" class="size-3.5" /></span>
-          <span class="text-[12.5px] font-semibold leading-tight text-ink">{CLIENTA.nombre.split(' ')[0]} queda en tu base</span>
         </div>
       </Escena>
     </div>
@@ -132,5 +165,19 @@ const RUTA_MOVIL = 'M 128 330 C 150 380, 200 400, 236 352'
       radial-gradient(60rem 30rem at 50% 62%, rgb(255 122 0 / .13), transparent 70%),
       radial-gradient(circle at 1px 1px, rgb(40 24 8 / .09) 1px, transparent 0) 0 0 / 26px 26px;
     mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+  }
+  /* Una página por fase; sin JS (o con movimiento reducido) queda la de Alfajor. */
+  .hero-diseno {
+    opacity: 0;
+    transform: translateY(10px) scale(.985);
+    transition: opacity .7s var(--ease-suave), transform .7s var(--ease-suave);
+  }
+  :global(.hero-escena[data-fase='0']) .hero-diseno[data-d='0'],
+  :global(.hero-escena[data-fase='1']) .hero-diseno[data-d='1'],
+  :global(.hero-escena[data-fase='2']) .hero-diseno[data-d='2'],
+  :global(.hero-escena[data-fase='3']) .hero-diseno[data-d='3'],
+  :global(.hero-escena:not([data-fase])) .hero-diseno[data-d='0'] {
+    opacity: 1;
+    transform: none;
   }
 </style>

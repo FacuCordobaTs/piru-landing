@@ -1,47 +1,47 @@
 ---
 import Icon from '../ui/Icon.astro'
-import { DIAS_PRUEBA, PRECIO_BASE, RETENCION, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { DIAS_PRUEBA, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
 
 const preguntas = [
   {
-    p: '¿Tengo que dejar las apps de delivery?',
-    r: 'No. Podés seguir en las apps y sumar tu tienda propia. La idea es que tus clientes de siempre te pidan directo: vos cobrás el 100% y ellos quedan en tu base.',
+    p: '¿Necesito saber diseñar o programar?',
+    r: 'No. Elegís una plantilla y la cambiás desde el editor, tocando lo que querés cambiar. Si buscás algo distinto, le pedís el cambio a la IA con tus palabras, o la diseñamos nosotros con vos.',
+  },
+  {
+    p: '¿Me pueden diseñar la página ustedes?',
+    r: 'Sí. Nos contás cómo es tu local, nos pasás tu logo y tus fotos, y la diseñamos a medida con tu marca, como hicimos con Alfajor con Papas. Te la dejamos publicada y después la seguís cambiando vos.',
+  },
+  {
+    p: '¿Puedo usar mi propio dominio?',
+    r: 'Sí: tulocal.com, con su candado de seguridad. Si todavía no tenés uno, tu página vive en tulocal.piru.app y lo conectás cuando quieras.',
+  },
+  {
+    p: '¿Y si cambio algo y no me gusta?',
+    r: 'Antes de publicar la ves en el celular y en la compu. Cada versión publicada queda guardada, así que volvés a la anterior con un clic. Mientras tanto, tus clientes siguen pidiendo.',
   },
   {
     p: '¿Mis clientes tienen que descargar algo o registrarse?',
-    r: 'No. Tu tienda se abre desde el navegador de cualquier celular o computadora. Para pedir sólo ponen su nombre y su celular.',
+    r: 'No. Tu página se abre desde el navegador de cualquier celular o computadora. Para pedir sólo ponen su nombre y su celular.',
   },
   {
     p: '¿Los pedidos me siguen llegando a mi WhatsApp?',
-    r: 'Sí. Cada pedido te llega escrito y completo a tu WhatsApp de siempre, en el chat con tu cliente, y además queda en tu panel con todo el detalle.',
-  },
-  {
-    p: '¿Los mensajes a mis clientes salen de otro número?',
-    r: 'No. Salen de tu WhatsApp, el mismo donde te llegan los pedidos: Piru arma la lista y el mensaje, y vos tocás enviar. No hace falta conectar nada con Meta ni pagar por mensaje.',
-  },
-  {
-    p: '¿Qué viene incluido del marketing?',
-    r: `Los links de campaña, los cupones, tu base de clientes con quién se está yendo y el análisis de días flojos vienen con tu tienda. ${RETENCION.nombre} (${pesos(RETENCION.precio)} por mes) suma los mensajes de recompra de cada día, el club de puntos y las invitaciones de los días flojos.`,
+    r: 'Sí. Cada pedido te llega escrito y completo a tu WhatsApp de siempre, en el chat con tu cliente, y además queda en tu panel con la comanda lista.',
   },
   {
     p: '¿Cómo y cuándo cobro?',
-    r: 'Tus clientes pagan con Mercado Pago (con tu propia cuenta), por transferencia o en efectivo. La plata va directo a tu cuenta: Piru no la toca ni se queda con un porcentaje.',
+    r: 'Tus clientes pagan con Mercado Pago (con tu propia cuenta), por transferencia o en efectivo. La plata va directo a tu cuenta: Piru no la toca ni se queda con un porcentaje. Y el cobro pasa siempre por una página segura, sea cual sea tu diseño.',
   },
   {
-    p: '¿Tengo que cargar el menú yo?',
-    r: 'No. Nos mandás tu carta y te armamos la tienda con tus productos, fotos y precios. Después la editás cuando quieras: cambiar un precio, sumar una foto o pausar un producto lleva segundos.',
+    p: '¿Sirve si tengo salón, o sólo para delivery?',
+    r: 'Para las dos cosas. Tenés punto de venta para el mostrador (que sigue andando sin internet), mesas con app para mozos, comandas impresas, caja por turno, stock y varias sucursales, en el mismo panel que tu página.',
   },
   {
-    p: '¿Necesito una computadora? ¿Y una impresora?',
-    r: 'Piru funciona en la computadora, la tablet o el celular. Para que las comandas salgan solas, instalás la app de Piru para Windows y usás tu impresora térmica de cocina. Y si se corta internet, el punto de venta sigue andando.',
-  },
-  {
-    p: '¿Puedo trabajar con mi marketer?',
-    r: 'Sí. Le das acceso con su código y maneja tus campañas, cupones, clientes, puntos y recompra desde su propia app. No toca tus precios, tus pedidos ni tus cobros, y le sacás el acceso cuando quieras.',
+    p: '¿Tengo que dejar las apps de delivery?',
+    r: 'No. Podés seguir en las apps y sumar tu página propia. La idea es que tus clientes de siempre te pidan directo: vos cobrás el 100% y ellos quedan en tu base.',
   },
   {
     p: '¿Hay contrato o permanencia?',
-    r: `No. Pagás ${pesos(PRECIO_BASE)} mes a mes y los adicionales sólo si los activás. Arrancás con ${DIAS_PRUEBA} días de prueba, y si preferís pagar el año por adelantado tenés descuento.`,
+    r: `No. Pagás ${pesos(PRECIO_BASE)} mes a mes y todos los módulos vienen incluidos; lo único aparte son los avisos automáticos por WhatsApp, que se pagan por mensaje enviado. Arrancás con ${DIAS_PRUEBA} días de prueba, y si preferís pagar el año por adelantado tenés descuento.`,
   },
 ]
 ---

@@ -1,0 +1,99 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { cargarFotos } from '../../../data/fotos'
+
+const FOTOS = await cargarFotos()
+
+/**
+ * Réplica de la página de Alfajor con Papas (alfajorconpapas.com, el clon alfajor/ con
+ * components/marca/MarcaAlfajor.tsx) en un celular: el aviso de horario, el logo, el titular, el
+ * video de la portada, la cinta que corre, las categorías y el primer producto de la carta.
+ * Colores de la marca: verde #083821, naranja #eb623a, crema #f2eee2; el fondo del hero es el
+ * #efeae7 del video. Los precios van como en su página ("$14500").
+ */
+interface Props {
+  /** El video de la portada (en las escenas chicas alcanza con la foto). */
+  video?: boolean
+  /** Muestra el botón flotante del pedido. */
+  carrito?: boolean
+}
+
+const { video = true, carrito = true } = Astro.props
+const cinta = ['REMERA ALFAJOR UNIVERSITY', 'SMASHING HAPPINESS WITH EVERY BURGER', 'BUZO ANTI BURGER', 'SMASHING HAPPINESS WITH EVERY BURGER']
+const categorias = ['TODO', 'ROPA', 'ALFAJORES CON PAPAS', 'ALFAJORES SIN PAPAS']
+---
+
+<div class="pag-alfajor relative h-full w-full overflow-hidden">
+  <p class="flex items-center justify-center gap-1.5 pt-[58px] text-[12px]"><Icon name="clock" class="size-3.5" />Abierto ahora · cerramos a las 23:30</p>
+
+  <div class="flex items-center justify-between px-5 pt-5">
+    <span class="block h-[34px] w-[78px] bg-[#083821] [mask-image:url(/paginas/alfajor-logo.webp)] [mask-position:left_center] [mask-repeat:no-repeat] [mask-size:contain]" aria-hidden="true" />
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-[#083821]/15 bg-[#083821]/5 px-3 py-1.5 text-[11px]">
+      <span class="size-1.5 rounded-full bg-emerald-500" />Abierto
+    </span>
+  </div>
+
+  <p class="f-alfajor px-5 pt-5 text-[58px] leading-[.86]">DOS TAPAS.<br />UN RELLENO.</p>
+
+  <div class="relative mx-auto mt-1 h-[300px] w-[330px]">
+    {video ? (
+      <video class="absolute inset-0 size-full object-contain" autoplay muted loop playsinline preload="metadata" poster="/paginas/hero-alfajor-final.webp">
+        <source src="/paginas/hero-alfajor.webm" type="video/webm" />
+        <source src="/paginas/hero-alfajor.mp4" type="video/mp4" />
+      </video>
+    ) : (
+      <img src="/paginas/hero-alfajor-final.webp" alt="" class="absolute inset-0 size-full object-contain" />
+    )}
+  </div>
+
+  <div class="flex items-center gap-4 px-5">
+    <span class="f-alfajor inline-flex h-12 items-stretch overflow-hidden rounded-lg bg-[#eb623a] text-[15px] text-[#083821] shadow-[0_14px_30px_-14px_rgba(8,56,33,0.6)]">
+      <span class="flex items-center px-4">ELEGÍ TU ALFAJOR</span>
+      <span class="flex w-11 items-center justify-center border-l-2 border-dashed border-[#083821]/35"><Icon name="arrow-down" class="size-4" stroke={2.4} /></span>
+    </span>
+    <span class="f-alfajor inline-flex items-center gap-1.5 text-[13px]"><Icon name="users" class="size-3.5 text-[#eb623a]" /><span class="border-b-2 border-[#eb623a]">Pedir entre varios</span></span>
+  </div>
+
+  <div class="-mx-4 mt-7 -rotate-2 overflow-hidden bg-[#083821] py-2.5 text-[#e8e1d5] shadow-[0_10px_24px_-10px_rgba(0,0,0,0.45)]">
+    <div class="pag-marquesina flex w-max items-center gap-6 whitespace-nowrap">
+      {[...cinta, ...cinta].map((t) => (
+        t.startsWith('SMASHING')
+          ? <span class="f-alfajor w-[72px] text-center text-[8.5px] leading-[1.05]">{t}</span>
+          : <span class="f-alfajor text-[19px]">{t}</span>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-6 flex gap-2 overflow-hidden px-4">
+    {categorias.map((c, i) => (
+      <span class:list={['f-alfajor shrink-0 rounded-full px-3.5 py-2 text-[11px]', i === 0 ? 'bg-[#083821] text-[#f2eee2]' : 'border-2 border-[#083821]/15']}>{c}</span>
+    ))}
+  </div>
+
+  <div class="mt-6 flex items-end justify-between px-5">
+    <p class="flex items-end gap-2">
+      <span class="f-barlow -rotate-6 rounded-md bg-[#eb623a] px-1.5 py-1 text-[17px] leading-none text-[#083821]">02</span>
+      <span class="f-alfajor text-[25px] leading-[.9]">ALFAJORES<br />CON PAPAS</span>
+    </p>
+    <span class="text-[10px] font-bold tracking-[.18em] opacity-70">5 OPCIONES</span>
+  </div>
+
+  <div class="mx-5 mt-4 overflow-hidden rounded-2xl border border-[#083821]/10 bg-[#f2eee2]">
+    <img src={FOTOS.alfCheese.grande} alt="" class="h-[160px] w-full object-cover" />
+    <div class="p-4">
+      <p class="f-alfajor text-[19px]">ALFAJOR CHEESE CON PAPAS</p>
+      <p class="mt-1 text-[12px] leading-snug opacity-75">Pan KALIS, carne, cheddar, acompañado de papas McCain.</p>
+      <p class="mt-3 text-[18px] font-bold">$14500</p>
+    </div>
+  </div>
+
+  {carrito && (
+    <div class="absolute inset-x-0 bottom-[100px] z-40 flex justify-center px-6">
+      <span class="flex h-14 w-full items-center gap-2 rounded-2xl bg-[#083821] pl-5 pr-2 text-[#f2eee2] shadow-[0_18px_40px_-14px_rgba(0,0,0,0.6)]">
+        <Icon name="shopping-bag" class="size-5" />
+        <span class="f-alfajor text-[15px]">VER MI PEDIDO</span>
+        <span class="ml-auto flex h-10 items-center rounded-xl bg-[#eb623a] px-3.5 text-[15px] font-bold tabular-nums text-[#083821]">$29000</span>
+      </span>
+    </div>
+  )}
+</div>

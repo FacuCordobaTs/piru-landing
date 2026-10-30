@@ -1,7 +1,6 @@
 ---
 import Icon from '../ui/Icon.astro'
-import type { NombreIcono } from '../ui/lucide'
-import { DIAS_PRUEBA, INCLUIDO_EN_BASE, PRECIO_BASE, RETENCION, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { DIAS_PRUEBA, INCLUIDO_EN_BASE, PRECIO_BASE, RETENCION, TEXTO_WA_DISENO, enlaceWhatsapp, pesos } from '../../data/oferta'
 
 const comisiones = [20, 25, 30, 35]
 ---
@@ -11,20 +10,20 @@ const comisiones = [20, 25, 30, 35]
     <div class="revelar mx-auto max-w-3xl text-center">
       <p class="antetitulo">Precios</p>
       <h2 class="titulo-lg mt-4">Un precio fijo por mes. Cero comisión por venta.</h2>
-      <p class="bajada mx-auto mt-5 max-w-2xl">Vendas 50 o 1.500 pedidos, pagás lo mismo. Y lo que cobrás va directo a tu cuenta: Piru no toca tu plata.</p>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Tu página, tu panel y todos los módulos por un precio fijo. Vendas 50 o 1.500 pedidos, pagás lo mismo, y lo que cobrás va directo a tu cuenta.</p>
     </div>
 
     <div class="mt-14 grid gap-5 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
       <article class="revelar tarjeta relative overflow-hidden p-7 sm:p-10">
         <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/10 blur-3xl" aria-hidden="true" />
         <p class="text-[15px] font-semibold text-brand-deep">Piru</p>
-        <p class="mt-1 text-[16px] text-ink-2">Todo para vender y atender tu local</p>
+        <p class="mt-1 text-[16px] text-ink-2">Tu página y todo para vender y atender tu local</p>
         <p class="mt-6 flex items-end gap-2">
           <span class="text-[56px] font-bold leading-none tracking-[-0.05em] tabular-nums min-[400px]:text-[64px] sm:text-[76px]">{pesos(PRECIO_BASE)}</span>
           <span class="whitespace-nowrap pb-1.5 text-[17px] text-ink-3">/ mes</span>
         </p>
         <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario"><Icon name="message-circle" class="size-[18px]" stroke={2.2} />Quiero mi tienda</a>
+          <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario"><Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear mi página</a>
           <p class="text-[14px] text-ink-3">{DIAS_PRUEBA} días de prueba · Pagás mes a mes</p>
         </div>
         <div class="my-8 h-px bg-line" />
@@ -38,22 +37,19 @@ const comisiones = [20, 25, 30, 35]
 
       <div class="flex flex-col gap-5">
         <article class="revelar tarjeta flex-1 p-7 sm:p-8" style="--retraso:90ms">
-          <div class="flex items-start justify-between gap-4">
-            <span class="grid size-11 place-items-center rounded-2xl bg-sand text-ink ring-1 ring-line"><Icon name={RETENCION.icono as NombreIcono} class="size-5" /></span>
-            <span class="rounded-full bg-sand px-2.5 py-1 text-[12px] font-semibold text-ink-2 ring-1 ring-line">Opcional</span>
-          </div>
-          <p class="mt-5 text-[19px] font-semibold tracking-tight">{RETENCION.nombre}</p>
-          <p class="mt-1 text-[15px] font-semibold text-brand-deep tabular-nums">+{pesos(RETENCION.precio)} / mes</p>
-          <p class="mt-3 text-[15px] leading-relaxed text-ink-2">{RETENCION.descripcion}</p>
+          <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name="layers" class="size-5" /></span>
+          <p class="mt-5 text-[19px] font-semibold tracking-tight">Todos los módulos, incluidos</p>
+          <p class="mt-3 text-[15px] leading-relaxed text-ink-2">Punto de venta, mesas, stock, repartidores, facturación, campañas, cupones y {RETENCION.nombre}: vienen con tu suscripción y los activás cuando los necesitás.</p>
           <ul class="mt-4 space-y-2.5">
             {RETENCION.incluye.map((item) => (
               <li class="flex gap-2.5 text-[15px] text-ink"><Icon name="check" class="mt-0.5 size-[18px] text-brand" stroke={2.6} />{item}</li>
             ))}
           </ul>
+          <p class="mt-5 rounded-2xl bg-sand px-4 py-3 text-[14px] leading-relaxed text-ink-2"><b class="font-semibold text-ink">Lo único aparte:</b> los avisos automáticos por WhatsApp, que se pagan por mensaje enviado.</p>
         </article>
         <article class="revelar rounded-[28px] bg-ink p-7 text-white/70 sm:p-8" style="--retraso:180ms">
-          <p class="flex items-center gap-2.5 text-[17px] font-semibold tracking-tight text-white"><Icon name="handshake" class="size-5 text-brand" />¿Trabajás con un marketer?</p>
-          <p class="mt-2 text-[15px] leading-relaxed">Lo maneja desde su app, con tu permiso, y tu precio no cambia. <a href="#tu-marketer" class="font-semibold text-white underline-offset-4 hover:underline">Cómo funciona</a></p>
+          <p class="flex items-center gap-2.5 text-[17px] font-semibold tracking-tight text-white"><Icon name="sparkles" class="size-5 text-brand" />¿La querés a medida?</p>
+          <p class="mt-2 text-[15px] leading-relaxed">La diseñamos con tu marca, como la de Alfajor con Papas. El precio depende de lo que necesites: lo charlamos antes de empezar. <a href={enlaceWhatsapp(TEXTO_WA_DISENO)} target="_blank" rel="noopener" class="font-semibold text-white underline-offset-4 hover:underline">Contarnos tu idea</a></p>
         </article>
         <p class="revelar px-2 text-[14px] text-ink-3">¿Preferís pagar el año por adelantado? Tenés descuento.</p>
       </div>
@@ -89,7 +85,7 @@ const comisiones = [20, 25, 30, 35]
 
             <div>
               <div class="flex items-baseline justify-between gap-4">
-                <label for="calc-pase" class="text-[15px] text-white/70">De esos pedidos, cuántos pasan a tu tienda</label>
+                <label for="calc-pase" class="text-[15px] text-white/70">De esos pedidos, cuántos pasan a tu página</label>
                 <output id="calc-pase-valor" class="text-[20px] font-semibold tabular-nums">30%</output>
               </div>
               <input id="calc-pase" type="range" min="10" max="100" step="5" value="30" class="rango mt-3" />
@@ -103,7 +99,7 @@ const comisiones = [20, 25, 30, 35]
             <span id="calc-comision-total" class="text-[22px] font-semibold tabular-nums text-[#FF8A7A]">$900.000</span>
           </div>
           <div class="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
-            <span id="calc-ahorro-texto" class="text-[15px] text-white/70">Te ahorrás si pasa el 30% a tu tienda</span>
+            <span id="calc-ahorro-texto" class="text-[15px] text-white/70">Te ahorrás si pasa el 30% a tu página</span>
             <span id="calc-ahorro" class="text-[22px] font-semibold tabular-nums">$270.000</span>
           </div>
           <div class="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
@@ -193,7 +189,7 @@ const comisiones = [20, 25, 30, 35]
     $('calc-ventas-valor')!.textContent = pesos(v)
     $('calc-pase-valor')!.textContent = `${Math.round(p * 100)}%`
     $('calc-comision-total')!.textContent = pesos(comision)
-    $('calc-ahorro-texto')!.textContent = `Te ahorrás si pasa el ${Math.round(p * 100)}% a tu tienda`
+    $('calc-ahorro-texto')!.textContent = `Te ahorrás si pasa el ${Math.round(p * 100)}% a tu página`
     $('calc-ahorro')!.textContent = pesos(ahorro)
     const resultado = $('calc-resultado')!
     resultado.textContent = `${neto >= 0 ? '+' : '−'}${pesos(Math.abs(neto))}`

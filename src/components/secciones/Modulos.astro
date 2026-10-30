@@ -1,0 +1,86 @@
+---
+import Icon from '../ui/Icon.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { AREAS_MODULOS, MODULOS } from '../../data/oferta'
+import { CARRUSEL, DESLIZA, TARJETA_CARRUSEL } from './carrusel'
+
+/**
+ * Los módulos, como el catálogo de la app: una tarjeta por módulo y filtros por área. Todos vienen
+ * con la suscripción; sólo lo que se paga aparte (`costo`) lleva una etiqueta. Sin JS se ven todos. El catálogo es data/oferta.ts (MODULOS), espejo de la tabla `modulo`.
+ */
+---
+
+<section id="modulos" data-nav-oscuro class="overflow-hidden bg-night py-24 text-white sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo text-brand">Módulos</p>
+      <h2 class="titulo-lg mt-4">Todo tu local, módulo por módulo</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl text-white/70">Del mostrador a la cocina, del salón al reparto. Todos vienen con tu suscripción: activás los que usás, cuando los necesitás.</p>
+    </div>
+
+    <div class="revelar mt-12 flex flex-wrap justify-center gap-2" role="group" aria-label="Filtrar módulos por área" data-filtros>
+      <button type="button" class="filtro activo" data-area="" aria-pressed="true">Todos</button>
+      {AREAS_MODULOS.map((a) => (
+        <button type="button" class="filtro" data-area={a.clave} aria-pressed="false">{a.nombre}</button>
+      ))}
+    </div>
+
+    <ul class:list={[CARRUSEL, 'mt-10 lg:grid-cols-3']} data-modulos>
+      {MODULOS.map((m, i) => (
+        <li class:list={['modulo revelar flex flex-col rounded-[24px] bg-night-2 p-6 ring-1 ring-white/[.08]', TARJETA_CARRUSEL]} data-area={m.area} style={`--retraso:${(i % 3) * 60}ms`}>
+          <div class="flex items-start justify-between gap-3">
+            <span class="grid size-12 place-items-center rounded-2xl bg-white/[.08] text-brand">
+              <Icon name={m.icono as NombreIcono} class="size-[22px]" />
+            </span>
+            {'costo' in m && <span class="rounded-full bg-brand/15 px-2.5 py-1 text-[12px] font-semibold text-[#FFB066] ring-1 ring-brand/30">{m.costo}</span>}
+          </div>
+          <h3 class="mt-5 text-[19px] font-semibold tracking-tight">{m.nombre}</h3>
+          <p class="mt-2 flex-1 text-[15px] leading-relaxed text-white/65">{m.texto}</p>
+          <ul class="mt-5 flex flex-wrap gap-1.5">
+            {m.datos.map((d) => <li class="rounded-full bg-white/[.06] px-2.5 py-1 text-[12.5px] font-medium text-white/75">{d}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+    <p class:list={[DESLIZA, 'text-white/50']}>Deslizá para ver todos<Icon name="arrow-right" class="size-3.5" /></p>
+  </div>
+</section>
+
+<style>
+  .filtro {
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: rgb(255 255 255 / .7);
+    background: rgb(255 255 255 / .06);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08);
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
+  }
+  .filtro:hover { color: #fff; background: rgb(255 255 255 / .1); }
+  .filtro.activo { background: var(--color-brand); color: #fff; box-shadow: none; }
+  .modulo { transition: translate .35s var(--ease-suave), box-shadow .35s var(--ease-suave), opacity .35s var(--ease-suave); }
+  .modulo:hover { translate: 0 -4px; box-shadow: 0 0 0 1px rgb(255 122 0 / .45), 0 22px 40px -20px rgb(255 122 0 / .35); }
+  .modulo.oculto { display: none; }
+</style>
+
+<script>
+  const filtros = [...document.querySelectorAll<HTMLButtonElement>('[data-filtros] .filtro')]
+  const modulos = [...document.querySelectorAll<HTMLElement>('[data-modulos] .modulo')]
+
+  filtros.forEach((f) => f.addEventListener('click', () => {
+    filtros.forEach((x) => {
+      x.classList.toggle('activo', x === f)
+      x.setAttribute('aria-pressed', String(x === f))
+    })
+    modulos.forEach((m) => {
+      m.classList.toggle('oculto', !!f.dataset.area && m.dataset.area !== f.dataset.area)
+      // Las que reaparecen ya están reveladas: no vuelven a esperar el scroll.
+      m.classList.add('visible')
+    })
+    // En celular es un carrusel: vuelve al principio para mostrar el primero del área.
+    document.querySelector('[data-modulos]')?.scrollTo({ left: 0 })
+  }))
+</script>

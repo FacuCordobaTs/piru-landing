@@ -3,14 +3,13 @@ import Icon from '../../ui/Icon.astro'
 import Monograma from './Monograma.astro'
 import NavMovil from './NavMovil.astro'
 import { CARTERA, COMISION_MES_ANTERIOR, comisionDe, TOTALES_CARTERA } from '../../../data/marketers'
-import { COMISION_MARKETER, PRECIO_BASE, pesos } from '../../../data/oferta'
+import { COMISION_MARKETER, pesos } from '../../../data/oferta'
 
 /**
  * App de marketers → Comisiones (docs/MVP_MARKETERS.md §4.5 y §5.3): una comisión por cada factura que
  * paga un local, sobre base + módulos y sin recargas. Los locales en prueba todavía no generan.
  */
 const pagan = CARTERA.filter((l) => l.suscripcionMensual > 0).length
-const plan = (mensual: number) => (mensual > PRECIO_BASE ? 'Base + Retención' : 'Base')
 ---
 
 <div class="relative h-full w-full overflow-hidden bg-paper pt-[54px] text-ink">
@@ -32,7 +31,7 @@ const plan = (mensual: number) => (mensual > PRECIO_BASE ? 'Base + Retención' :
         <Monograma inicial={l.inicial} color={l.color} size={34} />
         <div class="min-w-0 flex-1">
           <p class="truncate text-[14px] font-semibold leading-tight">{l.nombre}</p>
-          <p class="truncate text-[11.5px] text-ink-3">{l.suscripcionMensual > 0 ? `${plan(l.suscripcionMensual)} · ${pesos(l.suscripcionMensual)}` : 'En prueba · todavía no paga'}</p>
+          <p class="truncate text-[11.5px] text-ink-3">{l.suscripcionMensual > 0 ? `Suscripción · ${pesos(l.suscripcionMensual)}` : 'En prueba · todavía no paga'}</p>
         </div>
         <span class:list={['text-[14px] font-bold tabular-nums', l.suscripcionMensual === 0 && 'text-ink-3']}>{l.suscripcionMensual > 0 ? pesos(comisionDe(l)) : '—'}</span>
       </div>

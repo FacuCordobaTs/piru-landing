@@ -1,0 +1,62 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { cargarFotos } from '../../../data/fotos'
+
+const FOTOS = await cargarFotos()
+
+/**
+ * Réplica de la página de Che Milanesa (che-milanesa.com, el clon chemilanesa/) en un celular:
+ * la barra roja de horario, el logo, el titular en Alfa Slab One, el damero amarillo y el club de
+ * puntos con sus canjes. Negro, amarillo #ffb800 y rojo #e8000b, como su página.
+ */
+const canjes = [
+  { foto: FOTOS.cheClasico.chica, nombre: '1 Che Sandwich Clásico + papas', puntos: 900 },
+  { foto: FOTOS.cheTurin.chica, nombre: '1 S Turín con papas', puntos: 900 },
+]
+---
+
+<div class="pag-che relative h-full w-full overflow-hidden">
+  <p class="flex items-center justify-center gap-1.5 bg-[#e8000b] pb-2 pt-[58px] text-[12px] font-semibold"><Icon name="clock" class="size-3.5" />Abierto · hasta las 00:00</p>
+
+  <div class="flex items-center justify-between px-5 pt-4">
+    <img src="/paginas/che-logo.webp" alt="" class="h-[34px] w-auto" />
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-white/20 px-3 py-1.5 text-[11px] font-semibold"><Icon name="package" class="size-3.5" />Mis pedidos</span>
+  </div>
+
+  <div class="px-5 pt-6">
+    <span class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold"><span class="size-1.5 rounded-full bg-emerald-400" />Abierto · cierra a las 00:00</span>
+    <p class="f-che mt-4 text-[42px] uppercase leading-[.95]">Pedí directo.<br /><span class="text-[#ffb800]">Sumá puntos.</span></p>
+    <p class="mt-4 text-[13.5px] leading-relaxed text-white/75">Promos exclusivas de la web todas las semanas y 1 punto cada $100 para canjear por productos.</p>
+    <span class="mt-5 flex h-12 w-fit items-center gap-2 rounded-full bg-[#ffb800] px-5 text-[14px] font-bold text-black">Ver promos de la semana<Icon name="arrow-down" class="size-4" /></span>
+    <span class="mt-3 flex h-12 w-fit items-center gap-2 rounded-full border border-white/25 px-5 text-[14px] font-bold"><Icon name="sparkles" class="size-4 text-[#ffb800]" />Ver mis puntos</span>
+  </div>
+
+  <div class="damero mt-7 h-6" aria-hidden="true" />
+
+  <div class="mx-4 mt-6 rounded-[22px] bg-[#1a1a1a] p-4 ring-1 ring-white/10">
+    <p class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[.16em] text-[#ffb800]"><Icon name="sparkles" class="size-3" />Tus puntos</p>
+    <p class="f-che mt-1 text-[21px]">Sumá con cada pedido</p>
+    <p class="text-[11px] text-white/55">1 punto cada $100</p>
+    <p class="f-che mt-4 text-[15px] uppercase">Canjeá tus puntos</p>
+    <div class="mt-3 flex gap-3">
+      {canjes.map((c) => (
+        <div class="w-[60%] shrink-0 overflow-hidden rounded-2xl bg-white text-black">
+          <div class="relative h-[110px]">
+            <img src={c.foto} alt="" class="size-full object-cover" />
+            <span class="absolute left-2 top-2 rounded bg-[#ffb800] px-1.5 py-0.5 text-[9px] font-bold">CANJE</span>
+          </div>
+          <div class="p-3">
+            <p class="text-[12.5px] font-bold leading-tight">{c.nombre}</p>
+            <span class="mt-2 inline-block rounded-full bg-[#ffb800] px-2.5 py-1 text-[11px] font-bold">{c.puntos} PTS</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .damero {
+    background: repeating-conic-gradient(#ffb800 0 25%, #111 0 50%) 0 0 / 24px 24px;
+  }
+</style>

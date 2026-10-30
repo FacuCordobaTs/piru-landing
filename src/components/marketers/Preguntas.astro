@@ -1,6 +1,6 @@
 ---
 import Icon from '../ui/Icon.astro'
-import { COMISION_MARKETER, DIAS_PRUEBA, PRECIO_BASE, RETENCION, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { COMISION_MARKETER, DIAS_PRUEBA, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
 
 const preguntas = [
   {
@@ -29,7 +29,7 @@ const preguntas = [
   },
   {
     p: '¿Cuánto le cuesta al local?',
-    r: `Un precio fijo de ${pesos(PRECIO_BASE)} por mes, sin comisión por venta. ${RETENCION.nombre} (recompra y club de puntos) es un adicional de ${pesos(RETENCION.precio)}. Le armamos la tienda con su carta y tiene ${DIAS_PRUEBA} días para probarla.`,
+    r: `Un precio fijo de ${pesos(PRECIO_BASE)} por mes, sin comisión por venta. Todos los módulos vienen incluidos, Retención también; sólo los avisos automáticos por WhatsApp se pagan por mensaje enviado. Le armamos la página con su carta y tiene ${DIAS_PRUEBA} días para probarla.`,
   },
 ]
 ---

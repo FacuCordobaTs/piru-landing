@@ -1,0 +1,155 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Plantilla from '../replicas/paginas/Plantilla.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { PLANTILLAS, TIENDA_DEMO } from '../../data/oferta'
+
+/**
+ * Las plantillas, como las primeras de la galería (sin decir que son todas): se elige una y un
+ * color de marca, y el celular las muestra con la carta del local de ejemplo. Al lado, lo que se
+ * puede cambiar de cualquier página.
+ */
+const colores = [
+  { nombre: 'De la plantilla', c: '' },
+  { nombre: 'Bordó', c: '#7A2E3F' },
+  { nombre: 'Verde', c: '#1F6B4A' },
+  { nombre: 'Azul', c: '#1E4FD8' },
+  { nombre: 'Rojo', c: '#C8261B' },
+  { nombre: 'Negro', c: '#1F1B18' },
+]
+
+const funciones: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'sparkles', titulo: 'Tus colores y tus letras', texto: 'Los de tu marca, en cada botón y cada título. También tus tipografías propias.' },
+  { icono: 'camera', titulo: 'Tus fotos y tu video', texto: 'Una foto de portada, un video que se repite o la galería del local.' },
+  { icono: 'layers', titulo: 'Secciones a tu medida', texto: 'Sumás, sacás y ordenás: destacados, carta, historia, puntos, dónde estamos.' },
+  { icono: 'globe', titulo: 'Tu dominio', texto: 'tulocal.com, o tulocal.piru.app mientras tanto.' },
+  { icono: 'smartphone', titulo: 'Pensada para el celular', texto: 'Ahí piden tus clientes. Y en la compu también se ve bien.' },
+  { icono: 'refresh-cw', titulo: 'Cambiás de plantilla cuando quieras', texto: 'Tu carta, tus fotos y tus textos pasan solos a la nueva.' },
+]
+---
+
+<section id="plantillas" class="overflow-hidden py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar max-w-3xl">
+      <p class="antetitulo">Plantillas</p>
+      <h2 class="titulo-lg mt-4">Arrancá con una plantilla y hacela tuya</h2>
+      <p class="bajada mt-5 max-w-2xl">Estas son algunas de las plantillas para empezar. Todas toman tu carta, tus fotos y tus colores, y las podés cambiar hasta que no se parezcan a ninguna otra.</p>
+    </div>
+
+    <div class="mt-14 grid items-center gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20" data-plantillas>
+      <div class="revelar flex flex-col items-center">
+        <div class="flex items-center gap-1 rounded-full bg-white p-1 ring-1 ring-line" role="tablist" aria-label="Plantilla">
+          {PLANTILLAS.map((p, i) => (
+            <button type="button" role="tab" class:list={['pestana-plantilla', i === 0 && 'activa']} aria-selected={i === 0 ? 'true' : 'false'} data-plantilla={p.clave}>{p.nombre}</button>
+          ))}
+        </div>
+
+        <div class="relative mt-8 w-[min(80%,330px)] drop-shadow-[0_34px_50px_rgba(40,20,5,0.3)]">
+          {PLANTILLAS.map((p, i) => (
+            <div class:list={['capa-plantilla', i === 0 ? 'activa' : 'absolute inset-0']} data-capa={p.clave}>
+              <Escala ancho={412} alto={866} etiqueta={`La plantilla ${p.nombre} con la carta de un local de ejemplo`}>
+                <Telefono url="brasa.piru.app"><Plantilla plantilla={p.clave} /></Telefono>
+              </Escala>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 flex flex-col items-center gap-3">
+          {PLANTILLAS.map((p, i) => (
+            <p class:list={['texto-plantilla max-w-sm text-center text-[14.5px] leading-relaxed text-ink-2', i !== 0 && 'hidden']} data-texto={p.clave}>
+              <b class="font-semibold text-ink">{p.para}.</b> {p.texto}
+            </p>
+          ))}
+          <p class="mt-2 text-[14px] font-medium text-ink-3">Probala con el color de tu marca</p>
+          <div class="flex flex-wrap items-center justify-center gap-2.5" role="radiogroup" aria-label="Color de marca">
+            {colores.map((c, i) => (
+              <button
+                type="button"
+                class="muestra"
+                role="radio"
+                aria-checked={i === 0 ? 'true' : 'false'}
+                aria-label={c.nombre}
+                title={c.nombre}
+                data-color={c.c}
+                style={c.c ? `--m:${c.c}` : '--m:conic-gradient(#a83d1a 0 33%, #315cfd 0 66%, #a34b34 0)'}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <ul class="grid gap-x-10 gap-y-9 sm:grid-cols-2">
+          {funciones.map((f, i) => (
+            <li class="revelar" style={`--retraso:${i * 60}ms`}>
+              <span class="grid size-11 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name={f.icono} class="size-5" /></span>
+              <h3 class="mt-4 text-[18px] font-semibold tracking-tight">{f.titulo}</h3>
+              <p class="mt-1.5 text-[15.5px] leading-relaxed text-ink-2">{f.texto}</p>
+            </li>
+          ))}
+        </ul>
+        <a href={TIENDA_DEMO} target="_blank" rel="noopener" class="revelar boton boton-secundario mt-10">
+          Abrir la tienda de demostración<Icon name="arrow-up-right" class="size-4" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pestana-plantilla {
+    height: 40px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--color-ink-2);
+    cursor: pointer;
+    transition: background-color .2s, color .2s;
+  }
+  .pestana-plantilla:hover { color: var(--color-ink); }
+  .pestana-plantilla.activa { background: var(--color-ink); color: #fff; }
+  .capa-plantilla { opacity: 0; transform: scale(.97) rotate(-1deg); transition: opacity .5s var(--ease-suave), transform .5s var(--ease-suave); pointer-events: none; }
+  .capa-plantilla.activa { opacity: 1; transform: none; }
+  .muestra {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: var(--m);
+    box-shadow: 0 0 0 1px rgb(26 18 10 / .12), 0 2px 6px rgb(26 18 10 / .12);
+    cursor: pointer;
+    transition: transform .2s var(--ease-suave), box-shadow .2s;
+  }
+  .muestra:hover { transform: scale(1.08); }
+  .muestra[aria-checked='true'] { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-brand); }
+</style>
+
+<script>
+  const raiz = document.querySelector<HTMLElement>('[data-plantillas]')
+  const pestanas = [...(raiz?.querySelectorAll<HTMLButtonElement>('.pestana-plantilla') ?? [])]
+  const capas = [...(raiz?.querySelectorAll<HTMLElement>('[data-capa]') ?? [])]
+  const textos = [...(raiz?.querySelectorAll<HTMLElement>('[data-texto]') ?? [])]
+  const muestras = [...(raiz?.querySelectorAll<HTMLButtonElement>('.muestra') ?? [])]
+
+  pestanas.forEach((p) => p.addEventListener('click', () => {
+    pestanas.forEach((x) => {
+      x.classList.toggle('activa', x === p)
+      x.setAttribute('aria-selected', String(x === p))
+    })
+    capas.forEach((c) => c.classList.toggle('activa', c.dataset.capa === p.dataset.plantilla))
+    textos.forEach((t) => t.classList.toggle('hidden', t.dataset.texto !== p.dataset.plantilla))
+  }))
+
+  // El color de marca pinta las tres plantillas a la vez (vacío = el de cada plantilla).
+  muestras.forEach((m) => m.addEventListener('click', () => {
+    raiz?.querySelectorAll<HTMLElement>('.plantilla').forEach((pl) => {
+      for (const v of ['--p-acento', '--p-vivo']) {
+        if (m.dataset.color) pl.style.setProperty(v, m.dataset.color)
+        else pl.style.removeProperty(v)
+      }
+    })
+    muestras.forEach((x) => x.setAttribute('aria-checked', String(x === m)))
+  }))
+</script>

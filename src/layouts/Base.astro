@@ -14,8 +14,8 @@ interface Props {
 }
 
 const {
-  titulo = 'Piru · Tienda online sin comisiones y marketing para gastronomía',
-  descripcion = 'La tienda online sin comisiones y el marketing de los locales gastronómicos: pedidos directos a su WhatsApp, su base de clientes y la recompra. Precio fijo, sin comisión por venta.',
+  titulo = 'Piru · La página propia de tu local gastronómico',
+  descripcion = 'La plataforma para vender online de los locales gastronómicos: una página propia con su diseño, y debajo la carta, los pedidos, los cobros, el salón y sus clientes. Precio fijo, sin comisión por venta.',
   canonical = Astro.url.pathname,
   pagina = 'locales',
 } = Astro.props
@@ -54,6 +54,9 @@ const portada = canonical === '/' || canonical === '/marketers'
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet" />
+    <!-- Las de las páginas que se ven en las réplicas: Che Milanesa (Alfa Slab One) y las plantillas
+         (web/src/lib/plantillas.ts). Las de Alfajor están en public/fuentes (styles/paginas.css). -->
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Fraunces:ital,opsz,wght@0,9..144,600..800;1,9..144,500..700&family=Manrope:wght@400..800&family=Nunito+Sans:opsz,wght@6..12,400..800&family=Unbounded:wght@600..800&display=swap" rel="stylesheet" />
 
     <script is:inline>document.documentElement.classList.add('js')</script>
 

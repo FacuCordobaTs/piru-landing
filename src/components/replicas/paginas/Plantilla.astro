@@ -1,0 +1,121 @@
+---
+import Icon from '../../ui/Icon.astro'
+import { cargarFotos } from '../../../data/fotos'
+import { LOCAL, MENU } from '../../../data/demo'
+import { pesos } from '../../../data/oferta'
+
+const FOTOS = await cargarFotos()
+
+/**
+ * Réplica de las plantillas de la tienda (web/src/features/tienda/elegante|moderna|artesanal,
+ * `Portada.tsx` + `Carta.tsx`) en un celular, con la carta del local de ejemplo. Los colores son
+ * variables (styles/paginas.css): Plantillas.astro cambia `--p-acento` con el color de marca.
+ */
+interface Props {
+  plantilla: 'elegante' | 'moderna' | 'artesanal'
+  id?: string
+  class?: string
+}
+
+const { plantilla, id, class: className } = Astro.props
+const [smash, cheese] = MENU[0].productos
+const destacado = { ...smash, final: Math.round(smash.precio * 0.9) }
+const frase = 'Fuego, pan y queso.'
+const bajada = 'Hamburguesas smash y pizzas al horno. Pedí directo y sumá puntos.'
+const direccion = 'San Martín 820, Centro'
+const nombre = LOCAL.nombre
+---
+
+<div id={id} class:list={['plantilla relative h-full w-full overflow-hidden', `plantilla--${plantilla}`, className]}>
+  {plantilla === 'elegante' && (
+    <div class="px-5 pt-[64px]">
+      <p class="p-titulo text-[92px] font-extrabold leading-[.9] tracking-[-0.04em]" style="color:var(--p-acento)">{nombre}</p>
+      <div class="mt-3 h-[5px]" style="background:var(--p-vivo)" />
+      <p class="mt-2 flex items-center gap-2 border-y border-current/80 py-2 text-[10px] font-semibold uppercase tracking-[.16em]">Delivery · Take away<span class="text-[7px]">◆</span>{direccion}</p>
+      <p class="p-titulo mt-7 text-[32px] font-extrabold leading-[1.02] tracking-[-0.03em]">{frase}</p>
+      <p class="mt-3 text-[14px] leading-relaxed opacity-75">{bajada}</p>
+      <div class="mt-5 flex gap-2">
+        <span class="flex h-12 items-center gap-3 rounded-full pl-5 pr-1.5 text-[14px] font-semibold text-white" style="background:var(--p-texto)">Ver la carta<span class="grid size-9 place-items-center rounded-full" style="background:var(--p-vivo)"><Icon name="arrow-down" class="size-4" /></span></span>
+        <span class="flex h-12 items-center gap-1.5 rounded-full border border-current px-4 text-[13px] font-semibold"><Icon name="sparkles" class="size-4" />Mis puntos</span>
+      </div>
+      <div class="relative mt-8 border p-1.5" style="border-color:var(--p-vivo)">
+        <p class="absolute -top-2 left-1/2 -translate-x-1/2 px-3 text-[9px] font-semibold uppercase tracking-[.2em]" style="background:var(--p-fondo)">Recomendado de la casa</p>
+        <div class="border border-current/25 p-3">
+          <div class="relative">
+            <img src={FOTOS[smash.foto!].grande} alt="" class="h-[170px] w-full object-cover" />
+            <span class="absolute right-2 top-2 grid size-11 place-items-center rounded-full text-[12px] font-bold text-white" style="background:var(--p-acento)">-10%</span>
+          </div>
+          <p class="p-titulo mt-3 text-[24px] font-extrabold tracking-[-0.02em]">{destacado.nombre}</p>
+          <p class="mt-2 flex items-center gap-2 text-[13px]"><s class="opacity-50">{pesos(destacado.precio)}</s><b style="color:var(--p-acento)">{pesos(destacado.final)}</b><span class="ml-auto rounded-full px-3 py-1.5 text-[12px] font-semibold text-white" style="background:var(--p-acento)">Lo quiero +</span></p>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {plantilla === 'moderna' && (
+    <div class="px-3 pt-[60px]">
+      <div class="rounded-[28px] px-5 pb-6 pt-5 text-white" style="background:var(--p-acento)">
+        <div class="flex gap-1.5 text-[11px] font-semibold">
+          <span class="rounded-full bg-white/20 px-2.5 py-1">Delivery · Take away</span>
+          <span class="rounded-full bg-white/20 px-2.5 py-1">Centro</span>
+        </div>
+        <p class="p-titulo mt-6 text-[64px] font-extrabold leading-[.95] tracking-[-0.03em]">{nombre}</p>
+        <p class="p-titulo mt-6 text-[22px] font-bold leading-tight tracking-[-0.02em]">{frase}</p>
+        <p class="mt-2 text-[13px] leading-relaxed text-white/85">{bajada}</p>
+        <div class="mt-5 flex gap-2">
+          <span class="flex h-11 items-center gap-3 rounded-full bg-white pl-4 pr-1.5 text-[13px] font-bold" style="color:var(--p-acento)">Ver la carta<span class="grid size-8 place-items-center rounded-full text-white" style="background:var(--p-acento)"><Icon name="arrow-down" class="size-3.5" /></span></span>
+          <span class="flex h-11 items-center gap-1.5 rounded-full border border-white/40 px-3.5 text-[12px] font-semibold"><Icon name="users" class="size-3.5" />Entre varios</span>
+        </div>
+      </div>
+      <div class="relative mx-3 -mt-2 rotate-2 overflow-hidden rounded-[24px] bg-white shadow-[0_24px_40px_-20px_rgb(23_29_43/.5)]">
+        <img src={FOTOS[smash.foto!].grande} alt="" class="h-[150px] w-full object-cover" />
+        <div class="p-4">
+          <p class="flex items-center gap-1 text-[11px] font-semibold" style="color:var(--p-acento)"><Icon name="sparkles" class="size-3" />Nuestro favorito</p>
+          <p class="p-titulo mt-1 text-[20px] font-bold tracking-[-0.02em]">{destacado.nombre}</p>
+          <p class="mt-2 flex items-center gap-2 text-[13px]"><b>{pesos(destacado.final)}</b><s class="opacity-50">{pesos(destacado.precio)}</s><span class="ml-auto rounded-full bg-[#171d2b] px-3 py-1.5 text-[12px] font-semibold text-white">Ver plato ↗</span></p>
+        </div>
+        <span class="absolute right-3 top-3 grid size-14 place-items-center rounded-full text-[14px] font-extrabold text-white" style="background:var(--p-acento)">-10%</span>
+      </div>
+      <div class="-mx-3 mt-6 overflow-hidden py-2.5 text-white" style="background:var(--p-acento)">
+        <p class="pag-marquesina p-titulo flex w-max gap-5 whitespace-nowrap text-[18px] font-extrabold">
+          {[0, 1].map(() => <>PEDÍ ONLINE <span>✦</span> DIRECTO DE LA COCINA <span>✦</span> SIN INTERMEDIARIOS <span>✦</span></>)}
+        </p>
+      </div>
+    </div>
+  )}
+
+  {plantilla === 'artesanal' && (
+    <div>
+      <div class="toldo h-[78px]" aria-hidden="true" />
+      <div class="px-5 pt-4">
+        <p class="text-[12px] font-semibold opacity-80">Delivery · Take away <span style="color:var(--p-acento)">✦</span> {direccion}</p>
+        <p class="p-titulo mt-5 inline-block -rotate-3 px-4 py-1.5 text-[15px] font-semibold italic text-white" style="background:var(--p-acento)">Qué bueno tenerte por acá.</p>
+        <p class="p-titulo mt-2 text-[68px] font-bold leading-[.95] tracking-[-0.02em]" style="color:var(--p-acento)">{nombre}</p>
+        <svg viewBox="0 0 180 14" class="mt-1 h-3 w-40" aria-hidden="true"><path d="M2 8 Q 22 0 44 7 T 88 7 T 132 7 T 178 6" fill="none" stroke="var(--p-acento)" stroke-width="4" stroke-linecap="round" /></svg>
+        <p class="p-titulo mt-4 text-[24px] font-semibold italic">{frase}</p>
+        <p class="mt-2 text-[14px] leading-relaxed opacity-80">{bajada}</p>
+        <span class="mt-5 flex h-12 w-fit items-center gap-3 rounded-[4px] px-6 text-[14px] font-bold text-white shadow-[3px_3px_0_var(--p-texto)]" style="background:var(--p-acento)">Ver la carta<Icon name="arrow-down" class="size-4" /></span>
+        <div class="relative mx-auto mt-8 w-[86%] rotate-2 bg-white p-2.5 pb-8 shadow-[0_16px_30px_-16px_rgb(57_42_32/.6)]">
+          <span class="absolute -top-3 left-1/2 h-6 w-24 -translate-x-1/2 -rotate-3 bg-[#e8c9b8]/80" />
+          <img src={FOTOS[cheese.foto!].grande} alt="" class="h-[170px] w-full object-cover" />
+          <p class="p-titulo absolute bottom-2 left-0 right-0 text-center text-[13px] italic">la de la casa</p>
+        </div>
+        <div class="relative -mt-4 ml-auto w-[78%] -rotate-1 rounded-[4px] border-[6px] border-[#6b4a2e] bg-[#3a2a20] p-4 text-[#f4ead8]">
+          <p class="p-titulo text-[12px] italic opacity-80">Una recomendación para vos</p>
+          <p class="p-titulo mt-1 text-[22px] font-bold leading-tight">{destacado.nombre}</p>
+          <p class="mt-2 flex items-baseline gap-2"><s class="text-[12px] opacity-60">{pesos(destacado.precio)}</s><b class="p-titulo text-[20px]">{pesos(destacado.final)}</b></p>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  /* Toldo a rayas con puntas abajo (la misma máscara de dientes que la comanda). */
+  .toldo {
+    background: repeating-linear-gradient(90deg, var(--p-acento) 0 44px, #fff8ee 44px 88px);
+    box-shadow: inset 0 14px 0 var(--p-acento);
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 0 0 / 44px 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 0 0 / 44px 100%;
+  }
+</style>

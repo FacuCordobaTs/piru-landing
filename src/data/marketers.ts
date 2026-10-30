@@ -1,4 +1,4 @@
-import { COMISION_MARKETER, PRECIO_BASE, RETENCION } from './oferta'
+import { COMISION_MARKETER, PRECIO_BASE } from './oferta'
 
 /**
  * Datos de ejemplo de la app de marketers (marketing.piru.app, docs/MVP_MARKETERS.md §4).
@@ -34,14 +34,13 @@ export interface LocalCartera {
   suscripcionMensual: number
 }
 
-const CON_RETENCION = PRECIO_BASE + RETENCION.precio
 
 export const CARTERA: LocalCartera[] = [
   {
     id: 'brasa', nombre: 'Brasa', rubro: 'Hamburguesas & pizzas', inicial: 'B', color: '#7A2E3F',
     ventas30d: 4218600, ventas30dAnterior: 3512400, pedidos30d: 312, clientesNuevos30d: 46,
     ventasSemanales: [742000, 768500, 801200, 790400, 858300, 912600, 968100, 1031800],
-    diaFlojo: 'Martes', mensajesHoy: 6, estado: 'activa', suscripcionMensual: CON_RETENCION,
+    diaFlojo: 'Martes', mensajesHoy: 6, estado: 'activa', suscripcionMensual: PRECIO_BASE,
   },
   {
     id: 'esquina', nombre: 'La Esquina', rubro: 'Empanadas', inicial: 'E', color: '#8A5A00',
@@ -53,7 +52,7 @@ export const CARTERA: LocalCartera[] = [
     id: 'nonna', nombre: 'Nonna Pasta', rubro: 'Pastas caseras', inicial: 'N', color: '#1F4D3A',
     ventas30d: 2946800, ventas30dAnterior: 2712500, pedidos30d: 198, clientesNuevos30d: 23,
     ventasSemanales: [640000, 655800, 662100, 671900, 688300, 702600, 719400, 735100],
-    diaFlojo: 'Lunes', mensajesHoy: 4, estado: 'activa', suscripcionMensual: CON_RETENCION,
+    diaFlojo: 'Lunes', mensajesHoy: 4, estado: 'activa', suscripcionMensual: PRECIO_BASE,
   },
   {
     id: 'kai', nombre: 'Kai Sushi', rubro: 'Sushi & poke', inicial: 'K', color: '#1E3A5F',
@@ -77,7 +76,7 @@ export const TOTALES_CARTERA = {
 }
 
 /** Lo que ya se cobró: el mes anterior, Kai todavía no estaba. */
-export const COMISION_MES_ANTERIOR = { mes: 'Septiembre', monto: 2 * (CON_RETENCION * COMISION_MARKETER) / 100 }
+export const COMISION_MES_ANTERIOR = { mes: 'Septiembre', monto: 2 * (PRECIO_BASE * COMISION_MARKETER) / 100 }
 
 /** Variación en %: "+20", "−4". */
 export const variacion = (actual: number, anterior: number) => Math.round(((actual - anterior) / anterior) * 100)

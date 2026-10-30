@@ -1,0 +1,109 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Plantilla from '../replicas/paginas/Plantilla.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { TEXTO_WA_DISENO, enlaceWhatsapp } from '../../data/oferta'
+
+/**
+ * Los dos caminos para tener la página: armarla uno mismo (plantilla + editor) o pedírnosla a
+ * medida, como Alfajor. Cada tarjeta lleva su ilustración arriba: las plantillas en abanico, y la
+ * charla por WhatsApp con la que arranca un diseño a medida.
+ */
+const pasosVos: { icono: NombreIcono; texto: string }[] = [
+  { icono: 'layers', texto: 'Elegís una plantilla y cargamos tu carta con vos.' },
+  { icono: 'pencil', texto: 'La cambiás desde el editor: colores, letras, fotos y secciones.' },
+  { icono: 'rocket', texto: 'La mirás en el celular y en la compu, y la publicás.' },
+]
+const pasosNosotros: { icono: NombreIcono; texto: string }[] = [
+  { icono: 'message-circle', texto: 'Nos contás cómo es tu local y cómo te la imaginás.' },
+  { icono: 'sparkles', texto: 'La diseñamos a medida, con tu marca y tus fotos.' },
+  { icono: 'check-check', texto: 'Te la dejamos publicada. Después la seguís cambiando vos.' },
+]
+const abanico = [
+  { plantilla: 'elegante' as const, clase: 'left-[6%] top-[38px] -rotate-[8deg]' },
+  { plantilla: 'artesanal' as const, clase: 'right-[6%] top-[38px] rotate-[8deg]' },
+  { plantilla: 'moderna' as const, clase: 'left-1/2 top-[14px] -translate-x-1/2 z-10' },
+]
+---
+
+<section id="caminos" class="bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Cómo se hace</p>
+      <h2 class="titulo-lg mt-4">Diseñala vos, o la hacemos juntos</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">No hace falta saber diseñar ni programar. Elegís cómo querés arrancar y, en cualquier caso, la carta la cargamos con vos.</p>
+    </div>
+
+    <div class="mt-14 grid gap-5 lg:grid-cols-2">
+      <!-- Por tu cuenta -->
+      <article class="revelar tarjeta flex flex-col overflow-hidden">
+        <div class="escenario relative h-[300px] overflow-hidden" aria-hidden="true">
+          {abanico.map((a) => (
+            <div class:list={['absolute w-[150px] drop-shadow-[0_20px_30px_rgba(40,20,5,0.25)] transition-transform duration-500 sm:w-[170px]', a.clase]}>
+              <Escala ancho={412} alto={866} etiqueta={`Plantilla ${a.plantilla}`}>
+                <Telefono><Plantilla plantilla={a.plantilla} /></Telefono>
+              </Escala>
+            </div>
+          ))}
+        </div>
+        <div class="flex flex-1 flex-col p-7 sm:p-9">
+          <div class="flex items-center gap-3">
+            <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name="pencil" class="size-5" /></span>
+            <h3 class="text-[23px] font-semibold tracking-[-0.02em]">La armás vos</h3>
+          </div>
+          <ol class="mt-6 flex-1 space-y-3">
+            {pasosVos.map((p, i) => (
+              <li class="flex items-center gap-3.5 rounded-2xl bg-paper px-4 py-3 ring-1 ring-line">
+                <span class="grid size-7 shrink-0 place-items-center rounded-lg bg-ink text-[12.5px] font-bold text-white">{i + 1}</span>
+                <span class="text-[15.5px] text-ink">{p.texto}</span>
+              </li>
+            ))}
+          </ol>
+          <a href="#plantillas" class="boton boton-secundario mt-7 self-start">Ver plantillas<Icon name="arrow-down" class="size-4" /></a>
+        </div>
+      </article>
+
+      <!-- Con nosotros -->
+      <article class="revelar flex flex-col overflow-hidden rounded-[28px] bg-ink text-white" style="--retraso:90ms">
+        <div class="relative flex h-[300px] flex-col justify-center gap-3 overflow-hidden bg-white/[.04] px-8" aria-hidden="true">
+          <div class="burbuja-sale w-fit max-w-[78%] px-3.5 py-2.5 text-[14px] text-[#111]">
+            Hola! Quiero que me diseñen la página de mi local. Somos una pizzería de barrio 🍕
+            <span class="mt-1 block text-right text-[11px] text-[#667781]">19:02 ✓✓</span>
+          </div>
+          <div class="burbuja w-fit max-w-[78%] px-3.5 py-2.5 text-[14px] text-[#111]">
+            ¡Buenísimo! Pasame tu logo, unas fotos y tu carta, y contame qué te gusta. En unos días te mostramos una propuesta.
+            <span class="mt-1 block text-right text-[11px] text-[#667781]">19:05</span>
+          </div>
+          <div class="burbuja-sale w-fit max-w-[78%] px-3.5 py-2.5 text-[14px] text-[#111]">
+            Te mando todo ahora 🙌
+            <span class="mt-1 block text-right text-[11px] text-[#667781]">19:06 ✓✓</span>
+          </div>
+        </div>
+        <div class="flex flex-1 flex-col p-7 sm:p-9">
+          <div class="flex items-center gap-3">
+            <span class="grid size-11 place-items-center rounded-2xl bg-brand text-white"><Icon name="sparkles" class="size-5" /></span>
+            <h3 class="text-[23px] font-semibold tracking-[-0.02em]">La diseñamos con vos</h3>
+          </div>
+          <ol class="mt-6 flex-1 space-y-3">
+            {pasosNosotros.map((p, i) => (
+              <li class="flex items-center gap-3.5 rounded-2xl bg-white/[.06] px-4 py-3 ring-1 ring-white/10">
+                <span class="grid size-7 shrink-0 place-items-center rounded-lg bg-brand text-[12.5px] font-bold text-white">{i + 1}</span>
+                <span class="text-[15.5px] text-white/90">{p.texto}</span>
+              </li>
+            ))}
+          </ol>
+          <a href={enlaceWhatsapp(TEXTO_WA_DISENO)} target="_blank" rel="noopener" class="boton boton-primario mt-7 self-start"><Icon name="message-circle" class="size-[18px]" stroke={2.2} />Hablar con nosotros</a>
+        </div>
+      </article>
+    </div>
+
+    <div class="revelar mt-5 flex flex-col items-start gap-4 rounded-[24px] bg-white p-6 ring-1 ring-line sm:flex-row sm:items-center sm:p-7">
+      <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-sand text-ink ring-1 ring-line"><Icon name="users" class="size-5" /></span>
+      <p class="flex-1 text-[15.5px] leading-relaxed text-ink-2">
+        <b class="font-semibold text-ink">¿Trabajás con un diseñador?</b> Puede hacer tu página en Piru con su propia cuenta, sin tus claves. Y si sabe programar, tiene el código completo para llevarla adonde quiera.
+      </p>
+    </div>
+  </div>
+</section>

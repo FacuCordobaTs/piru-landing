@@ -4,20 +4,19 @@ import '../escenas/escenas.css'
 /**
  * Una tarjeta de "Tu marketing": arriba la ilustración (slot `escena`) sobre el escenario arena de
  * las guías, abajo el nombre, una o dos líneas y, si hace falta, algo más (slot por defecto).
- * `horizontal` pone la ilustración a la izquierda en escritorio. `modulo` dice si viene con todos
- * los locales o si es parte de Retención.
+ * `horizontal` pone la ilustración a la izquierda en escritorio. Todas las herramientas vienen con
+ * la suscripción, así que no llevan etiqueta de módulo.
  */
 interface Props {
   titulo: string
   texto: string
-  modulo?: 'incluido' | 'retencion'
   horizontal?: boolean
   /** Ancho máximo de la ilustración, en px. */
   anchoEscena?: number
   class?: string
 }
 
-const { titulo, texto, modulo, horizontal = false, anchoEscena = 480, class: className } = Astro.props
+const { titulo, texto, horizontal = false, anchoEscena = 480, class: className } = Astro.props
 ---
 
 <article class:list={['revelar tarjeta flex flex-col overflow-hidden', horizontal && 'lg:flex-row', className]}>
@@ -27,11 +26,7 @@ const { titulo, texto, modulo, horizontal = false, anchoEscena = 480, class: cla
     </div>
   </div>
   <div class:list={['flex flex-col p-6 sm:p-7', horizontal && 'lg:flex-1 lg:justify-center lg:p-10']}>
-    <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
-      <h3 class="text-[20px] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[21px]">{titulo}</h3>
-      {modulo === 'incluido' && <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[11.5px] font-semibold text-emerald-700 ring-1 ring-emerald-600/15">Incluido</span>}
-      {modulo === 'retencion' && <span class="rounded-full bg-brand-soft px-2 py-0.5 text-[11.5px] font-semibold text-brand-deep ring-1 ring-brand/20">Con Retención</span>}
-    </div>
+    <h3 class="text-[20px] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[21px]">{titulo}</h3>
     <p class="mt-2 text-[15.5px] leading-relaxed text-ink-2">{texto}</p>
     <slot />
   </div>

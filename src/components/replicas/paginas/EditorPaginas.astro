@@ -1,0 +1,136 @@
+---
+import Icon from '../../ui/Icon.astro'
+import Escala from '../../marcos/Escala.astro'
+import Telefono from '../../marcos/Telefono.astro'
+import type { NombreIcono } from '../../ui/lucide'
+
+/**
+ * Réplica del editor de Páginas (pages.piru.app) a 1280 × 762, para ir dentro de una <Ventana>:
+ * arriba la barra con la vista y "Publicar", a la izquierda las secciones y la marca, al centro la
+ * vista previa en el celular (slot) y a la derecha las propiedades de la sección elegida. Es hacia
+ * donde va el editor: hoy Páginas edita preferencias y código (docs/PAGINAS_PROPIAS.md).
+ */
+interface Props {
+  /** Nombre y dominio de la página que se edita. */
+  nombre?: string
+  dominio?: string
+  colores?: string[]
+  tipografia?: string
+  titulo?: string
+  boton?: string
+}
+
+const {
+  nombre = 'Alfajor con Papas',
+  dominio = 'alfajorconpapas.com',
+  colores = ['#083821', '#eb623a', '#f2eee2'],
+  tipografia = 'Eastman Condensed',
+  titulo = 'DOS TAPAS. UN RELLENO.',
+  boton = 'ELEGÍ TU ALFAJOR',
+} = Astro.props
+
+const secciones: { nombre: string; icono: NombreIcono; oculta?: boolean }[] = [
+  { nombre: 'Aviso de horario', icono: 'clock' },
+  { nombre: 'Portada con video', icono: 'video' },
+  { nombre: 'Cinta de novedades', icono: 'sparkles' },
+  { nombre: 'La carta', icono: 'utensils' },
+  { nombre: 'Nuestra historia', icono: 'heart', oculta: true },
+  { nombre: 'Dónde estamos', icono: 'map-pin' },
+]
+const etiqueta = 'text-[11.5px] font-semibold uppercase tracking-[.08em] text-muted-foreground'
+---
+
+<div class="flex h-full flex-col bg-[#F7F4EE] text-foreground">
+  <!-- Barra superior -->
+  <div class="flex h-[60px] shrink-0 items-center gap-4 border-b border-black/[.07] bg-white px-5">
+    <span class="flex items-center gap-2 text-[14px] font-semibold"><span class="grid size-7 place-items-center rounded-lg bg-[#FF7A00] text-white"><Icon name="layers" class="size-4" /></span>Páginas</span>
+    <span class="h-5 w-px bg-black/10" />
+    <span class="text-[14px] font-medium">{nombre}</span>
+    <span class="flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-[12px] font-medium text-emerald-700"><Icon name="lock" class="size-3" />{dominio}</span>
+    <div class="mx-auto flex items-center gap-1 rounded-lg bg-black/[.05] p-1 text-[13px] font-medium">
+      <span class="flex items-center gap-1.5 rounded-md bg-white px-3 py-1.5 shadow-sm"><Icon name="smartphone" class="size-4" />Celular</span>
+      <span class="flex items-center gap-1.5 px-3 py-1.5 text-muted-foreground"><Icon name="monitor" class="size-4" />Compu</span>
+    </div>
+    <span class="flex items-center gap-1.5 text-[13px] text-muted-foreground"><Icon name="check" class="size-4 text-emerald-600" />Guardado</span>
+    <span class="flex items-center gap-1.5 rounded-lg border border-black/10 px-3 py-2 text-[13px] font-medium"><Icon name="refresh-cw" class="size-3.5" />Versiones</span>
+    <span class="ed-publicar flex items-center gap-1.5 rounded-lg bg-[#FF7A00] px-4 py-2 text-[13px] font-semibold text-white"><Icon name="rocket" class="size-4" />Publicar</span>
+  </div>
+
+  <div class="flex min-h-0 flex-1">
+    <!-- Secciones y marca -->
+    <aside class="w-[290px] shrink-0 space-y-6 overflow-hidden border-r border-black/[.07] bg-white p-5">
+      <div class="flex gap-1 text-[13px] font-medium">
+        <span class="rounded-md bg-[#191512] px-3 py-1.5 text-white">Diseño</span>
+        <span class="px-3 py-1.5 text-muted-foreground">Contenido</span>
+        <span class="px-3 py-1.5 text-muted-foreground">Ajustes</span>
+      </div>
+      <div>
+        <p class={etiqueta}>Secciones</p>
+        <ul class="mt-3 space-y-1.5">
+          {secciones.map((s, i) => (
+            <li class:list={['flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13.5px]', i === 1 ? 'bg-[#FFF2E3] font-semibold ring-1 ring-[#FF7A00]/40' : 'bg-black/[.035]']}>
+              <Icon name="ellipsis-vertical" class="size-3.5 text-muted-foreground" />
+              <Icon name={s.icono} class="size-4 text-muted-foreground" />
+              <span class:list={['flex-1', s.oculta && 'text-muted-foreground line-through']}>{s.nombre}</span>
+              <Icon name="eye" class:list={['size-4', s.oculta ? 'text-black/20' : 'text-muted-foreground']} />
+            </li>
+          ))}
+        </ul>
+        <p class="mt-2.5 flex items-center gap-1.5 text-[13px] font-medium text-[#E66E00]"><Icon name="plus" class="size-4" />Sumar sección</p>
+      </div>
+      <div>
+        <p class={etiqueta}>Marca</p>
+        <div class="mt-3 flex items-center gap-2">
+          {colores.map((c) => <span class="size-9 rounded-lg ring-1 ring-black/10" style={`background:${c}`} />)}
+          <span class="grid size-9 place-items-center rounded-lg border border-dashed border-black/20 text-muted-foreground"><Icon name="plus" class="size-4" /></span>
+        </div>
+        <p class="mt-3 flex items-center justify-between rounded-lg border border-black/10 px-3 py-2.5 text-[13px]"><span>Títulos</span><span class="flex items-center gap-1 font-medium">{tipografia}<Icon name="chevron-down" class="size-3.5" /></span></p>
+      </div>
+    </aside>
+
+    <!-- Vista previa -->
+    <div class="relative flex flex-1 flex-col items-center justify-center">
+      <div class="w-[300px]">
+        <Escala ancho={412} alto={866} etiqueta={`Vista previa de la página de ${nombre}`}>
+          <Telefono url={dominio}><slot /></Telefono>
+        </Escala>
+      </div>
+      <!-- Pedirle un cambio a la IA -->
+      <div class="ed-ia absolute bottom-6 left-1/2 flex w-[440px] -translate-x-1/2 items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_14px_34px_-14px_rgb(40_24_8/.4)] ring-1 ring-black/[.06]">
+        <Icon name="sparkles" class="size-5 shrink-0 text-[#FF7A00]" />
+        <span class="ed-ia-texto flex-1 truncate text-[13.5px]">Poné el botón de pedir más grande</span>
+        <span class="grid size-8 place-items-center rounded-lg bg-[#191512] text-white"><Icon name="send" class="size-4" /></span>
+      </div>
+    </div>
+
+    <!-- Propiedades de la sección -->
+    <aside class="w-[290px] shrink-0 space-y-5 overflow-hidden border-l border-black/[.07] bg-white p-5">
+      <p class="flex items-center gap-2 text-[15px] font-semibold"><Icon name="video" class="size-4 text-muted-foreground" />Portada con video</p>
+      <div>
+        <p class={etiqueta}>Título</p>
+        <p class="mt-2 rounded-lg border border-black/10 px-3 py-2.5 text-[13.5px] font-medium">{titulo}</p>
+      </div>
+      <div>
+        <p class={etiqueta}>Video o foto</p>
+        <div class="mt-2 flex items-center gap-3 rounded-lg border border-black/10 p-2">
+          <img src="/paginas/hero-alfajor-final.webp" alt="" class="size-12 rounded-md bg-[#efeae7] object-contain" />
+          <span class="flex-1 text-[13px]">hero-alfajor.mp4<span class="block text-[12px] text-muted-foreground">Se repite, sin sonido</span></span>
+        </div>
+      </div>
+      <div>
+        <p class={etiqueta}>Botón</p>
+        <p class="mt-2 rounded-lg border border-black/10 px-3 py-2.5 text-[13.5px] font-medium">{boton}</p>
+        <p class="mt-2 flex items-center gap-2 text-[13px] text-muted-foreground"><span class="size-5 rounded" style={`background:${colores[1]}`} />Abre la carta</p>
+      </div>
+      <div>
+        <p class={etiqueta}>Animación</p>
+        <div class="mt-2 grid grid-cols-3 gap-1 rounded-lg bg-black/[.05] p-1 text-center text-[12.5px] font-medium">
+          <span class="py-1.5 text-muted-foreground">Ninguna</span>
+          <span class="rounded-md bg-white py-1.5 shadow-sm">Suave</span>
+          <span class="py-1.5 text-muted-foreground">Rebote</span>
+        </div>
+      </div>
+      <p class="flex items-center gap-1.5 rounded-lg bg-black/[.035] px-3 py-2.5 text-[13px] text-muted-foreground"><Icon name="layers" class="size-4" />Editar el código de esta sección</p>
+    </aside>
+  </div>
+</div>

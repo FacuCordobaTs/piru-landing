@@ -1,0 +1,94 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import Escena from '../escenas/Escena.astro'
+import TiendaProducto from '../replicas/tienda/TiendaProducto.astro'
+import TiendaPago from '../replicas/tienda/TiendaPago.astro'
+import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
+import type { NombreIcono } from '../ui/lucide'
+import { pesos } from '../../data/oferta'
+import { LOCAL, PEDIDO } from '../../data/demo'
+
+/**
+ * Lo que Piru pone debajo de cualquier diseño: la compra entera. La escena recorre el pedido de
+ * Martina —arma su hamburguesa, paga y el pedido llega escrito al WhatsApp del local— con los
+ * avisos de lo que pasa en cada paso. Debajo, la lista de lo que viene funcionando.
+ */
+const etiqueta = `Martina arma su hamburguesa en la página de ${LOCAL.nombre}, paga por transferencia y el pedido #${PEDIDO.id} llega escrito al WhatsApp del local.`
+const RUTA_1 = 'M 330 420 C 380 420, 380 300, 432 300'
+const RUTA_2 = 'M 690 300 C 740 300, 740 420, 792 420'
+
+const funciones: { icono: NombreIcono; titulo: string; texto: string }[] = [
+  { icono: 'utensils', titulo: 'Carta con variantes y extras', texto: 'Tamaños, sin cebolla, doble cheddar y una nota para la cocina.' },
+  { icono: 'smartphone', titulo: 'Sin app y sin registro', texto: 'Entran desde el link, ponen su nombre y su celular, y piden.' },
+  { icono: 'bike', titulo: 'Delivery por zonas, o retiro', texto: 'Cada zona con su costo. La dirección se valida en el mapa.' },
+  { icono: 'clock', titulo: 'Horarios y pedidos programados', texto: 'Si estás cerrado, dejan el pedido para cuando abras.' },
+  { icono: 'users', titulo: 'Pedido en grupo', texto: 'Cada uno elige desde su celular y llega una sola comanda.' },
+  { icono: 'wallet', titulo: 'Cobrás con lo que ya usás', texto: 'Mercado Pago con tu cuenta, transferencia o efectivo. La plata va directo a vos.' },
+  { icono: 'shield-check', titulo: 'Un cobro seguro', texto: 'El pago pasa siempre por una página segura de Piru, con cualquier diseño.' },
+  { icono: 'gift', titulo: 'Puntos y canjes', texto: 'Cada pedido suma puntos y se canjean en tu misma página.' },
+]
+---
+
+<section id="debajo" class="overflow-hidden py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="revelar mx-auto max-w-3xl text-center">
+      <p class="antetitulo">Lo que pasa debajo</p>
+      <h2 class="titulo-lg mt-4">Tu diseño arriba. Abajo, todo resuelto.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Se vea como se vea tu página, la compra es de Piru y ya funciona: la carta, el carrito, el cobro y el pedido que te llega escrito. No hay que programar nada.</p>
+    </div>
+
+    <div class="revelar mx-auto mt-14 hidden max-w-[1100px] md:block">
+      <Escena ancho={1100} alto={640} etiqueta={etiqueta}>
+        <div class="absolute left-[60px] top-[40px] w-[270px] -rotate-2 drop-shadow-[0_30px_50px_rgba(40,20,5,0.3)]">
+          <Escala ancho={412} alto={866} etiqueta="Elige su hamburguesa"><Telefono url="brasa.piru.app"><TiendaProducto /></Telefono></Escala>
+        </div>
+        <div class="absolute left-[432px] top-[10px] w-[258px] drop-shadow-[0_30px_50px_rgba(40,20,5,0.3)]">
+          <Escala ancho={412} alto={866} etiqueta="Paga por transferencia"><Telefono url="brasa.piru.app"><TiendaPago /></Telefono></Escala>
+        </div>
+        <div class="absolute left-[792px] top-[40px] w-[270px] rotate-2 drop-shadow-[0_30px_50px_rgba(40,20,5,0.3)]">
+          <Escala ancho={412} alto={866} etiqueta={`El pedido #${PEDIDO.id} en el WhatsApp del local`}><Telefono><WhatsAppLocal variante="pedido" /></Telefono></Escala>
+        </div>
+
+        <svg class="absolute inset-0" width="1100" height="640" viewBox="0 0 1100 640" fill="none" aria-hidden="true">
+          <path d={RUTA_1} stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" class="e-hormigas" />
+          <path d={RUTA_2} stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" class="e-hormigas" />
+        </svg>
+        <span class="e-viaja absolute left-0 top-0 size-3.5 rounded-full bg-brand shadow-[0_0_0_6px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA_1}");--t:2.6s;--d:600ms`} />
+        <span class="e-viaja absolute left-0 top-0 size-3.5 rounded-full bg-brand shadow-[0_0_0_6px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA_2}");--t:2.6s;--d:1900ms`} />
+
+        <span class="e-pop absolute left-[96px] top-[588px] flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-3.5 py-2 text-[13px] font-semibold text-white shadow-[0_14px_28px_-12px_rgb(25_21_18/.7)]" style="--d:700ms">
+          <Icon name="utensils" class="size-4 text-brand" />1. Elige en tu página
+        </span>
+        <span class="e-pop absolute left-[470px] top-[570px] flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-3.5 py-2 text-[13px] font-semibold text-white shadow-[0_14px_28px_-12px_rgb(25_21_18/.7)]" style="--d:1300ms">
+          <Icon name="wallet" class="size-4 text-brand" />2. Paga como quiera
+        </span>
+        <span class="e-pop absolute left-[808px] top-[588px] flex items-center gap-2 whitespace-nowrap rounded-full bg-ink px-3.5 py-2 text-[13px] font-semibold text-white shadow-[0_14px_28px_-12px_rgb(25_21_18/.7)]" style="--d:1900ms">
+          <Icon name="receipt" class="size-4 text-brand" />3. #{PEDIDO.id} · {pesos(PEDIDO.total)} a tu WhatsApp
+        </span>
+      </Escena>
+    </div>
+
+    <div class="revelar mx-auto mt-12 grid max-w-[460px] grid-cols-2 gap-4 md:hidden">
+      <div class="-rotate-2 drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
+        <Escala ancho={412} alto={866} etiqueta="Elige su hamburguesa"><Telefono url="brasa.piru.app"><TiendaProducto /></Telefono></Escala>
+        <p class="mt-3 text-center text-[13px] font-semibold text-ink">Elige en tu página</p>
+      </div>
+      <div class="mt-10 rotate-2 drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
+        <Escala ancho={412} alto={866} etiqueta={`El pedido #${PEDIDO.id} en el WhatsApp del local`}><Telefono><WhatsAppLocal variante="pedido" /></Telefono></Escala>
+        <p class="mt-3 text-center text-[13px] font-semibold text-ink">Te llega a tu WhatsApp</p>
+      </div>
+    </div>
+
+    <ul class="mt-16 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
+      {funciones.map((f, i) => (
+        <li class="revelar" style={`--retraso:${(i % 4) * 60}ms`}>
+          <span class="grid size-11 place-items-center rounded-2xl bg-white text-brand ring-1 ring-line"><Icon name={f.icono} class="size-5" /></span>
+          <h3 class="mt-4 text-[17.5px] font-semibold tracking-tight">{f.titulo}</h3>
+          <p class="mt-1.5 text-[15px] leading-relaxed text-ink-2">{f.texto}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

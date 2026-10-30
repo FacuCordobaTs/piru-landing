@@ -8,8 +8,8 @@ import { DIAS_PRUEBA, enlaceWhatsapp } from '../../data/oferta'
 
 const pasos: { icono: NombreIcono; titulo: string; texto: string }[] = [
   { icono: 'message-circle', titulo: 'Nos escribís por WhatsApp', texto: 'Nos mandás tu carta como la tengas: una foto, un PDF o la pizarra del local.' },
-  { icono: 'store', titulo: 'Armamos tu tienda', texto: 'Cargamos tus productos, fotos, precios y zonas de envío. Sin costo.' },
-  { icono: 'rocket', titulo: 'Te llega el link y arrancás', texto: `Reclamás tu tienda, conectás tus cobros y hacés un pedido de prueba. Tenés ${DIAS_PRUEBA} días para probarla antes de pagar.` },
+  { icono: 'sparkles', titulo: 'Armamos tu página', texto: 'Cargamos tus productos, fotos, precios y zonas de envío. Elegís una plantilla, o la diseñamos a medida.' },
+  { icono: 'rocket', titulo: 'La publicás y arrancás', texto: `Conectás tus cobros, hacés un pedido de prueba y compartís el link. Tenés ${DIAS_PRUEBA} días para probarla antes de pagar.` },
 ]
 ---
 
@@ -19,7 +19,7 @@ const pasos: { icono: NombreIcono; titulo: string; texto: string }[] = [
       <div class="revelar">
         <p class="antetitulo">Cómo empezar</p>
         <h2 class="titulo-lg mt-4">Te la dejamos andando. Vos mandás tu carta.</h2>
-        <p class="bajada mt-5 max-w-xl">No tenés que cargar nada ni aprender un sistema de golpe. Arrancás con la tienda y, desde el primer pedido, tu base de clientes empieza a crecer sola.</p>
+        <p class="bajada mt-5 max-w-xl">No tenés que cargar nada ni aprender un sistema de golpe. Arrancás con tu página y, desde el primer pedido, todo lo demás empieza a funcionar solo.</p>
       </div>
 
       <ol class="mt-10 space-y-4">
@@ -40,10 +40,10 @@ const pasos: { icono: NombreIcono; titulo: string; texto: string }[] = [
       <div class="revelar mt-8 flex flex-col gap-5 rounded-[24px] bg-ink p-6 text-white sm:flex-row sm:items-center sm:p-7">
         <span class="grid size-14 shrink-0 place-items-center rounded-full bg-brand text-[18px] font-bold">FC</span>
         <div class="min-w-0 flex-1">
-          <p class="text-[16px] leading-relaxed text-white/80">“Te armo la tienda personalmente y te acompaño en el cambio, para que tu equipo no sienta el golpe.”</p>
+          <p class="text-[16px] leading-relaxed text-white/80">“Te armo la página personalmente y te acompaño en el cambio, para que tu equipo no sienta el golpe.”</p>
           <p class="mt-2 text-[14px] font-semibold">Facundo Córdoba <span class="font-normal text-white/50">· creador de Piru</span></p>
         </div>
-        <a href={enlaceWhatsapp('Hola Facundo! Quiero que me armes la tienda de mi local en Piru.')} target="_blank" rel="noopener" class="boton boton-primario shrink-0">Hablar con Facundo</a>
+        <a href={enlaceWhatsapp('Hola Facundo! Quiero que me armes la página de mi local en Piru.')} target="_blank" rel="noopener" class="boton boton-primario shrink-0">Hablar con Facundo</a>
       </div>
     </div>
 
