@@ -1,18 +1,9 @@
 ---
 import Logo from './ui/Logo.astro'
 import Icon from './ui/Icon.astro'
-import { ENTRAR_MARKETERS, TEXTO_WA_LOCAL, TEXTO_WA_PARTNER, enlaceWhatsapp } from '../data/oferta'
+import { TEXTO_WA_LOCAL, enlaceWhatsapp } from '../data/oferta'
 
-interface Props {
-  /** La home le habla a los locales; /marketers, a los marketers. */
-  pagina?: 'locales' | 'marketers'
-}
-
-const { pagina = 'locales' } = Astro.props
-const marketers = pagina === 'marketers'
-const cta = marketers
-  ? { href: enlaceWhatsapp(TEXTO_WA_PARTNER), largo: 'Quiero ser partner', corto: 'Sumarme' }
-  : { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Crear mi página', corto: 'Empezar' }
+const cta = { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Crear mi página', corto: 'Empezar' }
 const SECCIONES = [
   { href: '/#paginas', texto: 'Páginas' },
   { href: '/#plantillas', texto: 'Plantillas' },
@@ -24,24 +15,13 @@ const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] fon
 
 <header id="nav" class="nav fixed inset-x-0 top-0 z-50">
   <nav class="contenedor flex h-[68px] items-center justify-between gap-3" aria-label="Principal">
-    <a href={marketers ? '/marketers' : '/'} class="flex items-center gap-2.5 rounded-xl" aria-label={marketers ? 'Piru para marketers, inicio' : 'Piru, inicio'}>
+    <a href="/" class="flex items-center gap-2.5 rounded-xl" aria-label="Piru, inicio">
       <Logo size={32} />
       <span class="nav-marca text-[21px] font-bold tracking-[-0.04em] text-ink transition-colors">Piru</span>
-      {marketers && <span class="nav-insignia hidden rounded-full bg-brand-soft px-2 py-0.5 text-[11px] font-semibold text-brand-deep min-[420px]:inline">marketers</span>}
     </a>
 
     <div class="flex items-center gap-1 sm:gap-2">
-      {marketers ? (
-        <>
-          <a href="/" class:list={[enlace, 'inline-flex']}><span class="hidden min-[380px]:inline">Para&nbsp;</span>locales</a>
-          <a href={ENTRAR_MARKETERS} class:list={[enlace, 'hidden md:inline-flex']}>Entrar</a>
-        </>
-      ) : (
-        <>
-          {SECCIONES.map((s) => <a href={s.href} class:list={[enlace, 'hidden lg:inline-flex']}>{s.texto}</a>)}
-          <a href="/marketers" class:list={[enlace, 'inline-flex']}><span class="hidden min-[380px]:inline">Para&nbsp;</span>marketers</a>
-        </>
-      )}
+      {SECCIONES.map((s) => <a href={s.href} class:list={[enlace, 'hidden lg:inline-flex']}>{s.texto}</a>)}
       <a href={cta.href} target="_blank" rel="noopener" class="boton boton-primario boton-chico">
         <Icon name="message-circle" class="size-[17px]" stroke={2.2} />
         <span class="hidden min-[440px]:inline">{cta.largo}</span>

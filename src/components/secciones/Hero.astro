@@ -50,10 +50,6 @@ const RUTA = 'M 752 114 C 790 114, 790 166, 828 176'
         Ver páginas hechas con Piru<Icon name="arrow-down" class="size-4" />
       </a>
     </div>
-    <!-- Visible sólo si la visita trae el código de un marketer (?ref=): lo completa layouts/Base.astro. -->
-    <p data-ref hidden class="revelar mx-auto mt-5 flex w-fit items-center gap-2 rounded-full bg-brand-soft px-3.5 py-1.5 text-[13.5px] font-medium text-brand-deep ring-1 ring-brand/20" style="--retraso:280ms">
-      <Icon name="handshake" class="size-4" />Te recomendó tu marketer · código <b data-ref-codigo class="font-bold"></b>
-    </p>
     <ul class="revelar mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[14px] text-ink-2" style="--retraso:320ms">
       {checks.map((c) => (
         <li class="flex items-center gap-1.5"><Icon name="circle-check" class="size-4 text-brand" stroke={2.2} />{c}</li>

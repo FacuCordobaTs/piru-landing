@@ -7,23 +7,20 @@ import { PRECIO_BASE } from '../data/oferta'
 interface Props {
   titulo?: string
   descripcion?: string
-  /** Ruta canónica; los datos estructurados del producto van sólo en las dos portadas. */
+  /** Ruta canónica; los datos estructurados del producto van sólo en la portada. */
   canonical?: string
-  /** A quién le habla la página: cambia el menú (la home es para los locales). */
-  pagina?: 'locales' | 'marketers'
 }
 
 const {
   titulo = 'Piru · La página propia de tu local gastronómico',
   descripcion = 'La plataforma para vender online de los locales gastronómicos: una página propia con su diseño, y debajo la carta, los pedidos, los cobros, el salón y sus clientes. Precio fijo, sin comisión por venta.',
   canonical = Astro.url.pathname,
-  pagina = 'locales',
 } = Astro.props
 
 const sitio = Astro.site?.toString().replace(/\/$/, '') ?? 'https://piru.app'
 const url = `${sitio}${canonical}`
 const imagen = `${sitio}/logopiru.jpeg`
-const portada = canonical === '/' || canonical === '/marketers'
+const portada = canonical === '/'
 ---
 
 <!doctype html>
@@ -78,7 +75,7 @@ const portada = canonical === '/' || canonical === '/marketers'
   </head>
   <body>
     <a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Saltar al contenido</a>
-    <Nav pagina={pagina} />
+    <Nav />
     <main id="contenido">
       <slot />
     </main>
@@ -111,33 +108,6 @@ const portada = canonical === '/' || canonical === '/marketers'
           }
         })
         document.querySelectorAll<HTMLElement>('.escala').forEach((el) => ro.observe(el))
-      }
-
-      // Código de marketer: un link como piru.app/?ref=AGUS (o el viejo /locales?ref=AGUS, que
-      // redirige acá con la consulta) deja el código en este navegador y lo suma al mensaje de
-      // los links a nuestro WhatsApp, para que la consulta del local nos llegue a nombre de su
-      // marketer (docs/MVP_MARKETERS.md §7).
-      const CLAVE_REF = 'piru-ref'
-      const valido = (c: string) => /^[A-Z0-9_-]{2,32}$/.test(c)
-      let codigo = (new URLSearchParams(location.search).get('ref') ?? '').trim().toUpperCase()
-      try {
-        if (valido(codigo)) localStorage.setItem(CLAVE_REF, codigo)
-        else codigo = (localStorage.getItem(CLAVE_REF) ?? '').toUpperCase()
-      } catch {
-        // Sin almacenamiento (modo privado, cookies bloqueadas): vale sólo para esta visita.
-      }
-      if (valido(codigo)) {
-        const firma = `Vengo de parte de ${codigo}.`
-        document.querySelectorAll<HTMLAnchorElement>('a[href^="https://wa.me/"]').forEach((a) => {
-          const destino = new URL(a.href)
-          const texto = destino.searchParams.get('text') ?? ''
-          if (texto.includes(firma)) return
-          a.href = `${destino.origin}${destino.pathname}?text=${encodeURIComponent(texto ? `${texto}\n\n${firma}` : firma)}`
-        })
-        document.querySelectorAll<HTMLElement>('[data-ref]').forEach((el) => {
-          el.querySelectorAll('[data-ref-codigo]').forEach((c) => { c.textContent = codigo })
-          el.hidden = false
-        })
       }
     </script>
   </body>

@@ -1,6 +1,5 @@
 /**
- * Gráficos chicos de la app de marketers, en SVG propio (docs/MVP_MARKETERS.md §4.2: sparklines y
- * barras no justifican una dependencia). Funciones puras: se calculan en el build.
+ * Gráficos chicos de la landing, en SVG propio (sparklines y barras no justifican una dependencia). Funciones puras: se calculan en el build.
  */
 
 export interface Sparkline {

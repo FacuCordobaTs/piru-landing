@@ -1,7 +1,6 @@
 /**
  * Grillas de tarjetas que en celular y tablet son un carrusel deslizable (para no alargar la página)
- * y en escritorio una grilla. Las usan "Tu marketing" (Marketing.astro) y "El sistema" de
- * /marketers (marketers/Sistema.astro). Las columnas de escritorio las pone cada sección.
+ * y en escritorio una grilla. Las usa "Tu marketing" (Marketing.astro). Las columnas de escritorio las pone cada sección.
  */
 export const CARRUSEL =
   'sin-barra -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:grid lg:snap-none lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0'

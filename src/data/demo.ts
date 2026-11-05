@@ -150,7 +150,7 @@ export interface MensajeManual {
 
 /**
  * El 1º mensaje de recompra de un cliente en riesgo, como sale en modo manual: desde el WhatsApp del
- * local y con el link pegado al texto, sin botón de plantilla (docs/MVP_MARKETERS.md §1). El link es
+ * local y con el link pegado al texto, sin botón de plantilla (docs/CUSTOMERS_AND_GROWTH.md, "WhatsApp del local primero"). El link es
  * el de `lo-mismo`: su pedido de siempre, armado y sin descuento.
  */
 export const MENSAJE_RECOMPRA: MensajeManual = {

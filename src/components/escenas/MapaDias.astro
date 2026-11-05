@@ -1,13 +1,13 @@
 ---
 import Escena from './Escena.astro'
 import Icon from '../ui/Icon.astro'
-import { FRANJAS, PROMEDIO_FRANJA, SEMANA } from '../../data/marketers'
-import { decimal } from '../replicas/marketers/graficos'
+import { FRANJAS, PROMEDIO_FRANJA, SEMANA } from '../../data/marketing'
+import { decimal } from '../replicas/graficos'
 
 /**
  * El mapa de la semana: pedidos promedio por día y franja, con el hueco más grande marcado (el
  * martes a la noche, contra el promedio de las noches abiertas). Es la escena MapaDias de la guía
- * de la app de marketers. Un día abierto por debajo del 70 % del promedio es un día flojo.
+ * de Marketing del panel. Un día abierto por debajo del 70 % del promedio es un día flojo.
  */
 const MAX = Math.max(...SEMANA.flatMap((d) => d.franjas))
 const X = 58

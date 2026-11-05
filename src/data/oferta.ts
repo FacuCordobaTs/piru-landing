@@ -19,31 +19,19 @@ export const WHATSAPP_VISIBLE = '+54 9 3408 68-1915'
 export const INSTAGRAM = 'https://www.instagram.com/piru.app'
 export const TIENDA_DEMO = 'https://my.piru.app/prueba'
 
-/** La app de los marketers (docs/MVP_MARKETERS.md §4). */
-export const APP_MARKETERS = 'https://marketing.piru.app'
-export const ENTRAR_MARKETERS = `${APP_MARKETERS}/login`
+/** La guía del panel, pública: la sección de clientes y marketing. */
+export const GUIA_MARKETING = 'https://admin.piru.app/guia#clientes'
 
 export const TEXTO_WA_LOCAL = 'Hola! Quiero la página de mi local en Piru.'
 export const TEXTO_WA_DISENO = 'Hola! Quiero que me diseñen la página de mi local.'
-export const TEXTO_WA_PARTNER = 'Hola! Soy marketer y quiero sumar a mis clientes a Piru.'
 
-/**
- * Link a nuestro WhatsApp con el texto ya escrito. Si la visita trae un código de marketer
- * (`?ref=`), el script de `layouts/Base.astro` le suma "Vengo de parte de …" a estos links.
- */
+/** Link a nuestro WhatsApp con el texto ya escrito. */
 export function enlaceWhatsapp(texto = TEXTO_WA_LOCAL) {
   return `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`
 }
 
 export const PRECIO_BASE = 40000
 export const DIAS_PRUEBA = 5
-
-/**
- * Porcentaje de la suscripción de cada local que cobra su marketer, todos los meses, mientras el
- * local le dé acceso. Espejo del default de `marketer.comision_porcentaje` (migración
- * `add_marketers.sql`). Es una decisión abierta (docs/MVP_MARKETERS.md §14): si cambia, cambiala acá.
- */
-export const COMISION_MARKETER = 20
 
 /** Retención (`motor_recompra`): en la landing viene con la suscripción, sin costo aparte. */
 export const RETENCION = {

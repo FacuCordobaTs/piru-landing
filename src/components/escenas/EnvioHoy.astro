@@ -5,19 +5,12 @@ import { CLIENTA, LOCAL, MENSAJE_RECOMPRA, PEDIDO } from '../../data/demo'
 
 /**
  * Hoy, mensaje por mensaje: se abre el WhatsApp del local con el texto listo, se manda ahí y se
- * marca enviado en la app. Es la escena EnvioHoy de la guía de la app de marketers. Fases (cada
+ * marca enviado en la app. Es la escena EnvioHoy de la guía de Marketing del panel. Fases (cada
  * 1,6 s): 0 listo · 1 toca "Abrir WhatsApp" · 2 en WhatsApp, enviado · 3 toca "Marcar enviado" ·
  * 4 registrado. Quieta, queda en la 4.
- *
- * `voz`: para el dueño el chat es "Tu WhatsApp"; para el marketer, el WhatsApp del local.
  */
-interface Props {
-  voz?: 'duenio' | 'marketer'
-}
-
-const { voz = 'duenio' } = Astro.props
 const TEXTO = `¡Hola ${PEDIDO.primerNombre}! 👋 Hace 3 semanas que no te vemos por ${LOCAL.nombre}. ¿Te tentás con tu Smash de siempre? Te dejamos tu pedido armado:`
-const chat = voz === 'duenio' ? 'Tu WhatsApp' : `WhatsApp de ${LOCAL.nombre}`
+const chat = 'Tu WhatsApp'
 ---
 
 <Escena

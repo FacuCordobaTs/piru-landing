@@ -1,6 +1,6 @@
 /*
  * Escenas animadas de la landing (components/escenas/). Son las mismas piezas que la guía y el
- * recorrido de la app de marketers (marketers/src/components/escenas/escenas.css), con los datos de
+ * recorrido de Marketing del panel (admin/src/marketing/components/escenas/escenas.css), con los datos de
  * ejemplo de la landing.
  *
  * Regla de oro: el estado final de cada pieza es su estilo normal y la animación sólo dice de dónde

@@ -1,7 +1,7 @@
 ---
 import Logo from './ui/Logo.astro'
 import Icon from './ui/Icon.astro'
-import { ENTRAR_MARKETERS, enlaceWhatsapp, INSTAGRAM, TIENDA_DEMO, WHATSAPP_VISIBLE } from '../data/oferta'
+import { enlaceWhatsapp, INSTAGRAM, TIENDA_DEMO, WHATSAPP_VISIBLE } from '../data/oferta'
 
 const columnas = [
   {
@@ -14,15 +14,6 @@ const columnas = [
       { href: '/#precios', texto: 'Precios' },
       { href: '/#preguntas', texto: 'Preguntas' },
       { href: TIENDA_DEMO, texto: 'Tienda de demostración', externo: true },
-    ],
-  },
-  {
-    titulo: 'Marketers',
-    enlaces: [
-      { href: '/marketers', texto: 'Piru para marketers' },
-      { href: '/marketers#comision', texto: 'Tu comisión' },
-      { href: '/marketers#preguntas', texto: 'Preguntas' },
-      { href: ENTRAR_MARKETERS, texto: 'Entrar a tu app', externo: true },
     ],
   },
   {

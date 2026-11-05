@@ -11,14 +11,14 @@ import ClubPuntos from '../escenas/ClubPuntos.astro'
 import MapaDias from '../escenas/MapaDias.astro'
 import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
 import { ESCALERA, LOCAL } from '../../data/demo'
-import { PROMEDIO_FRANJA, SEMANA } from '../../data/marketers'
-import { decimal } from '../replicas/marketers/graficos'
-import { APP_MARKETERS } from '../../data/oferta'
+import { PROMEDIO_FRANJA, SEMANA } from '../../data/marketing'
+import { decimal } from '../replicas/graficos'
+import { GUIA_MARKETING } from '../../data/oferta'
 import { CARRUSEL, DESLIZA, TARJETA_CARRUSEL } from './carrusel'
 
 /**
- * Las herramientas de marketing, una por tarjeta y con su ilustración (las escenas de la guía de la
- * app de marketers): primero las que traen clientes nuevos, después las que hacen que vuelvan. En
+ * Las herramientas de marketing, una por tarjeta y con su ilustración (las escenas de la guía de
+ * Marketing del panel): primero las que traen clientes nuevos, después las que hacen que vuelvan. En
  * escritorio es una grilla; más angosto, cada grupo es un carrusel que se desliza, para no hacer
  * la página eterna. Las reglas que se nombran son las de la app (docs/CUSTOMERS_AND_GROWTH.md): si
  * cambia una, cambia acá.
@@ -138,10 +138,10 @@ const carrusel = `${CARRUSEL} mt-6 lg:grid-cols-12`
     <div class="revelar mt-10 flex flex-col items-start gap-4 rounded-[24px] bg-white p-6 ring-1 ring-line sm:flex-row sm:items-center sm:p-7">
       <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name="smartphone" class="size-5" /></span>
       <p class="flex-1 text-[15px] leading-relaxed text-ink-2">
-        Todo esto lo manejás desde tu app de marketing, en la compu o en el celular. Los links, los cupones, tu base de clientes, los mensajes de recompra,
+        Todo esto lo manejás desde Marketing, en tu panel, en la compu o en el celular. Los links, los cupones, tu base de clientes, los mensajes de recompra,
         el club de puntos y los días flojos vienen con tu suscripción, sin costo aparte.
       </p>
-      <a href={`${APP_MARKETERS}/guia?para=duenio`} target="_blank" rel="noopener" class="boton boton-secundario boton-chico shrink-0">Ver la guía<Icon name="arrow-up-right" class="size-4" /></a>
+      <a href={GUIA_MARKETING} target="_blank" rel="noopener" class="boton boton-secundario boton-chico shrink-0">Ver la guía<Icon name="arrow-up-right" class="size-4" /></a>
     </div>
   </div>
 </section>
