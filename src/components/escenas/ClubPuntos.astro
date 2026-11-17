@@ -6,7 +6,7 @@ import { CLIENTA, LOCAL } from '../../data/demo'
 import { pesos } from '../../data/oferta'
 
 /**
- * Un pedido cobrado suma puntos en el club y Martina se acerca al próximo premio. Ejemplo con la
+ * Un pedido despachado suma puntos en el club y Martina se acerca al próximo premio. Ejemplo con la
  * regla por defecto del club: 1 punto cada $100 del pedido. Es la escena ClubPuntos de la guía de
  * Marketing del panel.
  */
@@ -28,7 +28,7 @@ const enteros = (n: number) => n.toLocaleString('es-AR')
 <Escena
   ancho={460}
   alto={300}
-  etiqueta={`Un pedido cobrado de ${pesos(PEDIDO)} le suma ${SUMA} puntos a ${CLIENTA.nombre}, que llega a ${enteros(SALDO)} puntos: ya puede canjear el envío gratis o el descuento, y le faltan ${TOPE - SALDO} para la Smash gratis.`}
+  etiqueta={`Un pedido despachado de ${pesos(PEDIDO)} le suma ${SUMA} puntos a ${CLIENTA.nombre}, que llega a ${enteros(SALDO)} puntos: ya puede canjear el envío gratis o el descuento, y le faltan ${TOPE - SALDO} para la Smash gratis.`}
 >
   <div class="e-izquierda e-tarjeta absolute left-[18px] top-[28px] w-[178px] p-4">
     <p class="text-[13px] font-semibold text-ink">Pedido #1302</p>
@@ -77,5 +77,5 @@ const enteros = (n: number) => n.toLocaleString('es-AR')
     </div>
   </div>
 
-  <p class="e-aparece absolute left-[18px] top-[272px] text-[10.5px] text-ink-3" style="--d:1400ms">Ejemplo: 1 punto cada {pesos(PESOS_POR_PUNTO)} · se acreditan cuando el pedido se cobra</p>
+  <p class="e-aparece absolute left-[18px] top-[272px] text-[10.5px] text-ink-3" style="--d:1400ms">Ejemplo: 1 punto cada {pesos(PESOS_POR_PUNTO)} · se acreditan cuando el pedido se despacha</p>
 </Escena>
