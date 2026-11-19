@@ -8,12 +8,13 @@ import Plantilla from '../replicas/paginas/Plantilla.astro'
  * Intro a pantalla completa antes de la portada (como la de context-con.com): una frase, otra,
  * caen tres páginas con diseños distintos, la última frase y la capa sube y deja la portada.
  * Todo es CSS con retrasos; el script sólo la saltea (clic, Enter, Espacio o Esc) y la saca al
- * terminar. Sale una vez por sesión; sin JS o con movimiento reducido no aparece.
+ * terminar. Sale en cada carga, y arranca recién cuando está la Open Runde en negrita (si no, la
+ * primera frase se ve en la fuente de respaldo y cambia). Sin JS o con movimiento reducido no aparece.
  */
 const primera = 'Cuidaste cada detalle de tu marca'
 const lineas = [
-  { texto: 'Pero para vender online, todas las tiendas eran iguales', acento: 'iguales', inicio: 2.1 },
-  { texto: 'Ahora tu tienda puede tener tu diseño', subrayado: 'diseño', inicio: 5.8 },
+  { texto: 'Pero para vender online, todas las tiendas eran iguales', acento: 'iguales', inicio: 2.4 },
+  { texto: 'Ahora tu tienda puede tener tu diseño', subrayado: 'diseño', inicio: 6.3 },
 ]
 const cartas = [
   { nombre: 'Alfajor con Papas', x: -150, y: -10, r: -8, xm: -56, ym: -24 },
@@ -23,13 +24,6 @@ const cartas = [
 const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
 ---
 
-<script is:inline>
-  try {
-    if (sessionStorage.getItem('piru-intro') || matchMedia('(prefers-reduced-motion: reduce)').matches)
-      document.documentElement.classList.add('sin-intro')
-  } catch (e) {}
-</script>
-
 <div class="intro fixed inset-0 z-[70] cursor-pointer select-none overflow-hidden">
   <div aria-hidden="true" class="i-superficie absolute inset-x-0 -top-32 bottom-0 rounded-b-[56px] bg-paper shadow-[0_30px_80px_rgb(40_24_8/.16)]">
     <div class="i-contenido absolute inset-x-0 bottom-0 top-32 grid place-items-center px-6 text-center [perspective:900px]">
@@ -38,7 +32,7 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
       </p>
 
       {lineas.map((l, n) => (
-        <p class="i-frase col-start-1 row-start-1 max-w-[16ch] text-[2.2rem] font-bold leading-[1] tracking-[-.04em] sm:text-5xl lg:text-6xl" style={`--fin:${n === 0 ? 3.9 : 7.4}s`}>
+        <p class="i-frase col-start-1 row-start-1 max-w-[16ch] text-[2.2rem] font-bold leading-[1] tracking-[-.04em] sm:text-5xl lg:text-6xl" style={`--fin:${n === 0 ? 4.2 : 8}s`}>
           {l.texto.split(' ').map((p, i) => (
             <><span class:list={['i-palabra relative', limpia(p) === l.acento && 'text-brand']} style={`--d:${l.inicio + i * 0.045}s`}>{p}{limpia(p) === l.subrayado && <span class="i-subrayado absolute inset-x-0 -bottom-[.04em] h-[.1em] rounded-full bg-brand" />}</span>{' '}</>
           ))}
@@ -47,7 +41,7 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
 
       <div class="i-pila relative col-start-1 row-start-1 h-[70vh] w-full max-w-xl">
         {cartas.map((c, i) => (
-          <figure class="i-carta absolute left-1/2 top-1/2 m-0 w-[min(56vw,240px,38vh)] bg-white p-2 pb-8 shadow-[0_24px_60px_rgb(0_0_0/.2)]" style={`--x:${c.x}px;--y:${c.y}px;--xm:${c.xm}px;--ym:${c.ym}px;--r:${c.r}deg;--d:${4 + i * 0.3}s`}>
+          <figure class="i-carta absolute left-1/2 top-1/2 m-0 w-[min(56vw,240px,38vh)] bg-white p-2 pb-8 shadow-[0_24px_60px_rgb(0_0_0/.2)]" style={`--x:${c.x}px;--y:${c.y}px;--xm:${c.xm}px;--ym:${c.ym}px;--r:${c.r}deg;--d:${4.6 + i * 0.3}s`}>
             <Escala ancho={390} alto={600} etiqueta="" class="i-pagina">
               {i === 0 && <PaginaAlfajor video={false} carrito={false} />}
               {i === 1 && <PaginaChe />}
@@ -67,14 +61,19 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
   if (intro && getComputedStyle(intro).display !== 'none') {
     const raiz = document.documentElement
     raiz.style.overflow = 'hidden'
-    try { sessionStorage.setItem('piru-intro', '1') } catch {}
+    // Las animaciones esperan a la fuente (con tope, por si tarda).
+    const fuente = document.fonts?.load('700 1em "Open Runde"') ?? Promise.resolve()
+    Promise.race([fuente, new Promise((r) => setTimeout(r, 1500))]).then(() => {
+      intro.classList.add('lista')
+      setTimeout(terminar, 11500)
+    })
 
     const terminar = () => {
       raiz.style.overflow = ''
       intro.remove()
       removeEventListener('keydown', tecla)
     }
-    const saltar = () => intro.classList.add('saltar')
+    const saltar = () => intro.classList.add('saltar', 'lista')
     const tecla = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') { e.preventDefault(); saltar() }
     }
@@ -83,13 +82,17 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
     intro.querySelector('.i-superficie')!.addEventListener('animationend', (e) => {
       if ((e as AnimationEvent).animationName === 'i-sube' && e.target === e.currentTarget) terminar()
     })
-    setTimeout(terminar, 11000)
   }
 </script>
 
 <style>
   .intro { display: none; }
-  :global(html.js:not(.sin-intro)) .intro { display: block; }
+  :global(html.js) .intro { display: block; }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.js) .intro { display: none; }
+  }
+  /* Quieta (y con las palabras ocultas) hasta que carga la fuente. */
+  .intro:not(.lista) *, .intro:not(.lista) { animation-play-state: paused !important; }
 
   /* La página real tiene fondo propio y tipografía de la app. */
   .i-pagina { font-family: "Inter", ui-sans-serif, system-ui, sans-serif; font-feature-settings: "cv11", "ss01"; }
@@ -103,13 +106,13 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
   .i-subrayado {
     transform: scaleX(0);
     transform-origin: left;
-    animation: i-subraya .3s cubic-bezier(.65, 0, .35, 1) 6.4s forwards;
+    animation: i-subraya .3s cubic-bezier(.65, 0, .35, 1) 6.9s forwards;
   }
 
   .i-pila {
     animation:
-      i-pila .6s cubic-bezier(.65, 0, .35, 1) 5.6s forwards,
-      i-pila-sale .45s cubic-bezier(.32, 0, .67, 0) 7.4s forwards;
+      i-pila .6s cubic-bezier(.65, 0, .35, 1) 6.1s forwards,
+      i-pila-sale .45s cubic-bezier(.32, 0, .67, 0) 8s forwards;
   }
   .i-carta {
     --tx: var(--x);
@@ -120,7 +123,7 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
     .i-carta { --tx: var(--xm); --ty: var(--ym); }
   }
 
-  .i-superficie { animation: i-sube .85s cubic-bezier(.76, 0, .24, 1) 7.6s forwards; }
+  .i-superficie { animation: i-sube .85s cubic-bezier(.76, 0, .24, 1) 8.2s forwards; }
 
   /* Saltear: se va el contenido y sube la capa ya. */
   .saltar .i-contenido, .saltar .i-saltar { opacity: 0; transition: opacity .2s; }
