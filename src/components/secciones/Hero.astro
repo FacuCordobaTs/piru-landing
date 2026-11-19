@@ -8,16 +8,16 @@ import EditorPaginas from '../replicas/paginas/EditorPaginas.astro'
 import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
 import PaginaChe from '../replicas/paginas/PaginaChe.astro'
 import Plantilla from '../replicas/paginas/Plantilla.astro'
-import { enlaceWhatsapp, pesos, PRECIO_BASE } from '../../data/oferta'
+import { enlaceWhatsapp, pesos } from '../../data/oferta'
 import { PEDIDO } from '../../data/demo'
 
 /**
- * La portada dice lo principal: la página propia del local, con su diseño. La escena muestra el
+ * La portada dice lo principal en dos líneas (la tienda online con el diseño de la marca) para
+ * que la escena se vea sin bajar. Antes pasa la intro (secciones/Intro.astro). La escena muestra el
  * editor de Páginas con la página de Alfajor y, al lado, el celular que va pasando por páginas
  * distintas (dos diseños a medida y dos plantillas) mientras el pedido sigue llegando igual:
  * el diseño cambia, lo de abajo es siempre Piru. La secuencia la maneja escenas/Escena.astro.
  */
-const checks = ['Plantillas o diseño a medida', 'Con tu dominio', `Sin comisión · ${pesos(PRECIO_BASE)} por mes`]
 const disenos = [
   { rotulo: 'Diseño a medida', nombre: 'Alfajor con Papas', url: 'alfajorconpapas.com' },
   { rotulo: 'Plantilla', nombre: 'Moderna', url: 'brasa.piru.app' },
@@ -28,21 +28,17 @@ const etiqueta = 'El editor de Páginas con la página de Alfajor con Papas y, a
 const RUTA = 'M 752 114 C 790 114, 790 166, 828 176'
 ---
 
-<section class="relative overflow-hidden pt-[128px] sm:pt-[150px]">
+<section class="relative overflow-hidden pt-[112px] sm:pt-[132px]">
   <div class="fondo-hero pointer-events-none absolute inset-0" aria-hidden="true" />
 
   <div class="contenedor relative text-center">
-    <p class="revelar mx-auto inline-flex items-center gap-2.5 rounded-full bg-white/80 px-3.5 py-1.5 text-[13.5px] font-medium text-ink-2 ring-1 ring-line backdrop-blur">
-      <span class="punto-vivo" />La plataforma para vender online en gastronomía
-    </p>
-    <h1 class="revelar titulo-xl mx-auto mt-6 max-w-[15ch] sm:max-w-none" style="--retraso:80ms">
-      Tu local, con su propia página.<br /><span class="text-brand">Con tu diseño, no el de todos.</span>
+    <h1 class="revelar titulo-xl mx-auto max-w-[14ch] sm:max-w-none">
+      Tu marca tiene su diseño.<br /><span class="text-brand">Tu tienda online, también.</span>
     </h1>
-    <p class="revelar bajada mx-auto mt-6 max-w-[44rem]" style="--retraso:160ms">
-      Diseñá la página de tu local con una plantilla, a tu gusto o con nuestra ayuda. Debajo, Piru pone
-      todo lo demás: la carta, los pedidos a tu WhatsApp, los cobros, el salón y tus clientes.
+    <p class="revelar bajada mx-auto mt-5 max-w-[36rem]" style="--retraso:80ms">
+      Hasta ahora, vender online era usar la misma tienda que todos. Con Piru, la tuya se ve como tu local.
     </p>
-    <div class="revelar mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:240ms">
+    <div class="revelar mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:160ms">
       <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario w-full max-w-xs sm:w-auto">
         <Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear mi página
       </a>
@@ -50,14 +46,9 @@ const RUTA = 'M 752 114 C 790 114, 790 166, 828 176'
         Ver páginas hechas con Piru<Icon name="arrow-down" class="size-4" />
       </a>
     </div>
-    <ul class="revelar mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[14px] text-ink-2" style="--retraso:320ms">
-      {checks.map((c) => (
-        <li class="flex items-center gap-1.5"><Icon name="circle-check" class="size-4 text-brand" stroke={2.2} />{c}</li>
-      ))}
-    </ul>
   </div>
 
-  <div class="revelar contenedor relative mt-12 pb-16 sm:mt-16 sm:pb-24" style="--retraso:200ms">
+  <div class="revelar contenedor relative mt-8 pb-16 sm:mt-10 sm:pb-24" style="--retraso:200ms">
     <!-- Escritorio -->
     <div class="mx-auto hidden max-w-[1100px] md:block">
       <Escena ancho={1100} alto={680} etiqueta={etiqueta} secuencia={3200} fases={4} class="hero-escena">

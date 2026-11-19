@@ -1,4 +1,8 @@
 ---
+import '@fontsource/open-runde/400.css'
+import '@fontsource/open-runde/500.css'
+import '@fontsource/open-runde/600.css'
+import '@fontsource/open-runde/700.css'
 import '../styles/global.css'
 import Nav from '../components/Nav.astro'
 import Pie from '../components/Pie.astro'
@@ -50,6 +54,7 @@ const portada = canonical === '/'
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- La landing va en Open Runde (@fontsource, arriba); Inter queda para las réplicas de la app. -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet" />
     <!-- Las de las páginas que se ven en las réplicas: Che Milanesa (Alfa Slab One) y las plantillas
          (web/src/lib/plantillas.ts). Las de Alfajor están en public/fuentes (styles/paginas.css). -->
