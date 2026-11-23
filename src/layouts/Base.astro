@@ -7,7 +7,7 @@ import '../styles/global.css'
 import runde700 from '@fontsource/open-runde/files/open-runde-latin-700-normal.woff2?url'
 import Nav from '../components/Nav.astro'
 import Pie from '../components/Pie.astro'
-import { PRECIO_BASE } from '../data/oferta'
+import { PLANES } from '../data/oferta'
 
 interface Props {
   titulo?: string
@@ -18,7 +18,7 @@ interface Props {
 
 const {
   titulo = 'Piru · La página propia de tu local gastronómico',
-  descripcion = 'La plataforma para vender online de los locales gastronómicos: una página propia con su diseño, y debajo la carta, los pedidos, los cobros, el salón y sus clientes. Precio fijo, sin comisión por venta.',
+  descripcion = 'La plataforma para vender online de los locales gastronómicos: una página propia con su diseño, y debajo la carta, los pedidos, los cobros, el salón y sus clientes. Empezás gratis, sin comisión por venta.',
   canonical = Astro.url.pathname,
 } = Astro.props
 
@@ -75,7 +75,7 @@ const portada = canonical === '/'
           applicationCategory: 'BusinessApplication',
           operatingSystem: 'Web, Windows',
           description: descripcion,
-          offers: { '@type': 'Offer', price: String(PRECIO_BASE), priceCurrency: 'ARS' },
+          offers: PLANES.filter((p) => p.precio !== null).map((p) => ({ '@type': 'Offer', name: `Plan ${p.nombre}`, price: String(p.precio), priceCurrency: 'ARS' })),
         })}
       />
     )}

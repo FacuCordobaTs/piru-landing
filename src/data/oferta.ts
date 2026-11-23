@@ -2,16 +2,11 @@
  * Todo lo comercial que la landing promete, en un solo lugar.
  *
  * Los precios son espejo del catálogo (MySQL): la fuente de verdad es la base, no este archivo.
- * Última verificación contra las migraciones (27 de septiembre de 2026):
- *  - suscripción base `piru` → `update_precio_suscripcion_base_40000.sql`;
- *  - `crecimiento` (campañas) y `codigos_descuento` son incluidos → `update_modulo_crecimiento_gratuito.sql`.
- * El trial de 5 días es el del alta asistida (claim / panel interno, `DIAS_TRIAL_DEFAULT`).
- * Si cambia un precio en la base, cambialo acá también.
- *
- * La landing presenta todos los módulos como parte de la suscripción, Retención incluida (decisión
- * comercial del 29 de octubre de 2026; el catálogo en MySQL todavía tiene a `motor_recompra` como
- * módulo pago y hay que alinearlo con una migración). El único costo aparte son los avisos
- * automáticos por WhatsApp, que se cobran por mensaje enviado.
+ * Desde el 23 de noviembre de 2026 la landing vende los planes de tienda (`plan_tienda`,
+ * `backend/migrations/add_planes_tienda.sql`, ver docs/PLANES_TIENDA.md): Inicial gratis, Esencial,
+ * Impulso, Escala y Evolución a medida. El alta es self-serve (`CREAR_TIENDA`). Los locales que ya
+ * existían siguen en Evolución con su suscripción de siempre: la landing no la publica.
+ * Si cambia un precio o un plan en la base, cambialo acá también (`PLANES`).
  */
 
 export const WHATSAPP_NUMERO = '543408681915'
@@ -30,36 +25,51 @@ export function enlaceWhatsapp(texto = TEXTO_WA_LOCAL) {
   return `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(texto)}`
 }
 
-export const PRECIO_BASE = 40000
-export const DIAS_PRUEBA = 5
+/**
+ * Registro self-serve ("Crear tienda gratis", plan Inicial) en el panel. Ver docs/PLANES_TIENDA.md.
+ * `?email=` precarga el mail.
+ */
+export const CREAR_TIENDA = 'https://admin.piru.app/crear-tienda'
+export const ENTRAR = 'https://admin.piru.app/login'
 
-/** Retención (`motor_recompra`): en la landing viene con la suscripción, sin costo aparte. */
-export const RETENCION = {
-  codigo: 'motor_recompra',
-  nombre: 'Retención',
-  icono: 'repeat-2',
-  descripcion: 'Te dice a quién escribirle, cuándo y qué decirle para que vuelva a pedir. Incluye el Club de Puntos.',
-  incluye: ['Los mensajes de recompra de cada día', 'El club de puntos', 'Las invitaciones de los días flojos'],
-} as const
+export const TEXTO_WA_EVOLUCION = 'Hola! Quiero saber más del plan Evolución de Piru.'
 
-export const INCLUIDO_EN_BASE = [
-  'Tu página, con plantilla o diseño propio',
-  'Editor, vista previa y versiones',
-  'Tu dominio o tulocal.piru.app',
-  'Delivery, retiro y pedidos programados',
-  'Pedidos a tu WhatsApp, como siempre',
-  'Pedido en grupo',
-  'Panel de pedidos y comandas impresas',
-  'Punto de venta que funciona sin internet',
-  'Mesas y app para mozos',
-  'Cobros con Mercado Pago y transferencia',
-  'Base de clientes y quién se está yendo',
-  'Links de campaña medidos y cupones',
-  'Días flojos y estadísticas de ventas',
-  'Stock, repartidores, caja y sucursales',
-  'Facturación electrónica con ARCA',
-  'Recompra, club de puntos y días flojos',
+/**
+ * Espejo de `plan_tienda` (precio mensual, descuento anual, beneficios). `precio` null = a medida.
+ * `destacado` marca el recomendado. El reparto de módulos por plan está en docs/PLANES_TIENDA.md.
+ */
+export const PLANES = [
+  {
+    codigo: 'inicial', nombre: 'Inicial', precio: 0, descuentoAnual: 0, destacado: false,
+    descripcion: 'Para empezar a vender online sin pagar nada.',
+    beneficios: ['Pedidos y productos ilimitados', 'Tienda online con el diseño de Piru', 'Pedidos directo a tu WhatsApp', 'Cobros con Mercado Pago, efectivo y transferencia', 'Impresión de comandas', 'Lista de clientes y estadísticas básicas'],
+  },
+  {
+    codigo: 'esencial', nombre: 'Esencial', precio: 19999, descuentoAnual: 20, destacado: false,
+    descripcion: 'Tu marca, tu diseño y las herramientas para vender más.',
+    beneficios: ['Todo lo del plan Inicial', 'Elegí una plantilla y personalizala', 'Punto de venta y cierre de caja', 'Cupones de descuento', 'Club de puntos', 'Cobros con Talo'],
+  },
+  {
+    codigo: 'impulso', nombre: 'Impulso', precio: 39999, descuentoAnual: 20, destacado: true,
+    descripcion: 'Diseño libre en código y casi todas las herramientas.',
+    beneficios: ['Todo lo del plan Esencial', 'Descargá y editá el código de tu página', 'Mesas, stock y cadetes', 'Recompra, días flojos y campañas', 'Avisos automáticos por WhatsApp', 'Facturación electrónica ARCA'],
+  },
+  {
+    codigo: 'escala', nombre: 'Escala', precio: 79999, descuentoAnual: 20, destacado: false,
+    descripcion: 'Para locales que crecen y quieren medir todo.',
+    beneficios: ['Todo lo del plan Impulso', 'Estadísticas avanzadas', 'Varias sucursales'],
+  },
+  {
+    codigo: 'evolucion', nombre: 'Evolución', precio: null, descuentoAnual: 0, destacado: false,
+    descripcion: 'Una tienda a medida, con repositorio propio y el equipo de Piru al lado.',
+    beneficios: ['Todo lo del plan Escala', 'Tienda a medida en su propio repositorio', 'Desarrollos propios', 'Acompañamiento directo del equipo de Piru', 'Precio a medida'],
+  },
 ] as const
+
+/** El plan más barato con precio (para "desde $…"). */
+export const PRECIO_DESDE = Math.min(...PLANES.flatMap((p) => (p.precio ? [p.precio] : [])))
+/** El plan que la calculadora compara contra las apps: el que trae casi todas las herramientas. */
+export const PLAN_CALCULADORA = PLANES.find((p) => p.codigo === 'impulso')!
 
 /**
  * Páginas publicadas con Piru que muestra la home (secciones/Paginas.astro). Las capturas están en
@@ -118,8 +128,8 @@ export const PLANTILLAS = [
 
 /**
  * Los módulos del catálogo (tabla `modulo`, `backend/src/lib/modulos.ts`), con el nombre que usa la
- * landing. Todos vienen con la suscripción; `costo` es lo único que se paga aparte y se muestra en
- * su tarjeta (hoy, sólo los avisos automáticos, por mensaje enviado).
+ * landing. Qué plan incluye cada uno está en docs/PLANES_TIENDA.md; `costo` es lo que se paga
+ * aparte y se muestra en su tarjeta (hoy, sólo los avisos automáticos, por mensaje enviado).
  */
 /** Las áreas en las que la home agrupa los módulos (secciones/Modulos.astro). */
 export const AREAS_MODULOS = [

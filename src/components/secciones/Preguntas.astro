@@ -1,6 +1,6 @@
 ---
 import Icon from '../ui/Icon.astro'
-import { DIAS_PRUEBA, PRECIO_BASE, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { PRECIO_DESDE, enlaceWhatsapp, pesos } from '../../data/oferta'
 
 const preguntas = [
   {
@@ -40,8 +40,12 @@ const preguntas = [
     r: 'No. Podés seguir en las apps y sumar tu página propia. La idea es que tus clientes de siempre te pidan directo: vos cobrás el 100% y ellos quedan en tu base.',
   },
   {
+    p: '¿Qué tiene el plan gratis?',
+    r: 'Tu tienda online con el diseño de Piru, pedidos y productos ilimitados que te llegan a tu WhatsApp, cobros con Mercado Pago, transferencia o efectivo, comandas impresas y tu lista de clientes. Para elegir una plantilla y ponerle tu marca, sumar punto de venta, mesas, campañas o editar el código, pasás a un plan pago cuando quieras.',
+  },
+  {
     p: '¿Hay contrato o permanencia?',
-    r: `No. Pagás ${pesos(PRECIO_BASE)} mes a mes y todos los módulos vienen incluidos; lo único aparte son los avisos automáticos por WhatsApp, que se pagan por mensaje enviado. Arrancás con ${DIAS_PRUEBA} días de prueba, y si preferís pagar el año por adelantado tenés descuento.`,
+    r: `No. Creás tu tienda gratis y podés quedarte en el plan Inicial todo lo que quieras. Los planes con más herramientas van desde ${pesos(PRECIO_DESDE)} por mes, se pagan mes a mes y los cambiás o das de baja desde tu panel; pagando el año tenés descuento. Lo único aparte son los avisos automáticos por WhatsApp, que se recargan según lo que mandes.`,
   },
 ]
 ---

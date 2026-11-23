@@ -8,7 +8,7 @@ import EditorPaginas from '../replicas/paginas/EditorPaginas.astro'
 import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
 import PaginaChe from '../replicas/paginas/PaginaChe.astro'
 import Plantilla from '../replicas/paginas/Plantilla.astro'
-import { enlaceWhatsapp, pesos } from '../../data/oferta'
+import { CREAR_TIENDA, pesos } from '../../data/oferta'
 import { PEDIDO } from '../../data/demo'
 
 /**
@@ -39,8 +39,8 @@ const RUTA = 'M 752 114 C 790 114, 790 166, 828 176'
       Hasta ahora, vender online era usar la misma tienda que todos. Con Piru, la tuya se ve como tu local.
     </p>
     <div class="revelar mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:160ms">
-      <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario w-full max-w-xs sm:w-auto">
-        <Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear mi página
+      <a href={CREAR_TIENDA} class="boton boton-primario w-full max-w-xs sm:w-auto">
+        <Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear tienda gratis
       </a>
       <a href="#paginas" class="boton boton-secundario w-full max-w-xs sm:w-auto">
         Ver páginas hechas con Piru<Icon name="arrow-down" class="size-4" />

@@ -1,59 +1,79 @@
 ---
 import Icon from '../ui/Icon.astro'
-import { DIAS_PRUEBA, INCLUIDO_EN_BASE, PRECIO_BASE, RETENCION, TEXTO_WA_DISENO, enlaceWhatsapp, pesos } from '../../data/oferta'
+import { CREAR_TIENDA, PLANES, PLAN_CALCULADORA, TEXTO_WA_EVOLUCION, enlaceWhatsapp, pesos } from '../../data/oferta'
 
+/**
+ * Los cinco planes (espejo de `plan_tienda`, ver data/oferta.ts y docs/PLANES_TIENDA.md). El
+ * selector Mensual/Anual cambia el precio sin recargar; sin JS se ve el mensual.
+ */
 const comisiones = [20, 25, 30, 35]
+const precioAnual = (precio: number, descuento: number) => Math.round(precio * (1 - descuento / 100))
+const hayAnual = PLANES.some((p) => p.descuentoAnual > 0)
 ---
 
 <section id="precios" class="py-24 sm:py-32">
   <div class="contenedor">
     <div class="revelar mx-auto max-w-3xl text-center">
-      <p class="antetitulo">Precios</p>
-      <h2 class="titulo-lg mt-4">Un precio fijo por mes. Cero comisión por venta.</h2>
-      <p class="bajada mx-auto mt-5 max-w-2xl">Tu página, tu panel y todos los módulos por un precio fijo. Vendas 50 o 1.500 pedidos, pagás lo mismo, y lo que cobrás va directo a tu cuenta.</p>
+      <p class="antetitulo">Planes</p>
+      <h2 class="titulo-lg mt-4">Empezá gratis. Cambiá de plan cuando crezcas.</h2>
+      <p class="bajada mx-auto mt-5 max-w-2xl">Pedidos y productos ilimitados en todos los planes, y cero comisión por venta: lo que cobrás va directo a tu cuenta.</p>
     </div>
 
-    <div class="mt-14 grid gap-5 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-      <article class="revelar tarjeta relative overflow-hidden p-7 sm:p-10">
-        <div class="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full bg-brand/10 blur-3xl" aria-hidden="true" />
-        <p class="text-[15px] font-semibold text-brand-deep">Piru</p>
-        <p class="mt-1 text-[16px] text-ink-2">Tu página y todo para vender y atender tu local</p>
-        <p class="mt-6 flex items-end gap-2">
-          <span class="text-[56px] font-bold leading-none tracking-[-0.05em] tabular-nums min-[400px]:text-[64px] sm:text-[76px]">{pesos(PRECIO_BASE)}</span>
-          <span class="whitespace-nowrap pb-1.5 text-[17px] text-ink-3">/ mes</span>
-        </p>
-        <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a href={enlaceWhatsapp()} target="_blank" rel="noopener" class="boton boton-primario"><Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear mi página</a>
-          <p class="text-[14px] text-ink-3">{DIAS_PRUEBA} días de prueba · Pagás mes a mes</p>
+    {hayAnual && (
+      <div class="revelar mt-10 flex justify-center" style="--retraso:60ms">
+        <div class="ciclo inline-flex rounded-full bg-sand p-1 ring-1 ring-line" role="radiogroup" aria-label="Ciclo de pago">
+          <button type="button" role="radio" aria-checked="true" data-ciclo="mensual">Mensual</button>
+          <button type="button" role="radio" aria-checked="false" data-ciclo="anual">Anual · 20% menos</button>
         </div>
-        <div class="my-8 h-px bg-line" />
-        <p class="text-[13px] font-semibold uppercase tracking-[.08em] text-ink-3">Incluye</p>
-        <ul class="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-          {INCLUIDO_EN_BASE.map((item) => (
-            <li class="flex gap-2.5 text-[15.5px] text-ink"><Icon name="check" class="mt-0.5 size-[18px] text-brand" stroke={2.6} />{item}</li>
-          ))}
-        </ul>
-      </article>
-
-      <div class="flex flex-col gap-5">
-        <article class="revelar tarjeta flex-1 p-7 sm:p-8" style="--retraso:90ms">
-          <span class="grid size-11 place-items-center rounded-2xl bg-brand-soft text-brand-deep"><Icon name="layers" class="size-5" /></span>
-          <p class="mt-5 text-[19px] font-semibold tracking-tight">Todos los módulos, incluidos</p>
-          <p class="mt-3 text-[15px] leading-relaxed text-ink-2">Punto de venta, mesas, stock, repartidores, facturación, campañas, cupones y {RETENCION.nombre}: vienen con tu suscripción y los activás cuando los necesitás.</p>
-          <ul class="mt-4 space-y-2.5">
-            {RETENCION.incluye.map((item) => (
-              <li class="flex gap-2.5 text-[15px] text-ink"><Icon name="check" class="mt-0.5 size-[18px] text-brand" stroke={2.6} />{item}</li>
-            ))}
-          </ul>
-          <p class="mt-5 rounded-2xl bg-sand px-4 py-3 text-[14px] leading-relaxed text-ink-2"><b class="font-semibold text-ink">Lo único aparte:</b> los avisos automáticos por WhatsApp, que se pagan por mensaje enviado.</p>
-        </article>
-        <article class="revelar rounded-[28px] bg-ink p-7 text-white/70 sm:p-8" style="--retraso:180ms">
-          <p class="flex items-center gap-2.5 text-[17px] font-semibold tracking-tight text-white"><Icon name="sparkles" class="size-5 text-brand" />¿La querés a medida?</p>
-          <p class="mt-2 text-[15px] leading-relaxed">La diseñamos con tu marca, como la de Alfajor con Papas. El precio depende de lo que necesites: lo charlamos antes de empezar. <a href={enlaceWhatsapp(TEXTO_WA_DISENO)} target="_blank" rel="noopener" class="font-semibold text-white underline-offset-4 hover:underline">Contarnos tu idea</a></p>
-        </article>
-        <p class="revelar px-2 text-[14px] text-ink-3">¿Preferís pagar el año por adelantado? Tenés descuento.</p>
       </div>
+    )}
+
+    <div class="planes mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" data-ciclo="mensual">
+      {PLANES.map((p, i) => {
+        const aMedida = p.precio === null
+        const gratis = p.precio === 0
+        return (
+          <article
+            class:list={['revelar tarjeta relative flex flex-col p-6', p.destacado && 'ring-2 ring-brand']}
+            style={`--retraso:${i * 60}ms`}
+          >
+            {p.destacado && <span class="absolute -top-3 left-6 rounded-full bg-brand px-3 py-1 text-[12px] font-semibold text-white">Recomendado</span>}
+            <h3 class="text-[19px] font-semibold tracking-tight">{p.nombre}</h3>
+            <p class="mt-1.5 text-[14.5px] leading-snug text-ink-2 xl:min-h-[4.6rem]">{p.descripcion}</p>
+            <div class="mt-5 min-h-[4.25rem]">
+              {aMedida ? (
+                <p class="text-[30px] font-bold leading-none tracking-[-0.04em]">A medida</p>
+              ) : gratis ? (
+                <p class="text-[30px] font-bold leading-none tracking-[-0.04em]">Gratis</p>
+              ) : (
+                <>
+                  <p class="flex items-end gap-1.5">
+                    <span class="precio-mensual text-[30px] font-bold leading-none tracking-[-0.04em] tabular-nums">{pesos(p.precio!)}</span>
+                    <span class="precio-anual text-[30px] font-bold leading-none tracking-[-0.04em] tabular-nums">{pesos(precioAnual(p.precio!, p.descuentoAnual))}</span>
+                    <span class="pb-0.5 text-[14px] text-ink-3">/ mes</span>
+                  </p>
+                  <p class="precio-anual mt-2 text-[13px] text-ink-3">Pagando el año por adelantado</p>
+                </>
+              )}
+            </div>
+            {aMedida ? (
+              <a href={enlaceWhatsapp(TEXTO_WA_EVOLUCION)} target="_blank" rel="noopener" class="boton boton-secundario mt-5 w-full">Hablar con Piru</a>
+            ) : (
+              <a href={CREAR_TIENDA} class:list={['boton mt-5 w-full', p.destacado ? 'boton-primario' : 'boton-secundario']}>
+                {gratis ? 'Crear tienda gratis' : 'Empezar gratis'}
+              </a>
+            )}
+            <ul class="mt-6 space-y-2.5">
+              {p.beneficios.map((b) => (
+                <li class="flex gap-2.5 text-[14.5px] leading-snug text-ink"><Icon name="check" class="mt-0.5 size-[17px] shrink-0 text-brand" stroke={2.6} />{b}</li>
+              ))}
+            </ul>
+          </article>
+        )
+      })}
     </div>
+
+    <p class="revelar mt-6 text-center text-[14px] text-ink-3">Creás tu tienda gratis y elegís un plan pago desde tu panel cuando lo necesites. Los avisos automáticos por WhatsApp se recargan aparte.</p>
 
     <!-- Calculadora -->
     <div id="calculadora" class="revelar mt-5 overflow-hidden rounded-[28px] bg-ink text-white">
@@ -103,8 +123,8 @@ const comisiones = [20, 25, 30, 35]
             <span id="calc-ahorro" class="text-[22px] font-semibold tabular-nums">$270.000</span>
           </div>
           <div class="flex items-baseline justify-between gap-4 border-b border-white/10 pb-5">
-            <span class="text-[15px] text-white/70">Piru, precio fijo</span>
-            <span class="text-[22px] font-semibold tabular-nums">−{pesos(PRECIO_BASE)}</span>
+            <span class="text-[15px] text-white/70">Piru, plan {PLAN_CALCULADORA.nombre}</span>
+            <span class="text-[22px] font-semibold tabular-nums">−{pesos(PLAN_CALCULADORA.precio!)}</span>
           </div>
           <div>
             <p id="calc-resultado-texto" class="text-[15px] text-white/70">Te quedan por mes</p>
@@ -118,6 +138,20 @@ const comisiones = [20, 25, 30, 35]
 </section>
 
 <style>
+  .ciclo button {
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-ink-2);
+    transition: background-color .2s, color .2s;
+  }
+  .ciclo button[aria-checked='true'] { background: var(--color-ink); color: #fff; }
+  .ciclo button:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+  .planes[data-ciclo='mensual'] .precio-anual { display: none; }
+  .planes[data-ciclo='anual'] .precio-mensual { display: none; }
+
   .rango {
     width: 100%;
     height: 28px;
@@ -162,7 +196,18 @@ const comisiones = [20, 25, 30, 35]
 </style>
 
 <script>
-  import { PRECIO_BASE } from '../../data/oferta'
+  import { PLAN_CALCULADORA } from '../../data/oferta'
+
+  const PRECIO_PLAN = PLAN_CALCULADORA.precio ?? 0
+
+  // Selector Mensual/Anual de las tarjetas de planes.
+  const planes = document.querySelector<HTMLElement>('.planes')
+  document.querySelectorAll<HTMLButtonElement>('.ciclo button').forEach((boton, _, todos) => {
+    boton.addEventListener('click', () => {
+      todos.forEach((b) => b.setAttribute('aria-checked', String(b === boton)))
+      planes?.setAttribute('data-ciclo', boton.dataset.ciclo ?? 'mensual')
+    })
+  })
 
   const fmt = new Intl.NumberFormat('es-AR', { maximumFractionDigits: 0 })
   const pesos = (n: number) => `$${fmt.format(Math.round(n))}`
@@ -184,7 +229,7 @@ const comisiones = [20, 25, 30, 35]
     const c = Number([...radios].find((r) => r.checked)?.value ?? 30) / 100
     const comision = v * c
     const ahorro = comision * p
-    const neto = ahorro - PRECIO_BASE
+    const neto = ahorro - PRECIO_PLAN
 
     $('calc-ventas-valor')!.textContent = pesos(v)
     $('calc-pase-valor')!.textContent = `${Math.round(p * 100)}%`

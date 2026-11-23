@@ -1,9 +1,9 @@
 ---
 import Logo from './ui/Logo.astro'
 import Icon from './ui/Icon.astro'
-import { TEXTO_WA_LOCAL, enlaceWhatsapp } from '../data/oferta'
+import { CREAR_TIENDA, ENTRAR } from '../data/oferta'
 
-const cta = { href: enlaceWhatsapp(TEXTO_WA_LOCAL), largo: 'Crear mi página', corto: 'Empezar' }
+const cta = { href: CREAR_TIENDA, largo: 'Crear tienda gratis', corto: 'Crear tienda' }
 const SECCIONES = [
   { href: '/#paginas', texto: 'Páginas' },
   { href: '/#plantillas', texto: 'Plantillas' },
@@ -22,8 +22,9 @@ const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] fon
 
     <div class="flex items-center gap-1 sm:gap-2">
       {SECCIONES.map((s) => <a href={s.href} class:list={[enlace, 'hidden lg:inline-flex']}>{s.texto}</a>)}
-      <a href={cta.href} target="_blank" rel="noopener" class="boton boton-primario boton-chico">
-        <Icon name="message-circle" class="size-[17px]" stroke={2.2} />
+      <a href={ENTRAR} class:list={[enlace, 'hidden sm:inline-flex']}>Entrar</a>
+      <a href={cta.href} class="boton boton-primario boton-chico">
+        <Icon name="sparkles" class="size-[17px]" stroke={2.2} />
         <span class="hidden min-[440px]:inline">{cta.largo}</span>
         <span class="min-[440px]:hidden">{cta.corto}</span>
       </a>
