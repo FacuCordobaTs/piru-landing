@@ -71,7 +71,7 @@ const hayAnual = PLANES.some((p) => p.descuentoAnual > 0)
     <!-- Qué trae cada plan -->
     <div class="revelar mt-20">
       <h3 class="titulo-md text-center">Qué trae cada plan</h3>
-      <div class="sin-barra -mx-5 mt-8 overflow-x-auto px-5 sm:mx-0 sm:px-0">
+      <div class="mt-8 hidden md:block">
         <table class="tabla w-full min-w-[760px] border-separate border-spacing-0 text-[14.5px]">
           <thead>
             <tr>
@@ -106,6 +106,34 @@ const hayAnual = PLANES.some((p) => p.descuentoAnual > 0)
           ))}
         </table>
       </div>
+
+      <!-- Celular: se elige un plan y se ve su lista, sin tabla ancha. -->
+      <div class="comparar mt-6 md:hidden" data-plan="0">
+        <div class="sticky top-[76px] z-10 -mx-5 bg-paper/95 px-5 py-2 backdrop-blur">
+          <div class="grid grid-cols-5 gap-1 rounded-2xl bg-sand p-1 ring-1 ring-line" role="tablist" aria-label="Plan">
+            {PLANES.map((p, i) => (
+              <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-i={i} class="comparar-tab">{p.nombre}</button>
+            ))}
+          </div>
+        </div>
+        {TABLA_PLANES.map((g) => (
+          <div class="mt-6">
+            <p class="text-[12.5px] font-semibold uppercase tracking-[.09em] text-ink-3">{g.grupo}</p>
+            <ul class="mt-2 divide-y divide-line rounded-2xl bg-white ring-1 ring-line">
+              {g.filas.map((f) => (
+                <li class="flex items-center justify-between gap-4 px-4 py-3.5">
+                  <span class="text-[15px] font-medium text-ink">{f.nombre}</span>
+                  {f.planes.map((v, i) => (
+                    <span class="comparar-valor shrink-0 text-right" data-i={i}>
+                      {v === true ? <Icon name="check" class="size-[18px] text-brand" stroke={2.6} /> : v === false ? <span class="text-ink-3/60" aria-label="No incluye">—</span> : <span class="text-[14px] font-semibold text-ink-2">{v}</span>}
+                    </span>
+                  ))}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
       <p class="mt-6 text-center text-[13.5px] text-ink-3">Creás tu tienda gratis y pasás a un plan pago desde tu panel cuando lo necesites. Los avisos automáticos por WhatsApp se recargan aparte, según lo que mandes.</p>
     </div>
   </div>
@@ -127,9 +155,25 @@ const hayAnual = PLANES.some((p) => p.descuentoAnual > 0)
 
   .tabla .fila > * { border-top: 1px solid var(--color-line); }
   .tabla .fila:hover > * { background-color: var(--color-sand); }
+  .comparar-tab { height: 38px; border-radius: 12px; font-size: 12.5px; font-weight: 600; color: var(--color-ink-2); transition: background-color .2s, color .2s; }
+  .comparar-tab[aria-selected='true'] { background: var(--color-ink); color: #fff; }
+  .comparar-valor { display: none; }
+  .comparar[data-plan='0'] .comparar-valor[data-i='0'],
+  .comparar[data-plan='1'] .comparar-valor[data-i='1'],
+  .comparar[data-plan='2'] .comparar-valor[data-i='2'],
+  .comparar[data-plan='3'] .comparar-valor[data-i='3'],
+  .comparar[data-plan='4'] .comparar-valor[data-i='4'] { display: block; }
 </style>
 
 <script>
+  const comparar = document.querySelector<HTMLElement>('.comparar')
+  comparar?.querySelectorAll<HTMLButtonElement>('.comparar-tab').forEach((b, _, todos) => {
+    b.addEventListener('click', () => {
+      todos.forEach((t) => t.setAttribute('aria-selected', String(t === b)))
+      comparar.dataset.plan = b.dataset.i
+    })
+  })
+
   const planes = document.querySelector<HTMLElement>('.planes')
   document.querySelectorAll<HTMLButtonElement>('.ciclo button').forEach((boton, _, todos) => {
     boton.addEventListener('click', () => {
