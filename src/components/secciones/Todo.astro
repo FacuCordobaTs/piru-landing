@@ -14,157 +14,157 @@ import CuponTicket from '../escenas/CuponTicket.astro'
 import type { NombreIcono } from '../ui/lucide'
 
 /**
- * Todo lo que el local necesita para vender, como un recorrido de lado: en escritorio la sección
- * queda fija y bajar la corre hacia la izquierda (el ancho real del recorrido lo mide el script);
- * en pantallas angostas los paneles van uno abajo del otro. Primero la tienda (el editor), después
- * cómo cobra, cómo le llegan los pedidos, la comanda y, al final, lo que hace que vuelvan.
- * Las reglas que se nombran (puntos, escalera de recompra) son las de la app: si cambian, cambian acá.
+ * Todo lo que el local necesita para vender, en una grilla que se lee bajando: el editor, los
+ * cobros, el panel de pedidos y la comanda; al final, lo que hace que vuelvan, en una fila que se
+ * desliza de costado (scroll nativo con imán, y flechas en la compu). Las reglas que se nombran
+ * (puntos, escalera de recompra) son las de la app: si cambian, cambian acá.
  */
 const COBROS: { nombre: string; texto: string; logo?: string; icono?: NombreIcono; fondo: string; pronto?: boolean }[] = [
-  { nombre: 'Mercado Pago', texto: 'Con tu propia cuenta. La plata va directo a vos.', logo: '/pagos/mercadopago.svg', fondo: '#00B1EA' },
-  { nombre: 'Transferencia automática', texto: 'El pago se confirma solo en el pedido, sin pedir comprobantes.', icono: 'zap', fondo: '#7C3AED' },
-  { nombre: 'Transferencia', texto: 'Tu alias en el checkout, para que te transfieran.', icono: 'landmark', fondo: '#F59E0B' },
-  { nombre: 'Efectivo', texto: 'Paga al recibir o al retirar el pedido.', icono: 'banknote', fondo: '#10B981' },
-  { nombre: 'MODO', texto: 'Pagos desde la app de su banco.', logo: '/pagos/modo.webp', fondo: '#ffffff', pronto: true },
+  { nombre: 'Mercado Pago', texto: 'Con tu cuenta. La plata va directo a vos.', logo: '/pagos/mercadopago.svg', fondo: '#00B1EA' },
+  { nombre: 'Transferencia automática', texto: 'Se confirma sola, sin pedir comprobantes.', icono: 'zap', fondo: '#7C3AED' },
+  { nombre: 'Transferencia', texto: 'Tu alias en el checkout.', icono: 'landmark', fondo: '#F59E0B' },
+  { nombre: 'Efectivo', texto: 'Al recibir o al retirar.', icono: 'banknote', fondo: '#10B981' },
+  { nombre: 'MODO', texto: 'Desde la app de su banco.', logo: '/pagos/modo.webp', fondo: '#ffffff', pronto: true },
 ]
 const VUELVEN = [
-  { titulo: 'Puntos en cada pedido', texto: 'Cada pedido suma puntos que tus clientes canjean por envío gratis, un descuento o un producto.' },
-  { titulo: 'Te avisa quién se está yendo', texto: 'Cada cliente tiene su ritmo. Si deja de pedir, Piru te lo marca antes de que lo pierdas.' },
-  { titulo: 'El mensaje, listo para mandar', texto: 'A quién escribirle, con el texto armado y su pedido de siempre. Lo mandás desde tu WhatsApp.' },
-  { titulo: 'Cupones que se aplican solos', texto: 'Promos como MARTES20, con vencimiento y límite de usos. Y ves cuánto vendió cada una.' },
+  { titulo: 'Puntos en cada pedido', texto: 'Tus clientes suman puntos y los canjean por envío gratis, un descuento o un producto.' },
+  { titulo: 'Te avisa quién se está yendo', texto: 'Cada cliente tiene su ritmo. Si deja de pedir, Piru te lo marca a tiempo.' },
+  { titulo: 'El mensaje, listo para mandar', texto: 'A quién escribirle, con el texto armado. Lo mandás desde tu WhatsApp.' },
+  { titulo: 'Cupones que se aplican solos', texto: 'Promos como MARTES20, con vencimiento y límite de usos.' },
 ]
-const panel = 'todo-panel flex shrink-0 flex-col justify-center lg:h-full'
-const tarjeta = 'overflow-hidden rounded-[28px] bg-[var(--superficie)] ring-1 ring-[var(--linea)] shadow-[0_30px_60px_-40px_rgb(40_24_8/.35)]'
-const rotulo = 'inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[.09em] acento'
+const tarjeta = 'revelar overflow-hidden rounded-[28px] bg-white ring-1 ring-line shadow-[0_24px_50px_-36px_rgb(40_24_8/.35)]'
+const rotulo = 'inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[.09em] text-brand-deep'
 ---
 
-<section id="todo" data-tema="papel" data-fijo class="todo relative">
-  <div class="todo-escenario lg:sticky lg:top-0 lg:h-[100svh] lg:overflow-hidden">
-    <div class="todo-pista flex flex-col gap-20 py-24 sm:py-32 lg:h-full lg:flex-row lg:items-center lg:gap-[6vw] lg:py-0 lg:pl-[max(32px,calc((100vw-1200px)/2+32px))] lg:pr-[12vw]">
+<section id="todo" class="bg-sand py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="revelar antetitulo">Todo incluido</p>
+      <h2 class="revelar titulo-lg mt-4">Y todo lo que necesitás para vender.</h2>
+      <p class="revelar mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-ink-2">El diseño es tuyo. Lo de abajo ya está resuelto: los cobros, los pedidos, la cocina y tus clientes.</p>
+    </div>
 
-      <!-- Entrada -->
-      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[34vw] lg:px-0']}>
-        <p class="revelar antetitulo acento">Todo incluido</p>
-        <h2 class="revelar titulo-lg mt-4 max-w-[13ch]" style="--retraso:60ms">Y todo lo que necesitás para vender.</h2>
-        <p class="revelar t2 mt-5 max-w-[28rem] text-[17px] leading-relaxed" style="--retraso:120ms">El diseño es tuyo. Lo que pasa debajo ya está resuelto: los cobros, los pedidos, la cocina y tus clientes.</p>
-        <p class="t3 mt-8 hidden items-center gap-2 text-[14px] font-medium lg:flex">Seguí bajando<Icon name="arrow-right" class="size-4 todo-flecha" /></p>
-      </div>
-
+    <div class="mt-14 grid gap-4 lg:grid-cols-5">
       <!-- Editor -->
-      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(62vw,860px)] lg:px-0']}>
-        <p class={rotulo}><Icon name="pencil" class="size-4" />Editor de página</p>
-        <h3 class="titulo-md mt-3 max-w-[26ch]">Cambiás tu tienda tocando lo que querés cambiar.</h3>
-        <div class:list={[tarjeta, 'mt-7']}>
-          <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas: a la izquierda las secciones y la marca, al centro la página de Alfajor con Papas y a la derecha las propiedades de la sección elegida">
-            <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} video={false} /></EditorPaginas></Ventana>
-          </Escala>
+      <article class:list={[tarjeta, 'lg:col-span-3']}>
+        <div class="p-6 sm:p-8">
+          <p class={rotulo}><Icon name="pencil" class="size-4" />Editor de página</p>
+          <h3 class="titulo-md mt-3">Cambiás tu tienda tocando lo que querés cambiar.</h3>
         </div>
-      </div>
+        <div class="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div class="overflow-hidden rounded-[16px] ring-1 ring-line">
+            <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas: secciones a la izquierda, la página en el centro y las propiedades a la derecha">
+              <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} video={false} /></EditorPaginas></Ventana>
+            </Escala>
+          </div>
+        </div>
+      </article>
 
       <!-- Cobros -->
-      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(56vw,720px)] lg:px-0']}>
+      <article class:list={[tarjeta, 'flex flex-col p-6 sm:p-8 lg:col-span-2']}>
         <p class={rotulo}><Icon name="wallet" class="size-4" />Cobros</p>
-        <h3 class="titulo-md mt-3 max-w-[26ch]">Tus clientes pagan como quieren. Vos cobrás todo.</h3>
-        <ul class="mt-7 grid gap-3 sm:grid-cols-2">
-          {COBROS.map((c, i) => (
-            <li class:list={[tarjeta, 'revelar flex items-start gap-4 p-5', i === 0 && 'sm:col-span-2']} style={`--retraso:${i * 70}ms`}>
-              <span class="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl text-white shadow-sm ring-1 ring-black/5" style={`background:${c.fondo}`}>
-                {c.logo ? <img src={c.logo} alt="" class:list={[c.nombre === 'MODO' ? 'w-10' : 'size-7 invert']} /> : <Icon name={c.icono!} class="size-6" />}
+        <h3 class="titulo-md mt-3">Te pagan como quieren. Vos cobrás todo.</h3>
+        <ul class="mt-6 flex-1 divide-y divide-line">
+          {COBROS.map((c) => (
+            <li class="flex items-center gap-4 py-3.5">
+              <span class="grid size-11 shrink-0 place-items-center overflow-hidden rounded-xl text-white ring-1 ring-black/5" style={`background:${c.fondo}`}>
+                {c.logo ? <img src={c.logo} alt="" class:list={[c.nombre === 'MODO' ? 'w-9' : 'size-6 invert']} /> : <Icon name={c.icono!} class="size-5" />}
               </span>
               <span class="min-w-0">
-                <span class="flex items-center gap-2 text-[17px] font-semibold tracking-[-0.01em]">{c.nombre}{c.pronto && <span class="rounded-full bg-[var(--acento)] px-2 py-0.5 text-[11px] font-bold text-white">Pronto</span>}</span>
-                <span class="t2 mt-1 block text-[14.5px] leading-snug">{c.texto}</span>
+                <span class="flex items-center gap-2 text-[16px] font-semibold">{c.nombre}{c.pronto && <span class="rounded-full bg-brand px-2 py-0.5 text-[11px] font-bold text-white">Pronto</span>}</span>
+                <span class="block text-[14px] text-ink-2">{c.texto}</span>
               </span>
             </li>
           ))}
         </ul>
-        <p class="t3 mt-4 flex items-center gap-2 text-[14px]"><Icon name="shield-check" class="size-4" />Sin comisión por venta: Piru no toca tu plata.</p>
-      </div>
-
-      <!-- Pedidos -->
-      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(62vw,860px)] lg:px-0']}>
-        <p class={rotulo}><Icon name="receipt" class="size-4" />Panel de pedidos</p>
-        <h3 class="titulo-md mt-3 max-w-[26ch]">Cada pedido entra a tu panel, claro y listo para despachar.</h3>
-        <div class:list={[tarjeta, 'mt-7']}>
-          <Escala ancho={1280} alto={800} etiqueta="Inicio del panel: la lista de pedidos del día y el detalle del pedido elegido">
-            <Ventana ancho={1280} alto={800}><PanelPedidos /></Ventana>
-          </Escala>
-        </div>
-      </div>
+        <p class="mt-4 flex items-center gap-2 text-[13.5px] text-ink-3"><Icon name="shield-check" class="size-4" />Sin comisión por venta.</p>
+      </article>
 
       <!-- Comandas -->
-      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(40vw,520px)] lg:px-0']}>
+      <article class:list={[tarjeta, 'flex flex-col p-6 sm:p-8 lg:col-span-2']}>
         <p class={rotulo}><Icon name="printer" class="size-4" />Comandas</p>
-        <h3 class="titulo-md mt-3 max-w-[22ch]">Y sale impreso en la cocina, solo.</h3>
-        <p class="t2 mt-3 max-w-[26rem] text-[16px] leading-relaxed">Venga de tu tienda, del mostrador o de una mesa, la comanda sale apenas entra el pedido.</p>
-        <div class="todo-impresora mt-8 flex flex-col items-center">
-          <span class="h-5 w-[330px] max-w-full rounded-t-xl bg-[#2a2622] shadow-inner" />
-          <div class="relative -mt-2 drop-shadow-[0_20px_30px_rgba(40,24,8,0.2)]">
-            <Comanda />
+        <h3 class="titulo-md mt-3">Y sale impreso en la cocina, solo.</h3>
+        <div class="relative mt-6 h-[300px] overflow-hidden">
+          <div class="flex justify-center">
+            <span class="absolute top-0 h-4 w-[300px] max-w-full rounded-t-xl bg-[#2a2622]" />
+            <div class="mt-2 origin-top scale-[.92]"><Comanda /></div>
+          </div>
+          <span class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white" />
+        </div>
+      </article>
+
+      <!-- Pedidos -->
+      <article class:list={[tarjeta, 'lg:col-span-3']}>
+        <div class="p-6 sm:p-8">
+          <p class={rotulo}><Icon name="receipt" class="size-4" />Panel de pedidos</p>
+          <h3 class="titulo-md mt-3">Cada pedido, claro y listo para despachar.</h3>
+        </div>
+        <div class="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div class="overflow-hidden rounded-[16px] ring-1 ring-line">
+            <Escala ancho={1280} alto={800} etiqueta="Inicio del panel: la lista de pedidos del día y el detalle del pedido elegido">
+              <Ventana ancho={1280} alto={800}><PanelPedidos /></Ventana>
+            </Escala>
           </div>
         </div>
-      </div>
+      </article>
+    </div>
 
-      <!-- Que vuelvan -->
-      <div class:list={[panel, 'px-5 sm:px-8 lg:px-0']}>
-        <p class={rotulo}><Icon name="repeat-2" class="size-4" />Que vuelvan</p>
-        <h3 class="titulo-md mt-3 max-w-[26ch]">Y cuando te piden, que vuelvan a pedirte.</h3>
-        <div class="sin-barra -mx-5 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:overflow-visible lg:px-0">
-          {VUELVEN.map((v, i) => (
-            <article class:list={[tarjeta, 'flex w-[80vw] max-w-[340px] shrink-0 snap-center flex-col lg:w-[330px]']}>
-              <div class="escenario flex h-[230px] items-center justify-center overflow-hidden p-4">
-                {i === 0 && <div class="w-full"><ClubPuntos /></div>}
-                {i === 1 && <div class="w-full"><RitmoCliente /></div>}
-                {i === 2 && (
-                  <div class="w-[150px] translate-y-[38%]">
-                    <Escala ancho={412} alto={866} etiqueta="El WhatsApp del local con el mensaje para que Martina vuelva a pedir">
-                      <Telefono><WhatsAppLocal variante="recompra" /></Telefono>
-                    </Escala>
-                  </div>
-                )}
-                {i === 3 && <div class="w-full"><CuponTicket /></div>}
-              </div>
-              <div class="p-5">
-                <h4 class="text-[18px] font-semibold tracking-[-0.01em]">{v.titulo}</h4>
-                <p class="t2 mt-1.5 text-[14.5px] leading-relaxed">{v.texto}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+    <!-- Que vuelvan -->
+    <div class="mt-20 flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <p class="revelar antetitulo">Que vuelvan</p>
+        <h3 class="revelar titulo-lg mt-3 max-w-[18ch] !text-[clamp(1.9rem,3.6vw,2.8rem)]">Y cuando te piden, que vuelvan a pedirte.</h3>
+      </div>
+      <div class="hidden gap-2 sm:flex">
+        <button type="button" class="vuelven-flecha" data-dir="-1" aria-label="Anterior"><Icon name="arrow-left" class="size-5" /></button>
+        <button type="button" class="vuelven-flecha" data-dir="1" aria-label="Siguiente"><Icon name="arrow-right" class="size-5" /></button>
       </div>
     </div>
   </div>
+  <div class="vuelven sin-barra mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 sm:px-8 lg:px-[max(32px,calc((100vw-1200px)/2+32px))]">
+    {VUELVEN.map((v, i) => (
+      <article class="flex w-[82vw] max-w-[380px] shrink-0 snap-start flex-col overflow-hidden rounded-[28px] bg-white ring-1 ring-line sm:scroll-ml-8 lg:scroll-ml-[max(32px,calc((100vw-1200px)/2+32px))]">
+        <div class="escenario flex h-[250px] items-center justify-center overflow-hidden p-5">
+          {i === 0 && <div class="w-full"><ClubPuntos /></div>}
+          {i === 1 && <div class="w-full"><RitmoCliente /></div>}
+          {i === 2 && (
+            <div class="w-[160px] translate-y-[34%]">
+              <Escala ancho={412} alto={866} etiqueta="El WhatsApp del local con el mensaje para que la clienta vuelva a pedir">
+                <Telefono><WhatsAppLocal variante="recompra" /></Telefono>
+              </Escala>
+            </div>
+          )}
+          {i === 3 && <div class="w-full"><CuponTicket /></div>}
+        </div>
+        <div class="p-6">
+          <h4 class="text-[19px] font-semibold tracking-[-0.01em]">{v.titulo}</h4>
+          <p class="mt-1.5 text-[15px] leading-relaxed text-ink-2">{v.texto}</p>
+        </div>
+      </article>
+    ))}
+    <span class="w-1 shrink-0" aria-hidden="true" />
+  </div>
+  <p class="contenedor mt-2 flex items-center gap-1.5 text-[13px] text-ink-3 sm:hidden">Deslizá para ver las {VUELVEN.length}<Icon name="arrow-right" class="size-3.5" /></p>
 </section>
 
 <style>
-  .todo-flecha { animation: todo-flecha 1.6s ease-in-out infinite; }
-  @keyframes todo-flecha { 50% { transform: translateX(6px); } }
-
-  @media (min-width: 1024px) {
-    /* La pista se corre lo que mide de más (--dx, en px) a medida que la sección avanza (--p). */
-    .todo-pista { width: max-content; transform: translateX(calc(var(--p, 0) * var(--dx, 0) * -1px)); will-change: transform; }
-    .todo-panel .titulo-md { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+  .vuelven-flecha {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 1px var(--color-line);
+    transition: background-color .2s, color .2s;
   }
+  .vuelven-flecha:hover { background: var(--color-ink); color: #fff; }
 </style>
 
 <script>
-  // En escritorio, el alto de la sección es lo que hay que recorrer de lado más una pantalla.
-  const seccion = document.getElementById('todo')
-  const pista = seccion?.querySelector<HTMLElement>('.todo-pista')
-  if (seccion && pista) {
-    const ancho = matchMedia('(min-width: 1024px)')
-    const medir = () => {
-      if (!ancho.matches) {
-        seccion.style.height = ''
-        return
-      }
-      const dx = Math.max(0, pista.scrollWidth - innerWidth)
-      seccion.style.setProperty('--dx', String(dx))
-      seccion.style.height = `${dx + innerHeight}px`
-    }
-    new ResizeObserver(medir).observe(pista)
-    addEventListener('resize', medir)
-    ancho.addEventListener('change', medir)
-    medir()
-  }
+  const fila = document.querySelector<HTMLElement>('.vuelven')
+  document.querySelectorAll<HTMLButtonElement>('.vuelven-flecha').forEach((b) => {
+    b.addEventListener('click', () => fila?.scrollBy({ left: Number(b.dataset.dir) * 396, behavior: 'smooth' }))
+  })
 </script>

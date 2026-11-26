@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets'
+import Icon from '../ui/Icon.astro'
+import { PAGINAS } from '../../data/oferta'
+import { capturaPagina } from '../../data/capturas'
+
+/**
+ * La prueba: dos locales que ya venden con su diseño. Cada uno en su mundo (su fondo, su letra y sus
+ * colores) y con capturas de su página publicada, en la compu y en el celular. El cambio de color
+ * es el borde de la sección: llega justo cuando llega la sección.
+ */
+const [alfajor, che] = PAGINAS
+const LOCALES = [
+  { ...alfajor, clave: 'alfajor' as const, fondo: '#EFEAE7', tinta: '#083821', suave: 'rgb(8 56 33 / .75)', acento: '#eb623a', tintaBoton: '#083821', letra: "'Eastman','Barlow Condensed',sans-serif", titulo: ['ALFAJOR', 'CON PAPAS'], oscuro: false },
+  { ...che, clave: 'che' as const, fondo: '#111111', tinta: '#ffffff', suave: 'rgb(255 255 255 / .72)', acento: '#ffb800', tintaBoton: '#111111', letra: "'Alfa Slab One',serif", titulo: ['CHE', 'MILANESA'], oscuro: true },
+]
+---
+
+<section id="locales" class="bg-[#0E0B09] pb-24 pt-4 text-center text-[#FFF8EF]" data-oscuro>
+  <p class="revelar antetitulo text-[#FF8A1A]">Ya están vendiendo</p>
+  <h2 class="revelar titulo-lg contenedor mt-4 max-w-[20ch]">Locales que ya tienen su tienda con su diseño.</h2>
+</section>
+
+{LOCALES.map((l, n) => (
+  <section class="relative overflow-hidden py-24 sm:py-32" style={`background:${l.fondo};color:${l.tinta}`} data-oscuro={l.oscuro ? '' : undefined}>
+    <div class="contenedor grid items-center gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <div class:list={[n === 1 && 'lg:order-2']}>
+        <p class="revelar inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[12.5px] font-semibold" style={`background:${l.acento};color:${l.tintaBoton}`}>
+          <Icon name="sparkles" class="size-3.5" />Diseño a medida
+        </p>
+        <h3 class="revelar mt-6 text-[clamp(3rem,8vw,6.2rem)] leading-[.88]" style={`font-family:${l.letra}`}>
+          {l.titulo[0]}<br /><span style={`color:${l.acento}`}>{l.titulo[1]}</span>
+        </h3>
+        <p class="revelar mt-6 max-w-[30rem] text-[17px] leading-relaxed" style={`color:${l.suave}`}>{l.texto}</p>
+        <a href={l.url} target="_blank" rel="noopener" class="revelar mt-8 inline-flex h-12 items-center gap-2 rounded-full px-5 text-[15px] font-bold transition-transform hover:-translate-y-0.5" style={`background:${l.acento};color:${l.tintaBoton}`}>
+          Visitar {l.dominio}<Icon name="arrow-up-right" class="size-4" />
+        </a>
+      </div>
+      <div class="revelar relative pb-[8%] pr-[16%]">
+        <div class="overflow-hidden rounded-[16px] shadow-[0_40px_80px_-30px_rgb(0_0_0/.5)] ring-1 ring-black/10">
+          <div class="flex h-8 items-center gap-1.5 bg-[#f1efec] px-3" aria-hidden="true">
+            <span class="size-2.5 rounded-full bg-[#ff5f57]" /><span class="size-2.5 rounded-full bg-[#febc2e]" /><span class="size-2.5 rounded-full bg-[#28c840]" />
+            <span class="mx-auto rounded-md bg-white px-3 py-0.5 text-[11.5px] text-[#6b6258]">{l.dominio}</span>
+          </div>
+          <Image src={capturaPagina(l.clave, 'compu')} alt={`La página de ${l.nombre} en la compu`} width={1200} class="block aspect-[1440/860] w-full object-cover object-top" />
+        </div>
+        <div class="absolute bottom-0 right-0 w-[30%] overflow-hidden rounded-[28px] border-[6px] border-[#151312] bg-[#151312] shadow-[0_30px_60px_-20px_rgb(0_0_0/.55)]">
+          <Image src={capturaPagina(l.clave)} alt={`La página de ${l.nombre} en el celular`} width={390} class="block w-full rounded-[22px]" />
+        </div>
+      </div>
+    </div>
+  </section>
+))}

@@ -77,7 +77,7 @@ export const TABLA_PLANES: { grupo: string; filas: { nombre: string; planes: (bo
     filas: [
       { nombre: 'Pedidos y productos', planes: ['Ilimitados', 'Ilimitados', 'Ilimitados', 'Ilimitados', 'Ilimitados'] },
       { nombre: 'Comisión por venta', planes: ['0%', '0%', '0%', '0%', '0%'] },
-      { nombre: 'Diseño', planes: ['Plantilla Sencilla', 'Plantillas + editor', 'Editor + código', 'Editor + código', 'A medida'] },
+      { nombre: 'Diseño', planes: ['Tema Sencilla', '20 temas + editor', '+ código', '+ código', 'A medida'] },
       { nombre: 'Pedidos a tu WhatsApp', planes: [true, true, true, true, true] },
       { nombre: 'Repositorio propio y desarrollos a medida', planes: [false, false, false, false, true] },
     ],
@@ -143,36 +143,34 @@ export const PAGINAS = [
 ] as const
 
 /**
- * Las plantillas de la tienda (web/src/features/tienda/: elegante, moderna, artesanal). La home
- * muestra éstas como las primeras de la galería, sin decir que son todas. Las capturas salen de la
- * suite de web (`tests/tienda.spec.ts`, local "Casa Oliva") con fotos de la tienda demo.
+ * Los temas de Páginas, en el orden de la galería: espejo de `sitios/src/lib/plantillas.ts` (`id`,
+ * `nombre`, colores de fondo y texto). `para` es la línea corta de la landing. Las capturas están en
+ * `src/assets/temas/<id>-movil.png` y `<id>-compu.png`: salen de la página real de cada tema con la
+ * carta de ejemplo de la galería. Si se suma o cambia un tema, se actualizan las dos cosas.
  */
-export const PLANTILLAS = [
-  {
-    clave: 'elegante',
-    nombre: 'Elegante',
-    para: 'Restaurantes, bodegones y cocina de autor',
-    texto: 'Tu nombre en grande, la carta como un índice y el plato de la casa enmarcado. Mucho aire y letra de diario.',
-  },
-  {
-    clave: 'moderna',
-    nombre: 'Moderna',
-    para: 'Hamburgueserías, pizzerías y comida rápida',
-    texto: 'Un bloque de color de punta a punta, tu favorito en una tarjeta y la carta en pestañas para pedir rápido.',
-  },
-  {
-    clave: 'sencilla',
-    nombre: 'Sencilla',
-    para: 'La del plan gratis',
-    texto: 'Tu logo, la carta en tarjetas con fotos grandes y nada que distraiga. Para empezar a vender hoy.',
-  },
-  {
-    clave: 'artesanal',
-    nombre: 'Artesanal',
-    para: 'Panaderías, cafés y cocinas caseras',
-    texto: 'Toldo, pizarrón y fotos con cinta. Se siente como entrar a un local de barrio, aunque estés en el celular.',
-  },
+export const TEMAS = [
+  { id: 'sencilla', nombre: 'Sencilla', para: 'Blanco y negro, la carta primero', fondo: '#ffffff', texto: '#1d1d1f' },
+  { id: 'elegante', nombre: 'Brasa', para: 'Parrilla de noche, con brillo de brasa', fondo: '#0f0c0a', texto: '#f3eadb' },
+  { id: 'umami', nombre: 'Umami', para: 'Editorial japonés, crema y tinta', fondo: '#120c0b', texto: '#f4ecdc' },
+  { id: 'sobremesa', nombre: 'Sobremesa', para: 'Alta cocina sobre lino', fondo: '#e8dfd1', texto: '#1f1a15' },
+  { id: 'tarascon', nombre: 'Tarascón', para: 'Hamburguesería pop, lima y verde', fondo: '#eef37b', texto: '#173d24' },
+  { id: 'nam', nombre: 'Ñam', para: 'Hamburguesería de cartel', fondo: '#f8e8c8', texto: '#0f3a22' },
+  { id: 'chispa', nombre: 'Chispa', para: 'Cartel moderno, crema y naranja', fondo: '#fdf6ec', texto: '#15232d' },
+  { id: 'sorbo', nombre: 'Sorbo', para: 'Noodle bar de cartel', fondo: '#fdf3e1', texto: '#3a1707' },
+  { id: 'girasol', nombre: 'Girasol', para: 'Mediodía al sol, letra de máquina', fondo: '#fdf1dc', texto: '#3a2416' },
+  { id: 'calcomania', nombre: 'Calcomanía', para: 'Taquería de stickers', fondo: '#1f5138', texto: '#f6e9c8' },
+  { id: 'baobab', nombre: 'Baobab', para: 'Cocina de fiesta, rojo y maíz', fondo: '#b3170f', texto: '#fff3dc' },
+  { id: 'porcion', nombre: 'Porción', para: 'Pizzería sobre cemento', fondo: '#ecebe7', texto: '#1d1d1b' },
+  { id: 'tazon', nombre: 'Tazón', para: 'Ramen bar sobre bordó', fondo: '#6d0b19', texto: '#fff5ea' },
+  { id: 'hanko', nombre: 'Hanko', para: 'Sushi de autor, tinta y washi', fondo: '#efe9df', texto: '#151311' },
+  { id: 'fideo', nombre: 'Fideo', para: 'Noodle bar de revista', fondo: '#efeee9', texto: '#111111' },
+  { id: 'sumi', nombre: 'Sumi', para: 'Sushi lounge de tinta', fondo: '#060606', texto: '#f3f1ee' },
+  { id: 'kuro', nombre: 'Kuro', para: 'Sushi bar de noche', fondo: '#0c0c0c', texto: '#f3efe8' },
+  { id: 'damero', nombre: 'Damero', para: 'Hamburguesería de cielo azul', fondo: '#2338c4', texto: '#ffffff' },
+  { id: 'mordisco', nombre: 'Mordisco', para: 'Hamburguesería de afiche', fondo: '#fbf0d6', texto: '#2a1408' },
+  { id: 'miga', nombre: 'Miga', para: 'Panadería de vidriera', fondo: '#f3e5dd', texto: '#2b1610' },
 ] as const
+export type IdTema = (typeof TEMAS)[number]['id']
 
 /**
  * Los módulos del catálogo (tabla `modulo`, `backend/src/lib/modulos.ts`), con el nombre que usa la

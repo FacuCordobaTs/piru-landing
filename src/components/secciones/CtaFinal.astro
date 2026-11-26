@@ -9,15 +9,15 @@ import { CREAR_TIENDA, TIENDA_DEMO } from '../../data/oferta'
 const frase = ['Tu', 'local', 'ya', 'tiene', 'su', 'estilo.']
 ---
 
-<section data-tema="marca" data-progreso class="cta relative overflow-hidden py-32 sm:py-44">
+<section class="cta relative overflow-hidden bg-brand py-32 text-white sm:py-44">
   <div class="cta-anillos pointer-events-none absolute inset-0" aria-hidden="true" />
   <div class="contenedor relative text-center">
     <h2 class="mx-auto max-w-[14ch] text-[clamp(2.8rem,8vw,6.4rem)] font-bold leading-[.95] tracking-[-.045em]">
-      {frase.map((p, i) => <><span class="revelar inline-block" style={`--retraso:${i * 50}ms`}>{p}</span>{' '}</>)}
-      <span class="revelar inline-block text-[#191512]" style="--retraso:340ms">Que tu tienda también.</span>
+      {frase.map((p, i) => <><span class="revelar inline-block">{p}</span>{' '}</>)}
+      <span class="revelar inline-block text-[#191512]">Que tu tienda también.</span>
     </h2>
-    <p class="revelar t2 mx-auto mt-7 max-w-xl text-[19px] leading-relaxed" style="--retraso:420ms">Creala gratis, cargá tu carta y compartí el link. Cuando quieras tu diseño, elegís una plantilla.</p>
-    <div class="revelar mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:500ms">
+    <p class="revelar mx-auto text-white/85 mt-7 max-w-xl text-[19px] leading-relaxed">Creala gratis, cargá tu carta y compartí el link. Cuando quieras tu diseño, elegís una plantilla.</p>
+    <div class="revelar mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
       <a href={CREAR_TIENDA} class="boton h-14 w-full max-w-xs bg-[#191512] px-8 text-[16.5px] text-white shadow-[0_20px_40px_-16px_rgb(60_20_0/.7)] hover:bg-black sm:w-auto">
         <Icon name="sparkles" class="size-[18px] text-brand" stroke={2.2} />Crear tienda gratis
       </a>
@@ -29,8 +29,12 @@ const frase = ['Tu', 'local', 'ya', 'tiene', 'su', 'estilo.']
 </section>
 
 <style>
-  .cta-anillos {
-    background: repeating-radial-gradient(circle at 50% 120%, transparent 0 60px, rgb(255 255 255 / .07) 60px 61px);
-    transform: scale(calc(.9 + var(--p, .5) * .3));
+  .cta { view-timeline: --cta block; }
+  .cta-anillos { background: repeating-radial-gradient(circle at 50% 120%, transparent 0 60px, rgb(255 255 255 / .08) 60px 61px); }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .cta-anillos { animation: anillos linear both; animation-timeline: --cta; animation-range: entry 0% cover 60%; }
+    }
   }
+  @keyframes anillos { from { transform: scale(.8); opacity: 0; } to { transform: scale(1.1); opacity: 1; } }
 </style>

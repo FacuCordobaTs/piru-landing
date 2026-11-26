@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro'
 import Intro from '../components/secciones/Intro.astro'
 import Hero from '../components/secciones/Hero.astro'
 import Problema from '../components/secciones/Problema.astro'
-import Disenos from '../components/secciones/Disenos.astro'
+import Locales from '../components/secciones/Locales.astro'
+import Temas from '../components/secciones/Temas.astro'
 import Todo from '../components/secciones/Todo.astro'
 import Precios from '../components/secciones/Precios.astro'
 import Preguntas from '../components/secciones/Preguntas.astro'
@@ -12,21 +13,22 @@ import CtaFinal from '../components/secciones/CtaFinal.astro'
 /**
  * La home le habla al dueño del local y sigue un solo hilo (docs/ENFOQUE_PAGINAS.md): la oferta
  * (una tienda online con el diseño de tu local), el problema (las apps de pedidos dan la misma
- * tienda a todos y la propia había que pagársela a un programador), la solución, la prueba (locales
- * que ya venden con su diseño y las plantillas), todo lo que trae debajo, precios, preguntas y el
- * cierre. Cada sección dice su tema (`data-tema`) y la página cambia de color al pasar.
+ * tienda a todos y la propia había que pagársela a un programador) y la solución, la prueba (locales
+ * que ya venden con su diseño y los temas de Páginas), todo lo que trae debajo, precios, preguntas y
+ * el cierre. Cada sección tiene su propio fondo y las apariciones van atadas al scroll (`.revelar`).
  */
 ---
 
 <Base
   canonical="/"
   titulo="Piru · La tienda online de tu local gastronómico, con tu diseño"
-  descripcion="Piru es la plataforma para que los locales gastronómicos tengan su tienda online con diseño propio, sin programadores. Elegí una plantilla, ponele tu marca y vendé con pedidos a tu WhatsApp, cobros con Mercado Pago, transferencia o efectivo, comandas impresas y tu panel. Sin comisión por venta."
+  descripcion="Piru es la plataforma para que los locales gastronómicos tengan su tienda online con diseño propio, sin programadores. Elegí uno de los temas, ponele tu marca y vendé con pedidos a tu WhatsApp, cobros con Mercado Pago, transferencia o efectivo, comandas impresas y tu panel. Sin comisión por venta."
 >
   <Intro />
   <Hero />
   <Problema />
-  <Disenos />
+  <Locales />
+  <Temas />
   <Todo />
   <Precios />
   <Preguntas />

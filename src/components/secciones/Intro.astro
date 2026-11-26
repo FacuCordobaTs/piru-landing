@@ -1,13 +1,13 @@
 ---
 import Escala from '../marcos/Escala.astro'
-import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
-import PaginaChe from '../replicas/paginas/PaginaChe.astro'
-import Plantilla from '../replicas/paginas/Plantilla.astro'
+import { Image } from 'astro:assets'
+import { capturaTema } from '../../data/capturas'
+import type { IdTema } from '../../data/oferta'
 import TiendaGenerica from '../replicas/paginas/TiendaGenerica.astro'
 
 /**
  * Intro a pantalla completa, en la misma noche que la portada: una frase, otra, caen tres tiendas
- * iguales (la de las apps de pedidos), se dan vuelta y quedan tres diseños propios, la última frase
+ * iguales (la de las apps de pedidos), se dan vuelta y quedan tres temas de Piru, la última frase
  * y la capa se desvanece sobre la portada, que arranca su animación (`html.intro-fin`).
  * Todo es CSS con retrasos; el script sólo la saltea (clic, Enter, Espacio o Esc) y la saca al
  * terminar. Sale en cada carga y arranca recién cuando está la Open Runde en negrita (si no, la
@@ -19,9 +19,9 @@ const lineas = [
   { texto: 'Ahora puede tener tu diseño', subrayado: 'diseño', inicio: 7.2, fin: 9.1 },
 ]
 const cartas = [
-  { nombre: 'Alfajor con Papas', generica: { nombre: 'Lo de Tito', rubro: 'Hamburguesas', categoria: 0 }, x: -170, y: -6, r: -7, xm: -60, ym: -26 },
-  { nombre: 'Che Milanesa', generica: { nombre: 'Napoli', rubro: 'Pizzería', categoria: 1 }, x: 170, y: 10, r: 6, xm: 60, ym: 4 },
-  { nombre: 'Plantilla Moderna', generica: { nombre: 'Doña Rosa', rubro: 'Empanadas', categoria: 2 }, x: 0, y: 30, r: -1, xm: 0, ym: 34 },
+  { tema: 'tarascon' as IdTema, generica: { nombre: 'Lo de Tito', rubro: 'Hamburguesas', categoria: 0 }, x: -170, y: -6, r: -7, xm: -60, ym: -26 },
+  { tema: 'elegante' as IdTema, generica: { nombre: 'Napoli', rubro: 'Pizzería', categoria: 1 }, x: 170, y: 10, r: 6, xm: 60, ym: 4 },
+  { tema: 'calcomania' as IdTema, generica: { nombre: 'Doña Rosa', rubro: 'Empanadas', categoria: 2 }, x: 0, y: 30, r: -1, xm: 0, ym: 34 },
 ]
 const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
 ---
@@ -44,11 +44,7 @@ const limpia = (p: string) => p.replace(/[^\p{L}']/gu, '')
     <div class="i-pila relative col-start-1 row-start-1 h-[72vh] w-full max-w-xl">
       {cartas.map((c, i) => (
         <figure class="i-carta absolute left-1/2 top-1/2 m-0 w-[min(56vw,250px,40vh)] overflow-hidden rounded-[22px] bg-black shadow-[0_30px_80px_rgb(0_0_0/.6)] ring-1 ring-white/10" style={`--x:${c.x}px;--y:${c.y}px;--xm:${c.xm}px;--ym:${c.ym}px;--r:${c.r}deg;--d:${4.5 + i * 0.28}s;--v:${5.9 + i * 0.22}s`}>
-          <Escala ancho={390} alto={700} etiqueta="" class="i-pagina">
-            {i === 0 && <PaginaAlfajor video={false} carrito={false} />}
-            {i === 1 && <PaginaChe />}
-            {i === 2 && <Plantilla plantilla="moderna" />}
-          </Escala>
+          <Image src={capturaTema(c.tema)} alt="" width={300} loading="eager" class="block aspect-[390/700] w-full object-cover object-top" />
           <div class="i-generica absolute inset-0">
             <Escala ancho={390} alto={700} etiqueta="" class="i-pagina">
               <TiendaGenerica {...c.generica} />

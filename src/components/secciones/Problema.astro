@@ -1,181 +1,105 @@
 ---
+import { Image } from 'astro:assets'
 import Icon from '../ui/Icon.astro'
 import Escala from '../marcos/Escala.astro'
-import Telefono from '../marcos/Telefono.astro'
-import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
-import PaginaChe from '../replicas/paginas/PaginaChe.astro'
-import Plantilla from '../replicas/paginas/Plantilla.astro'
 import TiendaGenerica from '../replicas/paginas/TiendaGenerica.astro'
-import type { NombreIcono } from '../ui/lucide'
+import { capturaTema } from '../../data/capturas'
+import { TEMAS, type IdTema } from '../../data/oferta'
 
 /**
- * El hilo de la portada en una sola escena fija: el problema (todas las apps de pedidos dan la
- * misma tienda), por qué nadie tenía la suya (había que pagarle a un programador) y la solución
- * (Piru: las mismas tres tiendas se dan vuelta y quedan con su diseño). La sección es alta y el
- * escenario queda fijo; el script de Base.astro le da `--p` y acá se elige el paso. En el último
- * paso la página se hace de noche.
+ * El hilo en dos bloques que se leen sin hacer nada raro con el scroll:
+ *  1. El problema (fondo gris): cuatro locales distintos con la misma tienda de app de pedidos.
+ *  2. La solución (de noche): los mismos cuatro locales, cada uno con un tema de Piru.
+ * Las dos filas tienen la misma forma a propósito, para que el cambio se vea de un vistazo.
+ * Los celulares aparecen al entrar en pantalla con la aparición atada al scroll (`.revelar`).
  */
-const TELEFONOS = [
-  { generica: { nombre: 'Lo de Tito', rubro: 'Hamburguesas', categoria: 0 }, propia: 'Alfajor con Papas', url: 'alfajorconpapas.com' },
-  { generica: { nombre: 'Napoli', rubro: 'Pizzería', categoria: 1 }, propia: 'Che Milanesa', url: 'che-milanesa.com' },
-  { generica: { nombre: 'Doña Rosa', rubro: 'Empanadas', categoria: 2 }, propia: 'Plantilla Artesanal', url: 'brasa.piru.app' },
+const LOCALES: { generica: { nombre: string; rubro: string; categoria: number }; tema: IdTema }[] = [
+  { generica: { nombre: 'Lo de Tito', rubro: 'Hamburguesas', categoria: 0 }, tema: 'tarascon' },
+  { generica: { nombre: 'Napoli', rubro: 'Pizzería', categoria: 1 }, tema: 'porcion' },
+  { generica: { nombre: 'Doña Rosa', rubro: 'Empanadas', categoria: 2 }, tema: 'girasol' },
+  { generica: { nombre: 'La Esquina', rubro: 'Minutas', categoria: 0 }, tema: 'sumi' },
 ]
-const PASOS: { antetitulo: string; titulo: string; texto: string }[] = [
-  {
-    antetitulo: 'El problema',
-    titulo: 'Todas las apps de pedidos te dan la misma tienda.',
-    texto: 'Cambia el nombre y la foto de perfil. La portada, los colores, la letra y la carta son las mismas para todos. Tu marca queda adentro de un molde.',
-  },
-  {
-    antetitulo: 'Hasta ahora',
-    titulo: 'Tener la tuya era pagarle a un programador.',
-    texto: 'Un presupuesto, semanas de espera y depender de alguien hasta para cambiar un precio. Por eso casi ningún local gastronómico tenía una tienda con su diseño.',
-  },
-  {
-    antetitulo: 'Con Piru',
-    titulo: 'Tu tienda online, con el diseño de tu local.',
-    texto: 'Elegí una plantilla, cambiala tocando lo que quieras y publicala en tu dominio. Sin escribir código.',
-  },
-]
-const COMO: { icono: NombreIcono; texto: string }[] = [
-  { icono: 'layers', texto: 'Elegís una plantilla' },
-  { icono: 'pencil', texto: 'La hacés tuya en el editor' },
-  { icono: 'globe', texto: 'La publicás en tu dominio' },
-]
+const nombreTema = (id: IdTema) => TEMAS.find((t) => t.id === id)!.nombre
+const PASOS = [
+  { icono: 'layers', titulo: 'Elegís un tema', texto: `${TEMAS.length} diseños distintos, pensados para gastronomía.` },
+  { icono: 'pencil', titulo: 'Lo hacés tuyo', texto: 'Tu logo, tus colores, tus fotos y tus textos, desde el editor.' },
+  { icono: 'globe', titulo: 'Lo publicás', texto: 'En tu dominio, con los pedidos y los cobros andando.' },
+] as const
 ---
 
-<section id="problema" data-tema="gris" data-fijo class="problema relative h-[340vh]">
-  <div class="sticky top-0 flex h-[100svh] items-center overflow-hidden">
-    <div class="contenedor grid h-full content-center items-center gap-10 pb-4 pt-[76px] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10 lg:py-0">
-      <!-- Los textos de cada paso, uno encima del otro. -->
-      <div class="relative grid">
-        {PASOS.map((p, i) => (
-          <div class="pr-paso col-start-1 row-start-1" data-n={i}>
-            <p class="antetitulo acento">{p.antetitulo}</p>
-            <h2 class="mt-3 text-[clamp(1.75rem,4.4vw,3.6rem)] font-bold leading-[1.02] tracking-[-.04em]">{p.titulo}</h2>
-            <p class="t2 mt-4 max-w-[30rem] text-[clamp(1rem,1.4vw,1.2rem)] leading-relaxed max-lg:text-[15px]">{p.texto}</p>
-            {i === 2 && (
-              <ol class="mt-6 flex flex-wrap gap-2 max-sm:hidden">
-                {COMO.map((c, k) => (
-                  <li class="flex items-center gap-2 rounded-full bg-white/[.07] py-1.5 pl-1.5 pr-3.5 text-[14px] font-medium ring-1 ring-white/10">
-                    <span class="grid size-7 place-items-center rounded-full bg-[#FF8A1A] text-[12px] font-bold text-[#0E0B09]">{k + 1}</span>{c.texto}
-                  </li>
-                ))}
-              </ol>
-            )}
-          </div>
-        ))}
-        <div class="mt-7 flex gap-1.5 max-lg:hidden" aria-hidden="true">
-          {PASOS.map((_, i) => <span class="pr-punto h-1 rounded-full" data-n={i} />)}
-        </div>
-      </div>
+<!-- 1. El problema -->
+<section id="problema" class="bg-[#E9E8E5] py-24 text-[#1d1d1f] sm:py-32">
+  <div class="contenedor">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="revelar antetitulo">El problema</p>
+      <h2 class="revelar titulo-lg mt-4">Todas las apps de pedidos te dan la misma tienda.</h2>
+      <p class="revelar mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-[#55555a]">Cambia el nombre. La portada, los colores, la letra y la carta son iguales para todos.</p>
+    </div>
 
-      <!-- Tres tiendas: iguales, apagadas y, al final, cada una con su diseño. -->
-      <div class="pr-telefonos relative flex items-start justify-center gap-[3vw]" aria-hidden="true">
-        {TELEFONOS.map((t, i) => (
-          <div class="pr-telefono w-[min(28vw,250px,24vh)] lg:w-[min(30%,250px,34vh)]" style={`--i:${i}`}>
-            <div class="relative">
-              <Escala ancho={412} alto={866} etiqueta="">
-                <Telefono url={t.url} tono={i === 1 ? 'oscuro' : 'claro'} tonoNavegador={i === 1 ? 'oscuro' : 'claro'}>
-                  {i === 0 && <PaginaAlfajor video={false} carrito={false} />}
-                  {i === 1 && <PaginaChe />}
-                  {i === 2 && <Plantilla plantilla="artesanal" />}
-                </Telefono>
-              </Escala>
-              <div class="pr-generica absolute inset-0">
-                <Escala ancho={412} alto={866} etiqueta="">
-                  <Telefono><TiendaGenerica {...t.generica} /></Telefono>
-                </Escala>
-              </div>
-            </div>
-            <p class="relative mt-3 h-5 text-center text-[12px] font-semibold sm:text-[13px]">
-              <span class="pr-nombre-gen absolute inset-0 t3">{t.generica.nombre}</span>
-              <span class="pr-nombre-propio absolute inset-0">{t.propia}</span>
-            </p>
+    <div class="relative mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-6">
+      {LOCALES.map((l, i) => (
+        <figure class:list={['revelar m-0', `escalon-${i}`]}>
+          <div class="overflow-hidden rounded-[22px] shadow-[0_20px_40px_-24px_rgb(0_0_0/.35)] ring-1 ring-black/10">
+            <Escala ancho={390} alto={700} etiqueta={`La tienda de ${l.generica.nombre} en una app de pedidos: igual a las otras`}>
+              <TiendaGenerica {...l.generica} />
+            </Escala>
           </div>
-        ))}
-        <span class="pr-igual max-sm:hidden absolute -top-3 left-1/2 inline-flex -translate-x-1/2 -translate-y-full items-center gap-1.5 whitespace-nowrap rounded-full bg-[#1d1d1f] px-3 py-1.5 text-[12px] font-semibold text-white shadow-lg sm:text-[13px]">
-          <Icon name="copy" class="size-3.5" />El mismo molde para todos
-        </span>
-        <span class="pr-codigo absolute left-1/2 top-[38%] w-[min(86%,340px)] -translate-x-1/2 rounded-2xl bg-[#1d1d1f] p-4 font-mono text-[11px] leading-relaxed text-white/70 shadow-2xl ring-1 ring-white/10 sm:text-[12.5px]">
-          <span class="mb-2 flex items-center gap-2 font-sans text-[12px] font-semibold text-white"><Icon name="hourglass" class="size-3.5 text-[#FF8A1A]" />Presupuesto: página a medida</span>
-          <span class="block">Diseño y desarrollo ...... a cotizar</span>
-          <span class="block">Entrega .................. semanas</span>
-          <span class="block">Cambiar un precio ........ escribirle</span>
-        </span>
-      </div>
+          <figcaption class="mt-3 text-center text-[14px] font-semibold text-[#55555a]">{l.generica.nombre}</figcaption>
+        </figure>
+      ))}
+      <span class="revelar pointer-events-none absolute left-1/2 top-[38%] -translate-x-1/2 -rotate-6 whitespace-nowrap rounded-xl bg-[#1d1d1f] px-5 py-3 text-[clamp(1rem,2.4vw,1.5rem)] font-bold text-white shadow-2xl">
+        Cuatro locales. Una sola tienda.
+      </span>
+    </div>
+
+    <div class="revelar mx-auto mt-20 flex max-w-3xl flex-col items-center gap-5 text-center sm:mt-24">
+      <span class="grid size-14 place-items-center rounded-2xl bg-[#1d1d1f] text-white"><Icon name="hourglass" class="size-6" /></span>
+      <p class="text-[clamp(1.6rem,3.6vw,2.6rem)] font-bold leading-[1.1] tracking-[-.035em]">Y si querías la tuya, con tu diseño, había que pagarle a un programador.</p>
+      <p class="max-w-xl text-[17px] leading-relaxed text-[#55555a]">Un presupuesto, semanas de espera y depender de alguien hasta para cambiar un precio.</p>
     </div>
   </div>
 </section>
 
+<!-- 2. La solución -->
+<section id="solucion" data-oscuro class="bg-[#0E0B09] py-24 text-[#FFF8EF] sm:py-32">
+  <div class="contenedor">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="revelar antetitulo text-[#FF8A1A]">Con Piru</p>
+      <h2 class="revelar titulo-lg mt-4">Tu tienda online, con el diseño de tu local.</h2>
+      <p class="revelar mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-white/70">Los mismos cuatro locales, cada uno con un tema distinto. Sin escribir código.</p>
+    </div>
+
+    <div class="mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-6">
+      {LOCALES.map((l, i) => (
+        <figure class:list={['revelar m-0', `escalon-${i}`]}>
+          <Image src={capturaTema(l.tema)} alt={`La tienda de ${l.generica.nombre} con el tema ${nombreTema(l.tema)}`} width={390} class="block aspect-[390/700] w-full rounded-[22px] object-cover object-top shadow-[0_30px_60px_-30px_rgb(255_122_0/.35)] ring-1 ring-white/10" />
+          <figcaption class="mt-3 text-center text-[14px] font-semibold">{l.generica.nombre} <span class="font-medium text-white/50">· tema {nombreTema(l.tema)}</span></figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <ol class="mx-auto mt-20 grid max-w-5xl gap-4 sm:grid-cols-3">
+      {PASOS.map((p, i) => (
+        <li class="revelar rounded-[24px] bg-white/[.05] p-6 ring-1 ring-white/10">
+          <span class="flex items-center gap-3">
+            <span class="grid size-9 place-items-center rounded-full bg-[#FF8A1A] text-[15px] font-bold text-[#0E0B09]">{i + 1}</span>
+            <Icon name={p.icono} class="size-5 text-white/50" />
+          </span>
+          <h3 class="mt-5 text-[21px] font-semibold tracking-[-0.02em]">{p.titulo}</h3>
+          <p class="mt-1.5 text-[15.5px] leading-relaxed text-white/65">{p.texto}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
 <style>
-  .problema { transition: color .9s var(--ease-suave); }
-
-  .pr-paso {
-    opacity: 0;
-    transform: translateY(24px);
-    filter: blur(4px);
-    pointer-events: none;
-    transition: opacity .6s var(--ease-suave), transform .6s var(--ease-suave), filter .6s var(--ease-suave);
-  }
-  .problema:not([data-paso]) .pr-paso[data-n='0'],
-  .problema[data-paso='0'] .pr-paso[data-n='0'],
-  .problema[data-paso='1'] .pr-paso[data-n='1'],
-  .problema[data-paso='2'] .pr-paso[data-n='2'] { opacity: 1; transform: none; filter: none; pointer-events: auto; }
-
-  .pr-punto { width: 18px; background: var(--linea); transition: width .4s var(--ease-suave), background-color .4s; }
-  .problema:not([data-paso]) .pr-punto[data-n='0'],
-  .problema[data-paso='0'] .pr-punto[data-n='0'],
-  .problema[data-paso='1'] .pr-punto[data-n='1'],
-  .problema[data-paso='2'] .pr-punto[data-n='2'] { width: 42px; background: var(--acento); }
-
-  /* Paso 0: las tres iguales. Paso 1: se apagan y aparece el presupuesto. Paso 2: se dan vuelta. */
-  .pr-telefono {
-    transition: transform .8s var(--ease-suave), filter .8s var(--ease-suave), opacity .8s;
-    transition-delay: calc(var(--i) * 60ms);
-  }
-  .pr-telefono:nth-child(2) { transform: translateY(-4%); }
-  .problema[data-paso='1'] .pr-telefono { filter: grayscale(1) brightness(.92); opacity: .45; transform: scale(.94); }
-  .problema[data-paso='2'] .pr-telefono:nth-child(1) { transform: rotate(-4deg) translateY(2%); }
-  .problema[data-paso='2'] .pr-telefono:nth-child(2) { transform: translateY(-6%) scale(1.04); }
-  .problema[data-paso='2'] .pr-telefono:nth-child(3) { transform: rotate(4deg) translateY(2%); }
-
-  .pr-generica {
-    clip-path: inset(0 0 0 0 round 13%);
-    transition: clip-path .9s cubic-bezier(.76, 0, .24, 1);
-    transition-delay: calc(var(--i) * 140ms);
-  }
-  .problema[data-paso='2'] .pr-generica { clip-path: inset(0 0 100% 0 round 13%); }
-  .pr-nombre-gen, .pr-nombre-propio { transition: opacity .5s, transform .5s var(--ease-suave); transition-delay: calc(var(--i) * 140ms + .3s); }
-  .pr-nombre-propio { opacity: 0; transform: translateY(6px); }
-  .problema[data-paso='2'] .pr-nombre-gen { opacity: 0; transform: translateY(-6px); }
-  .problema[data-paso='2'] .pr-nombre-propio { opacity: 1; transform: none; }
-
-  .pr-igual, .pr-codigo { transition: opacity .5s var(--ease-suave), transform .6s var(--ease-suave); }
-  .problema[data-paso='1'] .pr-igual, .problema[data-paso='2'] .pr-igual { opacity: 0; }
-  .pr-codigo { opacity: 0; transform: translate(-50%, 20px) scale(.96); }
-  .problema[data-paso='1'] .pr-codigo { opacity: 1; transform: translate(-50%, 0); }
-
-  /* Sin JS: alto normal, sin fijar. */
-  :global(html:not(.js)) .problema { height: auto; }
-  :global(html:not(.js)) .problema > div { position: relative; height: auto; min-height: 100svh; }
-</style>
-
-<script>
-  const seccion = document.getElementById('problema')
-  if (seccion) {
-    const raiz = document.documentElement
-    let actual = -1
-    const poner = (p: number) => {
-      const paso = p < 0.3 ? 0 : p < 0.6 ? 1 : 2
-      if (paso === actual) return
-      actual = paso
-      seccion.dataset.paso = String(paso)
-      // El último paso es de noche: cambia la sección y, si está en pantalla, toda la página.
-      seccion.dataset.tema = paso === 2 ? 'noche' : 'gris'
-      const r = seccion.getBoundingClientRect()
-      if (r.top < innerHeight / 2 && r.bottom > innerHeight / 2) raiz.dataset.tema = seccion.dataset.tema
+  /* Los celulares de cada fila entran uno detrás del otro, siempre atados al scroll. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .escalon-1 { animation-range: entry 8% entry 78%; }
+      .escalon-2 { animation-range: entry 16% entry 86%; }
+      .escalon-3 { animation-range: entry 24% entry 94%; }
     }
-    seccion.addEventListener('progreso', (e) => poner((e as CustomEvent<number>).detail))
   }
-</script>
+</style>

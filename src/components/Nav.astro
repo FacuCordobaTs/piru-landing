@@ -5,8 +5,8 @@ import { CREAR_TIENDA, ENTRAR } from '../data/oferta'
 
 const cta = { href: CREAR_TIENDA, largo: 'Crear tienda gratis', corto: 'Crear tienda' }
 const SECCIONES = [
-  { href: '/#disenos', texto: 'Diseños' },
-  { href: '/#plantillas', texto: 'Plantillas' },
+  { href: '/#locales', texto: 'Locales' },
+  { href: '/#temas', texto: 'Temas' },
   { href: '/#todo', texto: 'Qué incluye' },
   { href: '/#precios', texto: 'Precios' },
 ]
@@ -33,37 +33,35 @@ const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] fon
 </header>
 
 <style>
-  /* El menú toma los colores del tema de la sección que se ve (data-tema en <html>). */
-  .nav {
-    color: var(--t);
-    transition: background-color .9s var(--ease-suave), color .9s var(--ease-suave), box-shadow .3s;
-  }
-  .nav :global(.nav-enlace) { color: var(--t2); }
-  .nav :global(.nav-enlace:hover) { color: var(--t); background: color-mix(in srgb, var(--t) 7%, transparent); }
+  .nav { color: var(--color-ink); transition: background-color .25s, color .25s, box-shadow .25s; }
+  .nav :global(.nav-enlace) { color: var(--color-ink-2); }
+  .nav :global(.nav-enlace:hover) { color: var(--color-ink); background: rgb(25 21 18 / .05); }
   .nav.nav--scrolleado {
-    background: color-mix(in srgb, var(--fondo) 78%, transparent);
-    backdrop-filter: blur(16px) saturate(1.5);
-    -webkit-backdrop-filter: blur(16px) saturate(1.5);
-    box-shadow: 0 1px 0 var(--linea);
+    background: rgb(255 252 247 / .85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 rgb(40 24 8 / .07);
   }
-  /* Sobre el cierre naranja, el botón pasa a oscuro para no perderse. */
-  :global(html[data-tema='marca']) .nav :global(.boton-primario) { background: #191512; box-shadow: none; }
-  /* Sobre el pie, que es de noche. */
-  .nav.nav--oscuro { --t: #fff; --t2: rgb(255 255 255 / .72); --fondo: #120F0D; --linea: rgb(255 255 255 / .08); }
+  /* Sobre las secciones oscuras (`data-oscuro`) el menú se oscurece. */
+  .nav.nav--oscuro { color: #fff; }
+  .nav.nav--oscuro :global(.nav-enlace) { color: rgb(255 255 255 / .72); }
+  .nav.nav--oscuro :global(.nav-enlace:hover) { color: #fff; background: rgb(255 255 255 / .08); }
+  .nav.nav--oscuro.nav--scrolleado { background: rgb(14 11 9 / .8); box-shadow: 0 1px 0 rgb(255 255 255 / .08); }
 </style>
 
 <script>
+  // El menú se pinta según la sección que tiene debajo: una franja finita arriba, sin medir en cada cuadro.
   const nav = document.getElementById('nav')
-  const oscuras = [...document.querySelectorAll<HTMLElement>('[data-nav-oscuro]')]
-  const alScrollear = () => {
-    nav?.classList.toggle('nav--scrolleado', window.scrollY > 12)
-    const alto = nav?.offsetHeight ?? 68
-    const sobreOscura = oscuras.some((el) => {
-      const r = el.getBoundingClientRect()
-      return r.top <= alto / 2 && r.bottom >= alto / 2
-    })
-    nav?.classList.toggle('nav--oscuro', sobreOscura)
+  if (nav) {
+    const oscuras = new Set<Element>()
+    const io = new IntersectionObserver((entradas) => {
+      for (const e of entradas) e.isIntersecting ? oscuras.add(e.target) : oscuras.delete(e.target)
+      nav.classList.toggle('nav--oscuro', oscuras.size > 0)
+    }, { rootMargin: '0px 0px -96% 0px' })
+    document.querySelectorAll('[data-oscuro]').forEach((el) => io.observe(el))
+    const arriba = document.createElement('div')
+    arriba.style.cssText = 'position:absolute;top:0;height:12px;width:1px;pointer-events:none'
+    document.body.prepend(arriba)
+    new IntersectionObserver(([e]) => nav.classList.toggle('nav--scrolleado', !e.isIntersecting)).observe(arriba)
   }
-  window.addEventListener('scroll', alScrollear, { passive: true })
-  alScrollear()
 </script>

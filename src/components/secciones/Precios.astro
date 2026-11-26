@@ -11,16 +11,16 @@ const precioAnual = (precio: number, descuento: number) => Math.round(precio * (
 const hayAnual = PLANES.some((p) => p.descuentoAnual > 0)
 ---
 
-<section id="precios" data-tema="papel" class="py-24 sm:py-32">
+<section id="precios" class="bg-paper py-24 sm:py-32">
   <div class="contenedor">
     <div class="mx-auto max-w-3xl text-center">
       <p class="revelar antetitulo">Precios</p>
-      <h2 class="revelar titulo-lg mt-4" style="--retraso:60ms">Empezá gratis. Crecé cuando quieras.</h2>
-      <p class="revelar t2 mx-auto mt-5 max-w-xl text-[18px] leading-relaxed" style="--retraso:120ms">Pedidos ilimitados y cero comisión por venta en todos los planes.</p>
+      <h2 class="revelar titulo-lg mt-4">Empezá gratis. Crecé cuando quieras.</h2>
+      <p class="revelar text-ink-2 mx-auto mt-5 max-w-xl text-[18px] leading-relaxed">Pedidos ilimitados y cero comisión por venta en todos los planes.</p>
     </div>
 
     {hayAnual && (
-      <div class="revelar mt-10 flex justify-center" style="--retraso:160ms">
+      <div class="revelar mt-10 flex justify-center">
         <div class="ciclo inline-flex rounded-full bg-sand p-1 ring-1 ring-line" role="radiogroup" aria-label="Ciclo de pago">
           <button type="button" role="radio" aria-checked="true" data-ciclo="mensual">Mensual</button>
           <button type="button" role="radio" aria-checked="false" data-ciclo="anual">Anual · 20% menos</button>
@@ -35,7 +35,7 @@ const hayAnual = PLANES.some((p) => p.descuentoAnual > 0)
         return (
           <article
             class:list={['revelar relative flex flex-col rounded-[24px] p-6', p.destacado ? 'bg-ink text-white shadow-[0_30px_60px_-30px_rgb(25_21_18/.6)]' : 'bg-white ring-1 ring-line']}
-            style={`--retraso:${i * 60}ms`}
+           
           >
             {p.destacado && <span class="absolute -top-3 left-6 rounded-full bg-brand px-3 py-1 text-[12px] font-semibold text-white">Recomendado</span>}
             <h3 class="text-[18px] font-semibold tracking-tight">{p.nombre}</h3>

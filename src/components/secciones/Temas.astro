@@ -1,0 +1,121 @@
+---
+import { Image } from 'astro:assets'
+import Icon from '../ui/Icon.astro'
+import { TEMAS } from '../../data/oferta'
+import { capturaTema } from '../../data/capturas'
+
+// Arranca por uno con mucho carácter; Sencilla (la del plan gratis) va al final.
+const LISTA = [...TEMAS.filter((t) => t.id !== 'sencilla'), ...TEMAS.filter((t) => t.id === 'sencilla')]
+
+/**
+ * Los temas de Páginas, todos: a un costado la lista (en celular, una fila que se desliza) y al lado
+ * el elegido en la compu y en el celular, con las capturas de su página real. Pasa solo de tema
+ * mientras se ve y deja de pasar cuando la visita toca uno. Sin JS se ve el primero.
+ */
+---
+
+<section id="temas" class="overflow-hidden bg-paper py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="revelar antetitulo">Temas</p>
+      <h2 class="revelar titulo-lg mt-4">{TEMAS.length} temas. Ninguno se parece a otro.</h2>
+      <p class="revelar mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-ink-2">Cada uno con su diseño, su letra y sus animaciones. Elegí el que va con tu local y cambiale lo que quieras.</p>
+    </div>
+
+    <div class="galeria mt-12 grid gap-8 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-12" data-galeria>
+      <!-- Lista -->
+      <div class="relative max-lg:-mx-5 sm:max-lg:-mx-8">
+        <div class="lista sin-barra flex gap-2 overflow-x-auto px-5 pb-1 sm:px-8 lg:max-h-[620px] lg:flex-col lg:overflow-y-auto lg:overflow-x-visible lg:px-0 lg:pr-2" role="tablist" aria-label="Temas">
+          {LISTA.map((t, i) => (
+            <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'} data-tema={t.id} class="tema-boton">
+              <span class="size-5 shrink-0 rounded-full ring-1 ring-black/10" style={`background:linear-gradient(135deg, ${t.fondo} 50%, ${t.texto} 50%)`} />
+              <span class="min-w-0 text-left">
+                <span class="block text-[15px] font-semibold leading-tight">{t.nombre}</span>
+                <span class="hidden truncate text-[12.5px] text-ink-3 lg:block">{t.para}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+        <span class="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-paper lg:hidden" aria-hidden="true" />
+        <p class="mt-2 flex items-center gap-1.5 px-5 text-[13px] text-ink-3 sm:px-8 lg:hidden">Deslizá para ver los {TEMAS.length}<Icon name="arrow-right" class="size-3.5" /></p>
+      </div>
+
+      <!-- Vista -->
+      <div class="relative">
+        {LISTA.map((t, i) => (
+          <figure class="vista m-0" data-vista={t.id} hidden={i !== 0}>
+            <div class="relative pb-[6%] lg:pr-[18%]">
+              <div class="hidden overflow-hidden rounded-[18px] bg-white shadow-[0_40px_80px_-40px_rgb(40_24_8/.45)] ring-1 ring-line sm:block">
+                <div class="flex h-8 items-center gap-1.5 border-b border-line bg-sand/70 px-3" aria-hidden="true">
+                  <span class="size-2.5 rounded-full bg-[#ff5f57]" /><span class="size-2.5 rounded-full bg-[#febc2e]" /><span class="size-2.5 rounded-full bg-[#28c840]" />
+                </div>
+                <Image src={capturaTema(t.id, 'compu')} alt={`El tema ${t.nombre} en la compu`} width={1200} loading={i === 0 ? 'eager' : 'lazy'} class="block aspect-[1440/860] w-full object-cover object-top" />
+              </div>
+              <div class="telefono-vista mx-auto w-[min(70vw,290px)] overflow-hidden rounded-[34px] border-[7px] border-[#151312] bg-[#151312] shadow-[0_30px_60px_-20px_rgb(40_24_8/.5)] sm:absolute sm:bottom-0 sm:right-0 sm:w-[26%] sm:rounded-[30px] sm:border-[6px]">
+                <Image src={capturaTema(t.id)} alt={`El tema ${t.nombre} en el celular`} width={390} loading={i === 0 ? 'eager' : 'lazy'} class="block w-full rounded-[26px] sm:rounded-[24px]" />
+              </div>
+            </div>
+            <figcaption class="mt-5 text-center sm:text-left">
+              <span class="text-[22px] font-semibold tracking-[-0.02em]">{t.nombre}</span>
+              <span class="ml-2 text-[16px] text-ink-2">{t.para}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tema-boton {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    color: var(--color-ink);
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--color-line);
+    cursor: pointer;
+    transition: background-color .2s, box-shadow .2s;
+  }
+  .tema-boton:hover { box-shadow: inset 0 0 0 1px rgb(25 21 18 / .25); }
+  .tema-boton[aria-selected='true'] { background: var(--color-ink); color: #fff; box-shadow: none; }
+  .tema-boton[aria-selected='true'] .text-ink-3 { color: rgb(255 255 255 / .6); }
+</style>
+
+<script>
+  const galeria = document.querySelector<HTMLElement>('[data-galeria]')
+  if (galeria) {
+    const botones = [...galeria.querySelectorAll<HTMLButtonElement>('.tema-boton')]
+    const vistas = [...galeria.querySelectorAll<HTMLElement>('.vista')]
+    let actual = 0
+    let auto: number | undefined
+    // El actual y el siguiente se bajan ya, así no aparecen en blanco.
+    const precargar = (i: number) => [i, i + 1].forEach((k) => vistas[k % vistas.length].querySelectorAll('img').forEach((img) => (img.loading = 'eager')))
+    precargar(0)
+    const elegir = (i: number, desplazar = false) => {
+      actual = (i + botones.length) % botones.length
+      botones.forEach((b, k) => b.setAttribute('aria-selected', String(k === actual)))
+      vistas.forEach((v, k) => (v.hidden = k !== actual))
+      precargar(actual)
+      if (desplazar) {
+        const b = botones[actual]
+        const lista = b.parentElement!
+        lista.scrollTo({ left: b.offsetLeft - lista.clientWidth / 2 + b.clientWidth / 2, top: b.offsetTop - lista.clientHeight / 2 + b.clientHeight / 2, behavior: 'smooth' })
+      }
+    }
+    const parar = () => { clearInterval(auto); auto = undefined }
+    botones.forEach((b, i) => b.addEventListener('click', () => { parar(); elegir(i) }))
+    // Pasa solo de tema sólo mientras la galería está en pantalla y nadie tocó nada.
+    let tocado = false
+    galeria.addEventListener('pointerdown', () => { tocado = true; parar() })
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !tocado && !auto) auto = window.setInterval(() => elegir(actual + 1, true), 3500)
+        else if (!e.isIntersecting) parar()
+      }, { threshold: 0.4 }).observe(galeria)
+    }
+  }
+</script>
