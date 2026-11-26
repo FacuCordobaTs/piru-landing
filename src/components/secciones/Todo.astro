@@ -1,0 +1,170 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Ventana from '../marcos/Ventana.astro'
+import Telefono from '../marcos/Telefono.astro'
+import EditorPaginas from '../replicas/paginas/EditorPaginas.astro'
+import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
+import PanelPedidos from '../replicas/panel/PanelPedidos.astro'
+import Comanda from '../replicas/Comanda.astro'
+import WhatsAppLocal from '../replicas/WhatsAppLocal.astro'
+import ClubPuntos from '../escenas/ClubPuntos.astro'
+import RitmoCliente from '../escenas/RitmoCliente.astro'
+import CuponTicket from '../escenas/CuponTicket.astro'
+import type { NombreIcono } from '../ui/lucide'
+
+/**
+ * Todo lo que el local necesita para vender, como un recorrido de lado: en escritorio la sección
+ * queda fija y bajar la corre hacia la izquierda (el ancho real del recorrido lo mide el script);
+ * en pantallas angostas los paneles van uno abajo del otro. Primero la tienda (el editor), después
+ * cómo cobra, cómo le llegan los pedidos, la comanda y, al final, lo que hace que vuelvan.
+ * Las reglas que se nombran (puntos, escalera de recompra) son las de la app: si cambian, cambian acá.
+ */
+const COBROS: { nombre: string; texto: string; logo?: string; icono?: NombreIcono; fondo: string; pronto?: boolean }[] = [
+  { nombre: 'Mercado Pago', texto: 'Con tu propia cuenta. La plata va directo a vos.', logo: '/pagos/mercadopago.svg', fondo: '#00B1EA' },
+  { nombre: 'Transferencia automática', texto: 'El pago se confirma solo en el pedido, sin pedir comprobantes.', icono: 'zap', fondo: '#7C3AED' },
+  { nombre: 'Transferencia', texto: 'Tu alias en el checkout, para que te transfieran.', icono: 'landmark', fondo: '#F59E0B' },
+  { nombre: 'Efectivo', texto: 'Paga al recibir o al retirar el pedido.', icono: 'banknote', fondo: '#10B981' },
+  { nombre: 'MODO', texto: 'Pagos desde la app de su banco.', logo: '/pagos/modo.webp', fondo: '#ffffff', pronto: true },
+]
+const VUELVEN = [
+  { titulo: 'Puntos en cada pedido', texto: 'Cada pedido suma puntos que tus clientes canjean por envío gratis, un descuento o un producto.' },
+  { titulo: 'Te avisa quién se está yendo', texto: 'Cada cliente tiene su ritmo. Si deja de pedir, Piru te lo marca antes de que lo pierdas.' },
+  { titulo: 'El mensaje, listo para mandar', texto: 'A quién escribirle, con el texto armado y su pedido de siempre. Lo mandás desde tu WhatsApp.' },
+  { titulo: 'Cupones que se aplican solos', texto: 'Promos como MARTES20, con vencimiento y límite de usos. Y ves cuánto vendió cada una.' },
+]
+const panel = 'todo-panel flex shrink-0 flex-col justify-center lg:h-full'
+const tarjeta = 'overflow-hidden rounded-[28px] bg-[var(--superficie)] ring-1 ring-[var(--linea)] shadow-[0_30px_60px_-40px_rgb(40_24_8/.35)]'
+const rotulo = 'inline-flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[.09em] acento'
+---
+
+<section id="todo" data-tema="papel" data-fijo class="todo relative">
+  <div class="todo-escenario lg:sticky lg:top-0 lg:h-[100svh] lg:overflow-hidden">
+    <div class="todo-pista flex flex-col gap-20 py-24 sm:py-32 lg:h-full lg:flex-row lg:items-center lg:gap-[6vw] lg:py-0 lg:pl-[max(32px,calc((100vw-1200px)/2+32px))] lg:pr-[12vw]">
+
+      <!-- Entrada -->
+      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[34vw] lg:px-0']}>
+        <p class="revelar antetitulo acento">Todo incluido</p>
+        <h2 class="revelar titulo-lg mt-4 max-w-[13ch]" style="--retraso:60ms">Y todo lo que necesitás para vender.</h2>
+        <p class="revelar t2 mt-5 max-w-[28rem] text-[17px] leading-relaxed" style="--retraso:120ms">El diseño es tuyo. Lo que pasa debajo ya está resuelto: los cobros, los pedidos, la cocina y tus clientes.</p>
+        <p class="t3 mt-8 hidden items-center gap-2 text-[14px] font-medium lg:flex">Seguí bajando<Icon name="arrow-right" class="size-4 todo-flecha" /></p>
+      </div>
+
+      <!-- Editor -->
+      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(62vw,860px)] lg:px-0']}>
+        <p class={rotulo}><Icon name="pencil" class="size-4" />Editor de página</p>
+        <h3 class="titulo-md mt-3 max-w-[26ch]">Cambiás tu tienda tocando lo que querés cambiar.</h3>
+        <div class:list={[tarjeta, 'mt-7']}>
+          <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas: a la izquierda las secciones y la marca, al centro la página de Alfajor con Papas y a la derecha las propiedades de la sección elegida">
+            <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} video={false} /></EditorPaginas></Ventana>
+          </Escala>
+        </div>
+      </div>
+
+      <!-- Cobros -->
+      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(56vw,720px)] lg:px-0']}>
+        <p class={rotulo}><Icon name="wallet" class="size-4" />Cobros</p>
+        <h3 class="titulo-md mt-3 max-w-[26ch]">Tus clientes pagan como quieren. Vos cobrás todo.</h3>
+        <ul class="mt-7 grid gap-3 sm:grid-cols-2">
+          {COBROS.map((c, i) => (
+            <li class:list={[tarjeta, 'revelar flex items-start gap-4 p-5', i === 0 && 'sm:col-span-2']} style={`--retraso:${i * 70}ms`}>
+              <span class="grid size-12 shrink-0 place-items-center overflow-hidden rounded-2xl text-white shadow-sm ring-1 ring-black/5" style={`background:${c.fondo}`}>
+                {c.logo ? <img src={c.logo} alt="" class:list={[c.nombre === 'MODO' ? 'w-10' : 'size-7 invert']} /> : <Icon name={c.icono!} class="size-6" />}
+              </span>
+              <span class="min-w-0">
+                <span class="flex items-center gap-2 text-[17px] font-semibold tracking-[-0.01em]">{c.nombre}{c.pronto && <span class="rounded-full bg-[var(--acento)] px-2 py-0.5 text-[11px] font-bold text-white">Pronto</span>}</span>
+                <span class="t2 mt-1 block text-[14.5px] leading-snug">{c.texto}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p class="t3 mt-4 flex items-center gap-2 text-[14px]"><Icon name="shield-check" class="size-4" />Sin comisión por venta: Piru no toca tu plata.</p>
+      </div>
+
+      <!-- Pedidos -->
+      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(62vw,860px)] lg:px-0']}>
+        <p class={rotulo}><Icon name="receipt" class="size-4" />Panel de pedidos</p>
+        <h3 class="titulo-md mt-3 max-w-[26ch]">Cada pedido entra a tu panel, claro y listo para despachar.</h3>
+        <div class:list={[tarjeta, 'mt-7']}>
+          <Escala ancho={1280} alto={800} etiqueta="Inicio del panel: la lista de pedidos del día y el detalle del pedido elegido">
+            <Ventana ancho={1280} alto={800}><PanelPedidos /></Ventana>
+          </Escala>
+        </div>
+      </div>
+
+      <!-- Comandas -->
+      <div class:list={[panel, 'px-5 sm:px-8 lg:w-[min(40vw,520px)] lg:px-0']}>
+        <p class={rotulo}><Icon name="printer" class="size-4" />Comandas</p>
+        <h3 class="titulo-md mt-3 max-w-[22ch]">Y sale impreso en la cocina, solo.</h3>
+        <p class="t2 mt-3 max-w-[26rem] text-[16px] leading-relaxed">Venga de tu tienda, del mostrador o de una mesa, la comanda sale apenas entra el pedido.</p>
+        <div class="todo-impresora mt-8 flex flex-col items-center">
+          <span class="h-5 w-[330px] max-w-full rounded-t-xl bg-[#2a2622] shadow-inner" />
+          <div class="relative -mt-2 drop-shadow-[0_20px_30px_rgba(40,24,8,0.2)]">
+            <Comanda />
+          </div>
+        </div>
+      </div>
+
+      <!-- Que vuelvan -->
+      <div class:list={[panel, 'px-5 sm:px-8 lg:px-0']}>
+        <p class={rotulo}><Icon name="repeat-2" class="size-4" />Que vuelvan</p>
+        <h3 class="titulo-md mt-3 max-w-[26ch]">Y cuando te piden, que vuelvan a pedirte.</h3>
+        <div class="sin-barra -mx-5 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 lg:mx-0 lg:overflow-visible lg:px-0">
+          {VUELVEN.map((v, i) => (
+            <article class:list={[tarjeta, 'flex w-[80vw] max-w-[340px] shrink-0 snap-center flex-col lg:w-[330px]']}>
+              <div class="escenario flex h-[230px] items-center justify-center overflow-hidden p-4">
+                {i === 0 && <div class="w-full"><ClubPuntos /></div>}
+                {i === 1 && <div class="w-full"><RitmoCliente /></div>}
+                {i === 2 && (
+                  <div class="w-[150px] translate-y-[38%]">
+                    <Escala ancho={412} alto={866} etiqueta="El WhatsApp del local con el mensaje para que Martina vuelva a pedir">
+                      <Telefono><WhatsAppLocal variante="recompra" /></Telefono>
+                    </Escala>
+                  </div>
+                )}
+                {i === 3 && <div class="w-full"><CuponTicket /></div>}
+              </div>
+              <div class="p-5">
+                <h4 class="text-[18px] font-semibold tracking-[-0.01em]">{v.titulo}</h4>
+                <p class="t2 mt-1.5 text-[14.5px] leading-relaxed">{v.texto}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .todo-flecha { animation: todo-flecha 1.6s ease-in-out infinite; }
+  @keyframes todo-flecha { 50% { transform: translateX(6px); } }
+
+  @media (min-width: 1024px) {
+    /* La pista se corre lo que mide de más (--dx, en px) a medida que la sección avanza (--p). */
+    .todo-pista { width: max-content; transform: translateX(calc(var(--p, 0) * var(--dx, 0) * -1px)); will-change: transform; }
+    .todo-panel .titulo-md { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+  }
+</style>
+
+<script>
+  // En escritorio, el alto de la sección es lo que hay que recorrer de lado más una pantalla.
+  const seccion = document.getElementById('todo')
+  const pista = seccion?.querySelector<HTMLElement>('.todo-pista')
+  if (seccion && pista) {
+    const ancho = matchMedia('(min-width: 1024px)')
+    const medir = () => {
+      if (!ancho.matches) {
+        seccion.style.height = ''
+        return
+      }
+      const dx = Math.max(0, pista.scrollWidth - innerWidth)
+      seccion.style.setProperty('--dx', String(dx))
+      seccion.style.height = `${dx + innerHeight}px`
+    }
+    new ResizeObserver(medir).observe(pista)
+    addEventListener('resize', medir)
+    ancho.addEventListener('change', medir)
+    medir()
+  }
+</script>

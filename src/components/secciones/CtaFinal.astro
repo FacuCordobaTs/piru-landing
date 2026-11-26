@@ -1,34 +1,36 @@
 ---
 import Icon from '../ui/Icon.astro'
-import Logo from '../ui/Logo.astro'
 import { CREAR_TIENDA, TIENDA_DEMO } from '../../data/oferta'
+
+/**
+ * El cierre: la página entera se pone naranja (tema `marca`) y la frase vuelve al principio: la
+ * marca del local ya tiene su diseño, ahora su tienda también.
+ */
+const frase = ['Tu', 'local', 'ya', 'tiene', 'su', 'estilo.']
 ---
 
-<section class="px-5 pb-20 sm:px-8 sm:pb-28">
-  <div class="revelar cta relative mx-auto max-w-[1200px] overflow-hidden rounded-[36px] px-7 py-16 text-center text-white sm:px-12 sm:py-24">
-    <div class="pointer-events-none absolute inset-0 opacity-[.13]" aria-hidden="true">
-      <Logo variante="blanco" size={520} class="absolute -bottom-24 -right-16 rotate-[-8deg]" />
-    </div>
-    <div class="relative">
-      <h2 class="titulo-lg mx-auto max-w-[16ch]">Tu página puede estar vendiendo esta semana.</h2>
-      <p class="mx-auto mt-5 max-w-xl text-[18px] leading-relaxed text-white/85">Creala gratis en un minuto, cargá tu carta y compartí el link. Cada cliente que te pida ya queda en tu base.</p>
-      <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <a href={CREAR_TIENDA} class="boton w-full max-w-xs bg-white text-ink shadow-[0_12px_30px_-10px_rgb(80_30_0/.6)] hover:bg-cream sm:w-auto">
-          <Icon name="sparkles" class="size-[18px] text-brand" stroke={2.2} />Crear tienda gratis
-        </a>
-        <a href={TIENDA_DEMO} target="_blank" rel="noopener" class="boton w-full max-w-xs bg-white/15 text-white ring-1 ring-white/30 hover:bg-white/25 sm:w-auto">
-          Ver la tienda de demostración<Icon name="arrow-up-right" class="size-4" />
-        </a>
-      </div>
+<section data-tema="marca" data-progreso class="cta relative overflow-hidden py-32 sm:py-44">
+  <div class="cta-anillos pointer-events-none absolute inset-0" aria-hidden="true" />
+  <div class="contenedor relative text-center">
+    <h2 class="mx-auto max-w-[14ch] text-[clamp(2.8rem,8vw,6.4rem)] font-bold leading-[.95] tracking-[-.045em]">
+      {frase.map((p, i) => <><span class="revelar inline-block" style={`--retraso:${i * 50}ms`}>{p}</span>{' '}</>)}
+      <span class="revelar inline-block text-[#191512]" style="--retraso:340ms">Que tu tienda también.</span>
+    </h2>
+    <p class="revelar t2 mx-auto mt-7 max-w-xl text-[19px] leading-relaxed" style="--retraso:420ms">Creala gratis, cargá tu carta y compartí el link. Cuando quieras tu diseño, elegís una plantilla.</p>
+    <div class="revelar mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:500ms">
+      <a href={CREAR_TIENDA} class="boton h-14 w-full max-w-xs bg-[#191512] px-8 text-[16.5px] text-white shadow-[0_20px_40px_-16px_rgb(60_20_0/.7)] hover:bg-black sm:w-auto">
+        <Icon name="sparkles" class="size-[18px] text-brand" stroke={2.2} />Crear tienda gratis
+      </a>
+      <a href={TIENDA_DEMO} target="_blank" rel="noopener" class="boton h-14 w-full max-w-xs bg-white/15 text-white ring-1 ring-white/35 hover:bg-white/25 sm:w-auto">
+        Probar una tienda de demostración<Icon name="arrow-up-right" class="size-4" />
+      </a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta {
-    background:
-      radial-gradient(40rem 22rem at 20% 0%, rgb(255 255 255 / .22), transparent 70%),
-      linear-gradient(160deg, #FF8A1A, #FF7A00 45%, #E85F00);
-    box-shadow: 0 40px 90px -40px rgb(232 95 0 / .8);
+  .cta-anillos {
+    background: repeating-radial-gradient(circle at 50% 120%, transparent 0 60px, rgb(255 255 255 / .07) 60px 61px);
+    transform: scale(calc(.9 + var(--p, .5) * .3));
   }
 </style>

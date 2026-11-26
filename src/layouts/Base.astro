@@ -29,14 +29,14 @@ const portada = canonical === '/'
 ---
 
 <!doctype html>
-<html lang="es-AR">
+<html lang="es-AR" data-tema={portada ? 'noche' : 'papel'}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={url} />
-    <meta name="theme-color" content="#FFFCF7" />
+    <meta name="theme-color" content={portada ? '#0E0B09' : '#FFFCF7'} />
 
     <link rel="icon" type="image/jpeg" href="/piru/logo.jpg" />
     <link rel="apple-touch-icon" href="/apple-icon.png" />
@@ -104,6 +104,51 @@ const portada = canonical === '/'
       } else {
         revelables.forEach((el) => el.classList.add('visible'))
       }
+
+      // El tema de la sección que cruza la mitad de la pantalla pasa a <html> (fondo y menú).
+      const raiz = document.documentElement
+      const temas = document.querySelectorAll<HTMLElement>('main [data-tema]')
+      const color = document.querySelector('meta[name="theme-color"]')
+      if (temas.length && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entradas) => {
+          for (const e of entradas) {
+            if (!e.isIntersecting) continue
+            const tema = (e.target as HTMLElement).dataset.tema!
+            raiz.dataset.tema = tema
+            color?.setAttribute('content', getComputedStyle(e.target).getPropertyValue('--fondo').trim())
+          }
+        }, { rootMargin: '-50% 0px -50% 0px' })
+        temas.forEach((el) => io.observe(el))
+      }
+
+      // Progreso de scroll para las secciones que se mueven con la página:
+      //  - `data-fijo`: secciones altas con un hijo sticky; --p va de 0 a 1 mientras queda fijo.
+      //  - `data-progreso`: --p va de 0 (entra por abajo) a 1 (sale por arriba).
+      const fijos = [...document.querySelectorAll<HTMLElement>('[data-fijo]')]
+      const progresos = [...document.querySelectorAll<HTMLElement>('[data-progreso]')]
+      const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches
+      let pendiente = false
+      const medir = () => {
+        pendiente = false
+        const vh = innerHeight
+        for (const el of fijos) {
+          const r = el.getBoundingClientRect()
+          const p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - vh)))
+          el.style.setProperty('--p', p.toFixed(4))
+          el.dispatchEvent(new CustomEvent('progreso', { detail: p }))
+        }
+        if (reducido) return
+        for (const el of progresos) {
+          const r = el.getBoundingClientRect()
+          if (r.bottom < -vh || r.top > vh * 2) continue
+          const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)))
+          el.style.setProperty('--p', p.toFixed(4))
+        }
+      }
+      const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(medir) } }
+      addEventListener('scroll', pedir, { passive: true })
+      addEventListener('resize', pedir)
+      requestAnimationFrame(medir)
 
       // Navegadores sin tan(atan2()) en CSS: la escala de las réplicas se calcula acá.
       if (!CSS.supports('transform', 'scale(tan(atan2(1px, 2px)))')) {

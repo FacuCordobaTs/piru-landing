@@ -5,19 +5,19 @@ import { CREAR_TIENDA, ENTRAR } from '../data/oferta'
 
 const cta = { href: CREAR_TIENDA, largo: 'Crear tienda gratis', corto: 'Crear tienda' }
 const SECCIONES = [
-  { href: '/#paginas', texto: 'Páginas' },
+  { href: '/#disenos', texto: 'Diseños' },
   { href: '/#plantillas', texto: 'Plantillas' },
-  { href: '/#modulos', texto: 'Módulos' },
+  { href: '/#todo', texto: 'Qué incluye' },
   { href: '/#precios', texto: 'Precios' },
 ]
-const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] font-medium text-ink-2 transition-colors hover:bg-ink/[.04] hover:text-ink sm:px-3.5'
+const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] font-medium transition-colors sm:px-3.5'
 ---
 
 <header id="nav" class="nav fixed inset-x-0 top-0 z-50">
   <nav class="contenedor flex h-[68px] items-center justify-between gap-3" aria-label="Principal">
     <a href="/" class="flex items-center gap-2.5 rounded-xl" aria-label="Piru, inicio">
       <Logo size={32} />
-      <span class="nav-marca text-[21px] font-bold tracking-[-0.04em] text-ink transition-colors">Piru</span>
+      <span class="nav-marca text-[21px] font-bold tracking-[-0.04em] transition-colors">Piru</span>
     </a>
 
     <div class="flex items-center gap-1 sm:gap-2">
@@ -33,23 +33,23 @@ const enlace = 'nav-enlace h-10 items-center rounded-full px-2 text-[14.5px] fon
 </header>
 
 <style>
+  /* El menú toma los colores del tema de la sección que se ve (data-tema en <html>). */
   .nav {
-    transition: background-color .3s, box-shadow .3s, backdrop-filter .3s;
+    color: var(--t);
+    transition: background-color .9s var(--ease-suave), color .9s var(--ease-suave), box-shadow .3s;
   }
+  .nav :global(.nav-enlace) { color: var(--t2); }
+  .nav :global(.nav-enlace:hover) { color: var(--t); background: color-mix(in srgb, var(--t) 7%, transparent); }
   .nav.nav--scrolleado {
-    background: rgb(255 252 247 / .82);
+    background: color-mix(in srgb, var(--fondo) 78%, transparent);
     backdrop-filter: blur(16px) saturate(1.5);
     -webkit-backdrop-filter: blur(16px) saturate(1.5);
-    box-shadow: 0 1px 0 rgb(40 24 8 / .07);
+    box-shadow: 0 1px 0 var(--linea);
   }
-  /* Sobre las secciones oscuras el menú se oscurece para no quedar gris. */
-  .nav.nav--oscuro {
-    background: rgb(18 15 13 / .8);
-    box-shadow: 0 1px 0 rgb(255 255 255 / .08);
-  }
-  .nav.nav--oscuro :global(.nav-marca) { color: #fff; }
-  .nav.nav--oscuro :global(.nav-enlace) { color: rgb(255 255 255 / .72); }
-  .nav.nav--oscuro :global(.nav-enlace:hover) { color: #fff; background: rgb(255 255 255 / .08); }
+  /* Sobre el cierre naranja, el botón pasa a oscuro para no perderse. */
+  :global(html[data-tema='marca']) .nav :global(.boton-primario) { background: #191512; box-shadow: none; }
+  /* Sobre el pie, que es de noche. */
+  .nav.nav--oscuro { --t: #fff; --t2: rgb(255 255 255 / .72); --fondo: #120F0D; --linea: rgb(255 255 255 / .08); }
 </style>
 
 <script>

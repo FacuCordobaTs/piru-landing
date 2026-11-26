@@ -521,3 +521,27 @@
 /* Scroll horizontal sin barra (carruseles de la tienda) */
 .sin-barra { scrollbar-width: none; }
 .sin-barra::-webkit-scrollbar { display: none; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Temas de la portada: cada sección dice su tema (`data-tema`) y, al llegar a la mitad de la
+   pantalla, el script de Base.astro lo pone en <html>. El fondo y la letra de toda la página
+   cambian con una transición, así el scroll pasa de un mundo al otro sin cortes.
+   Sin JS, cada sección se pinta sola (`html:not(.js)`).
+   ───────────────────────────────────────────────────────────────────────────── */
+:root, [data-tema='papel'] { --fondo: #FFFCF7; --t: #191512; --t2: #4A433C; --t3: #80776E; --linea: #ECE4D8; --superficie: #ffffff; --acento: #FF7A00; }
+[data-tema='noche'] { --fondo: #0E0B09; --t: #FFF8EF; --t2: rgb(255 248 239 / .72); --t3: rgb(255 248 239 / .5); --linea: rgb(255 255 255 / .1); --superficie: rgb(255 255 255 / .05); --acento: #FF8A1A; }
+[data-tema='gris'] { --fondo: #E9E8E5; --t: #1d1d1f; --t2: #55555a; --t3: #86868b; --linea: #d4d3cf; --superficie: #ffffff; --acento: #FF7A00; }
+[data-tema='alfajor'] { --fondo: #EFEAE7; --t: #083821; --t2: rgb(8 56 33 / .75); --t3: rgb(8 56 33 / .55); --linea: rgb(8 56 33 / .15); --superficie: #f2eee2; --acento: #eb623a; }
+[data-tema='che'] { --fondo: #111111; --t: #ffffff; --t2: rgb(255 255 255 / .72); --t3: rgb(255 255 255 / .5); --linea: rgb(255 255 255 / .12); --superficie: #1a1a1a; --acento: #ffb800; }
+[data-tema='marca'] { --fondo: #FF7A00; --t: #ffffff; --t2: rgb(255 255 255 / .85); --t3: rgb(255 255 255 / .7); --linea: rgb(255 255 255 / .25); --superficie: rgb(255 255 255 / .12); --acento: #191512; }
+
+html.js body {
+  background-color: var(--fondo);
+  color: var(--t);
+  transition: background-color .9s var(--ease-suave), color .9s var(--ease-suave);
+}
+html:not(.js) [data-tema] { background-color: var(--fondo); color: var(--t); }
+.t2 { color: var(--t2); }
+.t3 { color: var(--t3); }
+.acento { color: var(--acento); }
+[data-tema] { color: var(--t); }

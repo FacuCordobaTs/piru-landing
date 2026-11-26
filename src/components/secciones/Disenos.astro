@@ -1,0 +1,110 @@
+---
+import Icon from '../ui/Icon.astro'
+import Escala from '../marcos/Escala.astro'
+import Telefono from '../marcos/Telefono.astro'
+import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
+import PaginaChe from '../replicas/paginas/PaginaChe.astro'
+import Plantilla from '../replicas/paginas/Plantilla.astro'
+import { PAGINAS, PLANTILLAS } from '../../data/oferta'
+
+/**
+ * La prueba: dos locales que ya venden con su diseño y las plantillas para empezar. Cada local se
+ * ve en su mundo: al llegar, la página entera toma sus colores (`data-tema`, ver global.css) y su
+ * letra. Los celulares se mueven un poco con el scroll (`--p`, de Base.astro).
+ */
+const [alfajor, che] = PAGINAS
+---
+
+<section id="disenos" data-tema="noche" class="flex min-h-[70svh] items-center py-24">
+  <div class="contenedor text-center">
+    <p class="revelar antetitulo acento">Ya están vendiendo</p>
+    <h2 class="revelar titulo-lg mx-auto mt-4 max-w-[18ch]" style="--retraso:80ms">Locales que ya tienen su tienda con su diseño.</h2>
+  </div>
+</section>
+
+<!-- Alfajor con Papas -->
+<section data-tema="alfajor" data-progreso class="local relative overflow-hidden py-24 sm:py-32">
+  <div class="contenedor grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <div>
+      <p class="revelar inline-flex items-center gap-2 rounded-full bg-[#083821] px-3 py-1.5 text-[12.5px] font-semibold text-[#f2eee2]">
+        <Icon name="sparkles" class="size-3.5" />Diseño a medida
+      </p>
+      <h3 class="revelar mt-6 text-[clamp(3.4rem,9vw,7rem)] leading-[.84]" style="font-family:'Eastman','Barlow Condensed',sans-serif;font-weight:800;--retraso:60ms">ALFAJOR<br /><span class="text-[#eb623a]">CON PAPAS</span></h3>
+      <p class="revelar t2 mt-6 max-w-[30rem] text-[17px] leading-relaxed" style="--retraso:120ms">{alfajor.texto}</p>
+      <a href={alfajor.url} target="_blank" rel="noopener" class="revelar mt-8 inline-flex h-12 items-center gap-2 rounded-lg bg-[#eb623a] px-5 text-[15px] font-semibold text-[#083821] transition-transform hover:-translate-y-0.5" style="--retraso:180ms">
+        {alfajor.dominio}<Icon name="arrow-up-right" class="size-4" />
+      </a>
+    </div>
+    <div class="relative mx-auto w-full max-w-[400px]">
+      <div class="cinta absolute left-1/2 top-[30%] w-[160%] -translate-x-1/2 -rotate-6 overflow-hidden bg-[#083821] py-3 text-[#f2eee2]" aria-hidden="true">
+        <p class="pag-marquesina flex w-max gap-8 whitespace-nowrap text-[28px]" style="font-family:'Eastman','Barlow Condensed',sans-serif;font-weight:800">
+          {[0, 1, 2, 3].map(() => <><span>DOS TAPAS. UN RELLENO.</span><span class="text-[#eb623a]">✦</span></>)}
+        </p>
+      </div>
+      <div class="flota relative mx-auto w-[78%] drop-shadow-[0_40px_60px_rgba(8,56,33,0.35)]">
+        <Escala ancho={412} alto={866} etiqueta={`La página de ${alfajor.nombre} en el celular, con su video de portada`}>
+          <Telefono url={alfajor.dominio}><PaginaAlfajor /></Telefono>
+        </Escala>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Che Milanesa -->
+<section data-tema="che" data-progreso class="local relative overflow-hidden py-24 sm:py-32">
+  <div class="damero absolute inset-x-0 top-0 h-6" aria-hidden="true" />
+  <div class="contenedor grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <div class="relative mx-auto w-full max-w-[400px] max-lg:order-2">
+      <div class="flota relative mx-auto w-[78%] drop-shadow-[0_40px_60px_rgba(255,184,0,0.18)]">
+        <Escala ancho={412} alto={866} etiqueta={`La página de ${che.nombre} en el celular, con su club de puntos`}>
+          <Telefono url={che.dominio} tono="oscuro" tonoNavegador="oscuro"><PaginaChe /></Telefono>
+        </Escala>
+      </div>
+      <span class="absolute -left-2 top-[18%] rotate-[-8deg] rounded-xl bg-[#ffb800] px-4 py-2 text-[15px] text-black shadow-xl sm:left-0" style="font-family:'Alfa Slab One',serif">1 PUNTO CADA $100</span>
+    </div>
+    <div>
+      <p class="revelar inline-flex items-center gap-2 rounded-full bg-[#ffb800] px-3 py-1.5 text-[12.5px] font-semibold text-black">
+        <Icon name="sparkles" class="size-3.5" />Diseño a medida
+      </p>
+      <h3 class="revelar mt-6 text-[clamp(3rem,7.5vw,6rem)] uppercase leading-[.92]" style="font-family:'Alfa Slab One',serif;--retraso:60ms">Che<br /><span class="text-[#ffb800]">Milanesa</span></h3>
+      <p class="revelar t2 mt-6 max-w-[30rem] text-[17px] leading-relaxed" style="--retraso:120ms">{che.texto}</p>
+      <a href={che.url} target="_blank" rel="noopener" class="revelar mt-8 inline-flex h-12 items-center gap-2 rounded-full bg-[#ffb800] px-5 text-[15px] font-bold text-black transition-transform hover:-translate-y-0.5" style="--retraso:180ms">
+        {che.dominio}<Icon name="arrow-up-right" class="size-4" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Plantillas -->
+<section id="plantillas" data-tema="noche" class="overflow-hidden py-24 sm:py-32">
+  <div class="contenedor">
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-end">
+      <div>
+        <p class="revelar antetitulo acento">Plantillas</p>
+        <h2 class="revelar titulo-lg mt-4 max-w-[16ch]" style="--retraso:60ms">¿Recién empezás? Arrancá con una plantilla.</h2>
+      </div>
+      <p class="revelar t2 text-[17px] leading-relaxed" style="--retraso:120ms">Cada una pensada para un tipo de local. Le ponés tus colores, tu letra y tus fotos, y queda tuya. Y si querés algo único, la diseñamos con vos.</p>
+    </div>
+  </div>
+  <div class="sin-barra mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 sm:px-8 lg:mx-auto lg:grid lg:max-w-[1200px] lg:px-8 lg:grid-cols-4 lg:overflow-visible">
+    {PLANTILLAS.map((p, i) => (
+      <article class="revelar group w-[72vw] max-w-[300px] shrink-0 snap-center lg:w-auto lg:max-w-none" style={`--retraso:${i * 90}ms`}>
+        <div class="overflow-hidden rounded-[26px] ring-1 ring-white/10 transition-transform duration-500 group-hover:-translate-y-2">
+          <Escala ancho={390} alto={720} etiqueta={`Plantilla ${p.nombre}: ${p.texto}`}>
+            <Plantilla plantilla={p.clave} />
+          </Escala>
+        </div>
+        <h3 class="mt-5 text-[21px] font-semibold tracking-[-0.02em]">{p.nombre}</h3>
+        <p class="acento mt-0.5 text-[13.5px] font-semibold">{p.para}</p>
+        <p class="t2 mt-2 text-[15px] leading-relaxed">{p.texto}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .damero { background: repeating-conic-gradient(#ffb800 0 25%, #111 0 50%) 0 0 / 24px 24px; }
+  /* El celular sube un poco más lento que la página. */
+  .flota { transform: translateY(calc((var(--p, .5) - .5) * -90px)) rotate(calc((var(--p, .5) - .5) * 6deg)); }
+  .cinta { transform: translateX(-50%) rotate(-6deg) translateX(calc((var(--p, .5) - .5) * -120px)); }
+</style>

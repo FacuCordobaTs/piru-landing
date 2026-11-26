@@ -47,3 +47,4 @@
 .plantilla--moderna { --p-fondo: #f5f7fa; --p-texto: #171d2b; --p-superficie: #fff; --p-acento: #315cfd; --p-vivo: #315cfd; --p-titulos: 'Unbounded', sans-serif; --p-cuerpo: 'Manrope', sans-serif; }
 .plantilla--artesanal { --p-fondo: #f4ead8; --p-texto: #392a20; --p-superficie: #fffaf1; --p-acento: #a34b34; --p-vivo: #a34b34; --p-titulos: 'Fraunces', Georgia, serif; --p-cuerpo: 'Nunito Sans', sans-serif; }
 .plantilla * { transition: background-color .45s var(--ease-suave), color .45s var(--ease-suave), border-color .45s var(--ease-suave); }
+.plantilla--sencilla { --p-fondo: #ffffff; --p-texto: #111111; --p-superficie: #fff; --p-acento: #111111; --p-vivo: #111111; --p-titulos: 'Inter', sans-serif; --p-cuerpo: 'Inter', sans-serif; }

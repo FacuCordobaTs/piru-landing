@@ -1,170 +1,158 @@
 ---
 import Icon from '../ui/Icon.astro'
 import Escala from '../marcos/Escala.astro'
-import Telefono from '../marcos/Telefono.astro'
-import Ventana from '../marcos/Ventana.astro'
-import Escena from '../escenas/Escena.astro'
-import EditorPaginas from '../replicas/paginas/EditorPaginas.astro'
 import PaginaAlfajor from '../replicas/paginas/PaginaAlfajor.astro'
 import PaginaChe from '../replicas/paginas/PaginaChe.astro'
 import Plantilla from '../replicas/paginas/Plantilla.astro'
-import { CREAR_TIENDA, pesos } from '../../data/oferta'
-import { PEDIDO } from '../../data/demo'
+import { CREAR_TIENDA } from '../../data/oferta'
 
 /**
- * La portada dice lo principal en dos líneas (la tienda online con el diseño de la marca) para
- * que la escena se vea sin bajar. Antes pasa la intro (secciones/Intro.astro). La escena muestra el
- * editor de Páginas con la página de Alfajor y, al lado, el celular que va pasando por páginas
- * distintas (dos diseños a medida y dos plantillas) mientras el pedido sigue llegando igual:
- * el diseño cambia, lo de abajo es siempre Piru. La secuencia la maneja escenas/Escena.astro.
+ * La portada, de noche: la oferta en una frase y, detrás, un muro inclinado de tiendas que suben
+ * y bajan, todas distintas: las cuatro plantillas y las dos páginas a medida. Cada columna es una
+ * cinta duplicada que corre con CSS (`h-cinta`). El título espera a que termine la intro
+ * (`html.intro-fin`, ver Intro.astro). Al bajar, el muro se aplana y el texto se va (`--p`, del
+ * script de Base.astro).
  */
-const disenos = [
-  { rotulo: 'Diseño a medida', nombre: 'Alfajor con Papas', url: 'alfajorconpapas.com' },
-  { rotulo: 'Plantilla', nombre: 'Moderna', url: 'brasa.piru.app' },
-  { rotulo: 'Diseño a medida', nombre: 'Che Milanesa', url: 'che-milanesa.com' },
-  { rotulo: 'Plantilla', nombre: 'Artesanal', url: 'brasa.piru.app' },
+type Diseno = { clave: string; nombre: string; tipo: string }
+const DISENOS: Diseno[] = [
+  { clave: 'alfajor', nombre: 'Alfajor con Papas', tipo: 'A medida' },
+  { clave: 'elegante', nombre: 'Elegante', tipo: 'Plantilla' },
+  { clave: 'che', nombre: 'Che Milanesa', tipo: 'A medida' },
+  { clave: 'moderna', nombre: 'Moderna', tipo: 'Plantilla' },
+  { clave: 'artesanal', nombre: 'Artesanal', tipo: 'Plantilla' },
+  { clave: 'sencilla', nombre: 'Sencilla', tipo: 'Plantilla' },
 ]
-const etiqueta = 'El editor de Páginas con la página de Alfajor con Papas y, al lado, un celular que muestra páginas de locales con diseños distintos: Alfajor con Papas, la plantilla Moderna, Che Milanesa y la plantilla Artesanal. Los pedidos llegan igual al WhatsApp del local, sin comisión.'
-const RUTA = 'M 752 114 C 790 114, 790 166, 828 176'
+// Cinco columnas de tres tiendas, corridas para que ninguna fila repita. En celular se ven las tres del medio.
+const COLUMNAS = [[0, 3, 5], [4, 2, 1], [2, 0, 3], [3, 5, 4], [1, 4, 0]].map((indices, c) => ({
+  disenos: indices.map((i) => DISENOS[i]),
+  duracion: 46 + c * 7,
+  sube: c % 2 === 0,
+}))
+const titulo = ['La', 'tienda', 'online', 'de', 'tu', 'local.']
+const titulo2 = ['Con', 'tu', 'diseño.']
 ---
 
-<section class="relative overflow-hidden pt-[112px] sm:pt-[132px]">
-  <div class="fondo-hero pointer-events-none absolute inset-0" aria-hidden="true" />
+<section data-tema="noche" data-progreso class="hero relative isolate flex min-h-[100svh] items-center overflow-hidden">
+  <div class="h-muro pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="h-plano flex justify-center gap-5 sm:gap-7">
+      {COLUMNAS.map((col, c) => (
+        <div class:list={['h-columna w-[150px] shrink-0 sm:w-[210px]', (c === 0 || c === 4) && 'max-sm:hidden']} style={`--c:${c}`}>
+          <div class:list={['h-cinta flex flex-col gap-5 sm:gap-7', col.sube ? 'h-cinta--sube' : 'h-cinta--baja']} style={`--dur:${col.duracion}s`}>
+            {[0, 1].map(() => col.disenos.map((d) => (
+              <figure class="m-0">
+                <figcaption class="mb-2 flex items-center gap-1.5 text-[11px] font-semibold text-white/55 sm:text-[12px]">
+                  <span class:list={['size-1.5 rounded-full', d.tipo === 'A medida' ? 'bg-[#FF8A1A]' : 'bg-white/40']} />{d.nombre}
+                </figcaption>
+                <div class="overflow-hidden rounded-[18px] ring-1 ring-white/10 sm:rounded-[24px]">
+                  <Escala ancho={390} alto={780} etiqueta="">
+                    {d.clave === 'alfajor' && <PaginaAlfajor video={false} carrito={false} />}
+                    {d.clave === 'che' && <PaginaChe />}
+                    {d.clave === 'elegante' && <Plantilla plantilla="elegante" />}
+                    {d.clave === 'moderna' && <Plantilla plantilla="moderna" />}
+                    {d.clave === 'artesanal' && <Plantilla plantilla="artesanal" />}
+                    {d.clave === 'sencilla' && <Plantilla plantilla="sencilla" />}
+                  </Escala>
+                </div>
+              </figure>
+            )))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+  <div class="h-velo pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
 
-  <div class="contenedor relative text-center">
-    <h1 class="revelar titulo-xl mx-auto max-w-[14ch] sm:max-w-none">
-      Tu marca tiene su diseño.<br /><span class="text-brand">Tu tienda online, también.</span>
-    </h1>
-    <p class="revelar bajada mx-auto mt-5 max-w-[36rem]" style="--retraso:80ms">
-      Hasta ahora, vender online era usar la misma tienda que todos. Con Piru, la tuya se ve como tu local.
+  <div class="h-texto contenedor relative py-32 text-center">
+    <p class="h-entra mx-auto inline-flex items-center gap-2 rounded-full bg-white/[.07] px-3.5 py-1.5 text-[13px] font-semibold text-white/80 ring-1 ring-white/10 backdrop-blur" style="--d:.05s">
+      <span class="punto-vivo" />Tiendas online para gastronomía
     </p>
-    <div class="revelar mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--retraso:160ms">
+    <h1 class="mx-auto mt-6 max-w-[16ch] text-[clamp(2.9rem,8vw,6.6rem)] font-bold leading-[.95] tracking-[-.045em] [perspective:800px]">
+      {titulo.map((p, i) => <><span class="h-palabra" style={`--d:${0.12 + i * 0.06}s`}>{p}</span>{' '}</>)}
+      <br />
+      {titulo2.map((p, i) => <><span class="h-palabra text-[#FF8A1A]" style={`--d:${0.55 + i * 0.08}s`}>{p}</span>{' '}</>)}
+    </h1>
+    <p class="h-entra t2 mx-auto mt-7 max-w-[34rem] text-[clamp(1.05rem,1.6vw,1.3rem)] leading-relaxed" style="--d:.85s">
+      Elegí una plantilla, ponele tu marca y empezá a vender hoy. Sin programadores y sin comisión por venta.
+    </p>
+    <div class="h-entra mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row" style="--d:1s">
       <a href={CREAR_TIENDA} class="boton boton-primario w-full max-w-xs sm:w-auto">
         <Icon name="sparkles" class="size-[18px]" stroke={2.2} />Crear tienda gratis
       </a>
-      <a href="#paginas" class="boton boton-secundario w-full max-w-xs sm:w-auto">
-        Ver páginas hechas con Piru<Icon name="arrow-down" class="size-4" />
+      <a href="#disenos" class="boton w-full max-w-xs bg-white/10 text-white ring-1 ring-white/15 backdrop-blur hover:bg-white/15 sm:w-auto">
+        Ver tiendas reales<Icon name="arrow-down" class="size-4" />
       </a>
     </div>
   </div>
 
-  <div class="revelar contenedor relative mt-8 pb-16 sm:mt-10 sm:pb-24" style="--retraso:200ms">
-    <!-- Escritorio -->
-    <div class="mx-auto hidden max-w-[1100px] md:block">
-      <Escena ancho={1100} alto={680} etiqueta={etiqueta} secuencia={3200} fases={4} class="hero-escena">
-        <div class="absolute left-0 top-[56px] w-[760px] overflow-hidden rounded-[16px] shadow-[0_2px_4px_rgb(40_24_8/.06),0_40px_80px_-30px_rgb(40_24_8/.4)]">
-          <Escala ancho={1280} alto={800} etiqueta="El editor de Páginas">
-            <Ventana ancho={1280} alto={800} url="pages.piru.app"><EditorPaginas><PaginaAlfajor carrito={false} /></EditorPaginas></Ventana>
-          </Escala>
-        </div>
-
-        <!-- El celular cambia de página; el rótulo de arriba dice cuál es. -->
-        <div class="absolute left-[808px] top-[52px] h-[44px] w-[292px]">
-          {disenos.map((d, i) => (
-            <p class="hero-diseno absolute inset-0 flex items-center justify-center gap-2 text-[13px]" data-d={i}>
-              <span class:list={['rounded-full px-2.5 py-1 font-semibold', d.rotulo === 'Plantilla' ? 'bg-sand text-ink-2 ring-1 ring-line' : 'bg-brand-soft text-brand-deep ring-1 ring-brand/20']}>{d.rotulo}</span>
-              <span class="font-semibold text-ink">{d.nombre}</span>
-            </p>
-          ))}
-        </div>
-        <div class="absolute left-[808px] top-[100px] w-[292px] rotate-2 drop-shadow-[0_30px_50px_rgba(40,20,5,0.32)]">
-          <div class="relative">
-            {disenos.map((d, i) => (
-              <div class:list={['hero-diseno', i > 0 && 'absolute inset-0']} data-d={i}>
-                <Escala ancho={412} alto={866} etiqueta={`${d.rotulo}: ${d.nombre}`}>
-                  <Telefono url={d.url} tono={i === 2 ? 'oscuro' : 'claro'} tonoNavegador={i === 2 ? 'oscuro' : 'claro'}>
-                    {i === 0 && <PaginaAlfajor />}
-                    {i === 1 && <Plantilla plantilla="moderna" />}
-                    {i === 2 && <PaginaChe />}
-                    {i === 3 && <Plantilla plantilla="artesanal" />}
-                  </Telefono>
-                </Escala>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- De "Publicar" al celular. -->
-        <svg class="absolute inset-0" width="1100" height="680" viewBox="0 0 1100 680" fill="none" aria-hidden="true">
-          <path d={RUTA} stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" class="e-hormigas" />
-        </svg>
-        <span class="e-viaja absolute left-0 top-0 size-3.5 rounded-full bg-brand shadow-[0_0_0_6px_rgb(255_122_0/.22)]" style={`--ruta:path("${RUTA}");--t:2.4s;--d:900ms`} />
-        <span class="e-pop absolute left-[716px] top-[96px] grid size-9 place-items-center rounded-full bg-ink text-white shadow-lg" style="--d:600ms"><Icon name="mouse-pointer-click" class="size-4" /></span>
-
-        <div class="e-sube absolute left-[24px] top-[560px] flex w-[250px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1100ms">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-brand text-white"><Icon name="globe" class="size-4" /></span>
-          <span class="text-[13px] font-semibold leading-snug text-ink">Publicada en tu dominio<span class="block text-[12px] font-normal text-ink-3">Y si no te gusta, volvés atrás</span></span>
-        </div>
-        <div class="e-sube absolute left-[330px] top-[600px] flex w-[268px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1500ms">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-wa text-white"><Icon name="message-circle" class="size-4" /></span>
-          <span class="text-[13px] font-semibold leading-snug text-ink">Pedido #{PEDIDO.id} · {pesos(PEDIDO.total)}<span class="block text-[12px] font-normal text-ink-3">Llega a tu WhatsApp, con cualquier diseño</span></span>
-        </div>
-        <div class="e-sube absolute left-[660px] top-[470px] flex w-[200px] items-center gap-2.5 rounded-2xl bg-white/95 px-3.5 py-3 text-left shadow-lg ring-1 ring-line backdrop-blur" style="--d:1900ms">
-          <span class="grid size-8 shrink-0 place-items-center rounded-full bg-emerald-500 text-white"><Icon name="check" class="size-4" stroke={3} /></span>
-          <span class="text-[13px] font-semibold leading-snug text-ink">Comisión: $0<span class="block text-[12px] font-normal text-ink-3">El 100% es tuyo</span></span>
-        </div>
-      </Escena>
-    </div>
-
-    <!-- Celular: la página que cambia y los dos avisos más importantes. -->
-    <div class="mx-auto max-w-[420px] md:hidden">
-      <Escena ancho={390} alto={600} etiqueta={etiqueta} secuencia={3200} fases={4} class="hero-escena">
-        <div class="absolute left-0 right-0 top-0 h-[36px]">
-          {disenos.map((d, i) => (
-            <p class="hero-diseno absolute inset-0 flex items-center justify-center gap-2 text-[13px]" data-d={i}>
-              <span class:list={['rounded-full px-2.5 py-1 font-semibold', d.rotulo === 'Plantilla' ? 'bg-sand text-ink-2 ring-1 ring-line' : 'bg-brand-soft text-brand-deep ring-1 ring-brand/20']}>{d.rotulo}</span>
-              <span class="font-semibold text-ink">{d.nombre}</span>
-            </p>
-          ))}
-        </div>
-        <div class="absolute left-[78px] top-[46px] w-[234px] drop-shadow-[0_24px_40px_rgba(40,20,5,0.3)]">
-          <div class="relative">
-            {disenos.map((d, i) => (
-              <div class:list={['hero-diseno', i > 0 && 'absolute inset-0']} data-d={i}>
-                <Escala ancho={412} alto={866} etiqueta={`${d.rotulo}: ${d.nombre}`}>
-                  <Telefono url={d.url} tono={i === 2 ? 'oscuro' : 'claro'} tonoNavegador={i === 2 ? 'oscuro' : 'claro'}>
-                    {i === 0 && <PaginaAlfajor video={false} />}
-                    {i === 1 && <Plantilla plantilla="moderna" />}
-                    {i === 2 && <PaginaChe />}
-                    {i === 3 && <Plantilla plantilla="artesanal" />}
-                  </Telefono>
-                </Escala>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div class="e-sube absolute left-[6px] top-[440px] flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2.5 text-left shadow-lg ring-1 ring-line" style="--d:1100ms">
-          <span class="grid size-7 shrink-0 place-items-center rounded-full bg-wa text-white"><Icon name="message-circle" class="size-3.5" /></span>
-          <span class="text-[12.5px] font-semibold leading-tight text-ink">Pedido a tu WhatsApp</span>
-        </div>
-        <div class="e-sube absolute right-[6px] top-[520px] flex items-center gap-2 rounded-2xl bg-white/95 px-3 py-2.5 text-left shadow-lg ring-1 ring-line" style="--d:1500ms">
-          <span class="grid size-7 shrink-0 place-items-center rounded-full bg-emerald-500 text-white"><Icon name="check" class="size-3.5" stroke={3} /></span>
-          <span class="text-[12.5px] font-semibold leading-tight text-ink">Comisión: $0</span>
-        </div>
-      </Escena>
-    </div>
-  </div>
+  <span class="h-entra absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-2 text-[12px] font-medium text-white/40 sm:flex" style="--d:1.4s">
+    <span class="h-raton" aria-hidden="true" />Bajá
+  </span>
 </section>
 
 <style>
-  .fondo-hero {
-    background:
-      radial-gradient(60rem 30rem at 50% 62%, rgb(255 122 0 / .13), transparent 70%),
-      radial-gradient(circle at 1px 1px, rgb(40 24 8 / .09) 1px, transparent 0) 0 0 / 26px 26px;
-    mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+  /* El muro: inclinado hacia atrás, y se endereza un poco al bajar. */
+  .hero { --q: clamp(0, (var(--p, .5) - .5) * 2, 1); }
+  .h-muro { perspective: 1400px; }
+  .h-plano {
+    position: absolute;
+    inset: -20% -30%;
+    transform: rotateX(calc(24deg - var(--q) * 14deg)) rotateZ(-9deg) translateY(calc(var(--q) * -6%)) scale(calc(1.06 + var(--q) * .08));
+    transform-origin: 50% 30%;
   }
-  /* Una página por fase; sin JS (o con movimiento reducido) queda la de Alfajor. */
-  .hero-diseno {
+  .h-columna {
     opacity: 0;
-    transform: translateY(10px) scale(.985);
-    transition: opacity .7s var(--ease-suave), transform .7s var(--ease-suave);
+    animation: h-columna 1.4s var(--ease-suave) calc(.2s + var(--c) * .12s) both;
   }
-  :global(.hero-escena[data-fase='0']) .hero-diseno[data-d='0'],
-  :global(.hero-escena[data-fase='1']) .hero-diseno[data-d='1'],
-  :global(.hero-escena[data-fase='2']) .hero-diseno[data-d='2'],
-  :global(.hero-escena[data-fase='3']) .hero-diseno[data-d='3'],
-  :global(.hero-escena:not([data-fase])) .hero-diseno[data-d='0'] {
-    opacity: 1;
-    transform: none;
+  .h-cinta { will-change: transform; animation: h-baja var(--dur) linear infinite; }
+  .h-cinta--sube { animation-name: h-sube; }
+  @keyframes h-sube { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+  @keyframes h-baja { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+  @keyframes h-columna { from { opacity: 0; transform: translateY(80px); } to { opacity: .62; transform: none; } }
+
+  /* El velo deja el centro oscuro para que el título se lea y funde el borde con la sección siguiente. */
+  .h-velo {
+    background:
+      radial-gradient(ellipse 52% 46% at 50% 52%, rgb(14 11 9 / .96), rgb(14 11 9 / .82) 55%, rgb(14 11 9 / .25) 100%),
+      linear-gradient(to bottom, rgb(14 11 9 / .7), transparent 22%, transparent 70%, #0E0B09);
+  }
+
+  .h-texto {
+    opacity: calc(1 - var(--q) * 1.6);
+    transform: translateY(calc(var(--q) * -60px)) scale(calc(1 - var(--q) * .06));
+  }
+
+  .h-palabra { display: inline-block; animation: h-palabra .9s cubic-bezier(.16, 1, .3, 1) var(--d) both; }
+  .h-entra { animation: h-entra .9s var(--ease-suave) var(--d) both; }
+  @keyframes h-palabra { from { opacity: 0; transform: translateY(60px) rotateX(-50deg); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  @keyframes h-entra { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  /* El título espera a que termine la intro. */
+  :global(html.js:not(.intro-fin)) .h-palabra,
+  :global(html.js:not(.intro-fin)) .h-entra,
+  :global(html.js:not(.intro-fin)) .h-columna { animation-play-state: paused; }
+
+  .h-raton {
+    width: 18px;
+    height: 28px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .4);
+    position: relative;
+  }
+  .h-raton::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 6px;
+    width: 3px;
+    height: 6px;
+    margin-left: -1.5px;
+    border-radius: 2px;
+    background: rgb(255 255 255 / .6);
+    animation: h-rueda 1.8s ease-in-out infinite;
+  }
+  @keyframes h-rueda { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(8px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .h-cinta { animation: none; }
   }
 </style>

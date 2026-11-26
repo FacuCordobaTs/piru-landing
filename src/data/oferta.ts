@@ -41,30 +41,76 @@ export const TEXTO_WA_EVOLUCION = 'Hola! Quiero saber más del plan Evolución d
 export const PLANES = [
   {
     codigo: 'inicial', nombre: 'Inicial', precio: 0, descuentoAnual: 0, destacado: false,
-    descripcion: 'Para empezar a vender online sin pagar nada.',
+    descripcion: 'Tu tienda online con pedidos a tu WhatsApp, sin pagar nada.',
     beneficios: ['Pedidos y productos ilimitados', 'Tienda online con el diseño de Piru', 'Pedidos directo a tu WhatsApp', 'Cobros con Mercado Pago, efectivo y transferencia', 'Impresión de comandas', 'Lista de clientes y estadísticas básicas'],
   },
   {
     codigo: 'esencial', nombre: 'Esencial', precio: 19999, descuentoAnual: 20, destacado: false,
-    descripcion: 'Tu marca, tu diseño y las herramientas para vender más.',
+    descripcion: 'Tu marca y tu diseño: elegí una plantilla y hacela tuya.',
     beneficios: ['Todo lo del plan Inicial', 'Elegí una plantilla y personalizala', 'Punto de venta y cierre de caja', 'Cupones de descuento', 'Club de puntos', 'Cobros con Talo'],
   },
   {
     codigo: 'impulso', nombre: 'Impulso', precio: 39999, descuentoAnual: 20, destacado: true,
-    descripcion: 'Diseño libre en código y casi todas las herramientas.',
+    descripcion: 'Diseño libre en código y todo para que tus clientes vuelvan.',
     beneficios: ['Todo lo del plan Esencial', 'Descargá y editá el código de tu página', 'Mesas, stock y cadetes', 'Recompra, días flojos y campañas', 'Avisos automáticos por WhatsApp', 'Facturación electrónica ARCA'],
   },
   {
     codigo: 'escala', nombre: 'Escala', precio: 79999, descuentoAnual: 20, destacado: false,
-    descripcion: 'Para locales que crecen y quieren medir todo.',
+    descripcion: 'Para locales que crecen: varias sucursales y estadísticas avanzadas.',
     beneficios: ['Todo lo del plan Impulso', 'Estadísticas avanzadas', 'Varias sucursales'],
   },
   {
     codigo: 'evolucion', nombre: 'Evolución', precio: null, descuentoAnual: 0, destacado: false,
-    descripcion: 'Una tienda a medida, con repositorio propio y el equipo de Piru al lado.',
+    descripcion: 'Una tienda a medida, con el equipo de Piru al lado.',
     beneficios: ['Todo lo del plan Escala', 'Tienda a medida en su propio repositorio', 'Desarrollos propios', 'Acompañamiento directo del equipo de Piru', 'Precio a medida'],
   },
 ] as const
+
+/**
+ * La tabla comparativa de Precios: qué trae cada plan, en el orden de `PLANES`. `true` es un tilde,
+ * `false` una raya y un texto se muestra tal cual. Es el reparto de docs/PLANES_TIENDA.md: si cambia
+ * un módulo de plan, cambia acá.
+ */
+export const TABLA_PLANES: { grupo: string; filas: { nombre: string; planes: (boolean | string)[] }[] }[] = [
+  {
+    grupo: 'Tu tienda',
+    filas: [
+      { nombre: 'Pedidos y productos', planes: ['Ilimitados', 'Ilimitados', 'Ilimitados', 'Ilimitados', 'Ilimitados'] },
+      { nombre: 'Comisión por venta', planes: ['0%', '0%', '0%', '0%', '0%'] },
+      { nombre: 'Diseño', planes: ['Plantilla Sencilla', 'Plantillas + editor', 'Editor + código', 'Editor + código', 'A medida'] },
+      { nombre: 'Pedidos a tu WhatsApp', planes: [true, true, true, true, true] },
+      { nombre: 'Repositorio propio y desarrollos a medida', planes: [false, false, false, false, true] },
+    ],
+  },
+  {
+    grupo: 'Cobros',
+    filas: [
+      { nombre: 'Mercado Pago, transferencia y efectivo', planes: [true, true, true, true, true] },
+      { nombre: 'Transferencias que se confirman solas', planes: [false, true, true, true, true] },
+    ],
+  },
+  {
+    grupo: 'Tu local',
+    filas: [
+      { nombre: 'Panel de pedidos e impresión de comandas', planes: [true, true, true, true, true] },
+      { nombre: 'Punto de venta y cierre de caja', planes: [false, true, true, true, true] },
+      { nombre: 'Mesas, stock y cadetes', planes: [false, false, true, true, true] },
+      { nombre: 'Facturación electrónica ARCA', planes: [false, false, true, true, true] },
+      { nombre: 'Varias sucursales', planes: [false, false, false, true, true] },
+      { nombre: 'Estadísticas', planes: ['Básicas', 'Básicas', 'Básicas', 'Avanzadas', 'Avanzadas'] },
+    ],
+  },
+  {
+    grupo: 'Que vuelvan',
+    filas: [
+      { nombre: 'Lista de clientes', planes: [true, true, true, true, true] },
+      { nombre: 'Cupones y club de puntos', planes: [false, true, true, true, true] },
+      { nombre: 'Recompra, días flojos y campañas', planes: [false, false, true, true, true] },
+      { nombre: 'Avisos automáticos por WhatsApp', planes: [false, false, 'Por mensaje', 'Por mensaje', 'Por mensaje'] },
+      { nombre: 'Acompañamiento del equipo de Piru', planes: [false, false, false, false, true] },
+    ],
+  },
+]
 
 /** El plan más barato con precio (para "desde $…"). */
 export const PRECIO_DESDE = Math.min(...PLANES.flatMap((p) => (p.precio ? [p.precio] : [])))
@@ -83,8 +129,6 @@ export const PAGINAS = [
     url: 'https://alfajorconpapas.com',
     autor: 'equipo',
     texto: 'Hamburguesas smash con nombre de golosina. La diseñamos con su marca: la letra condensada, el verde, el naranja y un video de portada. Su tienda de ropa vive en la misma página.',
-    movil: '/paginas/alfajor-movil.webp',
-    escritorio: '/paginas/alfajor-escritorio.webp',
     fondo: '#083821',
     tinta: '#f2eee2',
   },
@@ -93,8 +137,6 @@ export const PAGINAS = [
     dominio: 'che-milanesa.com',
     url: 'https://che-milanesa.com',
     texto: 'Negro, amarillo y una tipografía que se lee desde lejos. La portada vende las promos de la semana y los puntos que suma cada pedido.',
-    movil: '/paginas/chemilanesa-movil.webp',
-    escritorio: '/paginas/chemilanesa-escritorio.webp',
     fondo: '#111111',
     tinta: '#ffb800',
   },
@@ -117,6 +159,12 @@ export const PLANTILLAS = [
     nombre: 'Moderna',
     para: 'Hamburgueserías, pizzerías y comida rápida',
     texto: 'Un bloque de color de punta a punta, tu favorito en una tarjeta y la carta en pestañas para pedir rápido.',
+  },
+  {
+    clave: 'sencilla',
+    nombre: 'Sencilla',
+    para: 'La del plan gratis',
+    texto: 'Tu logo, la carta en tarjetas con fotos grandes y nada que distraiga. Para empezar a vender hoy.',
   },
   {
     clave: 'artesanal',

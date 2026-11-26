@@ -2,46 +2,33 @@
 import Base from '../layouts/Base.astro'
 import Intro from '../components/secciones/Intro.astro'
 import Hero from '../components/secciones/Hero.astro'
-import Paginas from '../components/secciones/Paginas.astro'
-import Caminos from '../components/secciones/Caminos.astro'
-import Plantillas from '../components/secciones/Plantillas.astro'
-import Editor from '../components/secciones/Editor.astro'
-import Motor from '../components/secciones/Motor.astro'
-import Modulos from '../components/secciones/Modulos.astro'
-import Panel from '../components/secciones/Panel.astro'
-import Marketing from '../components/secciones/Marketing.astro'
+import Problema from '../components/secciones/Problema.astro'
+import Disenos from '../components/secciones/Disenos.astro'
+import Todo from '../components/secciones/Todo.astro'
 import Precios from '../components/secciones/Precios.astro'
-import Empezar from '../components/secciones/Empezar.astro'
 import Preguntas from '../components/secciones/Preguntas.astro'
 import CtaFinal from '../components/secciones/CtaFinal.astro'
 
 /**
- * La home le habla al dueño del local y abre con lo principal: la página propia del local, con un
- * diseño que no es el de todos (docs/ENFOQUE_PAGINAS.md). Primero la página (portada, páginas
- * publicadas, cómo hacerla, plantillas y editor); después lo que Piru pone debajo (la compra, los
- * módulos y el panel) y, en segundo plano, los clientes y el marketing. Al final, precios, cómo
- * empezar y preguntas.
+ * La home le habla al dueño del local y sigue un solo hilo (docs/ENFOQUE_PAGINAS.md): la oferta
+ * (una tienda online con el diseño de tu local), el problema (las apps de pedidos dan la misma
+ * tienda a todos y la propia había que pagársela a un programador), la solución, la prueba (locales
+ * que ya venden con su diseño y las plantillas), todo lo que trae debajo, precios, preguntas y el
+ * cierre. Cada sección dice su tema (`data-tema`) y la página cambia de color al pasar.
  */
 ---
 
 <Base
-  pagina="locales"
   canonical="/"
-  titulo="Piru · La página propia de tu local gastronómico, con pedidos, cobros y todo tu local"
-  descripcion="Piru es la plataforma para vender online de los locales gastronómicos. Diseñá tu página con una plantilla, a tu gusto o con nuestra ayuda, con tu dominio. Debajo ya funcionan la carta, los pedidos a tu WhatsApp, los cobros, el punto de venta, las mesas y tus clientes. Sin comisión por venta."
+  titulo="Piru · La tienda online de tu local gastronómico, con tu diseño"
+  descripcion="Piru es la plataforma para que los locales gastronómicos tengan su tienda online con diseño propio, sin programadores. Elegí una plantilla, ponele tu marca y vendé con pedidos a tu WhatsApp, cobros con Mercado Pago, transferencia o efectivo, comandas impresas y tu panel. Sin comisión por venta."
 >
   <Intro />
   <Hero />
-  <Paginas />
-  <Caminos />
-  <Plantillas />
-  <Editor />
-  <Motor />
-  <Modulos />
-  <Panel />
-  <Marketing />
+  <Problema />
+  <Disenos />
+  <Todo />
   <Precios />
-  <Empezar />
   <Preguntas />
   <CtaFinal />
 </Base>
